@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DahVio Studios</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a0a;
+            --text: #e8e8e8;
+            --accent: #00ff88;
+            --dim: #666;
+            --border: #1a1a1a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 8rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--dim);
+            max-width: 600px;
+            margin-bottom: 3rem;
+        }
+
+        .hero-tags {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 0.5rem 1rem;
+            background: var(--border);
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            color: var(--text);
+        }
+
+        /* Projects Section */
+        .section {
+            padding: 6rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 3rem;
+        }
+
+        .category {
+            margin-bottom: 4rem;
+        }
+
+        .category-name {
+            font-size: 1.125rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--border);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            object-position: top;
+            background: #000;
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-desc {
+            color: var(--dim);
+            font-size: 0.9375rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .project-tech {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tech-tag {
+            font-size: 0.75rem;
+            color: var(--accent);
+            background: rgba(0, 255, 136, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+        }
+
+        /* About Section */
+        .about-content {
+            max-width: 700px;
+        }
+
+        .about-content p {
+            font-size: 1.125rem;
+            color: var(--dim);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        /* Now Section */
+        .now-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .now-item {
+            padding: 1.5rem;
+            background: var(--border);
+            border-radius: 0.5rem;
+            border-left: 3px solid var(--accent);
+        }
+
+        .now-item h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .now-item p {
+            color: var(--dim);
+        }
+
+        /* Contact Section */
+        .contact-methods {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            font-size: 1.25rem;
+            color: var(--text);
+            text-decoration: none;
+            padding-bottom: 0.25rem;
+            border-bottom: 2px solid var(--accent);
+            transition: all 0.2s ease;
+        }
+
+        .contact-link:hover {
+            color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero {
+                padding: 4rem 0;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">DahVio<span>.</span></div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Building products<br>that solve real problems.</h1>
+            <p class="hero-subtitle">Solo developer. Veteran. Father. Building mobile apps, Chrome extensions, and web properties from Long Beach, California.</p>
+            <div class="hero-tags">
+                <span class="tag">Mobile Apps</span>
+                <span class="tag">Chrome Extensions</span>
+                <span class="tag">Web Development</span>
+                <span class="tag">Local SEO</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="projects">
+        <div class="container">
+            <h2 class="section-title">Projects</h2>
+
+            <div class="category">
+                <div class="category-name">Mobile Apps</div>
+                <div class="projects-grid">
+                    <a href="#" class="project-card">
+                        <img src="confidence-daily-practice.PNG" alt="Confidence Daily" class="project-image">
+                        <div class="project-content">
+                            <div class="project-name">Confidence Daily</div>
+                            <p class="project-desc">Premium wellness app with 8-week structured confidence-building program. Sophisticated UI with daily practices and progress tracking.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">React Native</span>
+                                <span class="tech-tag">Premium MVP</span>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="https://splitsecondpay.com" target="_blank" class="project-card">
+                        <img src="splitsecond-pay.PNG" alt="SplitSecond Pay" class="project-image">
+                        <div class="project-content">
+                            <div class="project-name">SplitSecond Pay</div>
+                            <p class="project-desc">iOS bill-splitting app designed for real-world use. First app launch with early traction and user-driven iteration.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">iOS</span>
+                                <span class="tech-tag">Swift</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <div class="project-card">
+                        <div class="project-content">
+                            <div class="project-name">TotTrackr</div>
+                            <p class="project-desc">Baby tracking app designed for one-handed operation. Built for real parents in real situations.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">React Native</span>
+                                <span class="tech-tag">UX-First</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://mysocialbattery.app" target="_blank" class="project-card">
+                        <img src="my-social-battery.png" alt="My Social Battery" class="project-image">
+                        <div class="project-content">
+                            <div class="project-name">MySocialBattery</div>
+                            <p class="project-desc">Social energy tracking for introverts. Monitor and manage social capacity with elegant simplicity.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Flutter</span>
+                                <span class="tech-tag">Wellness</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="category-name">Chrome Extensions</div>
+                <div class="projects-grid">
+                    <a href="https://localschemahelper.com" target="_blank" class="project-card">
+                        <img src="LocalSchemaHelper-Screenshot.jpg" alt="Local Schema Helper" class="project-image">
+                        <div class="project-content">
+                            <div class="project-name">Local Schema Helper</div>
+                            <p class="project-desc">Generate JSON-LD structured data for local businesses. Built for SEO professionals who need clean, compliant markup fast.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">SEO Tools</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="category-name">Web Properties</div>
+                <div class="projects-grid">
+                    <a href="https://cleanproteinlist.com" target="_blank" class="project-card">
+                        <div class="project-content">
+                            <div class="project-name">Clean Protein List</div>
+                            <p class="project-desc">Comprehensive affiliate site with interactive tools and in-depth content for health-conscious consumers.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Affiliate Marketing</span>
+                                <span class="tech-tag">Content</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="https://speechtechjobs.com" target="_blank" class="project-card">
+                        <div class="project-content">
+                            <div class="project-name">SpeechTechJobs</div>
+                            <p class="project-desc">Specialized job board for speech technology professionals. 28+ pages of targeted opportunities.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Niche Jobs</span>
+                                <span class="tech-tag">SEO</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="https://www.homehazardsreport.com" target="_blank" class="project-card">
+                        <div class="project-content">
+                            <div class="project-name">Home Hazards Report</div>
+                            <p class="project-desc">Affiliate site leveraging environmental consulting expertise. Facebook Groups SEO arbitrage strategy.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Affiliate Marketing</span>
+                                <span class="tech-tag">SEO Arbitrage</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="category-name">Services</div>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-content">
+                            <div class="project-name">VioleTrend</div>
+                            <p class="project-desc">Local SEO services for small businesses. Helping Long Beach businesses get found online.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Local SEO</span>
+                                <span class="tech-tag">Marketing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <div class="container">
+            <h2 class="section-title">About</h2>
+            <div class="about-content">
+                <p>I'm Ray, founder of DahVio Studios—named after my daughters Dahlia and Violet. I'm a solo developer, veteran, and father building products that solve real problems.</p>
+                
+                <p>My background spans GIS, environmental consulting (Phase I/II ESA), and full-stack development. I ship mobile apps, Chrome extensions, and web properties from Long Beach, California.</p>
+                
+                <p>I prefer honest feedback over motivational messaging, and I build for real users—not just for features. Every project here represents something I actually shipped.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="now">
+    <div class="container">
+        <h2 class="section-title">Now</h2>
+        <div class="now-items">
+            <div class="now-item">
+                <h3>📱 Building: Confidence Daily</h3>
+                <p>Finishing premium wellness app with sophisticated UI and 8-week structured content. Near completion.</p>
+            </div>
+            <div class="now-item">
+                <h3>🔧 Live: Local Schema Helper</h3>
+                <p>Chrome extension for generating JSON-LD structured data. Featured on Chrome Web Store since October.</p>
+            </div>
+            <div class="now-item">
+                <h3>📈 Growing: Home Hazards Report</h3>
+                <p>Scaling affiliate site with Facebook Groups SEO arbitrage. Recently hit largest commission milestone.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <section class="section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-methods">
+                <a href="mailto:ray@dahvio.com" class="contact-link">ray@dahvio.com</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 DahVio Studios. Built in Long Beach, California.</p>
+        </div>
+    </footer>
+</body>
+</html>
