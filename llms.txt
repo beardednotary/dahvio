@@ -1,0 +1,28 @@
+# DahVio Studios
+
+> Solo developer, veteran, and father building mobile apps and web properties from Long Beach, California. DahVio Studios ships real products that solve real problems.
+
+DahVio Studios is an independent software studio founded by Ray Ro. The studio produces iOS apps built with Flutter, Chrome extensions, and web properties. The military fitness app suite provides free, official-standards-based fitness calculators for all branches of the U.S. military.
+
+## Military Fitness Apps
+
+- [Marine PFT Calculator 2026](https://dahvio.com/marine-pft-calculator-2026): Instant Marine Corps PFT scoring based on MCO 6100.13A. Covers pull-ups or push-ups, crunches or plank, and 3-mile run. Max 300 points.
+- [Air Force PT Calculator 2026](https://dahvio.com/air-force-pt-calculator-2026): Instant USAF and Space Force PFA scoring based on DAFMAN 36-2905. Composite score across body composition, aerobic fitness, push-ups, and core. Supports altitude adjustment.
+- [Navy PRT Calculator 2026](https://dahvio.com/navy-prt-calculator-2026): Instant Navy PRT scoring based on OPNAVINST 6110.1L. Covers push-ups, plank, and cardio (run, swim, bike, or row). Max 300 points.
+- [Army AFT Calculator 2026](https://dahvio.com/army-aft-calculator-2026): Instant Army AFT scoring based on FM 7-22. All five events: 3-rep max deadlift, hand release push-ups, sprint-drag-carry, plank, and 2-mile run. Max 500 points.
+
+## Other Apps
+
+- [Confidence Daily](https://confidencedaily.app): Premium wellness app with an 8-week structured confidence-building program. Daily practices and progress tracking.
+- [TotTrackr](https://tottrackr.com): Baby tracking app designed for one-handed operation.
+- [MySocialBattery](https://mysocialbattery.app): Social energy tracking app for introverts.
+- [SplitSecond Pay](https://splitsecondpay.com): iOS bill-splitting app for real-world use.
+
+## Chrome Extensions
+
+- [Local Schema Helper](https://localschemahelper.com): Generate JSON-LD structured data for local businesses. Built for SEO professionals.
+- Citation Manager: Local SEO Citation Manager for Google Business Profile. Audits NAP consistency.
+
+## About
+
+- [DahVio Studios](https://dahvio.com): Main site with full project portfolio and contact information.
