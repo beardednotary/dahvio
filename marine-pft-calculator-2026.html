@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marine PFT Calculator 2026 (MCO 6100.13A) – Instant Score</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="Calculate your Marine Corps PFT score instantly using official MCO 6100.13A standards. See real-time results and improve your score faster.">
+    <meta name="keywords" content="marine pft calculator, marine corps pft score, pft score chart marines, marine fitness test calculator, MCO 6100.13A">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dahvio.com/marine-pft-calculator-2026">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Marine PFT Calculator 2026 (MCO 6100.13A) – Instant Score">
+    <meta property="og:description" content="Calculate your Marine Corps PFT score instantly using official MCO 6100.13A standards.">
+    <meta property="og:image" content="marine-pft-og-image.png">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Marine PFT Calculator 2026 – MCO 6100.13A">
+    <meta name="twitter:description" content="Instant Marine PFT scoring. Official standards. No charts needed.">
+    <meta name="twitter:image" content="marine-pft-og-image.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW9L8BTBBW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RW9L8BTBBW');
+    </script>
+
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the Marine PFT?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Marine Corps Physical Fitness Test (PFT) measures physical readiness through pull-ups or push-ups, core strength (crunches or plank), and a 3-mile run."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is the Marine PFT scored?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Each event is assigned a point value based on performance. The total score is the sum of all three events, with a maximum of 300 points."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a good Marine PFT score?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A score of 235 or higher is typically considered first class, depending on age and gender according to official standards."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What order governs the Marine PFT?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Marine PFT is governed by Marine Corps Order MCO 6100.13A, which outlines scoring standards and testing procedures."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0101;
+            --bg-card: #140404;
+            --text: #f0ece8;
+            --accent: #c41230;
+            --accent-gold: #d4a017;
+            --dim: #888;
+            --border: #200808;
+            --border-light: #2e0c0c;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .header-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            padding: 0.6rem 1.25rem;
+            border-radius: 0.375rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background 0.2s ease;
+        }
+
+        .header-cta:hover {
+            background: #a00e25;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 7rem 0 5rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at 70% 50%, rgba(196, 18, 48, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            background: rgba(196, 18, 48, 0.12);
+            border: 1px solid rgba(196, 18, 48, 0.25);
+            padding: 0.35rem 0.9rem;
+            border-radius: 2rem;
+            margin-bottom: 1.75rem;
+        }
+
+        h1 {
+            font-size: 3.75rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.08;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 .highlight {
+            color: var(--accent);
+        }
+
+        .hero-seo-hook {
+            font-size: 1.05rem;
+            color: var(--accent-gold);
+            font-style: italic;
+            margin-bottom: 1.25rem;
+            max-width: 680px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--dim);
+            max-width: 640px;
+            margin-bottom: 2.5rem;
+            line-height: 1.65;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            padding: 0.9rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 30px rgba(196, 18, 48, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #a00e25;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 40px rgba(196, 18, 48, 0.45);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            color: var(--text);
+            text-decoration: none;
+            padding: 0.9rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 1px solid var(--border-light);
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--dim);
+        }
+
+        /* Sections */
+        .section {
+            padding: 6rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .section-intro {
+            font-size: 1.05rem;
+            color: var(--dim);
+            max-width: 640px;
+            margin-bottom: 3rem;
+            line-height: 1.7;
+        }
+
+        /* Feature Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.625rem;
+            padding: 1.75rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+        }
+
+        .feature-icon {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            font-size: 0.9rem;
+            color: var(--dim);
+            line-height: 1.6;
+        }
+
+        /* Events */
+        .events-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .event-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-top: 3px solid var(--accent);
+            border-radius: 0.625rem;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .event-num {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+        }
+
+        .event-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-options {
+            font-size: 0.85rem;
+            color: var(--dim);
+        }
+
+        .event-max {
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--accent-gold);
+            background: rgba(212, 160, 23, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            font-weight: 600;
+        }
+
+        /* Why Use / Advantage */
+        .advantage-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .advantage-item {
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-left: 3px solid var(--accent);
+            border-radius: 0.5rem;
+        }
+
+        .advantage-num {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+            min-width: 2rem;
+        }
+
+        .advantage-content h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+        }
+
+        .advantage-content p {
+            font-size: 0.9rem;
+            color: var(--dim);
+            line-height: 1.6;
+        }
+
+        /* Example Box */
+        .example-box {
+            background: var(--bg-card);
+            border: 1px solid rgba(212, 160, 23, 0.3);
+            border-radius: 0.75rem;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .example-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-gold));
+        }
+
+        .example-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent-gold);
+            margin-bottom: 0.75rem;
+        }
+
+        .example-box p {
+            font-size: 1.1rem;
+            color: var(--text);
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+        }
+
+        .example-box p:last-child {
+            margin-bottom: 0;
+            color: var(--dim);
+            font-size: 1rem;
+        }
+
+        /* App CTA Section */
+        .app-cta-section {
+            background: linear-gradient(135deg, #140101 0%, #1c0505 100%);
+            border: 1px solid rgba(196, 18, 48, 0.3);
+            border-radius: 1rem;
+            padding: 3.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-cta-section::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(196, 18, 48, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .app-cta-badge {
+            display: inline-block;
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            letter-spacing: -0.04em;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .app-cta-badge-sub {
+            display: block;
+            font-size: 0.875rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            font-weight: 700;
+            margin-bottom: 1.75rem;
+        }
+
+        .app-cta-section h2 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .app-cta-section p {
+            font-size: 1.05rem;
+            color: var(--dim);
+            max-width: 520px;
+            margin: 0 auto 2rem;
+            line-height: 1.65;
+        }
+
+        .app-features-inline {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .app-feature-inline {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--dim);
+        }
+
+        .app-feature-inline::before {
+            content: '✓';
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .app-store-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            padding: 0.9rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .app-store-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-1px);
+        }
+
+        .app-store-btn svg {
+            flex-shrink: 0;
+        }
+
+        /* FAQ */
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border-light);
+            padding: 1.75rem 0;
+        }
+
+        .faq-item:first-child {
+            border-top: 1px solid var(--border-light);
+        }
+
+        .faq-q {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+
+        .faq-a {
+            font-size: 0.95rem;
+            color: var(--dim);
+            line-height: 1.7;
+            max-width: 780px;
+        }
+
+        /* Links Section */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .link-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            padding: 1.25rem 1.5rem;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+        }
+
+        .link-card:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .link-card-arrow {
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--dim);
+            line-height: 1.65;
+        }
+
+        .disclaimer strong {
+            color: var(--text);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer a {
+            color: var(--dim);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.4rem;
+            }
+
+            .hero {
+                padding: 4.5rem 0 3.5rem;
+            }
+
+            .hero-stats {
+                gap: 2rem;
+                margin-top: 3rem;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+
+            .section-title {
+                font-size: 1.85rem;
+            }
+
+            .events-row {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .app-cta-section {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .app-cta-section h2 {
+                font-size: 1.75rem;
+            }
+
+            .app-features-inline {
+                gap: 1rem;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <a href="/" class="logo">DahVio<span>.</span></a>
+                <a href="https://apps.apple.com/us/app/marine-pft-calculator-2026/id6761248887" target="_blank" rel="noopener" class="header-cta">
+                    Download Free on iOS →
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-eyebrow">MCO 6100.13A · 2026 Standards</div>
+            <h1>Marine PFT Calculator<br><span class="highlight">(2026 Standards)</span></h1>
+            <p class="hero-seo-hook">Looking for an accurate Marine PFT calculator based on MCO 6100.13A? This tool calculates your exact score instantly.</p>
+            <p class="hero-subtitle">The Marine Corps Physical Fitness Test (PFT) is a critical benchmark for every Marine. Know your exact score—without flipping through charts.</p>
+            <div class="hero-cta-group">
+                <a href="https://apps.apple.com/us/app/marine-pft-calculator-2026/id6761248887" target="_blank" rel="noopener" class="btn-primary">
+                    Download on the App Store
+                </a>
+                <a href="#faq" class="btn-secondary">Learn More</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-value">300</span>
+                    <span class="stat-label">Max PFT Score</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">3</span>
+                    <span class="stat-label">Events Covered</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">0</span>
+                    <span class="stat-label">Charts Needed</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What it does -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">What This Does</div>
+            <h2 class="section-title">Instant, accurate PFT scoring</h2>
+            <p class="section-intro">This Marine PFT calculator is built using official scoring standards from MCO 6100.13A, allowing you to calculate your score instantly and accurately.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-title">Instant Score</div>
+                    <p class="feature-desc">Enter your numbers and see your Marine PFT score in real time—no charts, no math, no waiting.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <div class="feature-title">Official MCO 6100.13A Standards</div>
+                    <p class="feature-desc">Scoring is based on the official Marine Corps Order governing PFT requirements and point values.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-title">What-If Scenarios</div>
+                    <p class="feature-desc">Adjust reps or run time and instantly see how your score changes. Identify what actually moves the needle.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <div class="feature-title">Mobile-First Design</div>
+                    <p class="feature-desc">Clean, fast, and built for Marines who need quick answers on the go—not desktop spreadsheets.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">PFT Events</div>
+            <h2 class="section-title">Three events. 300 points total.</h2>
+            <p class="section-intro">The Marine PFT consists of three scored events. Each contributes to your total, with a combined maximum of 300 points.</p>
+            <div class="events-row">
+                <div class="event-card">
+                    <div class="event-num">01</div>
+                    <div class="event-name">Upper Body</div>
+                    <div class="event-options">Pull-Ups or Push-Ups</div>
+                    <span class="event-max">100 pts max</span>
+                </div>
+                <div class="event-card">
+                    <div class="event-num">02</div>
+                    <div class="event-name">Core Strength</div>
+                    <div class="event-options">Crunches or Plank</div>
+                    <span class="event-max">100 pts max</span>
+                </div>
+                <div class="event-card">
+                    <div class="event-num">03</div>
+                    <div class="event-name">Endurance</div>
+                    <div class="event-options">3-Mile Run</div>
+                    <span class="event-max">100 pts max</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Use -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Your Edge</div>
+            <h2 class="section-title">Why use a calculator?</h2>
+            <p class="section-intro">The official PFT charts work—but they're slow and hard to use on a phone. Here's what a real calculator gives you.</p>
+            <div class="advantage-list">
+                <div class="advantage-item">
+                    <div class="advantage-num">1</div>
+                    <div class="advantage-content">
+                        <h3>See your score the moment you enter your numbers</h3>
+                        <p>No lookup tables. No interpolating between rows. Just enter your reps and run time and see your exact score instantly.</p>
+                    </div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-num">2</div>
+                    <div class="advantage-content">
+                        <h3>Test scenarios before your actual PFT</h3>
+                        <p>Wonder what happens if you shave 45 seconds off your run? Or add 5 more pull-ups? Test it in seconds and train smarter.</p>
+                    </div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-num">3</div>
+                    <div class="advantage-content">
+                        <h3>Identify where to focus your training</h3>
+                        <p>See exactly which event gives you the most point gain per unit of improvement. Stop guessing. Train with purpose.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Example -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Real Example</div>
+            <h2 class="section-title">Small improvements, big score gains</h2>
+            <div class="example-box">
+                <div class="example-label">Training Insight</div>
+                <p>If you improve your 3-mile run time by just 30–60 seconds, your score can increase significantly—often more than adding several reps in other events.</p>
+                <p>Seeing this in real time makes it easier to focus your training where it matters most. The calculator turns abstract goals into concrete score targets.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- App CTA -->
+    <section class="section" id="download">
+        <div class="container">
+            <div class="app-cta-section">
+                <span class="app-cta-badge">300</span>
+                <span class="app-cta-badge-sub">PFT</span>
+                <h2>Try the Marine PFT Calculator on iOS</h2>
+                <p>Instant scoring. Clean, mobile-first design. Built for Marines preparing for their PFT—not for spreadsheet jockeys.</p>
+                <div class="app-features-inline">
+                    <span class="app-feature-inline">Instant scoring</span>
+                    <span class="app-feature-inline">All events covered</span>
+                    <span class="app-feature-inline">What-if scenarios</span>
+                    <span class="app-feature-inline">Free to download</span>
+                </div>
+                <a href="https://apps.apple.com/us/app/marine-pft-calculator-2026/id6761248887" target="_blank" rel="noopener" class="app-store-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                    </svg>
+                    Download on the App Store
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+        <div class="container">
+            <div class="section-label">FAQ</div>
+            <h2 class="section-title">Frequently asked questions</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-q">What is the Marine PFT?</div>
+                    <p class="faq-a">The Marine Corps Physical Fitness Test (PFT) measures overall physical readiness through pull-ups or push-ups, core strength (crunches or plank), and a 3-mile run. It is a mandatory assessment for all active duty and reserve Marines.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">What is a good Marine PFT score?</div>
+                    <p class="faq-a">A score of 235 or higher is typically considered first class, though exact classifications depend on age and gender according to official MCO 6100.13A standards. A perfect score is 300 points.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">How is the Marine PFT scored?</div>
+                    <p class="faq-a">Each event is assigned a point value based on performance. The total score is the sum of all three events, with a maximum of 300 points—100 per event. Point values are determined by MCO 6100.13A scoring tables.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">What order governs the Marine PFT?</div>
+                    <p class="faq-a">The Marine PFT is governed by Marine Corps Order MCO 6100.13A, which outlines scoring standards, testing procedures, and requirements for all Marines.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Can I use pull-ups or push-ups for the PFT?</div>
+                    <p class="faq-a">Yes. Marines can choose either pull-ups or push-ups for the upper body portion of the PFT. Point values differ between the two options per MCO 6100.13A guidelines. The calculator handles both.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Is this calculator affiliated with the Marine Corps?</div>
+                    <p class="faq-a">No. This is an independent tool for reference and training purposes only. It is not affiliated with or endorsed by the U.S. Marine Corps or Department of Defense.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEO Internal Links -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">App Resources</div>
+            <h2 class="section-title">More from Marine PFT Calculator</h2>
+            <div class="links-grid">
+                <a href="/usmc-pft-calculator-privacy.html" class="link-card">
+                    Privacy Policy
+                    <span class="link-card-arrow">→</span>
+                </a>
+                <a href="/usmc-pft-calculator-support.html" class="link-card">
+                    Support &amp; Help
+                    <span class="link-card-arrow">→</span>
+                </a>
+                <a href="https://apps.apple.com/us/app/marine-pft-calculator-2026/id6761248887" target="_blank" rel="noopener" class="link-card">
+                    Download on App Store
+                    <span class="link-card-arrow">→</span>
+                </a>
+                <a href="/" class="link-card">
+                    DahVio Studios
+                    <span class="link-card-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disclaimer -->
+    <section class="section">
+        <div class="container">
+            <div class="disclaimer">
+                <strong>Disclaimer:</strong> This tool is for reference purposes only and is not affiliated with, endorsed by, or sponsored by the U.S. Marine Corps or Department of Defense. All scoring is based on publicly available standards from MCO 6100.13A. For official scoring and testing requirements, consult your command or official Marine Corps publications.
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="/">DahVio Studios</a>
+                <a href="/usmc-pft-calculator-privacy.html">Privacy Policy</a>
+                <a href="/usmc-pft-calculator-support.html">Support</a>
+                <a href="https://apps.apple.com/us/app/marine-pft-calculator-2026/id6761248887" target="_blank" rel="noopener">App Store</a>
+            </div>
+            <p>&copy; 2026 DahVio Studios. Built in Long Beach, California.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
