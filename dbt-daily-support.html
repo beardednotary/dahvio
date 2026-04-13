@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBT Daily — Support | DahVio Studios</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="Support for DBT Daily: Diary Card &amp; Skills. Get help with check-ins, DBT skills, reminders, and your data.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0a0a0a;
+            --text: #e8e8e8;
+            --accent: #5ec2c8;
+            --dim: #666;
+            --border: #1a1a1a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span { color: var(--accent); }
+
+        .hero {
+            padding: 6rem 0 4rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .breadcrumb {
+            font-size: 0.875rem;
+            color: var(--dim);
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--dim);
+            max-width: 560px;
+        }
+
+        .section {
+            padding: 5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 720px;
+        }
+
+        .faq-item {
+            background: var(--border);
+            border-radius: 0.5rem;
+            border-left: 3px solid var(--accent);
+            padding: 1.5rem;
+        }
+
+        .faq-item h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-item p {
+            color: var(--dim);
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        .faq-item a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .faq-item a:hover { text-decoration: underline; }
+
+        .faq-group-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin: 2.5rem 0 1rem;
+        }
+
+        .faq-group-label:first-child {
+            margin-top: 0;
+        }
+
+        .contact-card {
+            background: var(--border);
+            border-radius: 0.5rem;
+            padding: 2.5rem;
+            max-width: 480px;
+        }
+
+        .contact-card p {
+            color: var(--dim);
+            margin-bottom: 1.5rem;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        .contact-link {
+            font-size: 1.125rem;
+            color: var(--text);
+            text-decoration: none;
+            padding-bottom: 0.25rem;
+            border-bottom: 2px solid var(--accent);
+            transition: color 0.2s ease;
+        }
+
+        .contact-link:hover { color: var(--accent); }
+
+        .app-strip {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: var(--border);
+            border-radius: 0.5rem;
+            padding: 1.5rem 2rem;
+            margin-bottom: 3rem;
+            max-width: 560px;
+        }
+
+        .app-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
+            background: #0d2c2e;
+            border: 1px solid rgba(94, 194, 200, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+
+        .app-info h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .app-info p {
+            color: var(--dim);
+            font-size: 0.875rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(94, 194, 200, 0.1);
+            color: var(--accent);
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.4rem;
+        }
+
+        .crisis-box {
+            background: rgba(94, 194, 200, 0.06);
+            border: 1px solid rgba(94, 194, 200, 0.2);
+            border-radius: 0.5rem;
+            padding: 1.5rem 1.75rem;
+            max-width: 720px;
+            margin-bottom: 3rem;
+        }
+
+        .crisis-box p {
+            font-size: 0.9375rem;
+            color: var(--dim);
+            line-height: 1.65;
+        }
+
+        .crisis-box strong {
+            color: var(--text);
+        }
+
+        .crisis-box a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--dim);
+            text-decoration: none;
+            margin: 0 0.75rem;
+        }
+
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.25rem; }
+            .hero { padding: 4rem 0 3rem; }
+            .section { padding: 3rem 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="/" class="logo">DahVio<span>.</span></a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/">DahVio Studios</a> &rsaquo; DBT Daily &rsaquo; Support
+            </div>
+            <h1>Support</h1>
+            <p class="hero-subtitle">Questions about the app, your data, or how DBT Daily works — we're here.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+
+            <div class="app-strip">
+                <div class="app-icon">🪷</div>
+                <div class="app-info">
+                    <h2>DBT Daily: Diary Card &amp; Skills</h2>
+                    <p>Simple DBT tracking that works</p>
+                    <span class="tag">iOS · DahVio Studios</span>
+                </div>
+            </div>
+
+            <div class="crisis-box">
+                <p><strong>If you are in crisis:</strong> This app is not a crisis service. If you need immediate support, please contact the <a href="https://988lifeline.org" target="_blank">988 Suicide &amp; Crisis Lifeline</a> (call or text 988) or your local emergency services.</p>
+            </div>
+
+            <div class="faq-group-label">Using the App</div>
+            <div class="faq-list">
+
+                <div class="faq-item">
+                    <h3>How do I log a daily check-in?</h3>
+                    <p>Open the app and use the sliders on the main screen to rate your mood, anxiety, urges, and stress — each on a scale from low to high. Then tap the skills you used during the day and add an optional note. Tap Save when you're done. That's it.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What do the sliders measure?</h3>
+                    <p>The four sliders map to core DBT diary card concepts: <strong style="color: var(--text);">Mood</strong> (how you felt overall), <strong style="color: var(--text);">Anxiety</strong> (stress and worry), <strong style="color: var(--text);">Urges</strong> (impulses or difficult urges you experienced), and <strong style="color: var(--text);">Stress</strong> (external and internal pressure). They're intentionally simple — no right or wrong values, just honest reflection.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What are the DBT skills listed in the app?</h3>
+                    <p>The app includes core DBT skills: TIPP (Temperature, Intense exercise, Paced breathing, Paired muscle relaxation), Mindfulness, Opposite Action, Grounding, and others. Hold any skill to see a brief description of what it involves. The app is a tracking tool, not a full skills curriculum — your therapist or a DBT workbook will go deeper.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What is "I need a moment"?</h3>
+                    <p>This feature is for when you're overwhelmed and need immediate grounding. It walks you through a short guided breathing exercise, simple grounding prompts, or a small step forward — no thinking required. You can access it any time from the main screen.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What is the daily reflection?</h3>
+                    <p>At the end of each entry, the app generates a brief, non-judgmental reflection based on what you logged. It's not a score. It's not a streak. It's a simple acknowledgment of the day. Reflections are stored with each entry and visible in History.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Can I edit a past entry?</h3>
+                    <p>The app saves one entry per day. If you open the app again on the same day and make changes before saving, it will overwrite today's entry. Past entries from previous days cannot be edited — only viewed in History.</p>
+                </div>
+
+                <div class="faq-group-label">Reminders &amp; Notifications</div>
+
+                <div class="faq-item">
+                    <h3>How do I set up a daily reminder?</h3>
+                    <p>During onboarding you can set a reminder time. You can also adjust or disable it later from the app's settings. The reminder is a local notification — it fires from your device at the time you chose, with no server involved.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>I'm not receiving reminders. What should I check?</h3>
+                    <p>Go to your iPhone's Settings → Notifications → DBT Daily and confirm notifications are allowed. Also check that Do Not Focus modes aren't blocking the app. You can also go into the app settings and re-save your reminder time to reschedule it.</p>
+                </div>
+
+                <div class="faq-group-label">Privacy &amp; Data</div>
+
+                <div class="faq-item">
+                    <h3>Where is my diary data stored?</h3>
+                    <p>All of it — every entry, note, and preference — is stored locally on your device only. Nothing is sent to a server. DahVio Studios has no access to your diary data. See the <a href="/dbt-daily-privacy.html">Privacy Policy</a> for full details.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Does the app connect to the internet?</h3>
+                    <p>The app may make a one-time request to Google's font servers on first launch to download the DM Sans typeface. After that, the font is cached locally and the app runs fully offline. No diary data is ever transmitted.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I delete all my data?</h3>
+                    <p>Delete the app from your iPhone. That removes all locally stored entries, notes, and preferences. There is no account to close and no server-side data to request deletion of — because none was ever collected.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Does my data sync across devices?</h3>
+                    <p>No. DBT Daily does not sync across devices. Your diary is private to the device it was created on, by design. If you delete and reinstall the app, your previous entries will not be recoverable.</p>
+                </div>
+
+                <div class="faq-group-label">General</div>
+
+                <div class="faq-item">
+                    <h3>Is this app a replacement for therapy?</h3>
+                    <p>No. DBT Daily is a personal tracking and reflection tool. It is not a clinical application, does not provide therapy, and is not a substitute for working with a qualified mental health professional. If you're working with a DBT therapist, this app can complement your diary card practice.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Is this app officially affiliated with DBT or Marsha Linehan?</h3>
+                    <p>No. DBT Daily is an independent app inspired by standard DBT diary card practices. It is not affiliated with, endorsed by, or connected to the developers of Dialectical Behavior Therapy or Behavioral Tech.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I request a refund?</h3>
+                    <p>Refunds are handled by Apple. Visit <a href="https://reportaproblem.apple.com" target="_blank">reportaproblem.apple.com</a> to submit a refund request directly through the App Store.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-card">
+                <p>Have a question not covered above, found a bug, or want to share feedback? Send a message directly and we'll get back to you.</p>
+                <a href="mailto:ray@dahvio.com" class="contact-link">ray@dahvio.com</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="/">DahVio Studios</a>
+                <a href="/dbt-daily-privacy.html">Privacy Policy</a>
+                <a href="/dbt-daily-support.html">Support</a>
+            </p>
+            <br>
+            <p>&copy; 2026 DahVio Studios. Built in Long Beach, California.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

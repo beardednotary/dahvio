@@ -72,6 +72,16 @@
         <priority>0.3</priority>
     </url>
     <url>
+        <loc>https://dahvio.com/dbt-daily-privacy.html</loc>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://dahvio.com/dbt-daily-support.html</loc>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
         <loc>https://dahvio.com/pt-calculator-privacy.html</loc>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
