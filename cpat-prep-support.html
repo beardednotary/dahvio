@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPAT Prep — Support | DahVio Studios</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="Support and contact page for CPAT Prep — Candidate Physical Ability Test training app by DahVio Studios.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0E0E10;
+            --text: #F2F2F7;
+            --accent: #D94E1F;
+            --dim: #666;
+            --border: #1C1C1F;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span { color: var(--accent); }
+
+        .hero {
+            padding: 6rem 0 4rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .breadcrumb {
+            font-size: 0.875rem;
+            color: var(--dim);
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--dim);
+            max-width: 560px;
+        }
+
+        .section {
+            padding: 5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 720px;
+        }
+
+        .faq-item {
+            background: var(--border);
+            border-radius: 0.5rem;
+            border-left: 3px solid var(--accent);
+            padding: 1.5rem;
+        }
+
+        .faq-item h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-item p {
+            color: var(--dim);
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        .faq-item a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .faq-item a:hover { text-decoration: underline; }
+
+        .contact-card {
+            background: var(--border);
+            border-radius: 0.5rem;
+            padding: 2.5rem;
+            max-width: 480px;
+        }
+
+        .contact-card p {
+            color: var(--dim);
+            margin-bottom: 1.5rem;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        .contact-link {
+            font-size: 1.125rem;
+            color: var(--text);
+            text-decoration: none;
+            padding-bottom: 0.25rem;
+            border-bottom: 2px solid var(--accent);
+            transition: color 0.2s ease;
+        }
+
+        .contact-link:hover { color: var(--accent); }
+
+        .app-strip {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: var(--border);
+            border-radius: 0.5rem;
+            padding: 1.5rem 2rem;
+            margin-bottom: 3rem;
+            max-width: 560px;
+        }
+
+        .app-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
+            background: #1C1C1F;
+            border: 1px solid #2A2A2E;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+
+        .app-info h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .app-info p {
+            color: var(--dim);
+            font-size: 0.875rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(217, 78, 31, 0.12);
+            color: var(--accent);
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.4rem;
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--dim);
+            text-decoration: none;
+            margin: 0 0.75rem;
+        }
+
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.25rem; }
+            .hero { padding: 4rem 0 3rem; }
+            .section { padding: 3rem 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">DahVio<span>.</span></a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">DahVio Studios</a> &rsaquo; CPAT Prep &rsaquo; Support
+            </div>
+            <h1>Support</h1>
+            <p class="hero-subtitle">Questions, feedback, or training issues — we're here to help.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+
+            <div class="app-strip">
+                <div class="app-icon">🔥</div>
+                <div class="app-info">
+                    <h2>CPAT Prep</h2>
+                    <p>Candidate Physical Ability Test Training</p>
+                    <span class="tag">iOS · DahVio Studios</span>
+                </div>
+            </div>
+
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-list">
+
+                <div class="faq-item">
+                    <h3>What is the CPAT?</h3>
+                    <p>The Candidate Physical Ability Test (CPAT) is a standardized physical fitness test required by many fire departments during the hiring process. It consists of eight timed events — Stair Climb, Hose Drag, Equipment Carry, Ladder Raise &amp; Extension, Forcible Entry, Search, Rescue Drag, and Ceiling Breach &amp; Pull — which must be completed sequentially in under 10 minutes 20 seconds.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Is this app official?</h3>
+                    <p>No. CPAT Prep is an unofficial training tool and is not affiliated with, endorsed by, or sanctioned by the IAFF, IAFC, or any fire department or testing agency. Always verify test requirements with your local fire department or testing provider.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How does the training plan work?</h3>
+                    <p>During onboarding, you select your current fitness level, available equipment, and any weak areas. CPAT Prep generates a weekly training plan built around those inputs, cycling through workouts that target the specific demands of each CPAT event. The plan updates automatically each week.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Can I change my plan after onboarding?</h3>
+                    <p>Yes. Go to the Plan tab and tap Edit Profile to update your fitness level, equipment, test date, or weak areas. Your training plan will update to reflect the changes.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What do the event confidence ratings do?</h3>
+                    <p>In the Events tab, logging your confidence after each event (High, Okay, Low) adjusts that event's status over time — helping the app surface your weakest areas as the primary focus of your training week.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>I'm not receiving countdown notifications for my test date.</h3>
+                    <p>Make sure you've granted notification permission in iOS Settings &rsaquo; Notifications &rsaquo; CPAT Prep and that a test date is set in your profile. Notifications are scheduled locally when you save your profile and will not appear if the app has never been opened after setting a date.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Does the app require an internet connection?</h3>
+                    <p>No. CPAT Prep is fully offline. All training plans, workout logic, and progress tracking run locally on your device. No data is ever transmitted.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Will my data be saved if I close the app?</h3>
+                    <p>Yes. Your workout history, event statuses, and profile settings are automatically saved to your device and restored the next time you open the app. No account required.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I reset the app?</h3>
+                    <p>Deleting and reinstalling CPAT Prep will clear all saved data and return the app to its initial onboarding state.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I request a refund?</h3>
+                    <p>Refunds are handled by Apple. Visit <a href="https://reportaproblem.apple.com" target="_blank">reportaproblem.apple.com</a> to submit a refund request directly through the App Store.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-card">
+                <p>Found a bug, have feedback, or want to request a feature? Send a message and we'll get back to you promptly.</p>
+                <a href="mailto:ray@dahvio.com" class="contact-link">ray@dahvio.com</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="index.html">DahVio Studios</a>
+                <a href="cpat-prep-privacy.html">Privacy Policy</a>
+                <a href="cpat-prep-support.html">Support</a>
+            </p>
+            <br>
+            <p>&copy; 2026 DahVio Studios. Built in Long Beach, California.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
