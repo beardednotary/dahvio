@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAPS Study 2026 - Air Force Promotion Prep for E5 &amp; E6</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="WAPS Study 2026 is a focused Air Force promotion prep app for E5 and E6. Review AFH 1 sections, run quick drills, study flashcards, and train leadership scenarios without the clutter.">
+    <meta name="keywords" content="waps study app, air force promotion study app, AFH 1 study, WAPS 2026, staff sergeant study app, technical sergeant study app, PFE study app">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dahvio.com/waps-study-2026">
+
+    <meta property="og:title" content="WAPS Study 2026 - Air Force Promotion Prep for E5 &amp; E6">
+    <meta property="og:description" content="AFH 1 section review, flashcards, quick drills, and SJT scenarios in one focused WAPS study app.">
+    <meta property="og:image" content="waps-og-image.png">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WAPS Study 2026">
+    <meta name="twitter:description" content="Focused Air Force promotion prep for E5 and E6.">
+    <meta name="twitter:image" content="waps-og-image.png">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW9L8BTBBW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RW9L8BTBBW');
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is WAPS Study 2026?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "WAPS Study 2026 is an Air Force promotion study app built around AFH 1 section review, flashcards, quick drills, and situational judgment training for enlisted Airmen testing for E5 and E6."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is WAPS Study 2026 an official Air Force app?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. WAPS Study 2026 is an independent study tool developed by DahVio Studios. It is not affiliated with, endorsed by, or sanctioned by the United States Air Force."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does the app include?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The app includes AFH 1 study sections, long-form summaries, flashcards, quick section drills, daily mixed drills, weak-area tracking, and SJT scenario practice."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the app work offline?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Core study content and progress tracking are stored locally on-device, so the app is designed to work without an account or constant network access."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0d1218;
+            --bg-card: #151c24;
+            --bg-card-alt: #1b2430;
+            --text: #f4f7fa;
+            --accent: #5d9ab6;
+            --accent-deep: #1f5d78;
+            --accent-muted: #183240;
+            --secondary: #e0b043;
+            --dim: #95a4b4;
+            --border: #2a3644;
+            --border-light: #344354;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 2rem 0;
+            border-bottom: 1px solid rgba(42, 54, 68, 0.8);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .header-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: #0d1218;
+            text-decoration: none;
+            padding: 0.65rem 1.2rem;
+            border-radius: 0.45rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .header-cta:hover {
+            background: #78abc3;
+            transform: translateY(-1px);
+        }
+
+        .hero {
+            padding: 7rem 0 5rem;
+            border-bottom: 1px solid rgba(42, 54, 68, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 70% 40%, rgba(93, 154, 182, 0.18) 0%, transparent 55%),
+                radial-gradient(ellipse at 20% 100%, rgba(24, 50, 64, 0.7) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            background: rgba(93, 154, 182, 0.12);
+            border: 1px solid rgba(93, 154, 182, 0.28);
+            padding: 0.35rem 0.9rem;
+            border-radius: 2rem;
+            margin-bottom: 1.75rem;
+        }
+
+        h1 {
+            font-size: 3.75rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            margin-bottom: 1.3rem;
+            max-width: 760px;
+        }
+
+        h1 .highlight {
+            color: var(--accent);
+        }
+
+        .hero-seo-hook {
+            font-size: 1.02rem;
+            color: var(--secondary);
+            font-style: italic;
+            max-width: 700px;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.16rem;
+            color: var(--dim);
+            max-width: 680px;
+            margin-bottom: 2.4rem;
+            line-height: 1.7;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            padding: 0.95rem 1.9rem;
+            border-radius: 0.6rem;
+            font-size: 1rem;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #0d1218;
+            box-shadow: 0 0 28px rgba(93, 154, 182, 0.22);
+        }
+
+        .btn-primary:hover {
+            background: #78abc3;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            color: var(--text);
+            border: 1px solid var(--border-light);
+            background: transparent;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--dim);
+        }
+
+        .section {
+            padding: 6rem 0;
+            border-bottom: 1px solid rgba(42, 54, 68, 0.8);
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .section-intro {
+            font-size: 1.02rem;
+            color: var(--dim);
+            max-width: 700px;
+            margin-bottom: 3rem;
+            line-height: 1.7;
+        }
+
+        .features-grid,
+        .system-grid,
+        .faq-grid,
+        .links-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .features-grid {
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        }
+
+        .system-grid {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .faq-grid,
+        .links-grid {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .feature-card,
+        .system-card,
+        .faq-card,
+        .link-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.75rem;
+            padding: 1.75rem;
+        }
+
+        .feature-card:hover,
+        .system-card:hover,
+        .faq-card:hover,
+        .link-card:hover {
+            border-color: var(--accent);
+        }
+
+        .feature-icon,
+        .system-step {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 0.9rem;
+        }
+
+        .feature-title,
+        .faq-card h3,
+        .link-card h3 {
+            font-size: 1.02rem;
+            font-weight: 700;
+            margin-bottom: 0.55rem;
+        }
+
+        .feature-desc,
+        .system-card p,
+        .faq-card p,
+        .link-card p {
+            font-size: 0.93rem;
+            color: var(--dim);
+            line-height: 1.65;
+        }
+
+        .advantage-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .advantage-item {
+            display: flex;
+            gap: 1.2rem;
+            align-items: flex-start;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-left: 3px solid var(--accent);
+            border-radius: 0.6rem;
+        }
+
+        .advantage-num {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--accent);
+            min-width: 2rem;
+            line-height: 1;
+        }
+
+        .advantage-content h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+
+        .advantage-content p {
+            font-size: 0.93rem;
+            color: var(--dim);
+            line-height: 1.65;
+        }
+
+        .example-box {
+            background: linear-gradient(180deg, rgba(21, 28, 36, 0.92) 0%, rgba(27, 36, 48, 0.92) 100%);
+            border: 1px solid rgba(93, 154, 182, 0.28);
+            border-radius: 0.9rem;
+            padding: 2.3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .example-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+        }
+
+        .example-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .example-box p {
+            font-size: 1.02rem;
+            color: var(--text);
+            line-height: 1.75;
+            margin-bottom: 1rem;
+        }
+
+        .example-box p:last-child {
+            margin-bottom: 0;
+            color: var(--dim);
+            font-size: 0.95rem;
+        }
+
+        .app-cta-section {
+            background: linear-gradient(135deg, #12212a 0%, #183240 100%);
+            border: 1px solid rgba(93, 154, 182, 0.32);
+            border-radius: 1rem;
+            padding: 3.2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-cta-section::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(93, 154, 182, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .app-cta-badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: rgba(93, 154, 182, 0.12);
+            border: 1px solid rgba(93, 154, 182, 0.25);
+            padding: 0.45rem 0.95rem;
+            border-radius: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .app-cta-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .app-cta-text {
+            font-size: 1rem;
+            color: #d7e4ec;
+            max-width: 640px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+        }
+
+        .link-card {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .link-card span {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--accent);
+            font-size: 0.88rem;
+            font-weight: 700;
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--dim);
+            text-decoration: none;
+            margin: 0 0.75rem;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.55rem;
+            }
+
+            .hero {
+                padding: 4.5rem 0 3.5rem;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+
+            .section-title,
+            .app-cta-title {
+                font-size: 1.9rem;
+            }
+
+            .hero-stats {
+                gap: 1.5rem;
+            }
+
+            .app-cta-section {
+                padding: 2.4rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <a href="/" class="logo">DahVio<span>.</span></a>
+                <a href="/waps-study-support.html" class="header-cta">Support</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-eyebrow">Air Force Promotion Prep</div>
+            <h1>WAPS study that stays <span class="highlight">focused</span>.</h1>
+            <p class="hero-seo-hook">Built around AFH 1 study sections, short drills, flashcards, and leadership scenarios for E5 and E6 prep.</p>
+            <p class="hero-subtitle">WAPS Study 2026 is designed for Airmen who want a cleaner way to review key material, train weak areas, and keep moving without getting buried in a bloated study flow.</p>
+
+            <div class="hero-cta-group">
+                <a href="/waps-study-support.html" class="btn-primary">Get Support</a>
+                <a href="/waps-study-privacy.html" class="btn-secondary">Privacy Policy</a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-value">AFH 1</div>
+                    <div class="stat-label">Section-based review</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">E5 / E6</div>
+                    <div class="stat-label">Rank-specific prep</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">2 min</div>
+                    <div class="stat-label">Daily Drill pacing</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">What It Includes</div>
+            <h2 class="section-title">The core study tools in one place.</h2>
+            <p class="section-intro">The app is structured around short, repeatable study actions so you can move between section review, flashcards, quick drills, and leadership scenario practice without losing momentum.</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">01</div>
+                    <div class="feature-title">Daily Drill</div>
+                    <p class="feature-desc">Run a short mixed session to keep studying moving and identify weak areas quickly.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">02</div>
+                    <div class="feature-title">Read Summary</div>
+                    <p class="feature-desc">Review a section in a cleaner format that keeps the big idea and test-relevant takeaways easy to scan.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">03</div>
+                    <div class="feature-title">Flashcards</div>
+                    <p class="feature-desc">Tap to reveal, mark what you know, and keep weak material circulating instead of guessing what to review next.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">04</div>
+                    <div class="feature-title">Quick Drill</div>
+                    <p class="feature-desc">Jump straight into section-specific questions when you need focused reps on one chapter.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">05</div>
+                    <div class="feature-title">SJT Practice</div>
+                    <p class="feature-desc">Train leadership scenarios with most- and least-effective responses plus competency tagging.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">06</div>
+                    <div class="feature-title">Weak-Area Tracking</div>
+                    <p class="feature-desc">See where accuracy is slipping so you can spend time where it matters instead of guessing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Study Flow</div>
+            <h2 class="section-title">Train like the app is coaching your next step.</h2>
+            <p class="section-intro">The structure is simple on purpose: study the section, drill the section, then let the app show you where the misses are accumulating.</p>
+
+            <div class="system-grid">
+                <div class="system-card">
+                    <div class="system-step">Study</div>
+                    <p>Start with AFH 1 section review when you need context. Long-form summaries and key points help you rebuild the big picture before testing yourself.</p>
+                </div>
+                <div class="system-card">
+                    <div class="system-step">Practice</div>
+                    <p>Use Quick Drill for focused reps or run a Daily Drill for a short mixed session that feels more like real test movement.</p>
+                </div>
+                <div class="system-card">
+                    <div class="system-step">Adjust</div>
+                    <p>Review missed questions, track weak sections, and use SJT performance to see where judgment-based leadership items need more work.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Why It Works</div>
+            <h2 class="section-title">Built for repeatable reps, not clutter.</h2>
+            <p class="section-intro">Most study tools in this niche either dump too much text on the screen or feel like throwaway quiz apps. WAPS Study 2026 aims for the middle ground: serious, structured, and fast to use.</p>
+
+            <div class="advantage-list">
+                <div class="advantage-item">
+                    <div class="advantage-num">1</div>
+                    <div class="advantage-content">
+                        <h3>Direct, section-based review</h3>
+                        <p>Content is organized around AFH 1 sections so you can study deliberately instead of hunting through disconnected notes.</p>
+                    </div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-num">2</div>
+                    <div class="advantage-content">
+                        <h3>Progress that points somewhere</h3>
+                        <p>Weak-area tracking and recent-session history are there to tell you what to hit next, not just to decorate the screen with numbers.</p>
+                    </div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-num">3</div>
+                    <div class="advantage-content">
+                        <h3>Leadership scenarios included</h3>
+                        <p>SJT practice adds a different training mode that goes beyond memorization and helps reinforce judgment and competency awareness.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Use Case</div>
+            <h2 class="section-title">A cleaner rhythm for promotion prep.</h2>
+            <div class="example-box">
+                <div class="example-label">Typical Flow</div>
+                <p>Open the app. Run a short Daily Drill. See what slipped. Jump into that section. Read the summary. Flip a few flashcards. Finish with a Quick Drill.</p>
+                <p>That rhythm is the point: less friction, more repetitions, and a better sense of where your effort should go next.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">FAQ</div>
+            <h2 class="section-title">Common questions.</h2>
+            <p class="section-intro">A few quick answers before you dig deeper.</p>
+
+            <div class="faq-grid">
+                <div class="faq-card">
+                    <h3>Is this app official?</h3>
+                    <p>No. WAPS Study 2026 is an unofficial study tool by DahVio Studios and is not affiliated with or endorsed by the United States Air Force.</p>
+                </div>
+                <div class="faq-card">
+                    <h3>What ranks does it support?</h3>
+                    <p>The current study flow is built for Airmen preparing for E5 and E6 promotion testing.</p>
+                </div>
+                <div class="faq-card">
+                    <h3>What is the content based on?</h3>
+                    <p>The app content is aligned with AFH 1 material, with the current in-app content version based on AFH 1 from November 2024.</p>
+                </div>
+                <div class="faq-card">
+                    <h3>Does it require an account?</h3>
+                    <p>No. The app does not require sign-in, and study progress is stored locally on the device.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="border-bottom: 0;">
+        <div class="container">
+            <div class="app-cta-section">
+                <div class="app-cta-badge">WAPS Study 2026</div>
+                <h2 class="app-cta-title">Support, privacy, and launch-ready documentation.</h2>
+                <p class="app-cta-text">The App Store page is not live yet, so this landing page is set up to give you the support and privacy links you need now, with room to add the store link later without changing the structure.</p>
+
+                <div class="links-grid">
+                    <a href="/waps-study-support.html" class="link-card">
+                        <h3>Support</h3>
+                        <p>Contact info, FAQs, and help for study flow, progress, and content questions.</p>
+                        <span>Open support page</span>
+                    </a>
+                    <a href="/waps-study-privacy.html" class="link-card">
+                        <h3>Privacy Policy</h3>
+                        <p>Clear documentation on local storage, no-account design, and what the app does not collect.</p>
+                        <span>Read privacy policy</span>
+                    </a>
+                    <a href="mailto:ray@dahvio.com?subject=WAPS%20Study%202026" class="link-card">
+                        <h3>Contact DahVio</h3>
+                        <p>Need a direct answer, want to report an issue, or want the App Store link added once the app is live?</p>
+                        <span>Email ray@dahvio.com</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="/">DahVio Studios</a>
+                <a href="/waps-study-support.html">Support</a>
+                <a href="/waps-study-privacy.html">Privacy Policy</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAPS Study 2026 - Support | DahVio Studios</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="Support page for WAPS Study 2026 by DahVio Studios. Get help with study progress, rank selection, content questions, and app feedback.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0d1218;
+            --text: #f4f7fa;
+            --accent: #5d9ab6;
+            --dim: #95a4b4;
+            --border: #2a3644;
+            --surface: #151c24;
+            --surface-alt: #1b2430;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span { color: var(--accent); }
+
+        .hero {
+            padding: 6rem 0 4rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .breadcrumb {
+            font-size: 0.875rem;
+            color: var(--dim);
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--dim);
+            max-width: 620px;
+        }
+
+        .section {
+            padding: 5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 760px;
+        }
+
+        .faq-item {
+            background: var(--surface);
+            border-radius: 0.6rem;
+            border-left: 3px solid var(--accent);
+            padding: 1.5rem;
+        }
+
+        .faq-item h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-item p {
+            color: var(--dim);
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        .faq-item a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .faq-item a:hover { text-decoration: underline; }
+
+        .contact-card {
+            background: var(--surface);
+            border-radius: 0.6rem;
+            padding: 2.5rem;
+            max-width: 520px;
+        }
+
+        .contact-card p {
+            color: var(--dim);
+            margin-bottom: 1.5rem;
+            font-size: 0.9375rem;
+            line-height: 1.65;
+        }
+
+        .contact-link {
+            font-size: 1.125rem;
+            color: var(--text);
+            text-decoration: none;
+            padding-bottom: 0.25rem;
+            border-bottom: 2px solid var(--accent);
+            transition: color 0.2s ease;
+        }
+
+        .contact-link:hover { color: var(--accent); }
+
+        .app-strip {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            background: var(--surface);
+            border-radius: 0.6rem;
+            padding: 1.5rem 2rem;
+            margin-bottom: 3rem;
+            max-width: 620px;
+        }
+
+        .app-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #183240 0%, #5d9ab6 100%);
+            border: 1px solid rgba(93, 154, 182, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: #f4f7fa;
+            flex-shrink: 0;
+            text-transform: uppercase;
+        }
+
+        .app-info h2 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .app-info p {
+            color: var(--dim);
+            font-size: 0.9rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(93, 154, 182, 0.12);
+            color: var(--accent);
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 0.45rem;
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--dim);
+            text-decoration: none;
+            margin: 0 0.75rem;
+        }
+
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.25rem; }
+            .hero { padding: 4rem 0 3rem; }
+            .section { padding: 3rem 0; }
+            .app-strip {
+                padding: 1.25rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="/" class="logo">DahVio<span>.</span></a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/">DahVio Studios</a> &rsaquo; WAPS Study 2026 &rsaquo; Support
+            </div>
+            <h1>Support</h1>
+            <p class="hero-subtitle">Questions, feedback, bug reports, or content concerns for WAPS Study 2026. This page is set up to support the app before and after the App Store page goes live.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+
+            <div class="app-strip">
+                <div class="app-icon">WAPS</div>
+                <div class="app-info">
+                    <h2>WAPS Study 2026</h2>
+                    <p>Focused Air Force promotion prep for E5 and E6.</p>
+                    <span class="tag">iPhone · DahVio Studios</span>
+                </div>
+            </div>
+
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-list">
+
+                <div class="faq-item">
+                    <h3>Is this app official?</h3>
+                    <p>No. WAPS Study 2026 is an unofficial study tool and is not affiliated with, endorsed by, or sanctioned by the United States Air Force. Always verify critical information against official Air Force guidance.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What content is the app based on?</h3>
+                    <p>The current in-app content version is based on AFH 1 (November 2024), with section summaries, flashcards, drills, and SJT scenarios built around that study scope.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What ranks does it support?</h3>
+                    <p>The current study experience is built for Airmen testing for E5 and E6.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I reset all progress?</h3>
+                    <p>Open the app, go to <strong style="color: var(--text);">Settings</strong>, and use <strong style="color: var(--text);">Reset all progress</strong>. That clears stored scores, session history, and section progress from the device.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Does the app require an account or internet connection?</h3>
+                    <p>No account is required. Core study content and progress tracking are stored locally on-device so the app is designed to be usable without sign-in or a constant network connection.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>I found a content issue or typo. What should I do?</h3>
+                    <p>Email <a href="mailto:ray@dahvio.com?subject=WAPS%20Study%202026%20Content%20Issue">ray@dahvio.com</a> with the section code, question ID if available, and what looks wrong. That makes it much faster to fix accurately.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Where is the App Store page?</h3>
+                    <p>The App Store listing is not live yet. This support page is in place now so the app has support and policy documentation ready before launch.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="border-bottom: 0;">
+        <div class="container">
+            <h2 class="section-title">Contact</h2>
+
+            <div class="contact-card">
+                <p>Need help, want to report a bug, or have a question about the study content? Email is the best way to reach DahVio Studios.</p>
+                <a href="mailto:ray@dahvio.com?subject=WAPS%20Study%202026%20Support" class="contact-link">ray@dahvio.com</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="/">DahVio Studios</a>
+                <a href="/waps-study-privacy.html">Privacy Policy</a>
+                <a href="/waps-study-support.html">Support</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
