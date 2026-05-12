@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paygrade — Military Retirement Finance Calculator</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="Paygrade is a military retirement finance calculator for all six branches. Compare High-3, BRS, Final Pay, and CSB/Redux with SBP and state tax estimates. Waitlist now open.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dahvio.com/paygrade">
+
+    <meta property="og:title" content="Paygrade — Military Retirement Finance Calculator">
+    <meta property="og:description" content="Know what your military retirement actually looks like in dollars. High-3, BRS, Final Pay, CSB/Redux — all branches, SBP included.">
+    <meta property="og:type" content="website">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW9L8BTBBW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RW9L8BTBBW');
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #080c14;
+            --bg-card: #0f1620;
+            --bg-card-alt: #141e2e;
+            --text: #e8e4da;
+            --accent: #c9a227;
+            --accent-muted: rgba(201, 162, 39, 0.12);
+            --accent-border: rgba(201, 162, 39, 0.28);
+            --dim: #8a8070;
+            --dim-light: #b0a898;
+            --border: #1a2234;
+            --border-light: #222f44;
+            --blue: #4a7ab5;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span { color: var(--accent); }
+
+        /* Hero */
+        .hero {
+            padding: 7rem 0 5rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 65% 35%, rgba(201, 162, 39, 0.1) 0%, transparent 55%),
+                radial-gradient(ellipse at 20% 90%, rgba(74, 122, 181, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            display: inline-block;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            background: var(--accent-muted);
+            border: 1px solid var(--accent-border);
+            padding: 0.35rem 0.9rem;
+            border-radius: 2rem;
+            margin-bottom: 1.75rem;
+        }
+
+        h1 {
+            font-size: 3.75rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            margin-bottom: 1.25rem;
+            max-width: 780px;
+        }
+
+        h1 .highlight { color: var(--accent); }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: var(--dim-light);
+            max-width: 640px;
+            margin-bottom: 3rem;
+            line-height: 1.7;
+        }
+
+        /* Features list */
+        .feature-pills {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 3.5rem;
+        }
+
+        .pill {
+            padding: 0.4rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            color: var(--dim-light);
+        }
+
+        /* Waitlist form */
+        .waitlist-form-wrap {
+            max-width: 460px;
+        }
+
+        .waitlist-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--dim);
+            margin-bottom: 0.75rem;
+        }
+
+        .waitlist-form {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .waitlist-form input[type="email"] {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            padding: 0.85rem 1.1rem;
+            font-size: 0.95rem;
+            color: var(--text);
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .waitlist-form input[type="email"]:focus {
+            border-color: var(--accent);
+        }
+
+        .waitlist-form input::placeholder {
+            color: var(--dim);
+        }
+
+        .waitlist-form button {
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.85rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: opacity 0.2s, transform 0.2s;
+            white-space: nowrap;
+        }
+
+        .waitlist-form button:hover {
+            opacity: 0.88;
+            transform: translateY(-1px);
+        }
+
+        .form-note {
+            margin-top: 0.6rem;
+            font-size: 0.8rem;
+            color: var(--dim);
+        }
+
+        /* Plans section */
+        .section {
+            padding: 6rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        h2 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .section-intro {
+            font-size: 1rem;
+            color: var(--dim-light);
+            max-width: 680px;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .plan-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: border-color 0.2s;
+        }
+
+        .plan-card:hover { border-color: var(--accent); }
+
+        .plan-name {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+
+        .plan-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-card p {
+            font-size: 0.875rem;
+            color: var(--dim);
+            line-height: 1.6;
+        }
+
+        /* What it covers */
+        .covers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 680px;
+        }
+
+        .covers-item {
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+            padding: 1.25rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-left: 3px solid var(--accent);
+            border-radius: 0.6rem;
+        }
+
+        .covers-icon {
+            font-size: 1.2rem;
+            min-width: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .covers-item p {
+            font-size: 0.9rem;
+            color: var(--dim-light);
+            line-height: 1.6;
+        }
+
+        .covers-item strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* Branches */
+        .branches-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .branch-chip {
+            padding: 0.5rem 1.1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--dim-light);
+        }
+
+        /* Bottom CTA */
+        .bottom-cta {
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .bottom-cta h2 {
+            margin-bottom: 1rem;
+        }
+
+        .bottom-cta p {
+            font-size: 1rem;
+            color: var(--dim-light);
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.7;
+        }
+
+        .bottom-form-wrap {
+            display: flex;
+            justify-content: center;
+        }
+
+        .bottom-form-wrap .waitlist-form {
+            max-width: 460px;
+            width: 100%;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--dim);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--dim);
+            text-decoration: none;
+            margin: 0 0.75rem;
+            transition: color 0.2s;
+        }
+
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .hero { padding: 4.5rem 0 3.5rem; }
+            .waitlist-form { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <a href="/" class="logo">DahVio<span>.</span></a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-eyebrow">Military Retirement Calculator · Coming Soon</div>
+            <h1>Know what your retirement is actually <span class="highlight">worth</span>.</h1>
+            <p class="hero-subtitle">Paygrade calculates military retirement pay across all four plans—High-3, BRS, Final Pay, and CSB/Redux—with SBP premiums, VA offset, and state tax estimates. All six branches. No guesswork.</p>
+
+            <div class="feature-pills">
+                <span class="pill">High-3</span>
+                <span class="pill">BRS</span>
+                <span class="pill">Final Pay</span>
+                <span class="pill">CSB/Redux</span>
+                <span class="pill">SBP</span>
+                <span class="pill">State Tax Estimates</span>
+                <span class="pill">All Six Branches</span>
+            </div>
+
+            <div class="waitlist-form-wrap">
+                <p class="waitlist-label">Get notified at launch</p>
+                <form class="waitlist-form" action="https://formspree.io/f/mbdwbjad" method="POST">
+                    <input type="email" name="email" placeholder="your@email.com" required>
+                    <button type="submit">Join Waitlist</button>
+                </form>
+                <p class="form-note">No spam. One email when the app launches.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Retirement Plans</div>
+            <h2>Every plan the military uses.</h2>
+            <p class="section-intro">Paygrade doesn't make you figure out which plan applies to you—it determines that from your entry date (DIEMS) and calculates accordingly, with a side-by-side breakdown if you want to compare.</p>
+
+            <div class="plans-grid">
+                <div class="plan-card">
+                    <div class="plan-name">High-3</div>
+                    <h3>High-3 Average</h3>
+                    <p>The standard plan for most service members. Pension based on the highest 36 months of base pay, multiplied by years of service.</p>
+                </div>
+                <div class="plan-card">
+                    <div class="plan-name">BRS</div>
+                    <h3>Blended Retirement System</h3>
+                    <p>The current default for members who entered after January 1, 2018. Smaller pension multiplier, but the government matches up to 5% of TSP contributions.</p>
+                </div>
+                <div class="plan-card">
+                    <div class="plan-name">Final Pay</div>
+                    <h3>Final Pay</h3>
+                    <p>For members who entered before September 8, 1980. Pension based on final month's base pay—typically the most generous plan.</p>
+                </div>
+                <div class="plan-card">
+                    <div class="plan-name">CSB/Redux</div>
+                    <h3>CSB/Redux</h3>
+                    <p>A reduced-multiplier plan that came with a $30,000 Career Status Bonus at 15 years. Still relevant for members who took it.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">What It Calculates</div>
+            <h2>More than a pension number.</h2>
+            <p class="section-intro">Retirement pay is just the start. Paygrade factors in the things that actually change what you take home.</p>
+
+            <div class="covers-list">
+                <div class="covers-item">
+                    <span class="covers-icon">$</span>
+                    <p><strong>Gross and net retirement pay</strong> — monthly and annual, before and after taxes and SBP premiums.</p>
+                </div>
+                <div class="covers-item">
+                    <span class="covers-icon">⚖</span>
+                    <p><strong>Survivor Benefit Plan (SBP)</strong> — monthly premium and coverage amount at 25%, 50%, or 55%, with spouse age factored in.</p>
+                </div>
+                <div class="covers-item">
+                    <span class="covers-icon">🗺</span>
+                    <p><strong>State tax estimates</strong> — all 50 states, including the states that exempt military retirement pay entirely.</p>
+                </div>
+                <div class="covers-item">
+                    <span class="covers-icon">♿</span>
+                    <p><strong>VA disability offset</strong> — accounts for concurrent receipt (CRDP) and how VA compensation interacts with retirement pay at your rating.</p>
+                </div>
+                <div class="covers-item">
+                    <span class="covers-icon">📈</span>
+                    <p><strong>BRS TSP projection</strong> — estimates TSP balance growth based on your contribution rate and years to retirement.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="border-bottom: 0; padding-bottom: 2rem;">
+        <div class="container">
+            <div class="section-label">Branches Supported</div>
+            <h2>All six.</h2>
+            <p class="section-intro">Active duty pay tables cover every branch for 2025 and 2026. Reserve and Guard point-based retirement is in a future version.</p>
+            <div class="branches-row">
+                <span class="branch-chip">Army</span>
+                <span class="branch-chip">Navy</span>
+                <span class="branch-chip">Marine Corps</span>
+                <span class="branch-chip">Air Force</span>
+                <span class="branch-chip">Space Force</span>
+                <span class="branch-chip">Coast Guard</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="bottom-cta">
+        <div class="container">
+            <h2>Get notified when Paygrade launches.</h2>
+            <p>Built by a Marine Corps veteran, for service members who want real numbers before they make retirement decisions.</p>
+            <div class="bottom-form-wrap">
+                <form class="waitlist-form" action="https://formspree.io/f/mbdwbjad" method="POST">
+                    <input type="email" name="email" placeholder="your@email.com" required>
+                    <button type="submit">Join Waitlist</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="/">DahVio Studios</a>
+                <a href="/about">About Ray</a>
+                <a href="mailto:ray@dahvio.com">Contact</a>
+            </p>
+            <p style="margin-top: 0.75rem;">&copy; 2026 DahVio Studios. Long Beach, California.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Ray Rothwell — DahVio Studios</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="Ray Rothwell is a Marine Corps veteran, solo developer, and founder of DahVio Studios. He builds mobile apps for service members — fitness calculators, promotion prep tools, and retirement planning apps.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dahvio.com/about">
+
+    <meta property="og:title" content="About Ray Rothwell — DahVio Studios">
+    <meta property="og:description" content="Marine Corps veteran and solo developer building tools for service members. Military fitness calculators, WAPS prep, and more.">
+    <meta property="og:type" content="website">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW9L8BTBBW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RW9L8BTBBW');
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0a0a0a;
+            --text: #e8e8e8;
+            --accent: #00ff88;
+            --dim: #888;
+            --dim-light: #aaa;
+            --border: #1a1a1a;
+            --card: #111;
+            --card-hover: #161616;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span { color: var(--accent); }
+
+        nav a {
+            color: var(--dim);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-left: 2rem;
+            transition: color 0.2s;
+        }
+
+        nav a:hover { color: var(--text); }
+
+        /* Hero */
+        .hero {
+            padding: 7rem 0 5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-inner {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-title {
+            font-size: 1.1rem;
+            color: var(--dim-light);
+            margin-bottom: 2rem;
+        }
+
+        .hero-bio-lead {
+            font-size: 1.2rem;
+            color: var(--text);
+            line-height: 1.7;
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-tags {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 0.4rem 0.9rem;
+            background: var(--border);
+            border-radius: 2rem;
+            font-size: 0.825rem;
+            color: var(--dim-light);
+        }
+
+        .headshot-wrap {
+            width: 180px;
+            flex-shrink: 0;
+        }
+
+        .headshot-placeholder {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: var(--card);
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+        }
+
+        /* Sections */
+        .section {
+            padding: 6rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+        }
+
+        /* Bio */
+        .bio-body p {
+            font-size: 1.05rem;
+            color: var(--dim-light);
+            line-height: 1.75;
+            max-width: 720px;
+            margin-bottom: 1.25rem;
+        }
+
+        .bio-body p:last-child { margin-bottom: 0; }
+
+        .bio-body strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* Apps grid */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin-top: 2.5rem;
+        }
+
+        .app-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.2s, background 0.2s;
+            display: block;
+        }
+
+        .app-card:hover {
+            border-color: var(--accent);
+            background: var(--card-hover);
+        }
+
+        .app-card-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .app-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .app-card p {
+            font-size: 0.875rem;
+            color: var(--dim);
+            line-height: 1.6;
+        }
+
+        .app-card .card-link {
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 0.825rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* Coming soon cards */
+        .coming-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.25rem;
+            margin-top: 2.5rem;
+        }
+
+        .coming-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1.75rem;
+        }
+
+        .coming-card-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--dim);
+            background: var(--border);
+            padding: 0.25rem 0.65rem;
+            border-radius: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .coming-card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+        }
+
+        .coming-card p {
+            font-size: 0.9rem;
+            color: var(--dim);
+            line-height: 1.65;
+            margin-bottom: 1rem;
+        }
+
+        .coming-card a {
+            font-size: 0.825rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Press contact */
+        .press-block {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 0.75rem;
+            padding: 2.5rem;
+            max-width: 640px;
+            margin-top: 2.5rem;
+        }
+
+        .press-block h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .press-block p {
+            font-size: 0.95rem;
+            color: var(--dim-light);
+            line-height: 1.65;
+            margin-bottom: 1.5rem;
+        }
+
+        .press-email {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 2px;
+            transition: color 0.2s;
+        }
+
+        .press-email:hover { color: var(--accent); }
+
+        .press-meta {
+            margin-top: 1.25rem;
+            font-size: 0.825rem;
+            color: var(--dim);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--dim);
+            text-decoration: none;
+            margin: 0 0.75rem;
+            transition: color 0.2s;
+        }
+
+        footer a:hover { color: var(--accent); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .headshot-wrap {
+                order: -1;
+            }
+
+            h1 { font-size: 2.5rem; }
+
+            .hero { padding: 4rem 0 3.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <a href="/" class="logo">DahVio<span>.</span></a>
+                <nav>
+                    <a href="/">Work</a>
+                    <a href="mailto:ray@dahvio.com">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-inner">
+                <div>
+                    <div class="hero-eyebrow">DahVio Studios</div>
+                    <h1>Ray Rothwell</h1>
+                    <p class="hero-title">Founder &amp; Solo Developer — Long Beach, California</p>
+                    <p class="hero-bio-lead">Marine Corps veteran turned software developer, building mobile apps for service members and veterans. Every app here ships from one desk in Long Beach.</p>
+                    <div class="hero-tags">
+                        <span class="tag">Marine Corps Veteran</span>
+                        <span class="tag">Flutter / React Native</span>
+                        <span class="tag">iOS</span>
+                        <span class="tag">Long Beach, CA</span>
+                    </div>
+                </div>
+                <div class="headshot-wrap">
+                    <div class="headshot-placeholder">RR</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Background</div>
+            <h2>The story behind the apps.</h2>
+            <div class="bio-body">
+                <p>I served as a <strong>Finance Tech (MOS 3432) in the Marine Corps</strong>, then used the GI Bill to finish a degree in Environmental Studies while picking up JavaScript and HTML on the side. I spent years in GIS and environmental consulting—Phase I and II site assessments—before eventually going all-in on software development.</p>
+                <p>I'm a single dad raising two daughters, Dahlia and Violet. The studio is named after them. Balancing that with disability and development work isn't always clean, but it gives me a pretty clear filter for what's worth building: things that solve a specific, real problem for a real person.</p>
+                <p>The military apps came out of that same instinct. <strong>Promotion prep and fitness standards are stressful, high-stakes moments for enlisted members</strong>—and the tools available to them are often either behind a paywall, bloated with unnecessary features, or just not built by someone who's been there. I've been there. So I build these things the way I'd want them.</p>
+                <p>I started with a PT calculator for one branch, got feedback from actual users on Reddit, and iterated fast. That's still how the apps evolve—feedback first, then build.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Military Apps</div>
+            <h2>Tools for service members, built by one.</h2>
+
+            <div class="apps-grid">
+                <a href="/waps-study-2026" class="app-card">
+                    <div class="app-card-label">Air Force · Promotion</div>
+                    <h3>WAPS PDG 2026 Study Prep</h3>
+                    <p>E5 and E6 WAPS prep with AFH 1 review, flashcards, quick drills, and SJT practice. The SJT depth was the specific gap users kept mentioning.</p>
+                    <span class="card-link">View app →</span>
+                </a>
+                <a href="/air-force-pt-calculator-2026" class="app-card">
+                    <div class="app-card-label">Air Force · Fitness</div>
+                    <h3>Air Force PT Calculator</h3>
+                    <p>PFA scoring based on DAFMAN 36-2905. Composite scoring, altitude adjustments, and what-if mode for test prep.</p>
+                    <span class="card-link">View app →</span>
+                </a>
+                <a href="/army-aft-calculator-2026" class="app-card">
+                    <div class="app-card-label">Army · Fitness</div>
+                    <h3>Army AFT Calculator</h3>
+                    <p>All five ACFT events scored to FM 7-22. Deadlift, push-ups, sprint-drag-carry, plank, and 2-mile run.</p>
+                    <span class="card-link">View app →</span>
+                </a>
+                <a href="/navy-prt-calculator-2026" class="app-card">
+                    <div class="app-card-label">Navy · Fitness</div>
+                    <h3>Navy PRT Calculator</h3>
+                    <p>PRT scoring by age and gender per OPNAVINST 6110.1L. Cycle 1 and Cycle 2 ready.</p>
+                    <span class="card-link">View app →</span>
+                </a>
+                <a href="/marine-pft-calculator-2026" class="app-card">
+                    <div class="app-card-label">Marines · Fitness</div>
+                    <h3>Marine PFT Calculator</h3>
+                    <p>PFT and CFT scoring per MCO 6100.13A. Pull-ups/push-ups, crunches, and 3-mile run.</p>
+                    <span class="card-link">View app →</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">In Development</div>
+            <h2>What's coming next.</h2>
+
+            <div class="coming-grid">
+                <div class="coming-card">
+                    <span class="coming-card-badge">Waitlist Open</span>
+                    <h3>Paygrade</h3>
+                    <p>Military retirement finance calculator. Covers High-3, BRS, Final Pay, and CSB/Redux with SBP and state tax estimates for all six branches. Built for service members who want to actually understand what retirement looks like in dollars.</p>
+                    <a href="/paygrade">Join the waitlist →</a>
+                </div>
+                <div class="coming-card">
+                    <span class="coming-card-badge">Waitlist Open</span>
+                    <h3>EPB Builder</h3>
+                    <p>A narrative-building tool for Air Force Airmen. Takes real work accomplishments and translates them into promotion-ready EPB language — the kind that actually reads like it belongs on a performance report.</p>
+                    <a href="/epb-builder">Join the waitlist →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="border-bottom: 0;">
+        <div class="container">
+            <div class="section-label">Press &amp; Media</div>
+            <h2>For media inquiries.</h2>
+
+            <div class="press-block">
+                <h3>Contact Ray directly</h3>
+                <p>For interview requests, app information, screenshots, or background on DahVio Studios and the military app suite, reach out by email. I respond personally.</p>
+                <a href="mailto:ray@dahvio.com?subject=Media%20Inquiry" class="press-email">ray@dahvio.com</a>
+                <p class="press-meta">DahVio Studios — Long Beach, California<br>Solo developer. Marine Corps veteran. Finance Tech, MOS 3432.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="/">DahVio Studios</a>
+                <a href="/waps-study-2026">WAPS Study</a>
+                <a href="mailto:ray@dahvio.com">Contact</a>
+            </p>
+            <p style="margin-top: 0.75rem;">&copy; 2026 DahVio Studios. Built in Long Beach, California.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

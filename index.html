@@ -317,7 +317,10 @@
 <body>
     <header>
         <div class="container">
-            <div class="logo">DahVio<span>.</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div class="logo">DahVio<span>.</span></div>
+                <a href="/about" style="color:var(--dim);font-size:0.9rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--dim)'">About</a>
+            </div>
         </div>
     </header>
 
@@ -339,17 +342,41 @@
             <h2 class="section-title">Projects</h2>
 
             <div class="category">
-                <div class="category-name">Military Study Apps</div>
+                <div class="category-name">Military Study &amp; Finance Apps</div>
                 <div class="projects-grid">
                     <a href="/waps-study-2026" class="project-card">
                         <img src="waps-og-image.png" alt="WAPS Study 2026" class="project-image-og">
                         <div class="project-content">
                             <div class="project-name">WAPS Study 2026</div>
-                            <p class="project-desc">Focused Air Force promotion prep with AFH 1 section review, quick drills, flashcards, summaries, and SJT practice for E5 and E6.</p>
+                            <p class="project-desc">Air Force promotion prep for E5 and E6. AFH 1 review, flashcards, quick drills, and deeper SJT practice than you'll find anywhere else.</p>
                             <div class="project-tech">
                                 <span class="tech-tag">Flutter</span>
                                 <span class="tech-tag">iOS</span>
                                 <span class="tech-tag">Education</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="/paygrade" class="project-card">
+                        <div class="project-content">
+                            <div class="project-name">Paygrade <span style="font-size:0.75rem;font-weight:600;color:var(--dim);margin-left:0.5rem;">Coming Soon</span></div>
+                            <p class="project-desc">Military retirement finance calculator. High-3, BRS, Final Pay, CSB/Redux — with SBP and state tax estimates for all six branches.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Flutter</span>
+                                <span class="tech-tag">iOS</span>
+                                <span class="tech-tag">Finance</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="/epb-builder" class="project-card">
+                        <div class="project-content">
+                            <div class="project-name">EPB Builder <span style="font-size:0.75rem;font-weight:600;color:var(--dim);margin-left:0.5rem;">Coming Soon</span></div>
+                            <p class="project-desc">Narrative-building tool for Air Force Airmen. Translate real work into promotion-ready EPB language without staring at a blank form.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">iOS</span>
+                                <span class="tech-tag">Air Force</span>
+                                <span class="tech-tag">Productivity</span>
                             </div>
                         </div>
                     </a>
@@ -579,11 +606,12 @@
         <div class="container">
             <h2 class="section-title">About</h2>
             <div class="about-content">
-                <p>I'm Ray, founder of DahVio Studios—named after my daughters Dahlia and Violet. I'm a solo developer, veteran, and father building products that solve real problems.</p>
-                
-                <p>My background spans GIS, environmental consulting (Phase I/II ESA), and full-stack development. I ship mobile apps, Chrome extensions, and web properties from Long Beach, California.</p>
-                
-                <p>I prefer honest feedback over motivational messaging, and I build for real users—not just for features. Every project here represents something I actually shipped.</p>
+                <p>I'm Ray, founder of DahVio Studios—named after my daughters Dahlia and Violet. Marine Corps veteran, single dad, and solo developer building products that solve real problems.</p>
+
+                <p>I started with a PT calculator, got feedback from real users, and iterated from there. The military apps came from that same instinct: promotion prep and fitness standards are high-stakes moments for enlisted members, and the tools available aren't always built by someone who's been there.</p>
+
+                <p>I build from Long Beach, California. Every project here shipped.</p>
+                <p style="margin-top:1rem;"><a href="/about" style="color:var(--accent);text-decoration:none;font-size:0.95rem;border-bottom:1px solid var(--accent);padding-bottom:2px;">Full bio and media kit →</a></p>
             </div>
         </div>
     </section>
@@ -593,16 +621,16 @@
         <h2 class="section-title">Now</h2>
         <div class="now-items">
             <div class="now-item">
-                <h3>📱 Building: Confidence Daily</h3>
-                <p>Finishing premium wellness app with sophisticated UI and 8-week structured content. Near completion.</p>
+                <h3>Live: WAPS Study 2026</h3>
+                <p>Air Force E5/E6 promotion prep app on the App Store. Updating for the 2027 cycle when new guidance publishes.</p>
             </div>
             <div class="now-item">
-                <h3>🔧 Live: Local Schema Helper</h3>
-                <p>Chrome extension for generating JSON-LD structured data. Featured on Chrome Web Store since October.</p>
+                <h3>Building: Paygrade</h3>
+                <p>Military retirement finance calculator covering High-3, BRS, Final Pay, and CSB/Redux for all six branches. Waitlist open.</p>
             </div>
             <div class="now-item">
-                <h3>📈 Growing: Home Hazards Report</h3>
-                <p>Scaling affiliate site with Facebook Groups SEO arbitrage. Recently hit largest commission milestone.</p>
+                <h3>Building: EPB Builder</h3>
+                <p>Narrative tool for Airmen writing EPBs. Turns plain-language accomplishments into promotion-ready bullets. Waitlist open.</p>
             </div>
         </div>
     </div>
@@ -620,6 +648,7 @@
     <footer>
         <div class="container">
             <p style="margin-bottom: 0.75rem;">
+                <a href="/about" style="color: var(--dim); font-size: 0.875rem; text-decoration: none; margin: 0 0.5rem; transition: color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--dim)'">About</a>
                 <a href="/llms.txt" style="color: var(--dim); font-size: 0.875rem; text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 1px; transition: color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--dim)'">llms.txt</a>
             </p>
             <p>&copy; 2026 DahVio Studios. Built in Long Beach, California.</p>

@@ -233,12 +233,11 @@
             box-shadow: 0 28px 60px rgba(0, 0, 0, 0.28);
         }
 
-        .hero-icon {
-            width: min(100%, 320px);
-            aspect-ratio: 1 / 1;
+        .hero-screenshot {
+            width: min(100%, 240px);
             display: block;
-            border-radius: 28%;
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+            border-radius: 28px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
         }
 
         .section {
@@ -374,7 +373,6 @@
         <div class="container">
             <div class="header-inner">
                 <a href="/" class="logo">DahVio<span>.</span></a>
-                <a href="/just-walk-support.html" class="header-link">Support</a>
             </div>
         </div>
     </header>
@@ -384,10 +382,10 @@
             <div class="hero-grid">
                 <div>
                     <h1>Not fitness.<br>Not productivity.<br>Just walking.</h1>
-                    <p class="hero-subtitle">Just Walk is a simple iPhone app for starting a walk, seeing your time, steps, and distance, and keeping a streak without a bunch of extra stuff wrapped around it.</p>
+                    <p class="hero-subtitle">Just Walk is a simple iPhone app for starting a walk, seeing your time, steps, and distance, and building a mosaic of every day you've gone out. Nothing else wrapped around it.</p>
 
                     <div class="hero-actions">
-                        <a href="/just-walk-support.html" class="btn-primary">Support</a>
+                        <a href="mailto:ray@dahvio.com?subject=Just%20Walk%20Notify%20Me" class="btn-primary">Notify me at launch</a>
                         <a href="/just-walk-privacy.html" class="btn-secondary">Privacy</a>
                     </div>
 
@@ -398,17 +396,17 @@
                         </div>
                         <div class="hero-point">
                             <strong>Live stats</strong>
-                            <span>Time, steps, and distance while you walk.</span>
+                            <span>Time, steps, and distance during your walk.</span>
                         </div>
                         <div class="hero-point">
-                            <strong>Simple streak</strong>
-                            <span>A clean record of the days you walked.</span>
+                            <strong>Walk mosaic</strong>
+                            <span>A dot for every day you walked. Shareable.</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="hero-visual" aria-hidden="true">
-                    <img src="just-walk-icon.png" alt="Just Walk app icon" class="hero-icon">
+                <div class="hero-visual">
+                    <img src="just-walk-screenshot.PNG" alt="Just Walk app screenshot" class="hero-screenshot">
                 </div>
             </div>
         </div>
@@ -416,84 +414,28 @@
 
     <section class="section">
         <div class="container">
-            <div class="section-label">The Point</div>
-            <h2 class="section-title">This is for people who want to walk without turning it into a whole thing.</h2>
-            <p class="section-intro">Open the app. Start the walk. Check the stats if you want. Save it when you're done. That's the idea.</p>
+            <div class="section-label">What's in it</div>
+            <h2 class="section-title">Four things. That's the whole app.</h2>
 
             <div class="grid">
                 <div class="card">
-                    <h3>Start fast</h3>
-                    <p>No setup flow, no feed, no account wall before you can begin.</p>
+                    <h3>Live walk stats</h3>
+                    <p>Time, steps, and distance visible while you walk. No toggling, no navigating menus mid-walk to find the number you want.</p>
                 </div>
 
                 <div class="card">
-                    <h3>See what matters</h3>
-                    <p>You get time, steps, and distance while you walk. Nothing more complicated than that.</p>
+                    <h3>Walk history mosaic</h3>
+                    <p>Every day you walked shows up as a dot on a grid. After a few weeks it becomes something worth looking at — and you can share it as an image.</p>
                 </div>
 
                 <div class="card">
-                    <h3>Keep the habit visible</h3>
-                    <p>The streak and the dots give the routine a little weight without making it annoying.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <div class="section-label">What It Does</div>
-            <h2 class="section-title">A few useful things. Not fifty.</h2>
-            <p class="section-intro">If someone wants more structure, there are plenty of apps for that. This one is deliberately smaller.</p>
-
-            <div class="grid">
-                <div class="card">
-                    <h3>Tracks the basics</h3>
-                    <p>Time, steps, and distance while you walk.</p>
+                    <h3>Streak</h3>
+                    <p>How many days in a row you've gone out. Simple counter, no gamification layer on top of it.</p>
                 </div>
 
                 <div class="card">
-                    <h3>Keeps your history</h3>
-                    <p>Your saved walks build your streak and your days-you-walked view.</p>
-                </div>
-
-                <div class="card">
-                    <h3>Stays on your phone</h3>
-                    <p>No account required. Your walk history and preferences stay local to your device.</p>
-                </div>
-
-                <div class="card">
-                    <h3>Lets you keep it light</h3>
-                    <p>It helps the habit feel real without turning walking into homework.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <div class="section-label">FAQ</div>
-            <h2 class="section-title">Common questions</h2>
-            <p class="section-intro">The app is simple, so the questions are too.</p>
-
-            <div class="grid">
-                <div class="card">
-                    <h3>Does it need an account?</h3>
-                    <p>No. There is no sign-in flow, no user profile, and no server-side walk history required to use the app.</p>
-                </div>
-
-                <div class="card">
-                    <h3>Does it work offline?</h3>
-                    <p>Yes. Walk history and preferences are stored on-device, so the core experience does not depend on a continuous connection.</p>
-                </div>
-
-                <div class="card">
-                    <h3>Why might steps or distance be unavailable?</h3>
-                    <p>That usually comes down to device support or permissions. Step count depends on motion data support, and distance depends on location services being enabled.</p>
-                </div>
-
-                <div class="card">
-                    <h3>Can I clear my history?</h3>
-                    <p>Yes. Because the data is local to your device, deleting the app removes the locally stored walk history.</p>
+                    <h3>All on-device</h3>
+                    <p>No account, no server. Walk history and preferences stay on your phone. Delete the app and they're gone with it.</p>
                 </div>
             </div>
         </div>
@@ -501,28 +443,29 @@
 
     <section class="section" style="border-bottom: 0;">
         <div class="container">
-            <div class="section-label">Links</div>
-            <h2 class="section-title">Need something else?</h2>
-            <p class="section-intro">The support and privacy pages are here if you need them.</p>
+            <div class="section-label">FAQ</div>
+            <h2 class="section-title">A few quick answers.</h2>
 
             <div class="grid">
-                <a href="/just-walk-support.html" class="link-card">
-                    <h3>Support</h3>
-                    <p>Questions, bugs, and general help.</p>
-                    <span>Open support page</span>
-                </a>
+                <div class="card">
+                    <h3>Why location access?</h3>
+                    <p>Used during a walk to estimate distance. The app stores the total distance for the session — not a route map or GPS trace.</p>
+                </div>
 
-                <a href="/just-walk-privacy.html" class="link-card">
-                    <h3>Privacy Policy</h3>
-                    <p>What the app stores, what it does not collect, and how permissions are used.</p>
-                    <span>Open privacy page</span>
-                </a>
+                <div class="card">
+                    <h3>Why might steps or distance not show?</h3>
+                    <p>Step count depends on device motion support. Distance depends on location permission being enabled while the walk is active.</p>
+                </div>
 
-                <a href="/" class="link-card">
-                    <h3>DahVio Studios</h3>
-                    <p>Back to the main studio homepage.</p>
-                    <span>Back to homepage</span>
-                </a>
+                <div class="card">
+                    <h3>Does it work offline?</h3>
+                    <p>Yes. Everything is stored on-device. No internet required to walk, save, or review your history.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Questions or bugs?</h3>
+                    <p>Email <a href="mailto:ray@dahvio.com?subject=Just%20Walk" style="color: var(--accent-light); text-decoration: none;">ray@dahvio.com</a>. What happened, what device, what you expected — that's enough to go on.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -531,7 +474,6 @@
         <div class="container">
             <p>
                 <a href="/">DahVio Studios</a>
-                <a href="/just-walk">Just Walk</a>
                 <a href="/just-walk-privacy.html">Privacy Policy</a>
                 <a href="/just-walk-support.html">Support</a>
             </p>
