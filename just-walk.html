@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just Walk - Simple Walking Tracker for iPhone | DahVio Studios</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="Just Walk is a simple walking tracker for iPhone. Start a walk, see steps, time, and distance, build a streak, and keep your walk history on-device.">
+    <meta name="keywords" content="Just Walk app, walking tracker iPhone, simple step tracker, walking streak app, minimalist walking app, offline walking app">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dahvio.com/just-walk">
+
+    <meta property="og:title" content="Just Walk - Simple Walking Tracker for iPhone">
+    <meta property="og:description" content="A focused walking app with live stats, streaks, and a simple days-you-walked view.">
+    <meta property="og:image" content="just-walk-og-image.png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dahvio.com/just-walk">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Just Walk">
+    <meta name="twitter:description" content="Simple walking tracker for iPhone with live stats, streaks, and on-device history.">
+    <meta name="twitter:image" content="just-walk-og-image.png">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW9L8BTBBW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RW9L8BTBBW');
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "Just Walk",
+          "applicationCategory": "HealthApplication",
+          "operatingSystem": "iOS",
+          "url": "https://dahvio.com/just-walk",
+          "description": "Just Walk is a simple walking tracker for iPhone with live step, time, and distance tracking, streaks, and a shareable days-you-walked view.",
+          "publisher": {
+            "@type": "Organization",
+            "name": "DahVio Studios",
+            "url": "https://dahvio.com/"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is Just Walk?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Just Walk is a minimalist walking tracker for iPhone. It lets you start a walk, see time, steps, and distance, log the session, and build a simple streak without accounts or social clutter."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does Just Walk work offline?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Walk history and preferences are stored on-device. The app does not require an account or a backend to function."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why does Just Walk ask for location access?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Location access is used during a walk session to estimate distance. Raw route data is processed on-device and is not uploaded to DahVio Studios."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does Just Walk collect personal data?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. Just Walk does not require accounts, does not run analytics, and does not transmit your walk history to DahVio Studios."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #161817;
+            --bg-card: #202321;
+            --bg-card-alt: #272a31;
+            --text: #f6f2ea;
+            --accent: #6a7de0;
+            --accent-deep: #5e70cc;
+            --accent-light: #8fa0f0;
+            --dim: #9a9a94;
+            --border: #343843;
+            --border-soft: rgba(143, 160, 240, 0.18);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 2rem 0;
+            border-bottom: 1px solid rgba(52, 56, 67, 0.8);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .header-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text);
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+            padding: 0.7rem 1.1rem;
+            border-radius: 999px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        .header-cta:hover {
+            color: var(--accent-light);
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .hero {
+            padding: 7rem 0 5rem;
+            border-bottom: 1px solid rgba(52, 56, 67, 0.8);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 18% 72%, rgba(106, 125, 224, 0.18) 0, transparent 18%),
+                radial-gradient(circle at 32% 82%, rgba(106, 125, 224, 0.12) 0, transparent 12%),
+                radial-gradient(circle at 79% 26%, rgba(143, 160, 240, 0.12) 0, transparent 22%);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-eyebrow {
+            display: inline-block;
+            margin-bottom: 1.25rem;
+            padding: 0.35rem 0.85rem;
+            border-radius: 999px;
+            border: 1px solid rgba(143, 160, 240, 0.3);
+            background: rgba(106, 125, 224, 0.08);
+            color: var(--accent-light);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 4.1rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 0.98;
+            margin-bottom: 1.2rem;
+            max-width: 720px;
+        }
+
+        h1 .highlight {
+            color: var(--accent-light);
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--dim);
+            max-width: 670px;
+            line-height: 1.75;
+            margin-bottom: 2rem;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            padding: 0.95rem 1.6rem;
+            border-radius: 0.75rem;
+            font-size: 0.98rem;
+            font-weight: 800;
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--text);
+            box-shadow: 0 14px 40px rgba(106, 125, 224, 0.18);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-deep);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            color: var(--text);
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .btn-secondary:hover {
+            color: var(--accent-light);
+            border-color: var(--accent);
+        }
+
+        .hero-note {
+            color: var(--dim);
+            font-size: 0.92rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2.5rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-value {
+            font-size: 1.9rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            color: var(--accent-light);
+        }
+
+        .stat-label {
+            font-size: 0.88rem;
+            color: var(--dim);
+        }
+
+        .hero-visual {
+            min-height: 470px;
+            border-radius: 2rem;
+            border: 1px solid var(--border-soft);
+            background:
+                radial-gradient(circle at 30% 82%, rgba(106, 125, 224, 0.18) 0, transparent 18%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0) 45%),
+                linear-gradient(160deg, #131514 0%, #1a1d1d 40%, #20252f 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        }
+
+        .hero-visual::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 19% 65%, rgba(106, 125, 224, 0.18) 0, transparent 6%),
+                radial-gradient(circle at 24% 75%, rgba(106, 125, 224, 0.28) 0, transparent 7%),
+                radial-gradient(circle at 35% 83%, rgba(106, 125, 224, 0.45) 0, transparent 8%),
+                radial-gradient(circle at 48% 86%, rgba(106, 125, 224, 0.7) 0, transparent 8.5%),
+                radial-gradient(circle at 63% 80%, rgba(106, 125, 224, 0.95) 0, transparent 9%),
+                radial-gradient(circle at 80% 71%, rgba(143, 160, 240, 0.95) 0, transparent 8.5%);
+            opacity: 0.95;
+        }
+
+        .walker {
+            position: absolute;
+            top: 17%;
+            left: 50%;
+            width: 180px;
+            height: 240px;
+            transform: translateX(-50%);
+        }
+
+        .walker-head {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(180deg, #fffdf9 0%, #f0ece4 100%);
+            position: absolute;
+            top: 0;
+            left: 68px;
+        }
+
+        .walker-torso {
+            width: 72px;
+            height: 120px;
+            position: absolute;
+            top: 48px;
+            left: 58px;
+            background: linear-gradient(180deg, #fffdf9 0%, #ebe7de 100%);
+            border-radius: 34px 34px 20px 20px;
+            transform: rotate(-35deg);
+        }
+
+        .limb {
+            position: absolute;
+            background: linear-gradient(180deg, #fffdf9 0%, #ebe7de 100%);
+            border-radius: 999px;
+        }
+
+        .arm-left {
+            width: 28px;
+            height: 95px;
+            top: 92px;
+            left: 44px;
+            transform: rotate(12deg);
+        }
+
+        .arm-right {
+            width: 28px;
+            height: 102px;
+            top: 90px;
+            left: 125px;
+            transform: rotate(110deg);
+        }
+
+        .leg-left {
+            width: 32px;
+            height: 128px;
+            top: 160px;
+            left: 60px;
+            transform: rotate(35deg);
+        }
+
+        .leg-right {
+            width: 34px;
+            height: 138px;
+            top: 146px;
+            left: 116px;
+            transform: rotate(-18deg);
+        }
+
+        .visual-panel {
+            position: absolute;
+            left: 1.4rem;
+            right: 1.4rem;
+            bottom: 1.4rem;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.75rem;
+        }
+
+        .visual-stat {
+            background: rgba(15, 17, 21, 0.68);
+            border: 1px solid rgba(143, 160, 240, 0.14);
+            border-radius: 1rem;
+            padding: 1rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .visual-stat-label {
+            display: block;
+            color: var(--dim);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.11em;
+            margin-bottom: 0.4rem;
+        }
+
+        .visual-stat-value {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .section {
+            padding: 6rem 0;
+            border-bottom: 1px solid rgba(52, 56, 67, 0.8);
+        }
+
+        .section-label {
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent-light);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-size: 2.35rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+        }
+
+        .section-intro {
+            max-width: 720px;
+            color: var(--dim);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 2.8rem;
+        }
+
+        .features-grid,
+        .detail-grid,
+        .faq-grid,
+        .links-grid {
+            display: grid;
+            gap: 1.3rem;
+        }
+
+        .features-grid {
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        }
+
+        .detail-grid,
+        .faq-grid,
+        .links-grid {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .feature-card,
+        .detail-card,
+        .faq-card,
+        .link-card {
+            background: linear-gradient(180deg, rgba(39, 42, 49, 0.9) 0%, rgba(32, 35, 33, 0.95) 100%);
+            border: 1px solid rgba(143, 160, 240, 0.12);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .feature-card h3,
+        .detail-card h3,
+        .faq-card h3,
+        .link-card h3 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-bottom: 0.65rem;
+            letter-spacing: -0.02em;
+        }
+
+        .feature-card p,
+        .detail-card p,
+        .faq-card p,
+        .link-card p {
+            color: var(--dim);
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
+
+        .feature-kicker {
+            display: inline-block;
+            margin-bottom: 0.75rem;
+            color: var(--accent-light);
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.11em;
+            text-transform: uppercase;
+        }
+
+        .workflow {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .workflow-step {
+            padding: 1.35rem;
+            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(143, 160, 240, 0.12);
+        }
+
+        .workflow-number {
+            display: inline-flex;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.8rem;
+            background: rgba(106, 125, 224, 0.18);
+            color: var(--accent-light);
+            font-weight: 900;
+        }
+
+        .workflow-step h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 0.45rem;
+        }
+
+        .workflow-step p {
+            color: var(--dim);
+            font-size: 0.94rem;
+            line-height: 1.65;
+        }
+
+        .link-card {
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .link-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(143, 160, 240, 0.35);
+        }
+
+        .link-card span {
+            display: inline-block;
+            margin-top: 0.85rem;
+            color: var(--accent-light);
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--dim);
+            text-decoration: none;
+            margin: 0 0.75rem;
+        }
+
+        footer a:hover {
+            color: var(--accent-light);
+        }
+
+        @media (max-width: 960px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                min-height: 420px;
+                max-width: 560px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero {
+                padding: 4.5rem 0 3.5rem;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+
+            .container {
+                padding: 0 1.25rem;
+            }
+
+            .visual-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <a href="/" class="logo">DahVio<span>.</span></a>
+                <a href="/just-walk-support.html" class="header-cta">Support</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <span class="hero-eyebrow">Walking App</span>
+                    <h1>Leave the noise. <span class="highlight">Just walk.</span></h1>
+                    <p class="hero-subtitle">Just Walk is a focused iPhone app for starting a walk fast, seeing your time, steps, and distance in real time, and keeping a simple record of the days you actually walked. No account. No feed. No clutter.</p>
+
+                    <div class="hero-cta-group">
+                        <a href="/just-walk-support.html" class="btn-primary">Support</a>
+                        <a href="/just-walk-privacy.html" class="btn-secondary">Privacy Policy</a>
+                    </div>
+
+                    <p class="hero-note">OG image is wired to <strong style="color: var(--text);">just-walk-og-image.png</strong> so you can drop in final artwork when it is ready.</p>
+
+                    <div class="hero-stats">
+                        <div>
+                            <div class="stat-value">On-device</div>
+                            <div class="stat-label">Walk history and preferences stay local</div>
+                        </div>
+                        <div>
+                            <div class="stat-value">Live stats</div>
+                            <div class="stat-label">Time, steps, and distance while you walk</div>
+                        </div>
+                        <div>
+                            <div class="stat-value">Simple streaks</div>
+                            <div class="stat-label">A clean view of the days you showed up</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual" aria-hidden="true">
+                    <div class="walker">
+                        <div class="walker-head"></div>
+                        <div class="walker-torso"></div>
+                        <div class="limb arm-left"></div>
+                        <div class="limb arm-right"></div>
+                        <div class="limb leg-left"></div>
+                        <div class="limb leg-right"></div>
+                    </div>
+
+                    <div class="visual-panel">
+                        <div class="visual-stat">
+                            <span class="visual-stat-label">Time</span>
+                            <div class="visual-stat-value">34:12</div>
+                        </div>
+                        <div class="visual-stat">
+                            <span class="visual-stat-label">Steps</span>
+                            <div class="visual-stat-value">4,382</div>
+                        </div>
+                        <div class="visual-stat">
+                            <span class="visual-stat-label">Distance</span>
+                            <div class="visual-stat-value">2.21 mi</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Why It Works</div>
+            <h2 class="section-title">Built for the person who wants less friction, not more motivation theater.</h2>
+            <p class="section-intro">The app design here is intentionally restrained. You open it, start a walk, and let the numbers stay in the background until you want them. Afterward, your session is logged and your streak moves forward if you showed up that day.</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-kicker">Fast start</span>
+                    <h3>Start walking without setup</h3>
+                    <p>One primary action gets you moving. No account creation, no menus to fight through, and no social layer before you can begin.</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="feature-kicker">Live feedback</span>
+                    <h3>See the stats that matter</h3>
+                    <p>During a walk, Just Walk tracks elapsed time, step count, and estimated distance so you can check progress when you want it and ignore it when you do not.</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="feature-kicker">Days you walked</span>
+                    <h3>Keep a clean visual history</h3>
+                    <p>The app turns completed walks into a minimal days-you-walked mosaic and a streak count that rewards consistency without overcomplicating the habit.</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="feature-kicker">Privacy first</span>
+                    <h3>Your data stays on your phone</h3>
+                    <p>Walk sessions and preferences are stored locally on-device. DahVio Studios does not run analytics on your walk history and does not require a backend account.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">How It Feels</div>
+            <h2 class="section-title">A simple rhythm from first step to saved walk.</h2>
+            <p class="section-intro">The product flow is intentionally small: start, walk, end, log. That makes it useful on the days when you do not want to think about a whole fitness system but still want the walk to count.</p>
+
+            <div class="workflow">
+                <div class="workflow-step">
+                    <div class="workflow-number">1</div>
+                    <h3>Start Walk</h3>
+                    <p>Tap the main button to begin a session. The app starts tracking time immediately and begins listening for motion and distance data locally on-device.</p>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="workflow-number">2</div>
+                    <h3>Walk</h3>
+                    <p>Keep the stats tucked away or tap to see them. Time, steps, and distance update while you move, with support for metric or imperial units.</p>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="workflow-number">3</div>
+                    <h3>Hold to End</h3>
+                    <p>Ending the session is intentional so you do not lose a walk to an accidental tap. When the walk ends, the session is logged to your device.</p>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="workflow-number">4</div>
+                    <h3>See the pattern</h3>
+                    <p>Your history turns into a streak and a simple visual map of the days you walked. You can also share that view as an image from the app.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">What It Tracks</div>
+            <h2 class="section-title">Just enough to make the habit visible.</h2>
+            <p class="section-intro">Under the hood, the app keeps session summaries and a few preferences so it can restore your history and remember how you like the experience set up.</p>
+
+            <div class="detail-grid">
+                <div class="detail-card">
+                    <h3>Walk sessions</h3>
+                    <p>Each saved session includes start and end time, total steps, and total distance so your walking history can be restored the next time you open the app.</p>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Preferences</h3>
+                    <p>Just Walk remembers settings like theme mode, unit system, and small interface state so the app opens the way you left it.</p>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Distance permissions</h3>
+                    <p>Distance estimation uses location access during an active walk. Raw route points are processed on-device and are not stored as a shareable map or uploaded to DahVio Studios.</p>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Share and review hooks</h3>
+                    <p>The app can generate a share image for your days-you-walked mosaic and can ask iOS for a review prompt. Those flows are initiated from your device and do not create an account with us.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">FAQ</div>
+            <h2 class="section-title">Common questions</h2>
+            <p class="section-intro">These are the practical questions users usually have before they install or while they are deciding whether the app fits their routine.</p>
+
+            <div class="faq-grid">
+                <div class="faq-card">
+                    <h3>Does Just Walk need an account?</h3>
+                    <p>No. There is no sign-in flow, no user profile, and no server-side walk history required to use the app.</p>
+                </div>
+
+                <div class="faq-card">
+                    <h3>Does it work offline?</h3>
+                    <p>Yes. Walk history and preferences are stored on-device, so the core experience does not depend on a continuous connection.</p>
+                </div>
+
+                <div class="faq-card">
+                    <h3>Why would steps or distance show as unavailable?</h3>
+                    <p>That usually comes down to device support or permissions. Step count depends on motion data support, and distance depends on location services being enabled.</p>
+                </div>
+
+                <div class="faq-card">
+                    <h3>Can I clear my history later?</h3>
+                    <p>Yes. Because the data is local to your device, deleting the app removes locally stored walk history. If you add an in-app reset flow later, that page copy will still remain accurate.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="border-bottom: 0;">
+        <div class="container">
+            <div class="section-label">Links</div>
+            <h2 class="section-title">Everything a user or reviewer should need</h2>
+            <p class="section-intro">This keeps the important support and compliance pages one click away from the product page and gives you a clean destination from the homepage card.</p>
+
+            <div class="links-grid">
+                <a href="/just-walk-privacy.html" class="link-card">
+                    <h3>Privacy Policy</h3>
+                    <p>Explains exactly what the app stores locally, what permissions it uses, and what data DahVio Studios does not collect.</p>
+                    <span>Open privacy page</span>
+                </a>
+
+                <a href="/just-walk-support.html" class="link-card">
+                    <h3>Support</h3>
+                    <p>Gives users a place to get help, report bugs, ask questions about tracking behavior, or send product feedback.</p>
+                    <span>Open support page</span>
+                </a>
+
+                <a href="/" class="link-card">
+                    <h3>DahVio Studios</h3>
+                    <p>Back to the main studio homepage where Just Walk now has its own project card alongside your other shipped products.</p>
+                    <span>Back to homepage</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="/">DahVio Studios</a>
+                <a href="/just-walk">Just Walk</a>
+                <a href="/just-walk-privacy.html">Privacy Policy</a>
+                <a href="/just-walk-support.html">Support</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
