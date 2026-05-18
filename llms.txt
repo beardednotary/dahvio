@@ -13,6 +13,7 @@ DahVio Studios is an independent software studio founded by Ray Ro. The studio p
 
 ## Other Apps
 
+- [Burnbook](https://dahvio.com/burnbook): Private iPhone journal for messy thoughts, voice notes, Sparks, and letting go. Write what you can't text. Keep what helps. Burn what doesn't.
 - [Confidence Daily](https://confidencedaily.app): Premium wellness app with an 8-week structured confidence-building program. Daily practices and progress tracking.
 - [TotTrackr](https://tottrackr.com): Baby tracking app designed for one-handed operation.
 - [MySocialBattery](https://mysocialbattery.app): Social energy tracking app for introverts.

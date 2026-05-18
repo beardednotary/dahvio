@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burnbook - Support | DahVio Studios</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="Support page for Burnbook by DahVio Studios. Get help with burning entries, locked thoughts, purchases, and privacy questions.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dahvio.com/burnbook-support.html">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #050505;
+            --text: #f5f5f3;
+            --accent: #f05a22;
+            --accent-soft: #ffb347;
+            --dim: #b8b8b2;
+            --border: #242424;
+            --surface: #0d0d0d;
+            --surface-alt: #141414;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span { color: var(--accent); }
+
+        .hero {
+            padding: 6rem 0 4rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .breadcrumb {
+            font-size: 0.875rem;
+            color: var(--dim);
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-soft);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            max-width: 760px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--dim);
+            max-width: 680px;
+        }
+
+        .section {
+            padding: 5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 760px;
+        }
+
+        .faq-item {
+            background: var(--surface);
+            border-radius: 0.8rem;
+            border-left: 3px solid var(--accent);
+            padding: 1.5rem;
+        }
+
+        .faq-item h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-item p {
+            color: var(--dim);
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        .faq-item a {
+            color: var(--accent-soft);
+            text-decoration: none;
+        }
+
+        .faq-item a:hover { text-decoration: underline; }
+
+        .contact-card {
+            background: var(--surface);
+            border-radius: 0.8rem;
+            padding: 2.5rem;
+            max-width: 560px;
+            border: 1px solid rgba(240, 90, 34, 0.14);
+        }
+
+        .contact-card p {
+            color: var(--dim);
+            margin-bottom: 1.5rem;
+            font-size: 0.9375rem;
+            line-height: 1.65;
+        }
+
+        .contact-link {
+            font-size: 1.125rem;
+            color: var(--text);
+            text-decoration: none;
+            padding-bottom: 0.25rem;
+            border-bottom: 2px solid var(--accent);
+            transition: color 0.2s ease;
+        }
+
+        .contact-link:hover { color: var(--accent-soft); }
+
+        .app-strip {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            background: var(--surface);
+            border-radius: 0.8rem;
+            padding: 1.5rem 2rem;
+            margin-bottom: 3rem;
+            max-width: 680px;
+            border: 1px solid rgba(240, 90, 34, 0.14);
+        }
+
+        .app-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 18px;
+            background:
+                radial-gradient(circle at 30% 28%, rgba(240, 90, 34, 0.35) 0, transparent 24%),
+                linear-gradient(160deg, #0a0a0a 0%, #121212 42%, #1a1a1a 100%);
+            border: 1px solid rgba(240, 90, 34, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: #f5f5f3;
+            flex-shrink: 0;
+            text-transform: uppercase;
+        }
+
+        .app-info h2 {
+            font-size: 1.125rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
+
+        .app-info p {
+            color: var(--dim);
+            font-size: 0.9rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(240, 90, 34, 0.12);
+            color: var(--accent-soft);
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 0.45rem;
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--dim);
+            text-decoration: none;
+            margin: 0 0.75rem;
+        }
+
+        footer a:hover { color: var(--accent-soft); }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.25rem; }
+            .hero { padding: 4rem 0 3rem; }
+            .section { padding: 3rem 0; }
+            .app-strip {
+                padding: 1.25rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="/" class="logo">DahVio<span>.</span></a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/">DahVio Studios</a> &rsaquo; <a href="/burnbook">Burnbook</a> &rsaquo; Support
+            </div>
+            <h1>Burnbook Support</h1>
+            <p class="hero-subtitle">Questions, bug reports, purchase issues, or confusion about how Burnbook handles keeping, locking, or burning an entry. This page gives users a direct place to get help.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+
+            <div class="app-strip">
+                <div class="app-icon">BB</div>
+                <div class="app-info">
+                    <h2>Burnbook</h2>
+                    <p>Private iPhone journal for messy thoughts, voice notes, Sparks, and letting go.</p>
+                    <span class="tag">iPhone · DahVio Studios</span>
+                </div>
+            </div>
+
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-list">
+
+                <div class="faq-item">
+                    <h3>Is my journal data backed up anywhere?</h3>
+                    <p>No Burnbook cloud copy is stored by DahVio Studios. Entries live on your device. If you delete the app or lose the device without a local device backup, your entries may be unrecoverable. That tradeoff is part of the app's privacy model.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What happens when I burn an entry?</h3>
+                    <p>When you burn an entry, it is permanently deleted from your device. There is no archive and no recovery flow. Burnbook is designed so the burn action feels deliberate, not casual.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>I lost my entries after reinstalling the app. Can I get them back?</h3>
+                    <p>Usually, no. Because entries are stored locally and not synced to a DahVio server, reinstalling the app can remove the local data unless you have a relevant device backup made before the loss.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I restore Burnbook Premium?</h3>
+                    <p>Open the app, go to Settings, and use the restore-purchase flow from the Premium screen. Burnbook will ask Apple to re-check purchases tied to the Apple ID that originally bought Premium.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What does Burnbook Premium include?</h3>
+                    <p>Premium unlocks unlimited burns, premium Sparks, and timed burns so entries can auto-burn after 24 hours, 7 days, or 30 days. Free accounts keep core writing and a limited number of monthly burns.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Face ID isn't working. What should I check?</h3>
+                    <p>Make sure Face ID or Touch ID is enabled on your iPhone first, then confirm biometric protection is enabled inside Burnbook Settings. If both are on and it still fails, email support with your iOS version and device model.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I delete all my data?</h3>
+                    <p>Use the in-app reset option from Settings if you want a full wipe, or delete the app from your iPhone. Because DahVio Studios does not keep a server-side copy, there is nothing additional for us to remove remotely.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Where should I report a bug or weird behavior?</h3>
+                    <p>Email <a href="mailto:ray@dahvio.com?subject=Burnbook%20Support">ray@dahvio.com</a> with what happened, what you expected, and your device/iOS version. If it's about burning, locking, or audio, include those details too.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="border-bottom: 0;">
+        <div class="container">
+            <h2 class="section-title">Contact</h2>
+
+            <div class="contact-card">
+                <p>Need help, want to report a bug, or have a suggestion for Burnbook? Email is the best way to reach DahVio Studios directly.</p>
+                <a href="mailto:ray@dahvio.com?subject=Burnbook%20Support" class="contact-link">ray@dahvio.com</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="/">DahVio Studios</a>
+                <a href="/burnbook">Burnbook</a>
+                <a href="/burnbook-privacy.html">Privacy Policy</a>
+                <a href="/burnbook-support.html">Support</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>

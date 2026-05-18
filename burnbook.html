@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burnbook | DahVio Studios</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="Burnbook is a private iPhone journal for messy thoughts, voice notes, sparks, and letting go. Write what you can't text. Keep what helps. Burn what doesn't.">
+    <meta name="keywords" content="Burnbook app, private journal iPhone, burn diary app, voice note journal, offline journaling app, private thoughts app">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dahvio.com/burnbook">
+
+    <meta property="og:title" content="Burnbook">
+    <meta property="og:description" content="A private iPhone journal for messy thoughts, voice notes, sparks, and letting go.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dahvio.com/burnbook">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Burnbook">
+    <meta name="twitter:description" content="Write what you can't text. Keep what helps. Burn what doesn't.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW9L8BTBBW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RW9L8BTBBW');
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "Burnbook",
+          "applicationCategory": "LifestyleApplication",
+          "operatingSystem": "iOS",
+          "url": "https://dahvio.com/burnbook",
+          "description": "Burnbook is a private journal app for messy thoughts, voice notes, sparks, and letting go. Write what you can't text. Keep what helps. Burn what doesn't.",
+          "publisher": {
+            "@type": "Organization",
+            "name": "DahVio Studios",
+            "url": "https://dahvio.com/"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #050505;
+            --surface: #0d0d0d;
+            --surface-alt: #141414;
+            --text: #f5f5f3;
+            --accent: #f05a22;
+            --accent-deep: #c94819;
+            --accent-soft: #ffb347;
+            --dim: #b8b8b2;
+            --faint: #7a7a74;
+            --border: #242424;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 2rem 0;
+            border-bottom: 1px solid rgba(36, 36, 36, 0.9);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .header-link {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-bottom: 1px solid transparent;
+        }
+
+        .header-link:hover {
+            color: var(--accent-soft);
+            border-color: var(--accent-soft);
+        }
+
+        .hero {
+            padding: 6rem 0 5rem;
+            border-bottom: 1px solid rgba(36, 36, 36, 0.9);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent-soft);
+        }
+
+        h1 {
+            font-family: "Georgia", "Times New Roman", serif;
+            font-style: italic;
+            font-size: 4.2rem;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 0.96;
+            margin-bottom: 1.25rem;
+            max-width: 700px;
+        }
+
+        .hero-subtitle {
+            max-width: 580px;
+            font-size: 1.12rem;
+            color: var(--dim);
+            line-height: 1.75;
+            margin-bottom: 1.75rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            padding: 0.95rem 1.6rem;
+            border-radius: 0.8rem;
+            font-size: 0.98rem;
+            font-weight: 800;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--text);
+            box-shadow: 0 14px 40px rgba(240, 90, 34, 0.18);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-deep);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            color: var(--text);
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .btn-secondary:hover {
+            color: var(--accent-soft);
+            border-color: var(--accent-soft);
+        }
+
+        .hero-points {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+            max-width: 760px;
+        }
+
+        .hero-point {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(240, 90, 34, 0.12);
+            border-radius: 1rem;
+            padding: 1rem 1.1rem;
+        }
+
+        .hero-point strong {
+            display: block;
+            color: var(--accent-soft);
+            font-size: 1rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .hero-point span {
+            color: var(--dim);
+            font-size: 0.88rem;
+            line-height: 1.45;
+        }
+
+        .hero-visual {
+            background:
+                radial-gradient(circle at 20% 18%, rgba(240, 90, 34, 0.22) 0, transparent 26%),
+                radial-gradient(circle at 78% 82%, rgba(255, 179, 71, 0.12) 0, transparent 24%),
+                linear-gradient(160deg, #090909 0%, #111111 42%, #1a1a1a 100%);
+            border: 1px solid rgba(240, 90, 34, 0.18);
+            border-radius: 2rem;
+            min-height: 420px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            padding: 2rem;
+            box-shadow: 0 28px 60px rgba(0, 0, 0, 0.34);
+        }
+
+        .hero-visual-copy {
+            max-width: 280px;
+        }
+
+        .hero-visual-copy .label {
+            display: inline-block;
+            margin-bottom: 0.8rem;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent-soft);
+        }
+
+        .hero-visual-copy h2 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1.02;
+            margin-bottom: 0.85rem;
+        }
+
+        .hero-visual-copy p {
+            color: var(--dim);
+            font-size: 0.98rem;
+            line-height: 1.65;
+        }
+
+        .section {
+            padding: 5rem 0;
+            border-bottom: 1px solid rgba(36, 36, 36, 0.9);
+        }
+
+        .section-label {
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent-soft);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-size: 2.15rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.9rem;
+            max-width: 760px;
+        }
+
+        .section-intro {
+            max-width: 700px;
+            color: var(--dim);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 2.3rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .card,
+        .link-card {
+            background: linear-gradient(180deg, rgba(20, 20, 20, 0.95) 0%, rgba(13, 13, 13, 0.98) 100%);
+            border: 1px solid rgba(240, 90, 34, 0.12);
+            border-radius: 1rem;
+            padding: 1.35rem;
+        }
+
+        .card h3,
+        .link-card h3 {
+            font-size: 1.02rem;
+            font-weight: 800;
+            margin-bottom: 0.55rem;
+            letter-spacing: -0.02em;
+        }
+
+        .card p,
+        .link-card p {
+            color: var(--dim);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .link-card {
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .link-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(240, 90, 34, 0.35);
+        }
+
+        .link-card span {
+            display: inline-block;
+            margin-top: 0.85rem;
+            color: var(--accent-soft);
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+
+        .faq {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .faq-item {
+            background: linear-gradient(180deg, rgba(20, 20, 20, 0.95) 0%, rgba(13, 13, 13, 0.98) 100%);
+            border: 1px solid rgba(240, 90, 34, 0.12);
+            border-radius: 1rem;
+            padding: 1.35rem;
+        }
+
+        .faq-item h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 0.55rem;
+        }
+
+        .faq-item p {
+            color: var(--dim);
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
+
+        .footer-links-inline {
+            display: flex;
+            gap: 0.9rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .footer-links-inline a {
+            color: var(--accent-soft);
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 700;
+        }
+
+        .footer-links-inline a:hover {
+            color: var(--text);
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--faint);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--faint);
+            text-decoration: none;
+            margin: 0 0.75rem;
+        }
+
+        footer a:hover {
+            color: var(--accent-soft);
+        }
+
+        @media (max-width: 960px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                max-width: 420px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.25rem;
+            }
+
+            .hero {
+                padding: 4.5rem 0 3.5rem;
+            }
+
+            h1 {
+                font-size: 3rem;
+            }
+
+            .hero-points {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <a href="/" class="logo">DahVio<span>.</span></a>
+                <a href="/" class="header-link">Back to studio</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <div class="eyebrow">Private iPhone Journal</div>
+                    <h1>Write what you can't text.<br>Burn what doesn't need to stay.</h1>
+                    <p class="hero-subtitle">Burnbook is a private journal for messy thoughts, voice notes, sparks, and letting go. No audience. No cleanup. Just somewhere honest to put the ugly version.</p>
+
+                    <div class="hero-actions">
+                        <a href="https://apps.apple.com/app/id6760608451" class="btn-primary">Download on App Store</a>
+                        <a href="/burnbook-privacy.html" class="btn-secondary">Privacy</a>
+                    </div>
+
+                    <div class="hero-points">
+                        <div class="hero-point">
+                            <strong>Private by default</strong>
+                            <span>Entries stay on your device. No account. No cloud.</span>
+                        </div>
+                        <div class="hero-point">
+                            <strong>Keep or burn</strong>
+                            <span>Save what helps. Permanently burn what doesn't.</span>
+                        </div>
+                        <div class="hero-point">
+                            <strong>Write or speak</strong>
+                            <span>Type it out or record a voice note when typing is too slow.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="hero-visual-copy">
+                        <div class="label">Burnbook</div>
+                        <h2>Say it ugly.<br>Then let it go.</h2>
+                        <p>Sparks when you're stuck. Locked Kept entries when something still matters. A burn ritual when it doesn't.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">What it does</div>
+            <h2 class="section-title">Not a polished wellness journal. A private place for the version you don't send.</h2>
+            <p class="section-intro">Burnbook reframes journaling as release. Some thoughts need to be kept. Some need to be locked. Some need to be burned and gone. The app is built for all three.</p>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Write the ugly version</h3>
+                    <p>Start with a blank page or use a Spark when the first sentence won't come out on its own.</p>
+                </div>
+                <div class="card">
+                    <h3>Talk it out, too</h3>
+                    <p>Record a voice note when the thought is moving faster than your thumbs.</p>
+                </div>
+                <div class="card">
+                    <h3>Kept shelf</h3>
+                    <p>Save the entries that still matter, then lock them or set a timed burn when you're ready.</p>
+                </div>
+                <div class="card">
+                    <h3>Hold to Burn</h3>
+                    <p>Burning is deliberate. You hold, commit, and watch it go. No archive. No recovery.</p>
+                </div>
+                <div class="card">
+                    <h3>Biometric lock</h3>
+                    <p>Protect the app and locked entries with Face ID or Touch ID when you want the extra wall.</p>
+                </div>
+                <div class="card">
+                    <h3>Free and premium</h3>
+                    <p>Free includes core writing and a monthly burn limit. Premium unlocks unlimited burns, timed burns, and premium Sparks.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Why it exists</div>
+            <h2 class="section-title">Most journaling apps are built to help you remember. Burnbook is built to help you release.</h2>
+            <p class="section-intro">That changes the tone of everything. The copy is direct. The design stays out of your way. The product assumes some thoughts are useful to save and some are only useful once they're out of your head.</p>
+
+            <div class="faq">
+                <div class="faq-item">
+                    <h3>Private on this device.</h3>
+                    <p>Burnbook is local-first. The core promise is simple: your entries are for you, not for a dashboard, feed, or cloud profile.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Built for honest use, not perfect use.</h3>
+                    <p>You don't need to sound wise, calm, or productive. Burnbook works best when you stop performing and just put the thought down.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>The ritual is part of the product.</h3>
+                    <p>Keeping and burning are intentionally different actions. The friction is there on purpose so deletion feels chosen, not accidental.</p>
+                </div>
+            </div>
+
+            <div class="footer-links-inline">
+                <a href="/burnbook-privacy.html">Read the privacy policy</a>
+                <a href="/burnbook-support.html">Get support</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="border-bottom: 0;">
+        <div class="container">
+            <div class="section-label">Questions</div>
+            <h2 class="section-title">Need the legal or support pages?</h2>
+            <p class="section-intro">They're hosted here on DahVio now, with Burnbook-specific copy instead of the older Ember Journal wording.</p>
+
+            <div class="grid">
+                <a href="/burnbook-privacy.html" class="link-card">
+                    <h3>Burnbook Privacy Policy</h3>
+                    <p>Exactly what the app stores on-device, what it does not collect, and how purchases and biometrics are handled.</p>
+                    <span>Open privacy page</span>
+                </a>
+                <a href="/burnbook-support.html" class="link-card">
+                    <h3>Burnbook Support</h3>
+                    <p>Common questions about burning, locked entries, premium, restores, and how to get direct help.</p>
+                    <span>Open support page</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="/">DahVio Studios</a>
+                <a href="/burnbook">Burnbook</a>
+                <a href="/burnbook-privacy.html">Privacy Policy</a>
+                <a href="/burnbook-support.html">Support</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
