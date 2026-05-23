@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CB Radio – Trucker's Handbook App | Channels, 10-Codes & Lingo</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="CB Radio – Trucker's Handbook. All 40 CB channels with frequencies, complete 10-code reference, trucker slang glossary, and quick reference card. Retro tuning dial UI. $1.99 one-time.">
+    <meta name="keywords" content="CB radio app, CB radio channels, 10-codes, trucker slang, CB radio handbook, CB radio frequency guide, trucker lingo app, 27 MHz CB channels">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dahvio.com/cb-radio">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="CB Radio – Trucker's Handbook | Channels, 10-Codes & Lingo">
+    <meta property="og:description" content="All 40 CB channels, complete 10-code reference, trucker slang, and quick reference. Retro amber tuning dial. $1.99 one-time on iOS.">
+    <meta property="og:image" content="cb_radio_screenshot.PNG">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CB Radio – Trucker's Handbook">
+    <meta name="twitter:description" content="40 channels, 10-codes, and trucker lingo in one retro-styled iOS app. $1.99 one-time.">
+    <meta name="twitter:image" content="cb_radio_screenshot.PNG">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW9L8BTBBW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RW9L8BTBBW');
+    </script>
+
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What are the 40 CB radio channels?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CB radios operate on 40 channels between 26.965 MHz and 27.405 MHz. Channel 9 is FCC-reserved for emergencies only. Channel 19 is the primary trucker channel on interstates. Channels 36–40 are SSB-capable. The app lists all 40 with frequencies, usage, and badges for special channels."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What channel do truckers use on CB radio?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Channel 19 (27.185 MHz) is the primary trucker channel on most US interstates, used for highway traffic, road conditions, and bear reports. Channel 17 is used for north/south routes, and Channel 21 for regional roads. Channel 9 is reserved for emergency use only."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does 10-4 mean in CB radio?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "10-4 means 'OK, message received' — acknowledgment that you heard and understood the transmission. It's the most commonly used 10-code. The CB Radio app includes all 62 10-codes with clear plain-English meanings."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is CB radio lingo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CB radio lingo is the informal slang used by CB radio operators, especially truckers. Terms like 'Smokey' (police), 'Hammer Down' (full speed), 'Chicken Coop' (weigh station), and 'Bear in the Air' (police helicopter) make up a colorful vocabulary developed over decades of highway communication."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0D0D0D;
+            --bg-card: #141008;
+            --text: #f0ece8;
+            --accent: #FFAA00;
+            --accent-dim: #CC8800;
+            --dim: #888;
+            --border: #1A1500;
+            --border-light: #2A2000;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span { color: var(--accent); }
+
+        .header-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: #000;
+            text-decoration: none;
+            padding: 0.6rem 1.25rem;
+            border-radius: 0.375rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            transition: background 0.2s ease;
+        }
+
+        .header-cta:hover { background: var(--accent-dim); }
+
+        /* Hero */
+        .hero {
+            padding: 7rem 0 5rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 70% 50%, rgba(255, 170, 0, 0.06) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            background: rgba(255, 170, 0, 0.1);
+            border: 1px solid rgba(255, 170, 0, 0.25);
+            padding: 0.35rem 0.9rem;
+            border-radius: 2rem;
+            margin-bottom: 1.75rem;
+        }
+
+        h1 {
+            font-size: 3.75rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.08;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 .highlight { color: var(--accent); }
+
+        .hero-seo-hook {
+            font-size: 1.05rem;
+            color: var(--accent);
+            font-style: italic;
+            margin-bottom: 1.25rem;
+            max-width: 680px;
+            opacity: 0.8;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--dim);
+            max-width: 640px;
+            margin-bottom: 2.5rem;
+            line-height: 1.65;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: #000;
+            text-decoration: none;
+            padding: 0.9rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 30px rgba(255, 170, 0, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-dim);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 40px rgba(255, 170, 0, 0.4);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            color: var(--text);
+            text-decoration: none;
+            padding: 0.9rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 1px solid var(--border-light);
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .stat { display: flex; flex-direction: column; }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+        }
+
+        .stat-label { font-size: 0.875rem; color: var(--dim); }
+
+        /* Sections */
+        .section {
+            padding: 6rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .section-intro {
+            font-size: 1.05rem;
+            color: var(--dim);
+            max-width: 640px;
+            margin-bottom: 3rem;
+            line-height: 1.7;
+        }
+
+        /* Feature Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.625rem;
+            padding: 1.75rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .feature-card:hover { border-color: var(--accent); }
+
+        .feature-icon { font-size: 1.75rem; margin-bottom: 1rem; }
+
+        .feature-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc { font-size: 0.9rem; color: var(--dim); line-height: 1.6; }
+
+        /* Tabs / Screens */
+        .screens-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .screen-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-top: 3px solid var(--accent);
+            border-radius: 0.625rem;
+            padding: 2rem;
+        }
+
+        .screen-num {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+            font-family: monospace;
+        }
+
+        .screen-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .screen-desc { font-size: 0.85rem; color: var(--dim); line-height: 1.5; }
+
+        /* Example Box */
+        .example-box {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 170, 0, 0.2);
+            border-radius: 0.75rem;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .example-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+
+        .example-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .example-box p {
+            font-size: 1.05rem;
+            color: var(--text);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .example-box p:last-child {
+            margin-bottom: 0;
+            color: var(--dim);
+            font-size: 0.95rem;
+        }
+
+        /* App CTA */
+        .app-cta-section {
+            background: linear-gradient(135deg, #100A00 0%, #1A1200 100%);
+            border: 1px solid rgba(255, 170, 0, 0.2);
+            border-radius: 1rem;
+            padding: 3.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-cta-section::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(255, 170, 0, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .price-badge {
+            display: inline-block;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--accent);
+            letter-spacing: -0.04em;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .price-badge-sub {
+            display: block;
+            font-size: 0.875rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 700;
+            opacity: 0.7;
+            margin-bottom: 1.75rem;
+        }
+
+        .app-cta-section h2 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .app-cta-section p {
+            font-size: 1.05rem;
+            color: var(--dim);
+            max-width: 520px;
+            margin: 0 auto 2rem;
+            line-height: 1.65;
+        }
+
+        .app-features-inline {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .app-feature-inline {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--dim);
+        }
+
+        .app-feature-inline::before {
+            content: '✓';
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .app-store-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            padding: 0.9rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .app-store-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-1px);
+        }
+
+        /* FAQ */
+        .faq-list { display: flex; flex-direction: column; gap: 0; }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border-light);
+            padding: 1.75rem 0;
+        }
+
+        .faq-item:first-child { border-top: 1px solid var(--border-light); }
+
+        .faq-q {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .faq-a {
+            font-size: 0.95rem;
+            color: var(--dim);
+            line-height: 1.7;
+            max-width: 780px;
+        }
+
+        /* Links */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .link-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            padding: 1.25rem 1.5rem;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+        }
+
+        .link-card:hover { border-color: var(--accent); color: var(--accent); }
+        .link-card-arrow { color: var(--accent); font-size: 1.1rem; }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--dim);
+            line-height: 1.65;
+        }
+
+        .disclaimer strong { color: var(--text); }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer a {
+            color: var(--dim);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        footer a:hover { color: var(--accent); }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.4rem; }
+            .hero { padding: 4.5rem 0 3.5rem; }
+            .hero-stats { gap: 2rem; margin-top: 3rem; }
+            .section { padding: 4rem 0; }
+            .section-title { font-size: 1.85rem; }
+            .screens-row { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .app-cta-section { padding: 2.5rem 1.5rem; }
+            .app-cta-section h2 { font-size: 1.75rem; }
+            .app-features-inline { gap: 1rem; flex-direction: column; align-items: center; }
+        }
+
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <a href="/" class="logo">DahVio<span>.</span></a>
+                <a href="https://apps.apple.com/us/app/cb-radio-truckers-handbook/id000000000" target="_blank" rel="noopener" class="header-cta">
+                    Download on iOS →
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-eyebrow">40 Channels · 10-Codes · Trucker Lingo</div>
+            <h1>CB Radio –<br><span class="highlight">Trucker's Handbook</span></h1>
+            <p class="hero-seo-hook">The complete CB radio reference app for truckers, off-roaders, preppers, and road trip enthusiasts. All 40 channels, every 10-code, and 100+ slang terms — no subscription, no internet required.</p>
+            <p class="hero-subtitle">CB radio communication is a skill. Know which channel to monitor, what codes mean in real time, and how to speak the language of the road. This app puts the whole handbook in your pocket.</p>
+            <div class="hero-cta-group">
+                <a href="https://apps.apple.com/us/app/cb-radio-truckers-handbook/id000000000" target="_blank" rel="noopener" class="btn-primary">
+                    Download on the App Store
+                </a>
+                <a href="#faq" class="btn-secondary">Learn More</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-value">40</span>
+                    <span class="stat-label">CB Channels</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">62</span>
+                    <span class="stat-label">10-Codes</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">100+</span>
+                    <span class="stat-label">Slang Terms</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What it does -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">What's Inside</div>
+            <h2 class="section-title">Everything on the radio. Nothing on the bill.</h2>
+            <p class="section-intro">$1.99 one-time. No subscription. No ads. Works fully offline — ideal for the road, the trail, and anywhere cell service disappears.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📻</div>
+                    <div class="feature-title">Tuning Dial Interaction</div>
+                    <p class="feature-desc">Drag the retro tuning dial to scan all 40 channels. Snap animation with haptics, just like spinning a real radio knob.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📡</div>
+                    <div class="feature-title">All 40 CB Channels</div>
+                    <p class="feature-desc">Every channel with exact frequency in MHz, common usage, channel type, and badges for special channels like EMERGENCY, MAIN, SSB, and OFF-ROAD.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔢</div>
+                    <div class="feature-title">Complete 10-Code Reference</div>
+                    <p class="feature-desc">All 62 standard 10-codes with plain-English meanings. Search by code or meaning. Star your most-used codes for quick access.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚛</div>
+                    <div class="feature-title">Trucker Slang Glossary</div>
+                    <p class="feature-desc">100+ terms from Bear to Hammer Down, Chicken Coop to Motion Lotion — alphabetical with search. Understand what truckers actually say on the radio.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-title">Quick Reference Card</div>
+                    <p class="feature-desc">Six curated cards covering emergency codes, bear/police calls, radio ops, road conditions, trucking essentials, and greetings. The stuff you actually need fast.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <div class="feature-title">Retro Amber LCD Aesthetic</div>
+                    <p class="feature-desc">Designed to feel like actual CB radio hardware. Amber display, VT323 LCD font, signal bars, and a dark UI that's easy on the eyes in the cab.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Four Screens -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Four Tabs</div>
+            <h2 class="section-title">Every reference. One app.</h2>
+            <p class="section-intro">Four purpose-built tabs covering everything CB radio operators need to know. Channels is the hero — the other three are where you go when you need the detail.</p>
+            <div class="screens-row">
+                <div class="screen-card">
+                    <div class="screen-num">CH</div>
+                    <div class="screen-name">Channels</div>
+                    <p class="screen-desc">Interactive tuning dial with all 40 channels. Tap neighbors to jump channels. Info panel with frequency, type, and usage notes for every channel.</p>
+                </div>
+                <div class="screen-card">
+                    <div class="screen-num">10-</div>
+                    <div class="screen-name">10-Codes</div>
+                    <p class="screen-desc">Full searchable 10-code list. Star the codes you use most — favorites persist between sessions. Quick tap to identify any code you hear.</p>
+                </div>
+                <div class="screen-card">
+                    <div class="screen-num">A–Z</div>
+                    <div class="screen-name">Slang & Lingo</div>
+                    <p class="screen-desc">Alphabetical glossary with 100+ terms. Section headers for quick scanning. Search to find any term instantly. No more blank looks when someone calls you a Kojak with a Kodak.</p>
+                </div>
+                <div class="screen-card">
+                    <div class="screen-num">★</div>
+                    <div class="screen-name">Quick Reference</div>
+                    <p class="screen-desc">Six curated cards for the situations that matter most — emergencies, traffic stops, road conditions, and greetings. What you need when you need it fast.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why this app -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Who It's For</div>
+            <h2 class="section-title">For anyone on the road.</h2>
+            <div class="example-box">
+                <div class="example-label">Real Use Cases</div>
+                <p>Truckers use Channel 19 on interstates — but Channel 17 on north/south routes, and regional channels vary by area. Knowing which channel to monitor in which state is the kind of thing that used to require years of road time to learn. It's in the app.</p>
+                <p>Off-roaders and overlanders coordinate on Channel 4. Boaters and RV travelers use Channel 13. If you're new to CB radio or just bought your first radio, this is the reference that goes with it.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- App CTA -->
+    <section class="section" id="download">
+        <div class="container">
+            <div class="app-cta-section">
+                <span class="price-badge">$1.99</span>
+                <span class="price-badge-sub">One-Time · No Subscription</span>
+                <h2>CB Radio – Trucker's Handbook on iOS</h2>
+                <p>Offline-capable. Retro design. Everything you need on the road — channels, codes, slang, and quick reference in one app that doesn't need cell service to work.</p>
+                <div class="app-features-inline">
+                    <span class="app-feature-inline">All 40 channels</span>
+                    <span class="app-feature-inline">Complete 10-codes</span>
+                    <span class="app-feature-inline">100+ slang terms</span>
+                    <span class="app-feature-inline">Works offline</span>
+                </div>
+                <a href="https://apps.apple.com/us/app/cb-radio-truckers-handbook/id000000000" target="_blank" rel="noopener" class="app-store-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                    </svg>
+                    Download on the App Store
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+        <div class="container">
+            <div class="section-label">FAQ</div>
+            <h2 class="section-title">Frequently asked questions</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-q">What are the 40 CB radio channels?</div>
+                    <p class="faq-a">CB radios operate on 40 designated channels between 26.965 MHz (Channel 1) and 27.405 MHz (Channel 40). Channel 9 is FCC-reserved for emergency communications only. Channel 19 is the standard trucker channel on US interstates. Channels 36–40 are SSB-capable. The app lists all 40 with frequencies, usage notes, and badges for special channels.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">What channel do truckers use on CB radio?</div>
+                    <p class="faq-a">Channel 19 (27.185 MHz) is the primary trucker channel on most US interstates for East/West highway traffic. Channel 17 is used for North/South routes, and Channel 21 for regional roads. Channel 9 is reserved for emergency use only and should not be used for general conversation.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">What does 10-4 mean in CB radio?</div>
+                    <p class="faq-a">10-4 means "OK, message received" — it's an acknowledgment that you heard and understood the transmission. It's the most commonly used 10-code in CB communication. The app includes all 62 standard 10-codes with clear plain-English meanings and a search function.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Does this app work offline?</div>
+                    <p class="faq-a">Yes, completely. All data is built into the app — no internet connection required. It works anywhere you take your radio: interstates, off-road trails, campgrounds, and anywhere cell coverage disappears.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Who is this app for?</div>
+                    <p class="faq-a">CB Radio – Trucker's Handbook is built for truckers, off-roaders, overlanders, RV travelers, preppers, and road trip enthusiasts. Anyone who operates or wants to understand CB radio communication will find it useful — whether you're a veteran operator or just picked up your first radio.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Is there a subscription?</div>
+                    <p class="faq-a">No. $1.99 one-time purchase. No subscription, no ads, no in-app purchases.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Links -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">App Resources</div>
+            <h2 class="section-title">More from CB Radio – Trucker's Handbook</h2>
+            <div class="links-grid">
+                <a href="/cb-radio-privacy.html" class="link-card">
+                    Privacy Policy
+                    <span class="link-card-arrow">→</span>
+                </a>
+                <a href="/cb-radio-support.html" class="link-card">
+                    Support &amp; Help
+                    <span class="link-card-arrow">→</span>
+                </a>
+                <a href="https://apps.apple.com/us/app/cb-radio-truckers-handbook/id000000000" target="_blank" rel="noopener" class="link-card">
+                    Download on App Store
+                    <span class="link-card-arrow">→</span>
+                </a>
+                <a href="/" class="link-card">
+                    DahVio Studios
+                    <span class="link-card-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disclaimer -->
+    <section class="section">
+        <div class="container">
+            <div class="disclaimer">
+                <strong>Disclaimer:</strong> CB Radio – Trucker's Handbook is an independent reference app and is not affiliated with the FCC, REACT International, or any CB radio manufacturer. Channel assignments and 10-code definitions are based on standard US CB radio conventions. Always follow FCC regulations when operating a CB radio.
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="/">DahVio Studios</a>
+                <a href="/cb-radio-privacy.html">Privacy Policy</a>
+                <a href="/cb-radio-support.html">Support</a>
+                <a href="https://apps.apple.com/us/app/cb-radio-truckers-handbook/id000000000" target="_blank" rel="noopener">App Store</a>
+            </div>
+            <p>&copy; 2026 DahVio Studios. Built in Long Beach, California.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
