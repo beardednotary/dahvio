@@ -14,14 +14,9 @@ Assess the following transmission against CB radio best practices:
 
 Be encouraging, like a patient Elmer (a radio mentor). Acknowledge genuine effort even when there's room to improve.
 
-Return ONLY valid JSON in this exact format, with no additional text:
-{
-  "score": <integer 0-100>,
-  "well_done": [<string>, <string>],
-  "needs_work": [<string>],
-  "practice_next": "<one specific, actionable tip for next time>",
-  "overall": "<one encouraging sentence summarizing the transmission>"
-}`;
+IMPORTANT: Return ONLY a raw JSON object. No markdown, no code blocks, no backticks, no text before or after the JSON.
+Use exactly this structure:
+{"score":75,"well_done":["example"],"needs_work":["example"],"practice_next":"example","overall":"example"}`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -52,7 +47,12 @@ export default async function handler(req, res) {
     });
 
     const text = message.content[0]?.text ?? '';
-    const feedback = JSON.parse(text);
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      console.error('No JSON found in response:', text);
+      return res.status(502).json({ error: 'Invalid response from AI' });
+    }
+    const feedback = JSON.parse(jsonMatch[0]);
 
     return res.status(200).json(feedback);
   } catch (err) {
