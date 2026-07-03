@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydrate or Diedrate - Support | DahVio Studios</title>
+    <link rel="icon" type="image/png" href="hydrate-icon.png">
+    <meta name="description" content="Support page for Hydrate or Diedrate by DahVio Studios. Get help with water logging, reminders, Health sync, Preserved purchases, and app icons.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #1C1C1A;
+            --text: #EDE3CF;
+            --accent: #3DADB2;
+            --dim: #9C9688;
+            --border: #33322C;
+            --surface: #252522;
+            --surface-alt: #2C2C29;
+            --gold: #C9A452;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span { color: var(--accent); }
+
+        .hero {
+            padding: 6rem 0 4rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .breadcrumb {
+            font-size: 0.875rem;
+            color: var(--dim);
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        h1 {
+            font-family: Georgia, serif;
+            font-size: 3.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--dim);
+            max-width: 620px;
+        }
+
+        .section {
+            padding: 5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 760px;
+        }
+
+        .faq-item {
+            background: var(--surface);
+            border-radius: 0.6rem;
+            border-left: 3px solid var(--accent);
+            padding: 1.5rem;
+        }
+
+        .faq-item h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-item p {
+            color: var(--dim);
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        .faq-item a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .faq-item a:hover { text-decoration: underline; }
+
+        .contact-card {
+            background: var(--surface);
+            border-radius: 0.6rem;
+            padding: 2.5rem;
+            max-width: 520px;
+        }
+
+        .contact-card p {
+            color: var(--dim);
+            margin-bottom: 1.5rem;
+            font-size: 0.9375rem;
+            line-height: 1.65;
+        }
+
+        .contact-link {
+            font-size: 1.125rem;
+            color: var(--text);
+            text-decoration: none;
+            padding-bottom: 0.25rem;
+            border-bottom: 2px solid var(--accent);
+            transition: color 0.2s ease;
+        }
+
+        .contact-link:hover { color: var(--accent); }
+
+        .app-strip {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            background: var(--surface);
+            border-radius: 0.6rem;
+            padding: 1.5rem 2rem;
+            margin-bottom: 3rem;
+            max-width: 620px;
+        }
+
+        .app-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 18px;
+            flex-shrink: 0;
+            object-fit: cover;
+            border: 1px solid rgba(201, 164, 82, 0.4);
+        }
+
+        .app-info h2 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .app-info p {
+            color: var(--dim);
+            font-size: 0.9rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(61, 173, 178, 0.12);
+            color: var(--accent);
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 0.45rem;
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--dim);
+            text-decoration: none;
+            margin: 0 0.75rem;
+        }
+
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.15rem; }
+            .hero { padding: 4rem 0 3rem; }
+            .section { padding: 3rem 0; }
+            .app-strip {
+                padding: 1.25rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="/" class="logo">DahVio<span>.</span></a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/">DahVio Studios</a> &rsaquo; Hydrate or Diedrate &rsaquo; Support
+            </div>
+            <h1>Support</h1>
+            <p class="hero-subtitle">Questions, bug reports, feature requests, or confusion about reminders, streaks, or Preserved in Hydrate or Diedrate. This page gives users a direct place to get help.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+
+            <div class="app-strip">
+                <img src="hydrate-icon.png" alt="Hydrate or Diedrate icon" class="app-icon">
+                <div class="app-info">
+                    <h2>Hydrate or Diedrate</h2>
+                    <p>Water tracker with a dark sense of humor, a status system, and reminders with appropriate gravity.</p>
+                    <span class="tag">iPhone &middot; DahVio Studios</span>
+                </div>
+            </div>
+
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-list">
+
+                <div class="faq-item">
+                    <h3>Does Hydrate or Diedrate require an account?</h3>
+                    <p>No. The app is designed to work without sign-in, registration, or a cloud profile. Your log, streak, and settings stay on your device.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I log water?</h3>
+                    <p>From the main screen, tap one of the quick-add amounts (8, 12, 16, or 24 oz) or enter a custom amount. Your total and status update immediately. Made a mistake? Use Undo Last Entry to remove the most recent log.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do reminders work?</h3>
+                    <p>By default, the app sends four local reminders a day &mdash; Morning, Midday, Evening, and Final Notice. These are scheduled entirely on your device. You can adjust or disable them in Settings.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Why does the app ask for Health access?</h3>
+                    <p>Only if you turn on Health sync in Settings, which is a Preserved feature. The app writes your logged water intake to Apple Health &mdash; it does not read your existing Health data.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What is Preserved &mdash; Lifetime Access?</h3>
+                    <p>A one-time in-app purchase that unlocks Health sync, full streak history, extra status insights, dark mode, the full notification archive, alternate app icons, and widgets. No subscription, no renewal.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>I reinstalled the app or got a new phone &mdash; where's my Preserved purchase?</h3>
+                    <p>Open the Preserved screen and tap Restore Purchase. This checks your Apple ID for a prior purchase and unlocks it again. Make sure you're signed into the same Apple ID used for the original purchase.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How does the streak work?</h3>
+                    <p>Your streak counts consecutive days where your total logged water met or exceeded your daily goal. Falling short on a day resets the current streak, but your best streak is always saved.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I unlock alternate app icons?</h3>
+                    <p>Most alternate icons unlock with Preserved. Gilded additionally requires a 100-day best streak. Change your icon from Settings once it's unlocked.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Does the app work offline?</h3>
+                    <p>Yes. Hydrate or Diedrate stores your log, streak, and settings locally on-device, so logging water and viewing history does not require an internet connection.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I remove my saved data?</h3>
+                    <p>Because everything is stored locally on your device, deleting the app removes the stored data associated with it.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Where should I report a bug or unexpected behavior?</h3>
+                    <p>Email <a href="mailto:ray@dahvio.com?subject=Hydrate%20or%20Diedrate%20Support">ray@dahvio.com</a> with what happened, what device you're using, and what you expected to see. That makes it much easier to debug quickly.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="border-bottom: 0;">
+        <div class="container">
+            <h2 class="section-title">Contact</h2>
+
+            <div class="contact-card">
+                <p>Need help, want to report a bug, or have a suggestion for making Hydrate or Diedrate better (or worse, in the fun way)? Email is the best way to reach DahVio Studios.</p>
+                <a href="mailto:ray@dahvio.com?subject=Hydrate%20or%20Diedrate%20Support" class="contact-link">ray@dahvio.com</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="/">DahVio Studios</a>
+                <a href="/hydrate">Hydrate or Diedrate</a>
+                <a href="/hydrate-privacy.html">Privacy Policy</a>
+                <a href="/hydrate-support.html">Support</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
