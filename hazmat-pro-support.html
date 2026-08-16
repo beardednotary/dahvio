@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HazMat Pro · Support | DahVio Studios</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="Support and help for HazMat Pro by DahVio Studios. Placard lookup, UN numbers, Identify, Quiz mode, and contact info.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0a0a0a;
+            --text: #e8e8e8;
+            --accent: #FFAA00;
+            --dim: #666;
+            --border: #1a1a1a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+        header { padding: 3rem 0; border-bottom: 1px solid var(--border); }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span { color: var(--accent); }
+
+        .hero { padding: 6rem 0 4rem; border-bottom: 1px solid var(--border); }
+
+        .breadcrumb { font-size: 0.875rem; color: var(--dim); margin-bottom: 1.5rem; }
+        .breadcrumb a { color: var(--accent); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle { font-size: 1.125rem; color: var(--dim); max-width: 560px; }
+
+        .section { padding: 5rem 0; border-bottom: 1px solid var(--border); }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+        }
+
+        .faq-list { display: flex; flex-direction: column; gap: 1rem; max-width: 720px; }
+
+        .faq-item {
+            background: var(--border);
+            border-radius: 0.5rem;
+            border-left: 3px solid var(--accent);
+            padding: 1.5rem;
+        }
+
+        .faq-item h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+
+        .faq-item p { color: var(--dim); font-size: 0.9375rem; line-height: 1.6; }
+
+        .faq-item a { color: var(--accent); text-decoration: none; }
+        .faq-item a:hover { text-decoration: underline; }
+
+        .contact-card {
+            background: var(--border);
+            border-radius: 0.5rem;
+            padding: 2.5rem;
+            max-width: 480px;
+        }
+
+        .contact-card p { color: var(--dim); margin-bottom: 1.5rem; font-size: 0.9375rem; line-height: 1.6; }
+
+        .contact-link {
+            font-size: 1.125rem;
+            color: var(--text);
+            text-decoration: none;
+            padding-bottom: 0.25rem;
+            border-bottom: 2px solid var(--accent);
+            transition: color 0.2s ease;
+        }
+
+        .contact-link:hover { color: var(--accent); }
+
+        .app-strip {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: var(--border);
+            border-radius: 0.5rem;
+            padding: 1.5rem 2rem;
+            margin-bottom: 3rem;
+            max-width: 560px;
+        }
+
+        .app-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
+            background: #0D0D0D;
+            border: 1px solid #2A2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+
+        .app-info h2 { font-size: 1.125rem; font-weight: 600; margin-bottom: 0.25rem; }
+        .app-info p { color: var(--dim); font-size: 0.875rem; }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(255, 170, 0, 0.1);
+            color: var(--accent);
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.4rem;
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.875rem;
+        }
+
+        footer a { color: var(--dim); text-decoration: none; margin: 0 0.75rem; }
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.25rem; }
+            .hero { padding: 4rem 0 3rem; }
+            .section { padding: 3rem 0; }
+            .app-strip { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="/" class="logo">DahVio<span>.</span></a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/">DahVio Studios</a> › HazMat Pro › Support
+            </div>
+            <h1>Support</h1>
+            <p class="hero-subtitle">Questions about placards, UN numbers, Identify, or anything else — we're here to help.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+
+            <div class="app-strip">
+                <div class="app-icon">☣️</div>
+                <div class="app-info">
+                    <h2>HazMat Pro</h2>
+                    <p>Placards · UN Numbers · Identify · Quiz</p>
+                    <span class="tag">iOS · DahVio Studios</span>
+                </div>
+            </div>
+
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-list">
+
+                <div class="faq-item">
+                    <h3>How does Identify work?</h3>
+                    <p>On the Identify tab, hold the button and speak a UN number, placard description, or material name — e.g. "UN 1203" or "gasoline tanker rollover." Release to get a result. Exact UN numbers and known shipping names are matched instantly from the app's offline database; free-text descriptions are sent to generate an AI-assisted identification.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Does Identify need an internet connection?</h3>
+                    <p>Not always. Exact UN numbers and known shipping names (typed, tapped, or spoken) resolve entirely offline. Only free-text or descriptive queries that aren't in the local list require a network connection to generate a result.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>I got a "Server error" or "Could not connect" message.</h3>
+                    <p>This means your query needed the network lookup and either the connection dropped or the request timed out. Check your connection and try again, or rephrase using the exact UN number or shipping name to get an instant offline result.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I star a UN number?</h3>
+                    <p>On the UN Numbers tab, tap the star icon on any entry to save it for quick access. Use the star filter next to the search bar to view only your starred entries. Starred items are saved on your device and persist between sessions.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How does Quiz mode work?</h3>
+                    <p>Tap the graduation cap icon in the header to start a quiz. Choose a category — Placards, UN Numbers, Glossary, or Mixed — and answer a set of multiple-choice questions drawn from hand-written content covering the app's reference data.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Is the data in this app official or verified?</h3>
+                    <p>Placard and UN number data has been cross-checked against the Emergency Response Guidebook (ERG) and 49 CFR §172.101. That said, HazMat Pro is a field reference and training aid — always confirm against the current official guidebook and your organization's procedures before acting on this data in an actual emergency.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>I found an error in the placard, UN number, or glossary data. How do I report it?</h3>
+                    <p>Please email <a href="mailto:support@dahvio.com">support@dahvio.com</a> with the specific entry and what you believe is incorrect. Corrections are always welcome.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I request a refund?</h3>
+                    <p>Refunds are handled by Apple. Visit <a href="https://reportaproblem.apple.com" target="_blank">reportaproblem.apple.com</a> to submit a refund request directly through the App Store.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-card">
+                <p>Found a data error, have a feature request, or need help with something not covered above? Send a message and we'll get back to you promptly.</p>
+                <a href="mailto:support@dahvio.com" class="contact-link">support@dahvio.com</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="/">DahVio Studios</a>
+                <a href="/hazmat-pro-privacy.html">Privacy Policy</a>
+                <a href="/hazmat-pro-support.html">Support</a>
+            </p>
+            <br>
+            <p>&copy; 2026 DahVio Studios. Built in Long Beach, California.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
