@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HazMat Pro App | DOT Placards, UN Numbers & ERG Field Reference</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="HazMat Pro. Every DOT hazmat placard, 55+ UN numbers with ERG guide numbers, GHS pictograms, and a voice-powered Identify tool. Offline-first field reference for CDL drivers, dispatchers, and first responders.">
+    <meta name="keywords" content="hazmat app, DOT placard guide, UN number lookup, ERG guidebook app, hazardous materials reference, GHS pictograms, hazmat placard identification, CDL hazmat endorsement, dangerous goods app, CHEMTREC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dahvio.com/hazmat-pro">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="HazMat Pro | DOT Placards, UN Numbers & ERG Field Reference">
+    <meta property="og:description" content="Every DOT hazmat placard, 55+ UN numbers with ERG guide numbers, GHS pictograms, and a voice-powered Identify tool. Works offline.">
+    <meta property="og:image" content="https://dahvio.com/hazmat-pro-icon.png">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="HazMat Pro">
+    <meta name="twitter:description" content="DOT placards, UN numbers, GHS pictograms, and voice-powered Identify — offline-first hazmat field reference.">
+    <meta name="twitter:image" content="https://dahvio.com/hazmat-pro-icon.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW9L8BTBBW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RW9L8BTBBW');
+    </script>
+
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is a DOT hazmat placard?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A DOT hazmat placard is the diamond-shaped sign required on vehicles and containers transporting hazardous materials in the US, identifying the hazard class (like Flammable Liquid, Corrosive, or Explosives) by color, symbol, and class number under 49 CFR. HazMat Pro includes all 19 placard divisions with color, symbol, and handling notes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a UN number?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A UN number is a four-digit code assigned by the United Nations to identify a specific hazardous material or class of materials during transport, such as UN1203 for gasoline or UN1830 for sulfuric acid. HazMat Pro's UN Numbers tab includes 55+ entries with shipping name, hazard class, packing group, and ERG guide number."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the ERG (Emergency Response Guidebook)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Emergency Response Guidebook (ERG) is the standard reference used by first responders during the initial phase of a hazmat transportation incident, published jointly by the US DOT, Transport Canada, and Mexico's SCT. It assigns each material a guide number with isolation distances and response guidance. HazMat Pro references current ERG guide numbers throughout its placard and UN number data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does HazMat Pro replace the official ERG guidebook?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. HazMat Pro is a field reference and training aid intended to speed up lookups and build familiarity with placards, UN numbers, and terminology. It is not affiliated with the DOT or PHMSA and does not replace the current official ERG, your organization's SOPs, or CHEMTREC in an actual incident — always confirm against the current official guidebook before acting on this data in the field."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does HazMat Pro work offline?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, for almost everything. Placards, UN numbers, the glossary, and quick reference are all stored on-device and work with zero connectivity. Identify resolves exact UN numbers and known shipping names offline too — only free-text or descriptive queries that aren't in the local database need a network connection."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Who is HazMat Pro for?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "HazMat Pro is built for CDL drivers with a hazmat endorsement, dispatchers, warehouse and logistics staff, EHS and safety officers, and first responders who need a fast placard, UN number, or terminology lookup without carrying a physical guidebook."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0D0D0D;
+            --bg-card: #141414;
+            --text: #EAEAEA;
+            --accent: #FFD400;
+            --accent-dim: #C9A900;
+            --danger: #E5342A;
+            --dim: #888;
+            --border: #1A1A1A;
+            --border-light: #262600;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span { color: var(--accent); }
+
+        .header-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: #000;
+            text-decoration: none;
+            padding: 0.6rem 1.25rem;
+            border-radius: 0.375rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            transition: background 0.2s ease;
+        }
+
+        .header-cta:hover { background: var(--accent-dim); }
+
+        /* Hero */
+        .hero {
+            padding: 7rem 0 5rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 70% 50%, rgba(255, 212, 0, 0.06) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            background: rgba(255, 212, 0, 0.1);
+            border: 1px solid rgba(255, 212, 0, 0.25);
+            padding: 0.35rem 0.9rem;
+            border-radius: 2rem;
+            margin-bottom: 1.75rem;
+        }
+
+        h1 {
+            font-size: 3.75rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.08;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 .highlight { color: var(--accent); }
+
+        .hero-seo-hook {
+            font-size: 1.05rem;
+            color: var(--accent);
+            font-style: italic;
+            margin-bottom: 1.25rem;
+            max-width: 680px;
+            opacity: 0.85;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--dim);
+            max-width: 640px;
+            margin-bottom: 2.5rem;
+            line-height: 1.65;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: #000;
+            text-decoration: none;
+            padding: 0.9rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 30px rgba(255, 212, 0, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-dim);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 40px rgba(255, 212, 0, 0.4);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            color: var(--text);
+            text-decoration: none;
+            padding: 0.9rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 1px solid var(--border-light);
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .stat { display: flex; flex-direction: column; }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+        }
+
+        .stat-label { font-size: 0.875rem; color: var(--dim); }
+
+        /* Sections */
+        .section {
+            padding: 6rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .section-intro {
+            font-size: 1.05rem;
+            color: var(--dim);
+            max-width: 640px;
+            margin-bottom: 3rem;
+            line-height: 1.7;
+        }
+
+        /* Feature Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.625rem;
+            padding: 1.75rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .feature-card:hover { border-color: var(--accent); }
+
+        .feature-icon { font-size: 1.75rem; margin-bottom: 1rem; }
+
+        .feature-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc { font-size: 0.9rem; color: var(--dim); line-height: 1.6; }
+
+        /* Screens */
+        .screens-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .screen-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-top: 3px solid var(--accent);
+            border-radius: 0.625rem;
+            padding: 2rem;
+        }
+
+        .screen-num {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+            font-family: monospace;
+        }
+
+        .screen-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .screen-desc { font-size: 0.85rem; color: var(--dim); line-height: 1.5; }
+
+        /* Example Box */
+        .example-box {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 212, 0, 0.2);
+            border-radius: 0.75rem;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .example-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+
+        .example-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .example-query {
+            font-size: 1.05rem;
+            color: var(--text);
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--border-light);
+        }
+
+        .example-result {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.75rem;
+        }
+
+        .example-result-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .example-result-tag {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-family: monospace;
+        }
+
+        .example-box p.example-note {
+            font-size: 0.9rem;
+            color: var(--dim);
+            line-height: 1.65;
+        }
+
+        /* App CTA */
+        .app-cta-section {
+            background: linear-gradient(135deg, #100D00 0%, #1A1600 100%);
+            border: 1px solid rgba(255, 212, 0, 0.2);
+            border-radius: 1rem;
+            padding: 3.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-cta-section::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(255, 212, 0, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .price-badge {
+            display: inline-block;
+            font-size: 2.75rem;
+            font-weight: 900;
+            color: var(--accent);
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .price-badge-sub {
+            display: block;
+            font-size: 0.875rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 700;
+            opacity: 0.7;
+            margin-bottom: 1.75rem;
+        }
+
+        .app-cta-section h2 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .app-cta-section p {
+            font-size: 1.05rem;
+            color: var(--dim);
+            max-width: 520px;
+            margin: 0 auto 2rem;
+            line-height: 1.65;
+        }
+
+        .app-features-inline {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .app-feature-inline {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--dim);
+        }
+
+        .app-feature-inline::before {
+            content: '✓';
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .app-store-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            padding: 0.9rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .app-store-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-1px);
+        }
+
+        /* FAQ */
+        .faq-list { display: flex; flex-direction: column; gap: 0; }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border-light);
+            padding: 1.75rem 0;
+        }
+
+        .faq-item:first-child { border-top: 1px solid var(--border-light); }
+
+        .faq-q {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .faq-a {
+            font-size: 0.95rem;
+            color: var(--dim);
+            line-height: 1.7;
+            max-width: 780px;
+        }
+
+        /* Links */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .link-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            padding: 1.25rem 1.5rem;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+        }
+
+        .link-card:hover { border-color: var(--accent); color: var(--accent); }
+        .link-card-arrow { color: var(--accent); font-size: 1.1rem; }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--dim);
+            line-height: 1.65;
+        }
+
+        .disclaimer strong { color: var(--text); }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer a {
+            color: var(--dim);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        footer a:hover { color: var(--accent); }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.4rem; }
+            .hero { padding: 4.5rem 0 3.5rem; }
+            .hero-stats { gap: 2rem; margin-top: 3rem; }
+            .section { padding: 4rem 0; }
+            .section-title { font-size: 1.85rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .app-cta-section { padding: 2.5rem 1.5rem; }
+            .app-cta-section h2 { font-size: 1.75rem; }
+            .app-features-inline { gap: 1rem; flex-direction: column; align-items: center; }
+        }
+
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <a href="/" class="logo">DahVio<span>.</span></a>
+                <a href="https://apps.apple.com/us/app/hazmat-pro/id000000000" target="_blank" rel="noopener" class="header-cta">
+                    Download on iOS →
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-eyebrow">Placards · UN Numbers · ERG Guide · Identify</div>
+            <h1>HazMat Pro –<br><span class="highlight">Field Reference</span></h1>
+            <p class="hero-seo-hook">The offline-first hazmat reference app for CDL drivers, dispatchers, EHS officers, and first responders — DOT placards, UN numbers, GHS pictograms, and a voice-powered Identify tool in one place.</p>
+            <p class="hero-subtitle">Pull up alongside a placarded tanker or a shipping label you don't recognize, and you need the answer in seconds, not a PDF search. HazMat Pro puts the placard table, the UN number index, and the terminology you need in your pocket — most of it without a signal bar in sight.</p>
+            <div class="hero-cta-group">
+                <a href="https://apps.apple.com/us/app/hazmat-pro/id000000000" target="_blank" rel="noopener" class="btn-primary">
+                    Download on the App Store
+                </a>
+                <a href="#faq" class="btn-secondary">Learn More</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-value">19</span>
+                    <span class="stat-label">DOT Placard Divisions</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">55+</span>
+                    <span class="stat-label">UN Numbers</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">9</span>
+                    <span class="stat-label">GHS Pictograms</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What it does -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">What's Inside</div>
+            <h2 class="section-title">Built for the moment you need it, not the moment you have signal.</h2>
+            <p class="section-intro">One-time purchase. No subscription. No ads. Placards, UN numbers, glossary, and quick reference all work fully offline.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <div class="feature-title">All 19 DOT Placards</div>
+                    <p class="feature-desc">Every hazard class and division — Explosives through Miscellaneous Dangerous Goods — with color, symbol, common UN numbers, and handling notes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔢</div>
+                    <div class="feature-title">UN Number Lookup</div>
+                    <p class="feature-desc">55+ entries cross-checked against the ERG and 49 CFR §172.101, with hazard class, packing group, and ERG guide number. Star your most-used numbers for quick access.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎙️</div>
+                    <div class="feature-title">Hold-to-Speak Identify</div>
+                    <p class="feature-desc">Say or type a UN number, a shipping name, or a description — "smoking pallet of batteries after a forklift strike" — and get a material ID with isolation, PPE, and response guidance.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📖</div>
+                    <div class="feature-title">GHS &amp; DOT Glossary</div>
+                    <p class="feature-desc">Plain-English definitions for the terms on shipping papers and SDS sheets, plus all 9 official GHS pictograms.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-title">Quick Reference</div>
+                    <p class="feature-desc">PPE levels, isolation zones, and SDS/ERG basics laid out for a fast glance — the stuff you need to confirm, not relearn.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <div class="feature-title">CDL-Style Quiz Mode</div>
+                    <p class="feature-desc">Hand-written questions across placards, UN numbers, and glossary terms — practice recall the way it's actually tested.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Five Screens -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Five Tabs</div>
+            <h2 class="section-title">Every reference. One app.</h2>
+            <p class="section-intro">Five purpose-built tabs covering what a hazmat field reference actually needs — plus Quiz mode a tap away from the header.</p>
+            <div class="screens-row">
+                <div class="screen-card">
+                    <div class="screen-num">01</div>
+                    <div class="screen-name">Placards</div>
+                    <p class="screen-desc">Browse or search all 19 DOT placard divisions with full artwork and handling notes.</p>
+                </div>
+                <div class="screen-card">
+                    <div class="screen-num">02</div>
+                    <div class="screen-name">UN Numbers</div>
+                    <p class="screen-desc">Searchable, starrable index of 55+ UN numbers with class, packing group, and guide number.</p>
+                </div>
+                <div class="screen-card">
+                    <div class="screen-num">03</div>
+                    <div class="screen-name">Glossary</div>
+                    <p class="screen-desc">GHS and DOT terminology in plain English, with all 9 pictograms.</p>
+                </div>
+                <div class="screen-card">
+                    <div class="screen-num">04</div>
+                    <div class="screen-name">Quick Ref</div>
+                    <p class="screen-desc">PPE, isolation zones, and SDS/ERG basics for a fast glance in the field.</p>
+                </div>
+                <div class="screen-card">
+                    <div class="screen-num">05</div>
+                    <div class="screen-name">Identify</div>
+                    <p class="screen-desc">Hold to speak or type — a UN number, shipping name, or free-text description.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Real example -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">See It In Action</div>
+            <h2 class="section-title">Ask it what you'd ask a partner.</h2>
+            <div class="example-box">
+                <div class="example-label">Identify Query</div>
+                <p class="example-query">"Smoking pallet of batteries after a forklift strike"</p>
+                <div class="example-result">
+                    <span class="example-result-name">Lithium ion batteries (damaged/thermal event)</span>
+                    <span class="example-result-tag">UN3480 or UN3481 · Class 9 · Guide 147</span>
+                </div>
+                <p class="example-note">Full PPE, evacuate and establish a perimeter, no water unless thermal runaway is already uncontrolled, and monitor for re-ignition for hours after apparent extinguishment — in seconds, not a manual flip-through.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- App CTA -->
+    <section class="section" id="download">
+        <div class="container">
+            <div class="app-cta-section">
+                <span class="price-badge">$3.99</span>
+                <span class="price-badge-sub">One-Time · No Subscription</span>
+                <h2>HazMat Pro on iOS</h2>
+                <p>Offline-capable field reference for hazmat placards, UN numbers, and terminology — with a voice-powered Identify tool when you need to ask instead of search.</p>
+                <div class="app-features-inline">
+                    <span class="app-feature-inline">19 placard divisions</span>
+                    <span class="app-feature-inline">55+ UN numbers</span>
+                    <span class="app-feature-inline">Works offline</span>
+                    <span class="app-feature-inline">No ads</span>
+                </div>
+                <a href="https://apps.apple.com/us/app/hazmat-pro/id000000000" target="_blank" rel="noopener" class="app-store-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                    </svg>
+                    Download on the App Store
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+        <div class="container">
+            <div class="section-label">FAQ</div>
+            <h2 class="section-title">Frequently asked questions</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-q">What is a DOT hazmat placard?</div>
+                    <p class="faq-a">A DOT hazmat placard is the diamond-shaped sign required on vehicles and containers transporting hazardous materials in the US, identifying the hazard class — like Flammable Liquid, Corrosive, or Explosives — by color, symbol, and class number under 49 CFR. HazMat Pro includes all 19 placard divisions with color, symbol, and handling notes.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">What is a UN number?</div>
+                    <p class="faq-a">A UN number is a four-digit code assigned by the United Nations to identify a specific hazardous material or class of materials during transport, such as UN1203 for gasoline or UN1830 for sulfuric acid. HazMat Pro's UN Numbers tab includes 55+ entries with shipping name, hazard class, packing group, and ERG guide number.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">What is the ERG (Emergency Response Guidebook)?</div>
+                    <p class="faq-a">The Emergency Response Guidebook is the standard reference used by first responders during the initial phase of a hazmat transportation incident, jointly published by the US DOT, Transport Canada, and Mexico's SCT. It assigns each material a guide number with isolation distances and response guidance. HazMat Pro references current ERG guide numbers throughout its placard and UN number data.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Does HazMat Pro replace the official ERG guidebook?</div>
+                    <p class="faq-a">No. HazMat Pro is a field reference and training aid meant to speed up lookups and build familiarity with placards, UN numbers, and terminology. It's not affiliated with the DOT or PHMSA and doesn't replace the current official ERG, your organization's SOPs, or CHEMTREC in an actual incident — always confirm against the current official guidebook before acting on this data in the field.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Does this app work offline?</div>
+                    <p class="faq-a">Yes, for almost everything. Placards, UN numbers, the glossary, and quick reference are all stored on-device. Identify resolves exact UN numbers and known shipping names offline too — only free-text or descriptive queries that aren't already in the local database need a network connection.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Who is this app for?</div>
+                    <p class="faq-a">HazMat Pro is built for CDL drivers with a hazmat endorsement, dispatchers, warehouse and logistics staff, EHS and safety officers, and first responders who need a fast placard, UN number, or terminology lookup without carrying a physical guidebook.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Is there a subscription?</div>
+                    <p class="faq-a">No. HazMat Pro is a one-time purchase — no subscription, no ads, no in-app purchases.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Links -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">App Resources</div>
+            <h2 class="section-title">More from HazMat Pro</h2>
+            <div class="links-grid">
+                <a href="/hazmat-pro-privacy.html" class="link-card">
+                    Privacy Policy
+                    <span class="link-card-arrow">→</span>
+                </a>
+                <a href="/hazmat-pro-support.html" class="link-card">
+                    Support &amp; Help
+                    <span class="link-card-arrow">→</span>
+                </a>
+                <a href="https://apps.apple.com/us/app/hazmat-pro/id000000000" target="_blank" rel="noopener" class="link-card">
+                    Download on App Store
+                    <span class="link-card-arrow">→</span>
+                </a>
+                <a href="/" class="link-card">
+                    DahVio Studios
+                    <span class="link-card-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disclaimer -->
+    <section class="section">
+        <div class="container">
+            <div class="disclaimer">
+                <strong>Disclaimer:</strong> HazMat Pro is an independent field reference and training aid and is not affiliated with the US DOT, PHMSA, the ERG's publisher, or CHEMTREC. Placard and UN number data has been cross-checked against the Emergency Response Guidebook and 49 CFR §172.101, but this app does not replace the current official guidebook, your organization's procedures, or CHEMTREC in an actual emergency. Always confirm against current official sources before acting on this data in the field.
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="/">DahVio Studios</a>
+                <a href="/hazmat-pro-privacy.html">Privacy Policy</a>
+                <a href="/hazmat-pro-support.html">Support</a>
+                <a href="https://apps.apple.com/us/app/hazmat-pro/id000000000" target="_blank" rel="noopener">App Store</a>
+            </div>
+            <p>&copy; 2026 DahVio Studios. Built in Long Beach, California.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
