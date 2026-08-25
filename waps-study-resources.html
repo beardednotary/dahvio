@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free WAPS 2027 Study Guides - AFH-1, SJT, and Weekly Study Planner</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="Get free WAPS 2027 study resources for E5 and E6 Airmen, including an AFH-1 study map, SJT prep guide, and 8-week WAPS study planner.">
+    <meta name="keywords" content="free waps study guide, waps 2027 study planner, AFH-1 study guide, SJT study guide, E5 promotion study plan, E6 promotion study plan">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dahvio.com/waps-study-resources">
+    <meta property="og:title" content="Free WAPS 2027 Study Guides">
+    <meta property="og:description" content="Free AFH-1, SJT, and study-planning resources for Airmen preparing for E5 and E6 promotion testing.">
+    <meta property="og:image" content="waps-og-image.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free WAPS 2027 Study Guides">
+    <meta name="twitter:description" content="Download free WAPS study resources for the 2027 promotion cycle.">
+    <meta name="twitter:image" content="waps-og-image.png">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW9L8BTBBW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RW9L8BTBBW');
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0d1218;
+            --bg-card: #151c24;
+            --bg-card-alt: #1b2430;
+            --text: #f4f7fa;
+            --accent: #5d9ab6;
+            --accent-soft: rgba(93, 154, 182, 0.12);
+            --accent-border: rgba(93, 154, 182, 0.25);
+            --secondary: #e0b043;
+            --dim: #95a4b4;
+            --border: #2a3644;
+            --border-light: #344354;
+            --success: #78c091;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header, .section { border-bottom: 1px solid rgba(42, 54, 68, 0.8); }
+
+        header { padding: 2rem 0; }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .logo span { color: var(--accent); }
+
+        .header-link {
+            color: var(--dim);
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .header-link:hover { color: var(--accent); }
+
+        .hero {
+            padding: 6.5rem 0 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 75% 35%, rgba(93, 154, 182, 0.18) 0%, transparent 50%),
+                radial-gradient(ellipse at 18% 100%, rgba(24, 50, 64, 0.7) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-grid,
+        .resource-grid,
+        .download-grid,
+        .tips-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .hero-grid {
+            grid-template-columns: 1.2fr 0.95fr;
+            align-items: start;
+        }
+
+        .eyebrow,
+        .section-label {
+            display: inline-block;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-soft);
+            border: 1px solid var(--accent-border);
+            border-radius: 2rem;
+            padding: 0.35rem 0.9rem;
+        }
+
+        .eyebrow { margin-bottom: 1.5rem; }
+        .section-label { margin-bottom: 0.9rem; }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.03;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.2rem;
+            max-width: 720px;
+        }
+
+        .hero p,
+        .section-intro,
+        .card p,
+        .form-note,
+        .faq-item p,
+        li {
+            color: var(--dim);
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            max-width: 650px;
+            margin-bottom: 1.8rem;
+            line-height: 1.75;
+        }
+
+        .hero-points {
+            list-style: none;
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .hero-points li {
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .hero-points li::before {
+            content: "";
+            width: 0.45rem;
+            height: 0.45rem;
+            border-radius: 50%;
+            background: var(--secondary);
+            position: absolute;
+            left: 0;
+            top: 0.55rem;
+        }
+
+        .form-card,
+        .card,
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.9rem;
+            padding: 1.6rem;
+        }
+
+        .form-card {
+            background: linear-gradient(180deg, rgba(21, 28, 36, 0.98) 0%, rgba(27, 36, 48, 0.98) 100%);
+            box-shadow: 0 0 30px rgba(93, 154, 182, 0.12);
+        }
+
+        .form-card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .bundle-list {
+            list-style: none;
+            display: grid;
+            gap: 0.85rem;
+            margin: 1.4rem 0 1.6rem;
+        }
+
+        .bundle-list li {
+            color: var(--text);
+            padding: 0.9rem 1rem;
+            border-radius: 0.75rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .bundle-list strong {
+            display: block;
+            font-size: 0.96rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .lead-form {
+            display: grid;
+            gap: 0.85rem;
+            margin-top: 1.2rem;
+        }
+
+        .lead-form input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border-radius: 0.6rem;
+            border: 1px solid var(--border-light);
+            background: var(--bg-card-alt);
+            color: var(--text);
+            font: inherit;
+        }
+
+        .lead-form input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .lead-form button,
+        .resource-link {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0.6rem;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .lead-form button {
+            border: 0;
+            padding: 0.95rem 1.2rem;
+            background: var(--accent);
+            color: #0d1218;
+            cursor: pointer;
+        }
+
+        .lead-form button:hover,
+        .resource-link:hover {
+            transform: translateY(-1px);
+        }
+
+        .form-note {
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+
+        .section {
+            padding: 5.5rem 0;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .section-intro {
+            max-width: 700px;
+            margin-bottom: 2.6rem;
+            line-height: 1.7;
+        }
+
+        .resource-grid,
+        .download-grid,
+        .tips-grid {
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        }
+
+        .card h3 {
+            font-size: 1.05rem;
+            margin-bottom: 0.65rem;
+        }
+
+        .card strong {
+            color: var(--secondary);
+        }
+
+        .resource-link {
+            margin-top: 1rem;
+            padding: 0.8rem 1rem;
+            color: var(--text);
+            border: 1px solid var(--border-light);
+            background: transparent;
+        }
+
+        .resource-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .faq-wrap {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .faq-item h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #12212a 0%, #183240 100%);
+            border: 1px solid rgba(93, 154, 182, 0.32);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        .cta-box p {
+            max-width: 650px;
+            margin: 0.8rem auto 1.5rem;
+            color: #d7e4ec;
+        }
+
+        .cta-box .resource-link {
+            background: var(--accent);
+            color: #0d1218;
+            border-color: var(--accent);
+            display: inline-flex;
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--dim);
+            text-decoration: none;
+            margin: 0 0.7rem;
+        }
+
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 860px) {
+            .hero-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 2.7rem; }
+        }
+
+        @media (max-width: 768px) {
+            .section { padding: 4rem 0; }
+            .container { padding: 0 1.25rem; }
+            .section-title { font-size: 1.85rem; }
+            .cta-box { padding: 2rem 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <a href="/" class="logo">DahVio<span>.</span></a>
+                <a href="/waps-study-2026" class="header-link">WAPS App</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero section">
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <div class="eyebrow">Free WAPS 2027 Resources</div>
+                    <h1>Give Airmen something useful before you ask them to buy.</h1>
+                    <p class="hero-subtitle">This free WAPS resource bundle is built for E5 and E6 Airmen who want a clearer study plan for AFH-1, better SJT prep, and a weekly rhythm they can actually stick to once the 2027 testing window gets closer.</p>
+                    <ul class="hero-points">
+                        <li>Printable 8-week WAPS study planner for E5 and E6 pacing.</li>
+                        <li>AFH-1 study map showing what to review, what to drill, and what to revisit.</li>
+                        <li>SJT prep sheet focused on decision-making patterns, not random guessing.</li>
+                    </ul>
+                </div>
+
+                <div class="form-card">
+                    <h2>Unlock the free bundle</h2>
+                    <p>Collect emails now, then send the download link and a purchase reminder later when the next WAPS study season starts heating up.</p>
+                    <ul class="bundle-list">
+                        <li><strong>AFH-1 Study Map</strong> Section-by-section review priorities for fast scanning and smarter repetition.</li>
+                        <li><strong>8-Week Study Planner</strong> Weekly breakdown for AFH-1 review, drills, and SJT reps.</li>
+                        <li><strong>SJT Prep Guide</strong> A short framework for most-effective and least-effective answer choices.</li>
+                    </ul>
+                    <form class="lead-form" action="https://formspree.io/f/xbgrnkyp" method="POST">
+                        <input type="hidden" name="_subject" value="New WAPS free resource lead">
+                        <input type="hidden" name="_next" value="https://dahvio.com/waps-study-downloads">
+                        <input type="hidden" name="source_page" value="waps-study-resources">
+                        <input type="hidden" name="interest" value="WAPS 2027 Resources">
+                        <input type="email" name="email" placeholder="your@email.com" required>
+                        <button type="submit">Unlock Free Downloads</button>
+                    </form>
+                    <p class="form-note">After submit, visitors land on the download page and you can follow up later with a launch reminder or promo code.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">What They Get</div>
+            <h2 class="section-title">Three lead magnets built around real WAPS search intent.</h2>
+            <p class="section-intro">The goal here is not filler. These resources target the exact things Airmen search for when promotion testing gets closer: how to study AFH-1, how to prepare for SJT, and how to organize a WAPS study plan without wasting weeks.</p>
+
+            <div class="resource-grid">
+                <div class="card">
+                    <h3>WAPS 2027 Study Planner</h3>
+                    <p>An 8-week structure for balancing AFH-1 review, flashcards, quick drills, and SJT practice without trying to do everything every day.</p>
+                    <a href="/waps-2027-study-plan" class="resource-link">Preview Planner</a>
+                </div>
+                <div class="card">
+                    <h3>AFH-1 Study Map</h3>
+                    <p>A printable planning sheet for breaking AFH-1 into manageable review blocks and tracking where confidence is actually weak.</p>
+                    <a href="/waps-afh-1-study-outline" class="resource-link">Preview AFH-1 Guide</a>
+                </div>
+                <div class="card">
+                    <h3>SJT Prep Guide</h3>
+                    <p>A short reference that explains how to think through most-effective and least-effective choices under pressure.</p>
+                    <a href="/waps-sjt-cheat-sheet" class="resource-link">Preview SJT Guide</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">SEO Angles</div>
+            <h2 class="section-title">Built to support the core WAPS app page, not compete with it.</h2>
+            <p class="section-intro">Each asset gives you another internal-link target for search phrases around AFH-1 study help, WAPS study schedules, and SJT preparation. That helps the main app page rank for broader WAPS queries while the free pages capture earlier-intent visitors.</p>
+
+            <div class="tips-grid">
+                <div class="card">
+                    <h3>Earlier Funnel Searches</h3>
+                    <p>People often search for <strong>WAPS study guide</strong>, <strong>AFH-1 study plan</strong>, and <strong>how to study for SJT</strong> before they are ready to buy an app.</p>
+                </div>
+                <div class="card">
+                    <h3>Seasonal Follow-Up</h3>
+                    <p>By collecting emails now, you can send a reminder when the 2027 testing season approaches and include a simple promo code for people who have not purchased yet.</p>
+                </div>
+                <div class="card">
+                    <h3>Better Internal Linking</h3>
+                    <p>The main WAPS app page can now point to useful content instead of only pushing the App Store link, which helps both SEO depth and buyer trust.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">FAQ</div>
+            <h2 class="section-title">Questions Airmen are likely to have.</h2>
+            <div class="faq-wrap">
+                <div class="faq-item">
+                    <h3>Are these official Air Force study materials?</h3>
+                    <p>No. These are independent planning and study-support resources from DahVio Studios. They are meant to help Airmen organize prep around AFH-1 and SJT practice, not replace official guidance.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Why give away free WAPS resources?</h3>
+                    <p>Because many Airmen are not ready to buy the first time they find the site. Free tools create trust earlier, grow the email list, and give you a clean way to re-engage them before the next testing season.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What should the follow-up email include?</h3>
+                    <p>Keep it simple: a reminder that WAPS season is coming, a link back to the app page, one short explanation of why the app is stronger on SJT, and an optional time-limited promo code.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="border-bottom: 0;">
+        <div class="container">
+            <div class="cta-box">
+                <div class="section-label">Next Step</div>
+                <h2 class="section-title">Pair the free bundle with the app page.</h2>
+                <p>Use the free resources page to collect leads early, then send those visitors back to the main WAPS app page when the 2027 cycle gets close enough that they are ready to study seriously.</p>
+                <a href="/waps-study-2026" class="resource-link">Open the WAPS App Page</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="/">DahVio Studios</a>
+                <a href="/waps-study-2026">WAPS App</a>
+                <a href="/waps-study-downloads">Downloads</a>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
