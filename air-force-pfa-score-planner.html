@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Force PFA Score Planner - Printable Goal Sheet</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="A printable Air Force PFA score planner for tracking current scores, target scores, and which event needs the most work before test day.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dahvio.com/air-force-pfa-score-planner">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #f3f6f9;
+            --card: #ffffff;
+            --text: #102033;
+            --dim: #5b6875;
+            --accent: #1a7bcf;
+            --border: #d3dce6;
+        }
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+        }
+        .container { max-width: 940px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+        .topbar { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+        .topbar a { color: var(--accent); text-decoration: none; font-weight: 600; }
+        .hero, .card { background: var(--card); border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; }
+        .hero { margin-bottom: 1rem; }
+        .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.78rem; font-weight: 700; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+        h1 { font-size: 2.6rem; line-height: 1.04; margin: 0.7rem 0 1rem; }
+        p, li { color: var(--dim); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+        .card h2 { font-size: 1.15rem; margin-bottom: 0.75rem; }
+        .line { border-bottom: 1px solid var(--border); min-height: 1.7rem; margin-top: 0.7rem; }
+        .list { padding-left: 1.2rem; margin-top: 0.6rem; }
+        .list li + li { margin-top: 0.35rem; }
+        @media print {
+            body { background: #fff; }
+            .topbar { display: none; }
+            .container { max-width: 100%; padding: 0; }
+            .hero, .card { border-radius: 0; page-break-inside: avoid; }
+        }
+        @media (max-width: 768px) { h1 { font-size: 2rem; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="topbar">
+            <a href="/air-force-pt-calculator-2026">Back to calculator</a>
+            <a href="#" onclick="window.print(); return false;">Print or save as PDF</a>
+        </div>
+
+        <section class="hero">
+            <div class="eyebrow">Printable Planner</div>
+            <h1>Air Force PFA score planner</h1>
+            <p>Use this page to figure out where you are now, where you want to be on test day, and which event deserves most of your attention. It is simple on purpose so you can print it and actually use it.</p>
+        </section>
+
+        <section class="grid">
+            <article class="card">
+                <h2>Current score</h2>
+                <p>Composite score today:</p>
+                <div class="line"></div>
+                <p>Current rating:</p>
+                <div class="line"></div>
+                <p>Main weakness:</p>
+                <div class="line"></div>
+            </article>
+
+            <article class="card">
+                <h2>Target score</h2>
+                <p>Goal composite score:</p>
+                <div class="line"></div>
+                <p>Target rating:</p>
+                <div class="line"></div>
+                <p>Days until test:</p>
+                <div class="line"></div>
+            </article>
+
+            <article class="card">
+                <h2>Event priorities</h2>
+                <ul class="list">
+                    <li>Aerobic event target:</li>
+                    <li>Push-up target:</li>
+                    <li>Core target:</li>
+                    <li>Body composition status:</li>
+                </ul>
+                <div class="line"></div>
+                <div class="line"></div>
+            </article>
+
+            <article class="card">
+                <h2>Weekly focus</h2>
+                <ul class="list">
+                    <li>What do I need to improve first?</li>
+                    <li>Which event gives me the fastest score gain?</li>
+                    <li>What score do I need to feel safe on test day?</li>
+                </ul>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </article>
+        </section>
+    </div>
+</body>
+</html>
