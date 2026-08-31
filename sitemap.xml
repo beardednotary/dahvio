@@ -7,54 +7,13 @@
         <changefreq>monthly</changefreq>
         <priority>1.0</priority>
     </url>
-    <url>
-        <loc>https://dahvio.com/llms.txt</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
 
-    <!-- Landing Pages -->
-    <url>
-        <loc>https://dahvio.com/waps-study-2026</loc>
-        <lastmod>2026-08-25</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/waps-study-resources</loc>
-        <lastmod>2026-08-25</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/waps-2027-study-plan</loc>
-        <lastmod>2026-08-25</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/waps-afh-1-study-outline</loc>
-        <lastmod>2026-08-25</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/waps-sjt-cheat-sheet</loc>
-        <lastmod>2026-08-25</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
+    <!-- Military Fitness Calculators -->
     <url>
         <loc>https://dahvio.com/marine-pft-calculator-2026</loc>
         <lastmod>2026-08-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/mco-6100-13a</loc>
-        <lastmod>2026-08-30</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
     </url>
     <url>
         <loc>https://dahvio.com/air-force-pt-calculator-2026</loc>
@@ -63,11 +22,51 @@
         <priority>0.9</priority>
     </url>
     <url>
+        <loc>https://dahvio.com/navy-prt-calculator-2026</loc>
+        <lastmod>2026-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://dahvio.com/army-aft-calculator-2026</loc>
+        <lastmod>2026-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Standards &amp; Regulation Reference Pages -->
+    <url>
+        <loc>https://dahvio.com/mco-6100-13a</loc>
+        <lastmod>2026-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://dahvio.com/navy-prt-score-chart-2026</loc>
+        <lastmod>2026-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://dahvio.com/opnavinst-6110-1l</loc>
+        <lastmod>2026-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://dahvio.com/army-aft-standards-2026</loc>
+        <lastmod>2026-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://dahvio.com/dafman-36-2905</loc>
         <lastmod>2026-08-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
+
+    <!-- Air Force PFA Guides -->
     <url>
         <loc>https://dahvio.com/air-force-pfa-standards-guide</loc>
         <lastmod>2026-08-25</lastmod>
@@ -104,181 +103,87 @@
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
+
+    <!-- WAPS Study -->
     <url>
-        <loc>https://dahvio.com/navy-prt-calculator-2026</loc>
-        <lastmod>2026-08-30</lastmod>
+        <loc>https://dahvio.com/waps-study-2026</loc>
+        <lastmod>2026-08-25</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://dahvio.com/navy-prt-score-chart-2026</loc>
-        <lastmod>2026-08-30</lastmod>
+        <loc>https://dahvio.com/waps-study-resources</loc>
+        <lastmod>2026-08-25</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://dahvio.com/opnavinst-6110-1l</loc>
-        <lastmod>2026-08-30</lastmod>
+        <loc>https://dahvio.com/waps-2027-study-plan</loc>
+        <lastmod>2026-08-25</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
+        <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://dahvio.com/army-aft-calculator-2026</loc>
-        <lastmod>2026-08-30</lastmod>
+        <loc>https://dahvio.com/waps-afh-1-study-outline</loc>
+        <lastmod>2026-08-25</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
+        <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://dahvio.com/army-aft-standards-2026</loc>
-        <lastmod>2026-08-30</lastmod>
+        <loc>https://dahvio.com/waps-sjt-cheat-sheet</loc>
+        <lastmod>2026-08-25</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
+        <priority>0.7</priority>
     </url>
+
+    <!-- App Landing Pages -->
     <url>
         <loc>https://dahvio.com/just-walk</loc>
         <lastmod>2026-05-11</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/burnbook</loc>
-        <lastmod>2026-05-17</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
+        <priority>0.8</priority>
     </url>
     <url>
         <loc>https://dahvio.com/cb-radio</loc>
         <lastmod>2026-05-21</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
+        <priority>0.8</priority>
     </url>
     <url>
         <loc>https://dahvio.com/hydrate</loc>
         <lastmod>2026-07-02</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://dahvio.com/hazmat-pro</loc>
+        <lastmod>2026-08-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://dahvio.com/hunting-tags-license-tracker</loc>
+        <lastmod>2026-08-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
     </url>
 
-    <!-- App Support & Privacy (lower priority, still crawlable) -->
+    <!-- Studio -->
     <url>
-        <loc>https://dahvio.com/waps-study-support.html</loc>
-        <lastmod>2026-04-27</lastmod>
+        <loc>https://dahvio.com/about</loc>
+        <lastmod>2026-05-12</lastmod>
         <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
+        <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://dahvio.com/waps-study-privacy.html</loc>
-        <lastmod>2026-04-27</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
+        <loc>https://dahvio.com/paygrade</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://dahvio.com/just-walk-support.html</loc>
-        <lastmod>2026-05-11</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/just-walk-privacy.html</loc>
-        <lastmod>2026-05-11</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/burnbook-support.html</loc>
-        <lastmod>2026-05-17</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/burnbook-privacy.html</loc>
-        <lastmod>2026-05-17</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/usmc-pft-calculator-support.html</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/usmc-pft-calculator-privacy.html</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/navy-prt-calculator-support.html</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/navy-prt-calculator-privacy.html</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/army-aft-calculator-support.html</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/army-aft-calculator-privacy.html</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/pt-calculator-support.html</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/dbt-daily-privacy.html</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/dbt-daily-support.html</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/pt-calculator-privacy.html</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/cpat-prep-privacy.html</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/cpat-prep-support.html</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/cb-radio-privacy.html</loc>
-        <lastmod>2026-05-21</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/cb-radio-support.html</loc>
-        <lastmod>2026-05-21</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/hydrate-privacy.html</loc>
-        <lastmod>2026-07-02</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
-    </url>
-    <url>
-        <loc>https://dahvio.com/hydrate-support.html</loc>
-        <lastmod>2026-07-02</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.3</priority>
+        <loc>https://dahvio.com/epb-builder</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
     </url>
 
 </urlset>
