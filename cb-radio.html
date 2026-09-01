@@ -13,14 +13,14 @@
     <!-- Open Graph -->
     <meta property="og:title" content="CB Radio – Trucker's Handbook | Channels, 10-Codes & Lingo">
     <meta property="og:description" content="All 40 CB channels, complete 10-code reference, trucker slang, and quick reference. Retro amber tuning dial. $1.99 one-time on iOS.">
-    <meta property="og:image" content="cb_radio_screenshot.PNG">
+    <meta property="og:image" content="https://dahvio.com/cb-radio-icon.png">
     <meta property="og:type" content="website">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="CB Radio – Trucker's Handbook">
     <meta name="twitter:description" content="40 channels, 10-codes, and trucker lingo in one retro-styled iOS app. $1.99 one-time.">
-    <meta name="twitter:image" content="cb_radio_screenshot.PNG">
+    <meta name="twitter:image" content="https://dahvio.com/cb-radio-icon.png">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW9L8BTBBW"></script>
@@ -33,44 +33,68 @@
 
     <!-- FAQ Schema -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What are the 40 CB radio channels?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "CB radios operate on 40 channels between 26.965 MHz and 27.405 MHz. Channel 9 is FCC-reserved for emergencies only. Channel 19 is the primary trucker channel on interstates. Channels 36–40 are SSB-capable. The app lists all 40 with frequencies, usage, and badges for special channels."
+{
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "CB Radio – Trucker's Handbook",
+            "applicationCategory": "ReferenceApplication",
+            "operatingSystem": "iOS",
+            "url": "https://dahvio.com/cb-radio",
+            "downloadUrl": "https://apps.apple.com/us/app/cb-radio-truck-radio-guide/id6771660719",
+            "description": "All 40 CB radio channels with frequencies, a complete 10-code reference, a trucker slang glossary, and a quick reference card, with a retro tuning-dial interface.",
+            "offers": {
+              "@type": "Offer",
+              "price": "1.99",
+              "priceCurrency": "USD",
+              "description": "One-time purchase"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "DahVio Studios",
+              "url": "https://dahvio.com/"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What are the 40 CB radio channels?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "CB radios operate on 40 channels between 26.965 MHz and 27.405 MHz. Channel 9 is FCC-reserved for emergencies only. Channel 19 is the primary trucker channel on interstates. Channels 36–40 are SSB-capable. The app lists all 40 with frequencies, usage, and badges for special channels."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What channel do truckers use on CB radio?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Channel 19 (27.185 MHz) is the primary trucker channel on most US interstates, used for highway traffic, road conditions, and bear reports. Channel 17 is used for north/south routes, and Channel 21 for regional roads. Channel 9 is reserved for emergency use only."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What does 10-4 mean in CB radio?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "10-4 means 'OK, message received' — acknowledgment that you heard and understood the transmission. It's the most commonly used 10-code. The CB Radio app includes all 62 10-codes with clear plain-English meanings."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What is CB radio lingo?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "CB radio lingo is the informal slang used by CB radio operators, especially truckers. Terms like 'Smokey' (police), 'Hammer Down' (full speed), 'Chicken Coop' (weigh station), and 'Bear in the Air' (police helicopter) make up a colorful vocabulary developed over decades of highway communication."
+                }
+              }
+            ]
           }
-        },
-        {
-          "@type": "Question",
-          "name": "What channel do truckers use on CB radio?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Channel 19 (27.185 MHz) is the primary trucker channel on most US interstates, used for highway traffic, road conditions, and bear reports. Channel 17 is used for north/south routes, and Channel 21 for regional roads. Channel 9 is reserved for emergency use only."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What does 10-4 mean in CB radio?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "10-4 means 'OK, message received' — acknowledgment that you heard and understood the transmission. It's the most commonly used 10-code. The CB Radio app includes all 62 10-codes with clear plain-English meanings."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What is CB radio lingo?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "CB radio lingo is the informal slang used by CB radio operators, especially truckers. Terms like 'Smokey' (police), 'Hammer Down' (full speed), 'Chicken Coop' (weigh station), and 'Bear in the Air' (police helicopter) make up a colorful vocabulary developed over decades of highway communication."
-          }
-        }
-      ]
-    }
+        ]
+      }
     </script>
 
     <style>
@@ -603,7 +627,7 @@
         <div class="container">
             <div class="header-inner">
                 <a href="/" class="logo">DahVio<span>.</span></a>
-                <a href="https://apps.apple.com/us/app/cb-radio-truckers-handbook/id000000000" target="_blank" rel="noopener" class="header-cta">
+                <a href="https://apps.apple.com/us/app/cb-radio-truck-radio-guide/id6771660719" target="_blank" rel="noopener" class="header-cta">
                     Download on iOS →
                 </a>
             </div>
@@ -617,7 +641,7 @@
             <p class="hero-seo-hook">The complete CB radio reference app for truckers, off-roaders, preppers, and road trip enthusiasts. All 40 channels, every 10-code, and 100+ slang terms — no subscription, no internet required.</p>
             <p class="hero-subtitle">CB radio communication is a skill. Know which channel to monitor, what codes mean in real time, and how to speak the language of the road. This app puts the whole handbook in your pocket.</p>
             <div class="hero-cta-group">
-                <a href="https://apps.apple.com/us/app/cb-radio-truckers-handbook/id000000000" target="_blank" rel="noopener" class="btn-primary">
+                <a href="https://apps.apple.com/us/app/cb-radio-truck-radio-guide/id6771660719" target="_blank" rel="noopener" class="btn-primary">
                     Download on the App Store
                 </a>
                 <a href="#faq" class="btn-secondary">Learn More</a>
@@ -738,7 +762,7 @@
                     <span class="app-feature-inline">100+ slang terms</span>
                     <span class="app-feature-inline">Works offline</span>
                 </div>
-                <a href="https://apps.apple.com/us/app/cb-radio-truckers-handbook/id000000000" target="_blank" rel="noopener" class="app-store-btn">
+                <a href="https://apps.apple.com/us/app/cb-radio-truck-radio-guide/id6771660719" target="_blank" rel="noopener" class="app-store-btn">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                     </svg>
@@ -796,7 +820,7 @@
                     Support &amp; Help
                     <span class="link-card-arrow">→</span>
                 </a>
-                <a href="https://apps.apple.com/us/app/cb-radio-truckers-handbook/id000000000" target="_blank" rel="noopener" class="link-card">
+                <a href="https://apps.apple.com/us/app/cb-radio-truck-radio-guide/id6771660719" target="_blank" rel="noopener" class="link-card">
                     Download on App Store
                     <span class="link-card-arrow">→</span>
                 </a>
@@ -823,7 +847,7 @@
                 <a href="/">DahVio Studios</a>
                 <a href="/cb-radio-privacy">Privacy Policy</a>
                 <a href="/cb-radio-support">Support</a>
-                <a href="https://apps.apple.com/us/app/cb-radio-truckers-handbook/id000000000" target="_blank" rel="noopener">App Store</a>
+                <a href="https://apps.apple.com/us/app/cb-radio-truck-radio-guide/id6771660719" target="_blank" rel="noopener">App Store</a>
             </div>
             <p>&copy; 2026 DahVio Studios. Built in Long Beach, California.</p>
         </div>

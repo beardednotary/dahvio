@@ -30,30 +30,60 @@
     </script>
 
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "SoftwareApplication",
-          "name": "Hydrate or Diedrate",
-          "applicationCategory": "HealthApplication",
-          "operatingSystem": "iOS",
-          "url": "https://dahvio.com/hydrate",
-          "description": "Hydrate or Diedrate is a water tracker with a dark sense of humor, a status system from Desiccating to Preserved, and reminders that read like official dehydration notices.",
-          "offers": {
-            "@type": "Offer",
-            "price": "4.99",
-            "priceCurrency": "USD",
-            "description": "Preserved — Lifetime Access, one-time in-app purchase"
+{
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "Hydrate or Diedrate",
+            "applicationCategory": "HealthApplication",
+            "operatingSystem": "iOS",
+            "url": "https://dahvio.com/hydrate",
+            "downloadUrl": "https://apps.apple.com/us/app/hydrate-or-diedrate-tracker/id6772648377",
+            "description": "Hydrate or Diedrate is a water tracker with a dark sense of humor, a status system from Desiccating to Preserved, and reminders that read like official dehydration notices.",
+            "offers": {
+              "@type": "Offer",
+              "price": "4.99",
+              "priceCurrency": "USD",
+              "description": "Preserved — Lifetime Access, one-time in-app purchase"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "DahVio Studios",
+              "url": "https://dahvio.com/"
+            }
           },
-          "publisher": {
-            "@type": "Organization",
-            "name": "DahVio Studios",
-            "url": "https://dahvio.com/"
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Do I need an account to use Hydrate or Diedrate?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. The app works without sign-in, registration, or a cloud profile. Your log stays on your device."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Why does the app want Apple Health access?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Only if you enable Health sync, which is a Preserved feature. It writes your logged water to Apple Health and does not read your existing Health data."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What does Preserved unlock?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Health sync, full streak history, extra status insights, dark mode, the full notification archive, alternate app icons, and home and lock screen widgets, all through a single one-time lifetime purchase."
+                }
+              }
+            ]
           }
-        }
-      ]
-    }
+        ]
+      }
     </script>
 
     <style>
@@ -558,7 +588,7 @@
                     <p class="hero-subtitle">Most hydration apps send cheerful little droplets to remind you to drink water. This one sends the skull. A no-nonsense water tracker with a dark sense of humor, a vintage medical illustration aesthetic, and notifications that read like official dehydration notices.</p>
 
                     <div class="hero-actions">
-                        <a href="mailto:ray@dahvio.com?subject=Hydrate%20or%20Diedrate%20Notify%20Me" class="btn-primary">Notify me at launch</a>
+                        <a href="https://apps.apple.com/us/app/hydrate-or-diedrate-tracker/id6772648377" target="_blank" rel="noopener" class="btn-primary">Download on the App Store</a>
                         <a href="/hydrate-privacy" class="btn-secondary">Privacy</a>
                     </div>
 
@@ -771,6 +801,7 @@
                 <a href="/">DahVio Studios</a>
                 <a href="/hydrate-privacy">Privacy Policy</a>
                 <a href="/hydrate-support">Support</a>
+                <a href="https://apps.apple.com/us/app/hydrate-or-diedrate-tracker/id6772648377" target="_blank" rel="noopener">App Store</a>
             </p>
         </div>
     </footer>

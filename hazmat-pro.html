@@ -33,60 +33,84 @@
 
     <!-- FAQ Schema -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is a DOT hazmat placard?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "A DOT hazmat placard is the diamond-shaped sign required on vehicles and containers transporting hazardous materials in the US, identifying the hazard class (like Flammable Liquid, Corrosive, or Explosives) by color, symbol, and class number under 49 CFR. HazMat Pro includes all 19 placard divisions with color, symbol, and handling notes."
+{
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "HazMat Pro",
+            "applicationCategory": "ReferenceApplication",
+            "operatingSystem": "iOS",
+            "url": "https://dahvio.com/hazmat-pro",
+            "downloadUrl": "https://apps.apple.com/us/app/hazmat-pro-un-number-dot/id6801628061",
+            "description": "Every DOT hazmat placard, 55+ UN numbers with ERG guide numbers, GHS pictograms, and a voice-powered Identify tool. Offline-first field reference for CDL drivers, dispatchers, and first responders.",
+            "offers": {
+              "@type": "Offer",
+              "price": "3.99",
+              "priceCurrency": "USD",
+              "description": "One-time purchase"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "DahVio Studios",
+              "url": "https://dahvio.com/"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is a DOT hazmat placard?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "A DOT hazmat placard is the diamond-shaped sign required on vehicles and containers transporting hazardous materials in the US, identifying the hazard class (like Flammable Liquid, Corrosive, or Explosives) by color, symbol, and class number under 49 CFR. HazMat Pro includes all 19 placard divisions with color, symbol, and handling notes."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What is a UN number?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "A UN number is a four-digit code assigned by the United Nations to identify a specific hazardous material or class of materials during transport, such as UN1203 for gasoline or UN1830 for sulfuric acid. HazMat Pro's UN Numbers tab includes 55+ entries with shipping name, hazard class, packing group, and ERG guide number."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What is the ERG (Emergency Response Guidebook)?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "The Emergency Response Guidebook (ERG) is the standard reference used by first responders during the initial phase of a hazmat transportation incident, published jointly by the US DOT, Transport Canada, and Mexico's SCT. It assigns each material a guide number with isolation distances and response guidance. HazMat Pro references current ERG guide numbers throughout its placard and UN number data."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does HazMat Pro replace the official ERG guidebook?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. HazMat Pro is a field reference and training aid intended to speed up lookups and build familiarity with placards, UN numbers, and terminology. It is not affiliated with the DOT or PHMSA and does not replace the current official ERG, your organization's SOPs, or CHEMTREC in an actual incident — always confirm against the current official guidebook before acting on this data in the field."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does HazMat Pro work offline?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes, for almost everything. Placards, UN numbers, the glossary, and quick reference are all stored on-device and work with zero connectivity. Identify resolves exact UN numbers and known shipping names offline too — only free-text or descriptive queries that aren't in the local database need a network connection."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Who is HazMat Pro for?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "HazMat Pro is built for CDL drivers with a hazmat endorsement, dispatchers, warehouse and logistics staff, EHS and safety officers, and first responders who need a fast placard, UN number, or terminology lookup without carrying a physical guidebook."
+                }
+              }
+            ]
           }
-        },
-        {
-          "@type": "Question",
-          "name": "What is a UN number?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "A UN number is a four-digit code assigned by the United Nations to identify a specific hazardous material or class of materials during transport, such as UN1203 for gasoline or UN1830 for sulfuric acid. HazMat Pro's UN Numbers tab includes 55+ entries with shipping name, hazard class, packing group, and ERG guide number."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What is the ERG (Emergency Response Guidebook)?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The Emergency Response Guidebook (ERG) is the standard reference used by first responders during the initial phase of a hazmat transportation incident, published jointly by the US DOT, Transport Canada, and Mexico's SCT. It assigns each material a guide number with isolation distances and response guidance. HazMat Pro references current ERG guide numbers throughout its placard and UN number data."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Does HazMat Pro replace the official ERG guidebook?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No. HazMat Pro is a field reference and training aid intended to speed up lookups and build familiarity with placards, UN numbers, and terminology. It is not affiliated with the DOT or PHMSA and does not replace the current official ERG, your organization's SOPs, or CHEMTREC in an actual incident — always confirm against the current official guidebook before acting on this data in the field."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Does HazMat Pro work offline?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes, for almost everything. Placards, UN numbers, the glossary, and quick reference are all stored on-device and work with zero connectivity. Identify resolves exact UN numbers and known shipping names offline too — only free-text or descriptive queries that aren't in the local database need a network connection."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who is HazMat Pro for?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "HazMat Pro is built for CDL drivers with a hazmat endorsement, dispatchers, warehouse and logistics staff, EHS and safety officers, and first responders who need a fast placard, UN number, or terminology lookup without carrying a physical guidebook."
-          }
-        }
-      ]
-    }
+        ]
+      }
     </script>
 
     <style>
@@ -641,7 +665,7 @@
         <div class="container">
             <div class="header-inner">
                 <a href="/" class="logo">DahVio<span>.</span></a>
-                <a href="https://apps.apple.com/us/app/hazmat-pro/id000000000" target="_blank" rel="noopener" class="header-cta">
+                <a href="https://apps.apple.com/us/app/hazmat-pro-un-number-dot/id6801628061" target="_blank" rel="noopener" class="header-cta">
                     Download on iOS →
                 </a>
             </div>
@@ -655,7 +679,7 @@
             <p class="hero-seo-hook">The offline-first hazmat reference app for CDL drivers, dispatchers, EHS officers, and first responders — DOT placards, UN numbers, GHS pictograms, and a voice-powered Identify tool in one place.</p>
             <p class="hero-subtitle">Pull up alongside a placarded tanker or a shipping label you don't recognize, and you need the answer in seconds, not a PDF search. HazMat Pro puts the placard table, the UN number index, and the terminology you need in your pocket — most of it without a signal bar in sight.</p>
             <div class="hero-cta-group">
-                <a href="https://apps.apple.com/us/app/hazmat-pro/id000000000" target="_blank" rel="noopener" class="btn-primary">
+                <a href="https://apps.apple.com/us/app/hazmat-pro-un-number-dot/id6801628061" target="_blank" rel="noopener" class="btn-primary">
                     Download on the App Store
                 </a>
                 <a href="#faq" class="btn-secondary">Learn More</a>
@@ -785,7 +809,7 @@
                     <span class="app-feature-inline">Works offline</span>
                     <span class="app-feature-inline">No ads</span>
                 </div>
-                <a href="https://apps.apple.com/us/app/hazmat-pro/id000000000" target="_blank" rel="noopener" class="app-store-btn">
+                <a href="https://apps.apple.com/us/app/hazmat-pro-un-number-dot/id6801628061" target="_blank" rel="noopener" class="app-store-btn">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                     </svg>
@@ -847,7 +871,7 @@
                     Support &amp; Help
                     <span class="link-card-arrow">→</span>
                 </a>
-                <a href="https://apps.apple.com/us/app/hazmat-pro/id000000000" target="_blank" rel="noopener" class="link-card">
+                <a href="https://apps.apple.com/us/app/hazmat-pro-un-number-dot/id6801628061" target="_blank" rel="noopener" class="link-card">
                     Download on App Store
                     <span class="link-card-arrow">→</span>
                 </a>
@@ -874,7 +898,7 @@
                 <a href="/">DahVio Studios</a>
                 <a href="/hazmat-pro-privacy">Privacy Policy</a>
                 <a href="/hazmat-pro-support">Support</a>
-                <a href="https://apps.apple.com/us/app/hazmat-pro/id000000000" target="_blank" rel="noopener">App Store</a>
+                <a href="https://apps.apple.com/us/app/hazmat-pro-un-number-dot/id6801628061" target="_blank" rel="noopener">App Store</a>
             </div>
             <p>&copy; 2026 DahVio Studios. Built in Long Beach, California.</p>
         </div>

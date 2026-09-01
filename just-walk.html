@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Just Walk | DahVio Studios</title>
-    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <link rel="icon" type="image/png" href="just-walk-icon.png">
     <meta name="description" content="Just Walk is a simple walking app for iPhone. Start a walk, see time, steps, and distance, and keep a streak without extra clutter.">
     <meta name="keywords" content="Just Walk app, walking tracker iPhone, simple step tracker, walking streak app, minimalist walking app">
     <meta name="robots" content="index, follow">
@@ -30,24 +30,54 @@
     </script>
 
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "SoftwareApplication",
-          "name": "Just Walk",
-          "applicationCategory": "HealthApplication",
-          "operatingSystem": "iOS",
-          "url": "https://dahvio.com/just-walk",
-          "description": "Just Walk is a simple walking app for iPhone with live time, step, and distance tracking plus a lightweight streak view.",
-          "publisher": {
-            "@type": "Organization",
-            "name": "DahVio Studios",
-            "url": "https://dahvio.com/"
+{
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "Just Walk",
+            "applicationCategory": "HealthApplication",
+            "operatingSystem": "iOS",
+            "url": "https://dahvio.com/just-walk",
+            "downloadUrl": "https://apps.apple.com/us/app/just-walk-daily-step-tracker/id6766424867",
+            "description": "Just Walk is a simple walking app for iPhone with live time, step, and distance tracking plus a lightweight streak view.",
+            "publisher": {
+              "@type": "Organization",
+              "name": "DahVio Studios",
+              "url": "https://dahvio.com/"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Why does Just Walk need location access?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Location is used during a walk to estimate distance. The app stores the total distance for the session, not a route map or GPS trace."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Why might steps or distance not show during a walk?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Step count depends on device motion support. Distance depends on location permission being enabled while the walk is active."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does Just Walk work offline?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Everything is stored on-device, so no internet connection is required to walk, save, or review your history."
+                }
+              }
+            ]
           }
-        }
-      ]
-    }
+        ]
+      }
     </script>
 
     <style>
@@ -385,7 +415,7 @@
                     <p class="hero-subtitle">Just Walk is a simple iPhone app for starting a walk, seeing your time, steps, and distance, and building a mosaic of every day you've gone out. Nothing else wrapped around it.</p>
 
                     <div class="hero-actions">
-                        <a href="mailto:ray@dahvio.com?subject=Just%20Walk%20Notify%20Me" class="btn-primary">Notify me at launch</a>
+                        <a href="https://apps.apple.com/us/app/just-walk-daily-step-tracker/id6766424867" target="_blank" rel="noopener" class="btn-primary">Download on the App Store</a>
                         <a href="/just-walk-privacy" class="btn-secondary">Privacy</a>
                     </div>
 
@@ -476,6 +506,7 @@
                 <a href="/">DahVio Studios</a>
                 <a href="/just-walk-privacy">Privacy Policy</a>
                 <a href="/just-walk-support">Support</a>
+                <a href="https://apps.apple.com/us/app/just-walk-daily-step-tracker/id6766424867" target="_blank" rel="noopener">App Store</a>
             </p>
         </div>
     </footer>
