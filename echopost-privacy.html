@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://dahvio.com/echopost-privacy">
+    <title>EchoPost - Privacy Policy | DahVio Studios</title>
+    <link rel="icon" type="image/png" href="echopost-icon.png">
+    <meta name="description" content="Privacy policy for EchoPost by DahVio Studios. What the extension sends to write a Google Business Profile post, what stays in your browser, and what it never collects.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #FFFBEA;
+            --text: #171612;
+            --dim: #57534A;
+            --accent: #7A5C00;
+            --yellow: #FFD21F;
+            --border: rgba(23, 22, 18, 0.12);
+            --surface: #FFFFFF;
+            --surface-alt: #FFF1B8;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span { color: var(--accent); }
+
+        .hero {
+            padding: 5rem 0 3.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .breadcrumb {
+            font-size: 0.875rem;
+            color: var(--dim);
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        h1 {
+            font-size: 3.25rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--dim);
+            max-width: 640px;
+        }
+
+        .effective-date {
+            display: inline-block;
+            margin-top: 1.25rem;
+            font-size: 0.875rem;
+            color: var(--text);
+            padding: 0.375rem 0.875rem;
+            background: var(--yellow);
+            border-radius: 2rem;
+        }
+
+        .content {
+            padding: 4.5rem 0;
+            max-width: 760px;
+        }
+
+        .policy-section {
+            margin-bottom: 3.25rem;
+        }
+
+        .policy-section h2 {
+            font-size: 1.375rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin-bottom: 1rem;
+        }
+
+        .policy-section p {
+            color: var(--dim);
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            margin-bottom: 0.875rem;
+        }
+
+        .policy-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .policy-section ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 0.875rem;
+        }
+
+        .policy-section ul li {
+            color: var(--dim);
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            padding-left: 1.25rem;
+            position: relative;
+        }
+
+        .policy-section ul li::before {
+            content: "-";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .policy-section strong {
+            color: var(--text);
+        }
+
+        .policy-section a {
+            color: var(--accent);
+        }
+
+        .highlight-box,
+        .detail-box {
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--yellow);
+        }
+
+        .detail-box {
+            background: var(--surface-alt);
+        }
+
+        .highlight-box p,
+        .detail-box p {
+            color: var(--text) !important;
+            margin: 0 !important;
+            line-height: 1.65;
+        }
+
+        code {
+            font-family: "SFMono-Regular", Consolas, "Courier New", monospace;
+            font-size: 0.85em;
+            background: var(--surface-alt);
+            padding: 0.1rem 0.35rem;
+            border-radius: 0.25rem;
+            color: var(--text);
+        }
+
+        .contact-link {
+            font-size: 1.125rem;
+            color: var(--text) !important;
+            text-decoration: none;
+            padding-bottom: 0.25rem;
+            border-bottom: 3px solid var(--yellow);
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer a {
+            color: var(--dim);
+            text-decoration: none;
+            margin: 0 0.75rem;
+        }
+
+        footer a:hover { color: var(--text); }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 1.25rem; }
+            h1 { font-size: 2.15rem; }
+            .hero { padding: 3.5rem 0 2.5rem; }
+            .content { padding: 3rem 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="/" class="logo">DahVio<span>.</span></a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/">DahVio Studios</a> &rsaquo; <a href="/echopost">EchoPost</a> &rsaquo; Privacy Policy
+            </div>
+            <h1>Privacy Policy</h1>
+            <p class="hero-subtitle">EchoPost is a Chrome extension that rewrites an Instagram caption you paste into a Google Business Profile post. This policy explains exactly what it does with your data. It's short because the extension does very little.</p>
+            <span class="effective-date">Last updated: September 15, 2026</span>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="content">
+
+            <div class="policy-section">
+                <div class="highlight-box">
+                    <p>The short version: EchoPost only sends data when you click Rewrite for Google. Your caption, tone, optional business note and a random install ID go to the EchoPost rewrite service and OpenAI to write your post. There's no account, no analytics, and the service doesn't store your captions.</p>
+                </div>
+            </div>
+
+            <div class="policy-section">
+                <h2>1. Who We Are</h2>
+                <p>EchoPost is developed and published by DahVio Studios, an independent software studio based in Long Beach, California. You can reach us at <a href="mailto:hello@dahvio.com">hello@dahvio.com</a>.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>2. What EchoPost Sends Off Your Device</h2>
+                <p>When you click <strong>Rewrite for Google</strong>, the extension sends the following to the EchoPost rewrite service (a serverless function operated by DahVio Studios), and from there to OpenAI, which generates the rewrite:</p>
+                <ul>
+                    <li>The caption text you pasted</li>
+                    <li>The tone you selected</li>
+                    <li>The optional "business context" note, if you filled it in</li>
+                    <li>A random, anonymous install ID (a UUID generated in your browser)</li>
+                </ul>
+                <p>That's the only time EchoPost transmits anything. The install ID is used only to count your free monthly rewrites. It isn't tied to your name, email, Google account, Instagram account or IP-based identity, because EchoPost never asks for any of those.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>3. What Stays on Your Device</h2>
+                <p>Stored locally with <code>chrome.storage.local</code> and never transmitted:</p>
+                <ul>
+                    <li>Your recent rewrites (title, body, post type and call-to-action button): the History list</li>
+                    <li>Your "business context" note</li>
+                    <li>The anonymous install ID</li>
+                </ul>
+                <div class="detail-box">
+                    <p>You can clear your History at any time from the History screen. Removing the extension deletes all of it.</p>
+                </div>
+            </div>
+
+            <div class="policy-section">
+                <h2>4. What EchoPost Does Not Do</h2>
+                <ul>
+                    <li>No account, sign-in, name or email address</li>
+                    <li>No analytics, telemetry, advertising or third-party trackers</li>
+                    <li>No selling or sharing of data with anyone other than the OpenAI API call described above</li>
+                    <li>No access to your Instagram or Google Business Profile account. The extension will ask for permission on those sites only if a future feature needs it, and only at the moment you use that feature.</li>
+                </ul>
+            </div>
+
+            <div class="policy-section">
+                <h2>5. Server Logs</h2>
+                <p>The rewrite service has no database and doesn't store the captions it processes. When something fails, temporary error logs may briefly capture request details. These aren't retained or used for any other purpose.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>6. OpenAI</h2>
+                <p>Caption text is processed by OpenAI's API to produce the rewrite. Under OpenAI's API data usage policy, API inputs and outputs are not used to train their models. See <a href="https://openai.com/policies/" target="_blank" rel="noopener">OpenAI's policies</a>.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>7. Children's Privacy</h2>
+                <p>EchoPost is a tool for businesses and is not directed to children under 13.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>8. Changes to This Policy</h2>
+                <p>If this policy changes, the "Last updated" date above will change, and the new version will be published on this page, which is linked from EchoPost's Chrome Web Store listing.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>9. Contact</h2>
+                <p>Questions about this privacy policy or EchoPost?</p>
+                <br>
+                <a href="mailto:hello@dahvio.com?subject=EchoPost%20Privacy" class="contact-link">hello@dahvio.com</a>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="/">DahVio Studios</a>
+                <a href="/echopost">EchoPost</a>
+                <a href="/echopost-privacy">Privacy Policy</a>
+                <a href="mailto:hello@dahvio.com?subject=EchoPost">Support</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>

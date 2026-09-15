@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoPost: Instagram to Google Business Profile | DahVio Studios</title>
+    <link rel="icon" type="image/png" href="echopost-icon.png">
+    <meta name="description" content="EchoPost is a Chrome extension that rewrites an Instagram caption into a proper Google Business Profile post: the right post type, the right length, and a suggested call-to-action button.">
+    <meta name="keywords" content="Google Business Profile posts, GBP post generator, Instagram to Google Business Profile, local SEO Chrome extension, Google Business post writer">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dahvio.com/echopost">
+
+    <meta property="og:title" content="EchoPost: Instagram to Google Business Profile">
+    <meta property="og:description" content="Hashtags, hype and &quot;link in bio&quot; in. A clean Google Business Profile post out.">
+    <meta property="og:image" content="https://dahvio.com/echopost-screenshot.png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dahvio.com/echopost">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="EchoPost: Instagram to Google Business Profile">
+    <meta name="twitter:description" content="Turn an Instagram caption into a proper Google Business Profile post.">
+    <meta name="twitter:image" content="https://dahvio.com/echopost-screenshot.png">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW9L8BTBBW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RW9L8BTBBW');
+    </script>
+
+    <script type="application/ld+json">
+{
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "EchoPost",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Chrome",
+            "url": "https://dahvio.com/echopost",
+            "downloadUrl": "https://chromewebstore.google.com/detail/echopost-%E2%80%94-instagram-to-g/ijpfmgkdkcjkkmpmgehgdocglbdodnmj",
+            "description": "EchoPost is a Chrome extension that rewrites an Instagram caption into a Google Business Profile post, with the right post type, length and a suggested call-to-action button.",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD",
+              "description": "Free plan: 5 rewrites per month"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "DahVio Studios",
+              "url": "https://dahvio.com/"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Do I need an account to use EchoPost?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. There's no EchoPost account, and no Instagram or Google login. Install it, paste a caption and rewrite."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does EchoPost post to Google for me?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Not yet. You copy the finished post and paste it into your Google Business Profile. The Open Google Business button takes you straight there."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What happens to the caption I paste?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Your caption and optional business note are sent over HTTPS to the EchoPost rewrite service, which uses OpenAI to write the post. The service doesn't keep your caption. Your rewrite history stays in your browser."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How much does EchoPost cost?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "The free plan includes 5 rewrites per month."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #FFFBEA;
+            --surface: #FFFFFF;
+            --ink: #171612;
+            --ink-faint: #3F3C33;
+            --ink-ghost: #6E6A5E;
+            --yellow: #FFD21F;
+            --yellow-soft: #FFF1B8;
+            --amber: #7A5C00;
+            --border: rgba(23, 22, 18, 0.12);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .logo span {
+            color: var(--amber);
+        }
+
+        .hero {
+            padding: 5.5rem 0 5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .eyebrow,
+        .section-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 3.6rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.03;
+            margin-bottom: 0.75rem;
+        }
+
+        .subtitle {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            max-width: 560px;
+        }
+
+        .subtitle mark {
+            background: linear-gradient(transparent 55%, var(--yellow) 55%);
+            color: inherit;
+        }
+
+        .hero-subtitle {
+            max-width: 560px;
+            font-size: 1.05rem;
+            color: var(--ink-faint);
+            line-height: 1.75;
+            margin-bottom: 1.85rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.25rem;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            padding: 0.95rem 1.6rem;
+            border-radius: 0.4rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--ink);
+            color: var(--yellow);
+            box-shadow: 0 14px 32px rgba(23, 22, 18, 0.18);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            color: var(--ink);
+            border: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--ink);
+        }
+
+        .hero-points {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+            max-width: 760px;
+        }
+
+        .hero-point {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.6rem;
+            padding: 1rem 1.1rem;
+        }
+
+        .hero-point strong {
+            display: block;
+            font-size: 0.98rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .hero-point span {
+            color: var(--ink-ghost);
+            font-size: 0.87rem;
+            line-height: 1.45;
+        }
+
+        .hero-visual {
+            background: var(--yellow);
+            border-radius: 1.25rem;
+            min-height: 360px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 24px 50px rgba(23, 22, 18, 0.14);
+        }
+
+        .hero-icon {
+            width: min(100%, 170px);
+            display: block;
+            border-radius: 36px;
+            box-shadow: 0 20px 44px rgba(23, 22, 18, 0.22);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-visual-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(23, 22, 18, 0.7);
+            margin-bottom: 0.35rem;
+        }
+
+        .hero-visual-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .section {
+            padding: 5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 2.05rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 0.9rem;
+        }
+
+        .section-intro {
+            max-width: 700px;
+            color: var(--ink-faint);
+            font-size: 1rem;
+            line-height: 1.75;
+            margin-bottom: 2.3rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.7rem;
+            padding: 1.35rem;
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.55rem;
+        }
+
+        .card p {
+            color: var(--ink-faint);
+            font-size: 0.94rem;
+            line-height: 1.6;
+        }
+
+        .card a {
+            color: var(--amber);
+        }
+
+        .shot {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 0.9rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 24px 50px rgba(23, 22, 18, 0.12);
+            margin-bottom: 2.5rem;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            counter-reset: step;
+            list-style: none;
+        }
+
+        .steps li {
+            counter-increment: step;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.7rem;
+            padding: 1.2rem 1.35rem;
+            color: var(--ink-faint);
+            font-size: 0.95rem;
+        }
+
+        .steps li::before {
+            content: counter(step);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.8rem;
+            height: 1.8rem;
+            margin-bottom: 0.7rem;
+            border-radius: 50%;
+            background: var(--yellow);
+            color: var(--ink);
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+
+        .steps li strong {
+            display: block;
+            color: var(--ink);
+            margin-bottom: 0.2rem;
+        }
+
+        .panel {
+            background: var(--ink);
+            color: #F4F1E6;
+            border-radius: 1rem;
+            padding: 2.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .panel h3 {
+            color: var(--yellow);
+            font-size: 1.15rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .panel p {
+            color: #CFCAB8;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .panel a {
+            color: var(--yellow);
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--ink-ghost);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--ink-ghost);
+            text-decoration: none;
+            margin: 0 0.75rem;
+        }
+
+        footer a:hover {
+            color: var(--ink);
+        }
+
+        @media (max-width: 960px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                max-width: 380px;
+                min-height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.25rem;
+            }
+
+            .hero {
+                padding: 4rem 0 3rem;
+            }
+
+            h1 {
+                font-size: 2.6rem;
+            }
+
+            .hero-points {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 3.5rem 0;
+            }
+
+            .panel {
+                padding: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="/" class="logo">DahVio<span>.</span></a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <div class="eyebrow">Chrome extension · Local SEO</div>
+                    <h1>EchoPost</h1>
+                    <p class="subtitle">Turn an Instagram caption into a <mark>proper Google Business Profile post.</mark></p>
+                    <p class="hero-subtitle">A caption that does well on Instagram is close to the opposite of a good Google Business Profile post. Hashtag stacks, "link in bio" and vibes over specifics all work against you in local search. Paste the caption, pick a tone, and EchoPost rewrites it for Google.</p>
+
+                    <div class="hero-actions">
+                        <a href="https://chromewebstore.google.com/detail/echopost-%E2%80%94-instagram-to-g/ijpfmgkdkcjkkmpmgehgdocglbdodnmj" target="_blank" rel="noopener" class="btn-primary">Add to Chrome, free</a>
+                        <a href="#how" class="btn-secondary">How it works</a>
+                    </div>
+
+                    <div class="hero-points">
+                        <div class="hero-point">
+                            <strong>Right post type</strong>
+                            <span>What's new, Offer or Event, picked from the caption.</span>
+                        </div>
+                        <div class="hero-point">
+                            <strong>Right length</strong>
+                            <span>The message up front, where Google shows it.</span>
+                        </div>
+                        <div class="hero-point">
+                            <strong>Right button</strong>
+                            <span>A call to action from Google's own set.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <img src="echopost-icon.png" alt="EchoPost icon" class="hero-icon">
+                    <div class="hero-visual-label">Hashtags and hype in</div>
+                    <div class="hero-visual-title">A clean Google post out.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Why it exists</div>
+            <h2 class="section-title">What works on Instagram works against you on Google.</h2>
+            <p class="section-intro">Posting to your Google Business Profile regularly helps local search, but most businesses write for Instagram first. Pasting the same caption into Google carries every Instagram habit with it.</p>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Hashtags do nothing</h3>
+                    <p>They don't function on Google Business Profile. EchoPost strips them.</p>
+                </div>
+                <div class="card">
+                    <h3>"Link in bio" means nothing</h3>
+                    <p>There's no bio on Google. Instagram-only phrasing comes out, and the action moves to a real button.</p>
+                </div>
+                <div class="card">
+                    <h3>Most of the post is hidden</h3>
+                    <p>Google shows roughly the first 150 to 300 characters before "Read more", so EchoPost front-loads what matters.</p>
+                </div>
+                <div class="card">
+                    <h3>Numbers and links go in the button</h3>
+                    <p>Google doesn't want phone numbers or URLs in the body. EchoPost keeps them out and suggests the right call-to-action button instead.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="how">
+        <div class="container">
+            <div class="section-label">How it works</div>
+            <h2 class="section-title">Paste, rewrite, copy.</h2>
+            <p class="section-intro">It takes under a minute, and no login to Instagram or Google.</p>
+
+            <img src="echopost-screenshot.png" alt="EchoPost turning a hashtag-heavy med spa Instagram caption into a Google Business Profile Offer post with a title, body and Book button" class="shot" width="1280" height="800" loading="lazy">
+
+            <ol class="steps">
+                <li><strong>Paste your caption</strong>Drop an Instagram caption into the EchoPost popup. Add an optional note about your business so it can mention the right city and services.</li>
+                <li><strong>Pick a tone</strong>Informative, Friendly or Promo.</li>
+                <li><strong>Rewrite for Google</strong>Get a title, post body, post type and suggested button, plus a short note explaining its choices, like reminding you an Offer needs start and end dates.</li>
+                <li><strong>Copy and post</strong>Copy the result and paste it into your Google Business Profile. Your last 20 rewrites stay in the extension.</li>
+            </ol>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Plan &amp; privacy</div>
+            <h2 class="section-title">Free to start. Clear about your data.</h2>
+
+            <div class="panel">
+                <div>
+                    <h3>Free plan: 5 rewrites a month</h3>
+                    <p>No account, no Instagram login and no Google login. Install it and start rewriting.</p>
+                </div>
+                <div>
+                    <h3>Where your caption goes</h3>
+                    <p>To write the post, your caption and optional business note are sent over HTTPS to the EchoPost rewrite service, which uses OpenAI. The service doesn't keep your caption. Your history stays in your browser, and a random install ID counts your free rewrites. <a href="/echopost-privacy">Read the privacy policy</a>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Built for local SEO</div>
+            <h2 class="section-title">Part of a small local SEO toolkit.</h2>
+            <p class="section-intro">EchoPost keeps a Google Business Profile active. Two other DahVio extensions handle the rest of the local picture.</p>
+
+            <div class="grid">
+                <div class="card">
+                    <h3><a href="https://localschemahelper.com" target="_blank" rel="noopener">Local Schema Helper</a></h3>
+                    <p>Generate clean JSON-LD structured data for a local business website.</p>
+                </div>
+                <div class="card">
+                    <h3><a href="https://chromewebstore.google.com/detail/local-seo-citation-manage/obpobpkmhihkeminlfajfipdmijmlnbf" target="_blank" rel="noopener">Citation Manager</a></h3>
+                    <p>Audit name, address and phone consistency across directories.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="border-bottom: 0;">
+        <div class="container">
+            <div class="section-label">FAQ</div>
+            <h2 class="section-title">A few quick answers.</h2>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Do I need an account?</h3>
+                    <p>No. There's no EchoPost account, and no Instagram or Google login. Install it, paste a caption and rewrite.</p>
+                </div>
+                <div class="card">
+                    <h3>Does it post to Google for me?</h3>
+                    <p>Not yet. You copy the finished post and paste it into your Google Business Profile. The Open Google Business button takes you straight there.</p>
+                </div>
+                <div class="card">
+                    <h3>Does it read my Instagram?</h3>
+                    <p>No. You paste the caption yourself. EchoPost doesn't read the pages you visit.</p>
+                </div>
+                <div class="card">
+                    <h3>Questions or bugs?</h3>
+                    <p>Email <a href="mailto:hello@dahvio.com?subject=EchoPost">hello@dahvio.com</a>. The caption you tried and what you expected is enough to go on.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="/">DahVio Studios</a>
+                <a href="/echopost-privacy">Privacy Policy</a>
+                <a href="mailto:hello@dahvio.com?subject=EchoPost">Support</a>
+                <a href="https://chromewebstore.google.com/detail/echopost-%E2%80%94-instagram-to-g/ijpfmgkdkcjkkmpmgehgdocglbdodnmj" target="_blank" rel="noopener">Chrome Web Store</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
