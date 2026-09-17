@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPAT Prep App | Firefighter Candidate Physical Ability Test Training</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="CPAT Prep: firefighter candidate physical ability test training with a personalized weekly plan, timers for all 8 CPAT events, confidence tracking, and test-date countdown. Offline, one-time $1.99, no subscription.">
+    <meta name="keywords" content="firefighter cpat prep, cpat training, firefighter physical training, cpat preparation, cpat practice, candidate physical ability test, physical ability test, firefighter candidate prep, firefighter test prep, cpat exam, cpat timer app">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dahvio.com/cpat-prep">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="CPAT Prep | Firefighter Candidate Physical Ability Test Training">
+    <meta property="og:description" content="Personalized weekly training plan, timers for all 8 CPAT events, confidence tracking, and test-date countdown. Works offline. One-time purchase, no subscription.">
+    <meta property="og:image" content="https://dahvio.com/cpat-prep-icon.png">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CPAT Prep">
+    <meta name="twitter:description" content="Firefighter candidate physical ability test training — weekly plan, event timers, confidence tracking, countdown. Offline, one-time purchase.">
+    <meta name="twitter:image" content="https://dahvio.com/cpat-prep-icon.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW9L8BTBBW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RW9L8BTBBW');
+    </script>
+
+    <!-- FAQ + SoftwareApplication Schema -->
+    <script type="application/ld+json">
+{
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "CPAT Prep",
+            "applicationCategory": "HealthApplication",
+            "operatingSystem": "iOS",
+            "url": "https://dahvio.com/cpat-prep",
+            "downloadUrl": "https://apps.apple.com/us/app/firefighter-cpat-prep-exam/id6762159519",
+            "description": "Firefighter candidate physical ability test (CPAT) training app with a personalized weekly plan, event-specific timers for all 8 CPAT events, confidence tracking, and test-date countdown notifications.",
+            "offers": {
+              "@type": "Offer",
+              "price": "1.99",
+              "priceCurrency": "USD",
+              "description": "One-time purchase"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "DahVio Studios",
+              "url": "https://dahvio.com/"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is the CPAT?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "The Candidate Physical Ability Test (CPAT) is a standardized physical fitness test required by many fire departments during the hiring process. It consists of eight timed events — Stair Climb, Hose Drag, Equipment Carry, Ladder Raise & Extension, Forcible Entry, Search, Rescue Drag, and Ceiling Breach & Pull — completed sequentially in under 10 minutes 20 seconds."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is CPAT Prep an official app?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. CPAT Prep is an unofficial training tool and is not affiliated with, endorsed by, or sanctioned by the IAFF, IAFC, or any fire department or testing agency. Always verify test requirements with your local fire department or testing provider."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How does the training plan work?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "During onboarding you select your current fitness level, available equipment, and any weak areas. CPAT Prep generates a weekly training plan built around those inputs, cycling through workouts and event-specific timers that target the demands of each CPAT event. The plan updates automatically every week."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What do the event confidence ratings do?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Logging your confidence after each event — High, Okay, or Low — adjusts that event's status over time, helping the app surface your weakest areas as the focus of your training week."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does CPAT Prep work offline?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. CPAT Prep is fully offline — training plans, timers, and progress tracking all run locally on your device with no internet connection or account required."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is there a subscription?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. CPAT Prep is a one-time $1.99 purchase — no subscription, no ads, and no in-app purchases."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0E0E10;
+            --bg-card: #17140F;
+            --text: #F2F2F7;
+            --accent: #D94E1F;
+            --accent-dim: #B23E17;
+            --dim: #888;
+            --border: #1C1C1F;
+            --border-light: #2A231C;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span { color: var(--accent); }
+
+        .header-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            padding: 0.6rem 1.25rem;
+            border-radius: 0.375rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            transition: background 0.2s ease;
+        }
+
+        .header-cta:hover { background: var(--accent-dim); }
+
+        /* Hero */
+        .hero {
+            padding: 7rem 0 5rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 70% 50%, rgba(217, 78, 31, 0.10) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            background: rgba(217, 78, 31, 0.1);
+            border: 1px solid rgba(217, 78, 31, 0.25);
+            padding: 0.35rem 0.9rem;
+            border-radius: 2rem;
+            margin-bottom: 1.75rem;
+        }
+
+        h1 {
+            font-size: 3.75rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.08;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 .highlight { color: var(--accent); }
+
+        .hero-seo-hook {
+            font-size: 1.05rem;
+            color: var(--accent);
+            font-style: italic;
+            margin-bottom: 1.25rem;
+            max-width: 680px;
+            opacity: 0.9;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--dim);
+            max-width: 640px;
+            margin-bottom: 2.5rem;
+            line-height: 1.65;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            padding: 0.9rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 30px rgba(217, 78, 31, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-dim);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 40px rgba(217, 78, 31, 0.4);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            color: var(--text);
+            text-decoration: none;
+            padding: 0.9rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 1px solid var(--border-light);
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .stat { display: flex; flex-direction: column; }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+        }
+
+        .stat-label { font-size: 0.875rem; color: var(--dim); }
+
+        /* Sections */
+        .section {
+            padding: 6rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .section-intro {
+            font-size: 1.05rem;
+            color: var(--dim);
+            max-width: 640px;
+            margin-bottom: 3rem;
+            line-height: 1.7;
+        }
+
+        /* Feature Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.625rem;
+            padding: 1.75rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .feature-card:hover { border-color: var(--accent); }
+
+        .feature-icon { font-size: 1.75rem; margin-bottom: 1rem; }
+
+        .feature-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc { font-size: 0.9rem; color: var(--dim); line-height: 1.6; }
+
+        /* Screens */
+        .screens-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .screen-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-top: 3px solid var(--accent);
+            border-radius: 0.625rem;
+            padding: 2rem;
+        }
+
+        .screen-num {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+            font-family: monospace;
+        }
+
+        .screen-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .screen-desc { font-size: 0.85rem; color: var(--dim); line-height: 1.5; }
+
+        /* Events list */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .event-chip {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .event-num {
+            font-family: monospace;
+            font-weight: 800;
+            color: var(--accent);
+            font-size: 0.85rem;
+        }
+
+        /* App CTA */
+        .app-cta-section {
+            background: linear-gradient(135deg, #150D08 0%, #1F1108 100%);
+            border: 1px solid rgba(217, 78, 31, 0.25);
+            border-radius: 1rem;
+            padding: 3.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-cta-section::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(217, 78, 31, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .price-badge {
+            display: inline-block;
+            font-size: 2.75rem;
+            font-weight: 900;
+            color: var(--accent);
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .price-badge-sub {
+            display: block;
+            font-size: 0.875rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 700;
+            opacity: 0.8;
+            margin-bottom: 1.75rem;
+        }
+
+        .app-cta-section h2 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .app-cta-section p {
+            font-size: 1.05rem;
+            color: var(--dim);
+            max-width: 520px;
+            margin: 0 auto 2rem;
+            line-height: 1.65;
+        }
+
+        .app-features-inline {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .app-feature-inline {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--dim);
+        }
+
+        .app-feature-inline::before {
+            content: '✓';
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .app-store-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            padding: 0.9rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .app-store-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-1px);
+        }
+
+        /* FAQ */
+        .faq-list { display: flex; flex-direction: column; gap: 0; }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border-light);
+            padding: 1.75rem 0;
+        }
+
+        .faq-item:first-child { border-top: 1px solid var(--border-light); }
+
+        .faq-q {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .faq-a {
+            font-size: 0.95rem;
+            color: var(--dim);
+            line-height: 1.7;
+            max-width: 780px;
+        }
+
+        /* Links */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .link-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            padding: 1.25rem 1.5rem;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+        }
+
+        .link-card:hover { border-color: var(--accent); color: var(--accent); }
+        .link-card-arrow { color: var(--accent); font-size: 1.1rem; }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--dim);
+            line-height: 1.65;
+        }
+
+        .disclaimer strong { color: var(--text); }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer a {
+            color: var(--dim);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        footer a:hover { color: var(--accent); }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.4rem; }
+            .hero { padding: 4.5rem 0 3.5rem; }
+            .hero-stats { gap: 2rem; margin-top: 3rem; }
+            .section { padding: 4rem 0; }
+            .section-title { font-size: 1.85rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .app-cta-section { padding: 2.5rem 1.5rem; }
+            .app-cta-section h2 { font-size: 1.75rem; }
+            .app-features-inline { gap: 1rem; flex-direction: column; align-items: center; }
+        }
+
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <a href="/" class="logo">DahVio<span>.</span></a>
+                <a href="https://apps.apple.com/us/app/firefighter-cpat-prep-exam/id6762159519" target="_blank" rel="noopener" class="header-cta">
+                    Download on iOS →
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-eyebrow">8 CPAT Events · Weekly Plan · Timers · Countdown</div>
+            <h1>CPAT Prep –<br><span class="highlight">Firefighter Physical Ability Training</span></h1>
+            <p class="hero-seo-hook">Structured training for the Candidate Physical Ability Test — a personalized weekly plan, event-specific timers, and confidence tracking across all eight CPAT events.</p>
+            <p class="hero-subtitle">Set your fitness level, equipment, and weak areas once, and CPAT Prep builds a weekly training plan around them — cycling through workouts and interval timers for Stair Climb, Hose Drag, Equipment Carry, Ladder Raise &amp; Extension, Forcible Entry, Search, Rescue Drag, and Ceiling Breach &amp; Pull. Log your confidence after each event and the plan adjusts to your weakest areas automatically.</p>
+            <div class="hero-cta-group">
+                <a href="https://apps.apple.com/us/app/firefighter-cpat-prep-exam/id6762159519" target="_blank" rel="noopener" class="btn-primary">
+                    Download on the App Store
+                </a>
+                <a href="#faq" class="btn-secondary">Learn More</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-value">8</span>
+                    <span class="stat-label">CPAT Events</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">10:20</span>
+                    <span class="stat-label">Max Completion Time</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">$1.99</span>
+                    <span class="stat-label">One-Time Purchase</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What it does -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">What's Inside</div>
+            <h2 class="section-title">A weekly plan built around your CPAT weak points.</h2>
+            <p class="section-intro">One-time purchase. No subscription. No ads. Training plans, timers, and progress all work fully offline.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <div class="feature-title">Personalized Weekly Plan</div>
+                    <p class="feature-desc">Set your fitness level, available equipment, and weak areas during onboarding, and CPAT Prep generates a training plan that updates automatically every week.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⏱️</div>
+                    <div class="feature-title">Event-Specific Timers</div>
+                    <p class="feature-desc">Work/rest interval timers built around all 8 CPAT events, with sessions ranging from 15 to 45 minutes on standard commercial gym equipment.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-title">Event Confidence Tracking</div>
+                    <p class="feature-desc">Rate each event High, Okay, or Low after training, and CPAT Prep shifts focus toward your weakest events automatically.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⏳</div>
+                    <div class="feature-title">Test-Date Countdown</div>
+                    <p class="feature-desc">Set your test date and get local countdown notifications to keep training on schedule as it approaches.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📴</div>
+                    <div class="feature-title">Fully Offline</div>
+                    <p class="feature-desc">No internet connection or account required. Training plans, event status, and workout history are saved entirely on your device.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💵</div>
+                    <div class="feature-title">No Subscription</div>
+                    <p class="feature-desc">A one-time $1.99 purchase — no recurring fees, no ads, no in-app purchases.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">The Test</div>
+            <h2 class="section-title">All 8 CPAT events, in order.</h2>
+            <p class="section-intro">Completed sequentially, in full protective gear, in under 10 minutes 20 seconds.</p>
+            <div class="events-grid">
+                <div class="event-chip"><span class="event-num">01</span> Stair Climb</div>
+                <div class="event-chip"><span class="event-num">02</span> Hose Drag</div>
+                <div class="event-chip"><span class="event-num">03</span> Equipment Carry</div>
+                <div class="event-chip"><span class="event-num">04</span> Ladder Raise &amp; Extension</div>
+                <div class="event-chip"><span class="event-num">05</span> Forcible Entry</div>
+                <div class="event-chip"><span class="event-num">06</span> Search</div>
+                <div class="event-chip"><span class="event-num">07</span> Rescue Drag</div>
+                <div class="event-chip"><span class="event-num">08</span> Ceiling Breach &amp; Pull</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screens -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Inside the App</div>
+            <h2 class="section-title">From onboarding to test day.</h2>
+            <p class="section-intro">A simple flow that keeps the plan current as your fitness level, equipment, and test date change.</p>
+            <div class="screens-row">
+                <div class="screen-card">
+                    <div class="screen-num">01</div>
+                    <div class="screen-name">Onboarding</div>
+                    <p class="screen-desc">Set your fitness level, available equipment, and weak areas to build your first plan.</p>
+                </div>
+                <div class="screen-card">
+                    <div class="screen-num">02</div>
+                    <div class="screen-name">Plan</div>
+                    <p class="screen-desc">A weekly training plan with event-specific timers, editable any time from your profile.</p>
+                </div>
+                <div class="screen-card">
+                    <div class="screen-num">03</div>
+                    <div class="screen-name">Events</div>
+                    <p class="screen-desc">Log confidence per event to surface your weakest areas as the week's focus.</p>
+                </div>
+                <div class="screen-card">
+                    <div class="screen-num">04</div>
+                    <div class="screen-name">Countdown</div>
+                    <p class="screen-desc">Set your test date for local reminders as it approaches.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App CTA -->
+    <section class="section" id="download">
+        <div class="container">
+            <div class="app-cta-section">
+                <span class="price-badge">$1.99</span>
+                <span class="price-badge-sub">One-Time · No Subscription</span>
+                <h2>CPAT Prep on iOS</h2>
+                <p>A personalized weekly training plan, event-specific timers, and confidence tracking for all 8 CPAT events — built to run entirely offline.</p>
+                <div class="app-features-inline">
+                    <span class="app-feature-inline">8 event timers</span>
+                    <span class="app-feature-inline">Weekly training plan</span>
+                    <span class="app-feature-inline">Works offline</span>
+                    <span class="app-feature-inline">No ads</span>
+                </div>
+                <a href="https://apps.apple.com/us/app/firefighter-cpat-prep-exam/id6762159519" target="_blank" rel="noopener" class="app-store-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                    </svg>
+                    Download on the App Store
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+        <div class="container">
+            <div class="section-label">FAQ</div>
+            <h2 class="section-title">Frequently asked questions</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-q">What is the CPAT?</div>
+                    <p class="faq-a">The Candidate Physical Ability Test (CPAT) is a standardized physical fitness test required by many fire departments during the hiring process. It consists of eight timed events — Stair Climb, Hose Drag, Equipment Carry, Ladder Raise &amp; Extension, Forcible Entry, Search, Rescue Drag, and Ceiling Breach &amp; Pull — completed sequentially in under 10 minutes 20 seconds.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Is CPAT Prep an official app?</div>
+                    <p class="faq-a">No. CPAT Prep is an unofficial training tool and is not affiliated with, endorsed by, or sanctioned by the IAFF, IAFC, or any fire department or testing agency. Always verify test requirements with your local fire department or testing provider.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">How does the training plan work?</div>
+                    <p class="faq-a">During onboarding you select your current fitness level, available equipment, and any weak areas. CPAT Prep generates a weekly training plan built around those inputs, cycling through workouts and event-specific timers that target the demands of each CPAT event. The plan updates automatically every week, and you can edit your profile any time to adjust it.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">What do the event confidence ratings do?</div>
+                    <p class="faq-a">Logging your confidence after each event — High, Okay, or Low — adjusts that event's status over time, helping the app surface your weakest areas as the focus of your training week.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Does CPAT Prep work offline?</div>
+                    <p class="faq-a">Yes. CPAT Prep is fully offline — training plans, timers, event status, and workout history all run and save locally on your device. No account or internet connection is required.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Is there a subscription?</div>
+                    <p class="faq-a">No. CPAT Prep is a one-time $1.99 purchase — no subscription, no ads, and no in-app purchases.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Links -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label">App Resources</div>
+            <h2 class="section-title">More from CPAT Prep</h2>
+            <div class="links-grid">
+                <a href="/cpat-prep-privacy" class="link-card">
+                    Privacy Policy
+                    <span class="link-card-arrow">→</span>
+                </a>
+                <a href="/cpat-prep-support" class="link-card">
+                    Support &amp; Help
+                    <span class="link-card-arrow">→</span>
+                </a>
+                <a href="https://apps.apple.com/us/app/firefighter-cpat-prep-exam/id6762159519" target="_blank" rel="noopener" class="link-card">
+                    Download on App Store
+                    <span class="link-card-arrow">→</span>
+                </a>
+                <a href="/" class="link-card">
+                    DahVio Studios
+                    <span class="link-card-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disclaimer -->
+    <section class="section">
+        <div class="container">
+            <div class="disclaimer">
+                <strong>Disclaimer:</strong> CPAT Prep is an independent training tool and is not affiliated with, endorsed by, or sanctioned by the IAFF, IAFC, or any fire department or testing agency. Event standards and time limits are provided for training reference only — always confirm current requirements with your local fire department or testing provider before your official test date.
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="/">DahVio Studios</a>
+                <a href="/cpat-prep-privacy">Privacy Policy</a>
+                <a href="/cpat-prep-support">Support</a>
+                <a href="https://apps.apple.com/us/app/firefighter-cpat-prep-exam/id6762159519" target="_blank" rel="noopener">App Store</a>
+            </div>
+            <p>&copy; 2026 DahVio Studios. Built in Long Beach, California.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
