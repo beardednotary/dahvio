@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERG Guide Number Finder — Look Up a Guide Number by UN Number or Material</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="Free ERG guide number finder. Type a UN number or material name — gasoline, chlorine, corrosive liquid — and get the Emergency Response Guidebook guide number instantly.">
+    <meta name="keywords" content="erg guide number finder, erg guide number lookup, emergency response guidebook lookup, un number to erg guide, hazmat guide number search, dot erg guide lookup, find erg guide number">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dahvio.com/erg-guide-finder">
+
+    <meta property="og:title" content="ERG Guide Number Finder">
+    <meta property="og:description" content="Type a UN number or material name and get the Emergency Response Guidebook guide number instantly. Free, no sign-up.">
+    <meta property="og:image" content="https://dahvio.com/hazmat-pro-icon.png">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ERG Guide Number Finder">
+    <meta name="twitter:description" content="Type a UN number or material name and get the ERG guide number instantly.">
+    <meta name="twitter:image" content="https://dahvio.com/hazmat-pro-icon.png">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW9L8BTBBW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RW9L8BTBBW');
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "ERG Guide Number Finder",
+          "applicationCategory": "UtilitiesApplication",
+          "operatingSystem": "Any (Web)",
+          "url": "https://dahvio.com/erg-guide-finder",
+          "description": "Free tool to find the Emergency Response Guidebook (ERG) guide number for a UN number or material name.",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+          "publisher": { "@type": "Organization", "name": "DahVio Studios", "url": "https://dahvio.com/" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "DahVio", "item": "https://dahvio.com/" },
+            { "@type": "ListItem", "position": 2, "name": "HazMat Pro", "item": "https://dahvio.com/hazmat-pro" },
+            { "@type": "ListItem", "position": 3, "name": "ERG Guide Number Finder", "item": "https://dahvio.com/erg-guide-finder" }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is an ERG guide number?",
+              "acceptedAnswer": { "@type": "Answer", "text": "A two- or three-digit number from the Emergency Response Guidebook (ERG) that points first responders to a standardized response page for a material — covering potential hazards, public safety distances, and initial response actions. Each UN number maps to one ERG guide number." }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I find the ERG guide number for a UN number or material?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Type the UN number (like 1203) or the material name (like gasoline) into the search box above. The tool matches it against 100+ commonly shipped materials and returns the guide number, hazard class, and packing group." }
+            },
+            {
+              "@type": "Question",
+              "name": "Does this replace the physical ERG guidebook?",
+              "acceptedAnswer": { "@type": "Answer", "text": "No. This tool only returns the guide number itself — it does not include the full guide page content (potential hazards, evacuation distances, and response steps). Always consult the current official ERG for the complete guide page before acting in the field." }
+            },
+            {
+              "@type": "Question",
+              "name": "What if my material isn't in this tool?",
+              "acceptedAnswer": { "@type": "Answer", "text": "This tool covers 100+ of the most commonly shipped and searched materials as a free reference. The HazMat Pro app includes a larger database plus a voice-powered Identify tool that also handles free-text and descriptive queries." }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0D0D0D; --card: #141414; --text: #EAEAEA; --dim: #888;
+            --accent: #FFD400; --accent-dim: #C9A900; --danger: #E5342A; --border: #1A1A1A;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 1.25rem; }
+        header, .section { border-bottom: 1px solid var(--border); }
+        header { padding: 2rem 0; }
+        .header-inner { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .logo, .back-link { text-decoration: none; }
+        .logo { color: var(--text); font-size: 1.5rem; font-weight: 600; }
+        .logo span { color: var(--accent); }
+        .back-link { color: var(--accent); font-weight: 600; font-size: 0.95rem; }
+        .hero { padding: 5rem 0 3rem; }
+        .eyebrow, .section-label { color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.76rem; font-weight: 700; display: inline-block; }
+        .eyebrow { margin-bottom: 1.1rem; }
+        .section-label { margin-bottom: 0.8rem; }
+        h1 { font-size: 2.9rem; line-height: 1.06; letter-spacing: -0.03em; margin-bottom: 1rem; max-width: 800px; }
+        h2 { font-size: 1.9rem; margin-bottom: 1rem; letter-spacing: -0.02em; }
+        h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+        .hero p, .section-intro, .card p, li, .note, p.body { color: var(--dim); }
+        .section { padding: 4rem 0; }
+        .section-intro, p.body { max-width: 760px; margin-bottom: 1.5rem; }
+
+        /* Finder tool */
+        .finder-section { padding: 0 0 4rem; }
+        #erg-search {
+            width: 100%;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1rem 1.25rem;
+            font-size: 1.05rem;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.15s ease;
+            margin-bottom: 1.5rem;
+        }
+        #erg-search:focus { border-color: var(--accent); }
+        #erg-search::placeholder { color: #666; }
+
+        .result-empty { color: var(--dim); font-size: 0.95rem; padding: 1rem 0; }
+
+        .result-card {
+            background: var(--card);
+            border: 1px solid rgba(255, 212, 0, 0.25);
+            border-radius: 1rem;
+            padding: 2rem;
+            display: none;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+        .result-guide-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.5rem; }
+        .result-guide-number { font-size: 3.5rem; font-weight: 900; font-family: monospace; color: var(--accent); line-height: 1; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+        .result-material { font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+        .result-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; font-size: 0.9rem; color: var(--dim); }
+        .result-meta strong { color: var(--text); }
+
+        .other-matches { display: none; }
+        .other-matches-label { font-size: 0.85rem; color: var(--dim); margin-bottom: 0.75rem; }
+        .other-match-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.6rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .other-match-row:hover { border-color: var(--accent); }
+        .other-match-un { font-family: monospace; font-weight: 700; color: var(--accent); margin-right: 0.75rem; }
+        .other-match-guide { font-family: monospace; font-weight: 700; color: var(--text); }
+
+        ul { padding-left: 1.2rem; max-width: 760px; }
+        li + li { margin-top: 0.45rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 0.9rem; padding: 1.4rem; text-decoration: none; color: inherit; display: block; }
+        .card h3 { color: var(--text); }
+        .note { font-size: 0.9rem; margin-top: 1rem; }
+        .cta { background: linear-gradient(135deg, #100D00 0%, #1A1600 100%); border: 1px solid rgba(255, 212, 0, 0.28); border-radius: 1rem; padding: 2.25rem; text-align: center; }
+        .cta p { max-width: 640px; margin: 0.75rem auto 1.3rem; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.9rem 1.6rem; border-radius: 0.7rem; background: var(--accent); color: #000; text-decoration: none; font-weight: 700; }
+        .btn:hover { background: var(--accent-dim); }
+        .faq-item { border-bottom: 1px solid var(--border); padding: 1.4rem 0; }
+        .faq-item:first-child { border-top: 1px solid var(--border); }
+        .faq-q { font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+        .disclaimer { background: var(--card); border: 1px solid var(--border); border-radius: 0.6rem; padding: 1.4rem; font-size: 0.85rem; color: var(--dim); }
+        .disclaimer strong { color: var(--text); }
+        footer { padding: 2.5rem 0; text-align: center; color: var(--dim); font-size: 0.9rem; }
+        footer a { color: var(--dim); text-decoration: none; margin: 0 0.7rem; }
+        footer a:hover { color: var(--accent); }
+        @media (max-width: 768px) { h1 { font-size: 2.1rem; } h2 { font-size: 1.55rem; } .section { padding: 3rem 0; } .result-guide-number { font-size: 2.6rem; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <a href="/" class="logo">DahVio<span>.</span></a>
+                <a href="/hazmat-pro" class="back-link">HazMat Pro App &rarr;</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="eyebrow">Free Tool</div>
+            <h1>ERG Guide Number Finder</h1>
+            <p class="section-intro">Type a UN number or material name — get the Emergency Response Guidebook (ERG) guide number back instantly, along with hazard class and packing group. Covers 100+ commonly shipped materials, no sign-up.</p>
+        </div>
+    </section>
+
+    <section class="section finder-section">
+        <div class="container">
+            <input type="text" id="erg-search" placeholder="Try UN1203, gasoline, chlorine, sulfuric acid..." autocomplete="off" aria-label="Find ERG guide number">
+
+            <div class="result-card" id="result-card">
+                <div class="result-guide-label">ERG Guide Number</div>
+                <div class="result-guide-number" id="result-guide-number">—</div>
+                <div class="result-material" id="result-material"></div>
+                <div class="result-meta">
+                    <span>UN Number: <strong id="result-un"></strong></span>
+                    <span>Class: <strong id="result-class"></strong></span>
+                    <span>Packing Group: <strong id="result-pg"></strong></span>
+                </div>
+            </div>
+
+            <p class="result-empty" id="result-empty">Start typing a UN number or material name above.</p>
+
+            <div class="other-matches" id="other-matches">
+                <div class="other-matches-label">Other matches</div>
+                <div id="other-matches-list"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">How It Works</div>
+            <h2>One number, one response page</h2>
+            <p class="body">Every UN number maps to exactly one ERG guide number — a two- or three-digit reference to a standardized page in the Emergency Response Guidebook covering potential hazards, public safety distances, and initial response actions for that material or material family. This tool matches your UN number or material name against a database of common entries and returns that guide number directly, so you don't have to flip through the index first.</p>
+            <p class="note">This tool returns the guide <em>number</em> only, not the full guide page content. Pair it with your current official ERG for the complete hazards, isolation distances, and response steps — or see the <a href="/un-number-lookup" style="color: var(--accent);">UN Number Lookup</a> tool for the full browsable table.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Go Further</div>
+            <h2>Ask it instead of searching for it</h2>
+            <p class="section-intro">This page matches exact UN numbers and known material names. HazMat Pro's Identify feature goes further — hold to speak or type a free-text description, like "smoking pallet of batteries after a forklift strike," and it resolves the material with full PPE and response guidance, fully offline.</p>
+            <div class="cta">
+                <h2>HazMat Pro</h2>
+                <p>Voice-powered Identify, plus placards, UN numbers, and ERG guide numbers — searchable and fully offline.</p>
+                <a href="/hazmat-pro" class="btn">Open HazMat Pro</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">FAQ</div>
+            <h2>Common questions</h2>
+            <div class="faq-item"><div class="faq-q">What is an ERG guide number?</div><p>A two- or three-digit page reference in the Emergency Response Guidebook covering potential hazards, safety distances, and initial response steps for a material or material family. Every UN number maps to one.</p></div>
+            <div class="faq-item"><div class="faq-q">How do I find the ERG guide number for a UN number or material?</div><p>Type the UN number or material name above. It's matched against 100+ commonly shipped materials and returns the guide number, class, and packing group.</p></div>
+            <div class="faq-item"><div class="faq-q">Does this replace the physical ERG guidebook?</div><p>No. It returns the guide number only, not the full guide page content. Always consult the current official ERG for complete response guidance.</p></div>
+            <div class="faq-item"><div class="faq-q">What if my material isn't in this tool?</div><p>This covers 100+ of the most common materials as a free reference. HazMat Pro's Identify feature also handles free-text and descriptive queries offline.</p></div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Related</div>
+            <h2>More hazmat resources</h2>
+            <div class="grid">
+                <a href="/un-number-lookup" class="card"><h3>UN Number Lookup &rarr;</h3><p>Full browsable table of 100+ UN numbers.</p></a>
+                <a href="/hazmat-pro" class="card"><h3>HazMat Pro App &rarr;</h3><p>Placards, UN numbers, ERG guide numbers, and Identify — offline.</p></a>
+                <a href="/dot-placard-guide" class="card"><h3>DOT Placard Guide &rarr;</h3><p>All 9 hazard classes and divisions explained.</p></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="disclaimer">
+                <strong>Disclaimer:</strong> This tool is an independent reference for training and lookup purposes only. It is not affiliated with the US DOT, PHMSA, or the ERG's publisher, and it does not replace the current official Emergency Response Guidebook, 49 CFR §172.101, or your organization's SOPs. Always confirm against current official sources before acting on this data in the field.
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="/">DahVio Studios</a>
+                <a href="/hazmat-pro">HazMat Pro App</a>
+                <a href="/un-number-lookup">UN Number Lookup</a>
+                <a href="/hazmat-pro-support">Support</a>
+            </p>
+            <p>&copy; 2026 DahVio Studios. Built in Long Beach, California.</p>
+        </div>
+    </footer>
+
+    <script>
+        var UN_DATA = [
+            ["1005","Ammonia, anhydrous","2.3","—","125"],
+            ["1013","Carbon dioxide","2.2","—","120"],
+            ["1017","Chlorine","2.3","—","124"],
+            ["1026","Cyanogen","2.3","—","119"],
+            ["1038","Ethylene, refrigerated liquid","2.1","—","115"],
+            ["1040","Ethylene oxide","2.3","—","119P"],
+            ["1045","Fluorine, compressed","2.3","—","124"],
+            ["1049","Hydrogen, compressed","2.1","—","115"],
+            ["1050","Hydrogen chloride, anhydrous","2.3","—","125"],
+            ["1052","Hydrogen fluoride, anhydrous","8","—","125"],
+            ["1066","Nitrogen, compressed","2.2","—","121"],
+            ["1072","Oxygen, compressed","2.2","—","122"],
+            ["1075","Petroleum gas, liquefied (LPG)","2.1","—","115"],
+            ["1076","Phosgene","2.3","—","125"],
+            ["1079","Sulfur dioxide","2.3","—","125"],
+            ["1090","Acetone","3","II","127"],
+            ["1092","Acrolein, stabilized","6.1","I","131P"],
+            ["1104","Amyl acetates","3","III","129"],
+            ["1114","Benzene","3","II","130"],
+            ["1120","Butanols","3","II/III","129"],
+            ["1131","Carbon disulfide","3","I","131"],
+            ["1133","Adhesives","3","I/II/III","128"],
+            ["1145","Cyclohexane","3","II","128"],
+            ["1170","Ethanol (ethyl alcohol)","3","II","127"],
+            ["1173","Ethyl acetate","3","II","129"],
+            ["1198","Formaldehyde solution, flammable","3","III","132"],
+            ["1202","Diesel fuel","3","III","128"],
+            ["1203","Gasoline","3","II","128"],
+            ["1206","Heptanes","3","II","128"],
+            ["1210","Printing ink","3","I/II/III","129"],
+            ["1219","Isopropanol","3","II","129"],
+            ["1223","Kerosene","3","III","128"],
+            ["1230","Methanol","3","II","131"],
+            ["1231","Methyl acetate","3","II","129"],
+            ["1263","Paint","3","I/II/III","128"],
+            ["1267","Petroleum crude oil","3","I/II/III","128"],
+            ["1268","Petroleum distillates, n.o.s.","3","I/II/III","128"],
+            ["1279","1,2-Dichloroethane","3","II","131"],
+            ["1294","Toluene","3","II","130"],
+            ["1300","Turpentine substitute","3","II/III","128"],
+            ["1307","Xylenes","3","II/III","130"],
+            ["1381","Phosphorus, white or yellow, dry","4.2","I","136"],
+            ["1402","Calcium carbide","4.3","I/II","138"],
+            ["1428","Sodium","4.3","I","138"],
+            ["1479","Oxidizing solid, n.o.s.","5.1","I/II/III","140"],
+            ["1485","Potassium bromate","5.1","II","140"],
+            ["1486","Potassium nitrate","5.1","III","140"],
+            ["1495","Sodium chlorate","5.1","II","140"],
+            ["1498","Sodium nitrate","5.1","III","140"],
+            ["1547","Aniline","6.1","II","153"],
+            ["1580","Chloropicrin","6.1","I","154"],
+            ["1654","Nicotine","6.1","I","151"],
+            ["1710","Trichloroethylene","6.1","III","160"],
+            ["1715","Acetic anhydride","8","II","137"],
+            ["1719","Caustic alkali liquid, n.o.s.","8","II","154"],
+            ["1760","Corrosive liquid, n.o.s.","8","I/II/III","154"],
+            ["1789","Hydrochloric acid","8","II","157"],
+            ["1790","Hydrofluoric acid","8","I/II","157"],
+            ["1791","Hypochlorite solution","8","II/III","154"],
+            ["1805","Phosphoric acid","8","III","154"],
+            ["1824","Sodium hydroxide solution","8","II","154"],
+            ["1830","Sulfuric acid","8","II","137"],
+            ["1863","Fuel, aviation, turbine engine (jet fuel)","3","I/II/III","128"],
+            ["1866","Resin solution","3","I/II/III","127"],
+            ["1888","Chloroform","6.1","III","151"],
+            ["1950","Aerosols","2.1/2.2","—","126"],
+            ["1955","Compressed gas, toxic, n.o.s.","2.3","—","123"],
+            ["1956","Compressed gas, n.o.s.","2.2","—","126"],
+            ["1965","Hydrocarbon gas mixture, liquefied","2.1","—","115"],
+            ["1972","Natural gas, refrigerated liquid (LNG)","2.1","—","115"],
+            ["1978","Propane","2.1","—","115"],
+            ["1987","Alcohols, n.o.s.","3","I/II/III","127"],
+            ["1988","Aldehydes, n.o.s.","3","I/II/III","129"],
+            ["1992","Flammable liquid, toxic, n.o.s.","3","I/II/III","131"],
+            ["1993","Flammable liquid, n.o.s.","3","I/II/III","128"],
+            ["2015","Hydrogen peroxide, stabilized","5.1","I","143"],
+            ["2031","Nitric acid","8","II","157"],
+            ["2209","Formaldehyde solution","8","III","132"],
+            ["2212","Asbestos","9","II/III","171"],
+            ["2218","Acrylic acid, stabilized","8","II","132P"],
+            ["2304","Naphthalene, molten","4.1","III","133"],
+            ["2426","Ammonium nitrate, liquid (hot conc. solution)","5.1","III","140"],
+            ["2448","Sulfur, molten","4.1","III","133"],
+            ["2582","Ferric chloride solution","8","III","154"],
+            ["2672","Ammonia solution","8","III","154"],
+            ["2789","Acetic acid, glacial","8","II","132"],
+            ["2794","Batteries, wet, filled with acid","8","—","154"],
+            ["2795","Batteries, wet, filled with alkali","8","—","154"],
+            ["2796","Sulfuric acid, with not more than 51% acid","8","II","157"],
+            ["2809","Mercury","8","III","172"],
+            ["2810","Toxic liquid, organic, n.o.s.","6.1","I/II/III","153"],
+            ["2814","Infectious substance, affecting humans","6.2","—","158"],
+            ["2900","Infectious substance, affecting animals","6.2","—","158"],
+            ["2924","Flammable liquid, corrosive, n.o.s.","3","II/III","132"],
+            ["2925","Flammable solid, corrosive, organic, n.o.s.","4.1","II","134"],
+            ["2927","Toxic liquid, corrosive, organic, n.o.s.","6.1","I/II","154"],
+            ["3077","Environmentally hazardous substance, solid, n.o.s.","9","III","171"],
+            ["3080","Isocyanates, toxic, n.o.s.","6.1","I/II/III","155"],
+            ["3082","Environmentally hazardous substance, liquid, n.o.s.","9","III","171"],
+            ["3090","Lithium metal batteries","9","—","147"],
+            ["3091","Lithium metal batteries contained in/packed with equipment","9","—","147"],
+            ["3256","Elevated temperature liquid, flammable, n.o.s.","3","III","128"],
+            ["3257","Elevated temperature liquid, n.o.s.","9","III","128"],
+            ["3264","Corrosive liquid, acidic, inorganic, n.o.s.","8","I/II/III","154"],
+            ["3265","Corrosive liquid, acidic, organic, n.o.s.","8","I/II/III","153"],
+            ["3266","Corrosive liquid, basic, inorganic, n.o.s.","8","I/II/III","154"],
+            ["3267","Corrosive liquid, basic, organic, n.o.s.","8","I/II/III","153"],
+            ["3373","Biological substance, Category B","6.2","—","158"],
+            ["3480","Lithium ion batteries","9","—","147"],
+            ["3481","Lithium ion batteries contained in/packed with equipment","9","—","147"]
+        ];
+
+        var input = document.getElementById('erg-search');
+        var resultCard = document.getElementById('result-card');
+        var resultEmpty = document.getElementById('result-empty');
+        var otherMatches = document.getElementById('other-matches');
+        var otherMatchesList = document.getElementById('other-matches-list');
+
+        function escapeHtml(s) {
+            return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function findMatches(query) {
+            var q = query.trim().toLowerCase().replace(/^un/, '');
+            if (!q) return [];
+            var exact = UN_DATA.filter(function (r) { return r[0] === q; });
+            var startsWith = UN_DATA.filter(function (r) {
+                return r[0] !== q && (r[0].indexOf(q) === 0 || r[1].toLowerCase().indexOf(q) === 0);
+            });
+            var contains = UN_DATA.filter(function (r) {
+                return exact.indexOf(r) === -1 && startsWith.indexOf(r) === -1 &&
+                    (r[0].indexOf(q) !== -1 || r[1].toLowerCase().indexOf(q) !== -1);
+            });
+            return exact.concat(startsWith, contains);
+        }
+
+        function showResult(query) {
+            var matches = findMatches(query);
+            if (!matches.length) {
+                resultCard.style.display = 'none';
+                otherMatches.style.display = 'none';
+                resultEmpty.style.display = 'block';
+                resultEmpty.textContent = query.trim() ? 'No match found. Try a UN number or a different material name.' : 'Start typing a UN number or material name above.';
+                return;
+            }
+            resultEmpty.style.display = 'none';
+            var top = matches[0];
+            document.getElementById('result-guide-number').textContent = top[4];
+            document.getElementById('result-material').textContent = top[1];
+            document.getElementById('result-un').textContent = 'UN' + top[0];
+            document.getElementById('result-class').textContent = top[2];
+            document.getElementById('result-pg').textContent = top[3];
+            resultCard.style.display = 'block';
+
+            var rest = matches.slice(1, 6);
+            if (rest.length) {
+                otherMatchesList.innerHTML = rest.map(function (r) {
+                    return '<div class="other-match-row" data-un="' + r[0] + '"><span><span class="other-match-un">UN' + r[0] + '</span>' + escapeHtml(r[1]) + '</span><span class="other-match-guide">Guide ' + r[4] + '</span></div>';
+                }).join('');
+                otherMatches.style.display = 'block';
+            } else {
+                otherMatches.style.display = 'none';
+            }
+        }
+
+        input.addEventListener('input', function () {
+            showResult(input.value);
+        });
+
+        otherMatchesList.addEventListener('click', function (e) {
+            var row = e.target.closest('.other-match-row');
+            if (!row) return;
+            input.value = row.getAttribute('data-un');
+            showResult(input.value);
+        });
+    </script>
+</body>
+</html>
