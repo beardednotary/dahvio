@@ -24,6 +24,7 @@ DahVio Studios is an independent software studio founded by Ray Ro. The studio p
 
 - [LoadOut](https://loadout.page): Project workspaces for Chrome. Turns the new tab into a home base for your projects, with each project's links, saved tabs, modes and next step one click away. No account; data stays in the browser.
 - [EchoPost](https://dahvio.com/echopost): Turns an Instagram caption into a Google Business Profile post with the right post type, length and call-to-action button. Free plan: 5 rewrites per month.
+- [WordBridge](https://dahvio.com/wordbridge): Vocabulary builder and dictionary. Highlight a word for its definition, pronunciation and a translation in 12 languages; it saves with the sentence you found it in. Four study modes. Free, no account; data stays in the browser.
 - [Local Schema Helper](https://localschemahelper.com): Generate JSON-LD structured data for local businesses. Built for SEO professionals.
 - Citation Manager: Local SEO Citation Manager for Google Business Profile. Audits NAP consistency.
 

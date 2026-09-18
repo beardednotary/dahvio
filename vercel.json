@@ -1,3 +1,23 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/privacy.html",
+      "has": [{ "type": "host", "value": "(?:www\\.)?wordbridgeesl\\.com" }],
+      "destination": "https://dahvio.com/wordbridge-privacy",
+      "permanent": true
+    },
+    {
+      "source": "/terms.html",
+      "has": [{ "type": "host", "value": "(?:www\\.)?wordbridgeesl\\.com" }],
+      "destination": "https://dahvio.com/wordbridge-terms",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "(?:www\\.)?wordbridgeesl\\.com" }],
+      "destination": "https://dahvio.com/wordbridge",
+      "permanent": true
+    }
+  ]
 }

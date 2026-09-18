@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordBridge: Vocabulary Builder &amp; Dictionary for Chrome | DahVio Studios</title>
+    <link rel="icon" type="image/png" href="wordbridge-icon.png">
+    <meta name="description" content="WordBridge is a free Chrome extension that defines any word you highlight and saves it with the sentence you found it in, then turns your saved words into flashcards, quizzes and listening practice.">
+    <meta name="keywords" content="vocabulary builder Chrome extension, save words with context, dictionary extension, vocabulary flashcards, ESL vocabulary, learn words while reading">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dahvio.com/wordbridge">
+
+    <meta property="og:title" content="WordBridge: save the word and the sentence you found it in">
+    <meta property="og:description" content="Highlight a word, get the definition, and keep the sentence it came from. Review it later with four study modes.">
+    <meta property="og:image" content="https://dahvio.com/wordbridge-screenshot.png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dahvio.com/wordbridge">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="WordBridge: Vocabulary Builder &amp; Dictionary">
+    <meta name="twitter:description" content="Save the word and the sentence you found it in.">
+    <meta name="twitter:image" content="https://dahvio.com/wordbridge-screenshot.png">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW9L8BTBBW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RW9L8BTBBW');
+    </script>
+
+    <script type="application/ld+json">
+{
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "WordBridge",
+            "alternateName": "WordBridge: Vocabulary Builder & Dictionary",
+            "applicationCategory": "EducationalApplication",
+            "operatingSystem": "Chrome",
+            "url": "https://dahvio.com/wordbridge",
+            "downloadUrl": "https://chromewebstore.google.com/detail/cgibfeljgkbfdolbkhhjkjjnlkbddlel",
+            "image": "https://dahvio.com/wordbridge-screenshot.png",
+            "description": "WordBridge is a Chrome extension that defines any word you highlight, saves it with the sentence you found it in, and turns your saved words into flashcards, multiple choice, listening and sentence practice.",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "DahVio Studios",
+              "url": "https://dahvio.com/"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Is WordBridge free?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Every feature is free. There's an optional Buy Me a Coffee link if you want to support it."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Do I need an account?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. There's no sign-up. Your saved words live in your browser."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Which languages does WordBridge translate into?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Definitions are for English words. You can pick one of 12 native languages, including Spanish, Chinese, Korean, Japanese and Arabic, for a quick translation next to each definition."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What leaves my browser when I look up a word?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Only the word itself, sent to public dictionary services for the definition and to MyMemory for the translation. The sentence, the page you were reading and your saved words stay in your browser."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is there an iPhone version?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Not yet. If you'd use one, email hello@dahvio.com with the subject WordBridge for iPhone."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #F4F5FB;
+            --surface: #FFFFFF;
+            --ink: #0E1526;
+            --ink-faint: #394158;
+            --ink-ghost: #5F6780;
+            --blue: #3B82F6;
+            --blue-soft: #DCE8FE;
+            --accent: #1D4ED8;
+            --violet: #3B1A78;
+            --border: rgba(14, 21, 38, 0.12);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .hero {
+            padding: 5.5rem 0 5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .eyebrow,
+        .section-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 3.6rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.03;
+            margin-bottom: 0.75rem;
+        }
+
+        .subtitle {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            max-width: 560px;
+        }
+
+        .subtitle mark {
+            background: linear-gradient(transparent 58%, var(--blue-soft) 58%);
+            color: inherit;
+        }
+
+        .hero-subtitle {
+            max-width: 560px;
+            font-size: 1.05rem;
+            color: var(--ink-faint);
+            line-height: 1.75;
+            margin-bottom: 1.85rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.25rem;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            padding: 0.95rem 1.6rem;
+            border-radius: 0.4rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--ink);
+            color: #FFFFFF;
+            box-shadow: 0 14px 32px rgba(14, 21, 38, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            color: var(--ink);
+            border: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--ink);
+        }
+
+        .hero-points {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+            max-width: 760px;
+        }
+
+        .hero-point {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.6rem;
+            padding: 1rem 1.1rem;
+        }
+
+        .hero-point strong {
+            display: block;
+            font-size: 0.98rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .hero-point span {
+            color: var(--ink-ghost);
+            font-size: 0.87rem;
+            line-height: 1.45;
+        }
+
+        .hero-visual {
+            background: linear-gradient(160deg, var(--ink) 0%, var(--violet) 100%);
+            color: #FFFFFF;
+            border-radius: 1.25rem;
+            min-height: 360px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 24px 50px rgba(14, 21, 38, 0.2);
+        }
+
+        .hero-icon {
+            width: min(100%, 150px);
+            display: block;
+            border-radius: 32px;
+            box-shadow: 0 20px 44px rgba(0, 0, 0, 0.35);
+            margin-bottom: 1.75rem;
+        }
+
+        .hero-quote {
+            font-size: 1.05rem;
+            line-height: 1.55;
+            max-width: 250px;
+            color: #D9DDF0;
+        }
+
+        .hero-quote b {
+            color: #FFFFFF;
+            background: rgba(59, 130, 246, 0.45);
+            padding: 0 0.2rem;
+            border-radius: 0.2rem;
+            font-weight: 700;
+        }
+
+        .section {
+            padding: 5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 2.05rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 0.9rem;
+        }
+
+        .section-intro {
+            max-width: 700px;
+            color: var(--ink-faint);
+            font-size: 1rem;
+            line-height: 1.75;
+            margin-bottom: 2.3rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.7rem;
+            padding: 1.35rem;
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.55rem;
+        }
+
+        .card p {
+            color: var(--ink-faint);
+            font-size: 0.94rem;
+            line-height: 1.6;
+        }
+
+        .card a {
+            color: var(--accent);
+        }
+
+        .shot {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 0.9rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 24px 50px rgba(14, 21, 38, 0.14);
+            margin-bottom: 2.5rem;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            counter-reset: step;
+            list-style: none;
+        }
+
+        .steps li {
+            counter-increment: step;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.7rem;
+            padding: 1.2rem 1.35rem;
+            color: var(--ink-faint);
+            font-size: 0.95rem;
+        }
+
+        .steps li::before {
+            content: counter(step);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.8rem;
+            height: 1.8rem;
+            margin-bottom: 0.7rem;
+            border-radius: 50%;
+            background: var(--blue-soft);
+            color: var(--accent);
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+
+        .steps li strong {
+            display: block;
+            color: var(--ink);
+            margin-bottom: 0.2rem;
+        }
+
+        .panel {
+            background: var(--ink);
+            color: #EEF1FA;
+            border-radius: 1rem;
+            padding: 2.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .panel h3 {
+            color: #93B8FB;
+            font-size: 1.15rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .panel p {
+            color: #C3C9DC;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .panel a {
+            color: #93B8FB;
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--ink-ghost);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--ink-ghost);
+            text-decoration: none;
+            margin: 0 0.75rem;
+        }
+
+        footer a:hover {
+            color: var(--ink);
+        }
+
+        .credits {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+        }
+
+        .credits a {
+            margin: 0;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 960px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                max-width: 380px;
+                min-height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.25rem;
+            }
+
+            .hero {
+                padding: 4rem 0 3rem;
+            }
+
+            h1 {
+                font-size: 2.6rem;
+            }
+
+            .hero-points {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 3.5rem 0;
+            }
+
+            .panel {
+                padding: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="/" class="logo">DahVio<span>.</span></a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <div class="eyebrow">Chrome extension · Vocabulary</div>
+                    <h1>WordBridge</h1>
+                    <p class="subtitle">Save the word <mark>and the sentence you found it in.</mark></p>
+                    <p class="hero-subtitle">Highlight a word you don't know, right-click, and WordBridge shows the definition, pronunciation and a translation in your language. The word saves itself along with the sentence around it, so when you review it later you remember where it came from and what it meant there.</p>
+
+                    <div class="hero-actions">
+                        <a href="https://chromewebstore.google.com/detail/cgibfeljgkbfdolbkhhjkjjnlkbddlel" target="_blank" rel="noopener" class="btn-primary">Add to Chrome, free</a>
+                        <a href="#how" class="btn-secondary">How it works</a>
+                    </div>
+
+                    <div class="hero-points">
+                        <div class="hero-point">
+                            <strong>Define in place</strong>
+                            <span>Meaning, part of speech and pronunciation, without leaving the page.</span>
+                        </div>
+                        <div class="hero-point">
+                            <strong>Keep the context</strong>
+                            <span>Every saved word carries the sentence it came from.</span>
+                        </div>
+                        <div class="hero-point">
+                            <strong>Review four ways</strong>
+                            <span>Flashcards, multiple choice, listening and sentence practice.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <img src="wordbridge-icon.png" alt="WordBridge icon" class="hero-icon" width="128" height="128">
+                    <p class="hero-quote">"Rain in the desert is seasonal and <b>scarce</b>."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Why the sentence matters</div>
+            <h2 class="section-title">A word on its own is easy to forget.</h2>
+            <p class="section-intro">Most vocabulary tools save the word and the definition. The part that helps you remember it, the sentence where you actually met it, gets thrown away. WordBridge keeps it.</p>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>You looked it up last week</h3>
+                    <p>And the week before. Saving it the moment you look it up means the third lookup is a review instead of a surprise.</p>
+                </div>
+                <div class="card">
+                    <h3>Definitions don't show usage</h3>
+                    <p>A dictionary tells you what "scarce" means. Your sentence shows how a real writer used it.</p>
+                </div>
+                <div class="card">
+                    <h3>Word lists are someone else's words</h3>
+                    <p>Your deck comes from what you already read, so every word is one you've run into.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="how">
+        <div class="container">
+            <div class="section-label">How it works</div>
+            <h2 class="section-title">Highlight, define, done.</h2>
+            <p class="section-intro">Saving takes no extra step. Looking a word up is enough.</p>
+
+            <video class="shot" width="800" height="450" autoplay muted loop playsinline preload="metadata" poster="wordbridge-demo-poster.jpg" aria-label="Demo: selecting the word overwhelmed in a news article, right-clicking Define with WordBridge, and the definition popup appearing with a Spanish translation and an auto-saved note">
+                <source src="wordbridge-demo.mp4" type="video/mp4">
+            </video>
+            <script>
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    const demo = document.querySelector('video.shot');
+                    demo.removeAttribute('autoplay');
+                    demo.pause();
+                    demo.controls = true;
+                }
+            </script>
+
+            <ol class="steps">
+                <li><strong>Highlight a word</strong>Select any word on any page while you read.</li>
+                <li><strong>Right-click to define</strong>Choose Define with WordBridge. The definition, pronunciation and translation appear on the page.</li>
+                <li><strong>It saves itself</strong>The word, its sentence and the page it came from go into your deck automatically.</li>
+                <li><strong>Review when you're ready</strong>Open WordBridge from the toolbar and pick a study mode.</li>
+            </ol>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Study modes</div>
+            <h2 class="section-title">Four ways to review your deck.</h2>
+            <p class="section-intro">Each mode uses your own sentences, so you practice the word the way you first saw it. Shuffle the deck or go in order.</p>
+
+            <img src="wordbridge-study-modes.png" alt="The four WordBridge study modes: flashcards, multiple choice, listen and type, and sentence frames" class="shot" width="1280" height="800" loading="lazy">
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Flashcards</h3>
+                    <p>See the translation, definition and sentence, then reveal the word.</p>
+                </div>
+                <div class="card">
+                    <h3>Multiple choice</h3>
+                    <p>Pick the right word for the meaning from four options.</p>
+                </div>
+                <div class="card">
+                    <h3>Listen &amp; type</h3>
+                    <p>Hear the word read aloud and type what you heard.</p>
+                </div>
+                <div class="card">
+                    <h3>Sentence frames</h3>
+                    <p>Read the word back inside its original sentence.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Price &amp; privacy</div>
+            <h2 class="section-title">Free, with no account.</h2>
+
+            <div class="panel">
+                <div>
+                    <h3>Your deck stays in your browser</h3>
+                    <p>Saved words, sentences and settings are stored locally in Chrome. There's no sign-up and no WordBridge server. Export your deck as a file whenever you want a backup.</p>
+                </div>
+                <div>
+                    <h3>Only the word leaves</h3>
+                    <p>To look a word up, WordBridge sends just that word to public dictionary services and to MyMemory for the translation. Your sentences and the pages you read aren't sent anywhere. <a href="/wordbridge-privacy">Read the privacy policy</a>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="border-bottom: 0;">
+        <div class="container">
+            <div class="section-label">FAQ</div>
+            <h2 class="section-title">A few quick answers.</h2>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Is it free?</h3>
+                    <p>Yes, every feature. If it helps you, there's an optional <a href="https://buymeacoffee.com/dahvio" target="_blank" rel="noopener">Buy Me a Coffee</a> link.</p>
+                </div>
+                <div class="card">
+                    <h3>Which languages does it translate into?</h3>
+                    <p>Definitions are for English words. Pick one of 12 native languages in settings, including Spanish, Chinese, Korean, Japanese and Arabic, for a quick translation next to each definition.</p>
+                </div>
+                <div class="card">
+                    <h3>Is there an iPhone version?</h3>
+                    <p>Not yet. If you'd use one, email <a href="mailto:hello@dahvio.com?subject=WordBridge%20for%20iPhone">hello@dahvio.com</a> with the subject "WordBridge for iPhone". Those emails decide whether it gets built.</p>
+                </div>
+                <div class="card">
+                    <h3>Questions or bugs?</h3>
+                    <p>Email <a href="mailto:hello@dahvio.com?subject=WordBridge">hello@dahvio.com</a>. The word you looked up and the page you were on is usually enough to go on.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="/">DahVio Studios</a>
+                <a href="/wordbridge-privacy">Privacy Policy</a>
+                <a href="/wordbridge-terms">Terms</a>
+                <a href="mailto:hello@dahvio.com?subject=WordBridge">Support</a>
+                <a href="https://chromewebstore.google.com/detail/cgibfeljgkbfdolbkhhjkjjnlkbddlel" target="_blank" rel="noopener">Chrome Web Store</a>
+            </p>
+            <p class="credits">Definitions from <a href="https://dictionaryapi.dev/" target="_blank" rel="noopener">Free Dictionary API</a> and <a href="https://www.wiktionary.org/" target="_blank" rel="noopener">Wiktionary</a> (CC BY-SA). Translations from <a href="https://mymemory.translated.net/" target="_blank" rel="noopener">MyMemory</a>.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
