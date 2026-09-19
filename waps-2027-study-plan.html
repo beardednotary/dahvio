@@ -8,6 +8,11 @@
     <meta name="description" content="A printable 8-week WAPS 2027 study planner for Airmen preparing for E5 and E6 promotion testing with AFH-1 review and SJT practice.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://dahvio.com/waps-2027-study-plan">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dahvio.css">
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
@@ -17,6 +22,12 @@
             --accent: #1f5d78;
             --muted: #526171;
             --border: #d3dbe3;
+            /* System-token aliases: this page is light by design. */
+            --text: #0f1720;
+            --dim: #526171;
+            --faint: #526171;
+            --rule: #d3dbe3;
+            --raise: #ffffff;
         }
         body {
             font-family: Georgia, "Times New Roman", serif;
@@ -40,7 +51,7 @@
         .topbar a {
             color: var(--accent);
             text-decoration: none;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            font-family: var(--sans);
             font-weight: 600;
         }
         .hero, .week-card, .notes-card {
@@ -56,7 +67,7 @@
             font-weight: 700;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            font-family: var(--sans);
         }
         h1 {
             font-size: 2.7rem;

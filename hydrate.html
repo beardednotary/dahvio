@@ -86,6 +86,11 @@
       }
     </script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dahvio.css">
+
     <style>
         * {
             margin: 0;
@@ -109,10 +114,16 @@
             --gold: #A9822F;
             --gold-faint: #F0E4C8;
             --border: rgba(30, 30, 28, 0.14);
+            /* System-token aliases: this page is light by design. */
+            --text: #1E1E1C;
+            --dim: #3D3D38;
+            --faint: #6B6B64;
+            --rule: rgba(30, 30, 28, 0.14);
+            --raise: #FDFAF4;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            font-family: var(--sans);
             background: var(--bg);
             color: var(--ink);
             line-height: 1.6;

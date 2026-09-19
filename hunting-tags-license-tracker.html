@@ -157,23 +157,28 @@
     }
     </script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dahvio.css">
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg: #0D0D0D;
-            --bg-card: #141414;
-            --text: #EAEAEA;
+            --bg: #0b0c0e;
+            --bg-card: #101318;
+            --text: #e6e8ea;
             --accent: #6FBF8B;
             --accent-dim: #4F9A6C;
             --cream: #E1D0B5;
-            --dim: #8A8A8A;
-            --border: #1A1A1A;
-            --border-light: #16241C;
+            --dim: #868e99;
+            --border: #1c2026;
+            --border-light: #242a32;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            font-family: var(--sans);
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
@@ -205,7 +210,7 @@
         .hero { padding: 7rem 0 5rem; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
         .hero::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(ellipse at 70% 50%, rgba(111, 191, 139, 0.07) 0%, transparent 60%);
+            background:none;
             pointer-events: none;
         }
         .hero-eyebrow {

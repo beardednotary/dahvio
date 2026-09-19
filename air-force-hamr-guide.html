@@ -8,18 +8,23 @@
     <meta name="description" content="A simple guide to the Air Force HAMR shuttle run, including why people use it, how it affects the PFA, and how the built-in HAMR timer helps without stopping your music.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://dahvio.com/air-force-hamr-guide">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dahvio.css">
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --bg: #07101d;
-            --card: #101a2a;
-            --text: #eef3f8;
-            --dim: #9aa8b8;
+            --bg: #0b0c0e;
+            --card: #101318;
+            --text: #e6e8ea;
+            --dim: #868e99;
             --accent: #1a7bcf;
-            --border: #1d2942;
+            --border: #1c2026;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            font-family: var(--sans);
             background: var(--bg);
             color: var(--text);
             line-height: 1.7;
@@ -56,7 +61,7 @@
         .list-card ul { padding-left: 1.2rem; }
         .list-card li + li { margin-top: 0.4rem; }
         .cta {
-            background: linear-gradient(135deg, #0f1b31 0%, #152645 100%);
+            background:var(--raise);
             border: 1px solid rgba(26, 123, 207, 0.28);
             border-radius: 1rem;
             padding: 2rem;

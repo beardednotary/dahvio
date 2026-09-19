@@ -7,11 +7,11 @@
     <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
     <link rel="canonical" href="https://dahvio.com/">
     <link rel="alternate" type="text/plain" title="LLMs.txt" href="/llms.txt">
-    <meta name="description" content="DahVio Studios builds military fitness score calculators (Marine PFT, Air Force PT, Navy PRT, Army AFT), WAPS promotion study tools, and other apps. Solo developer Ray — veteran, father, founder in Long Beach, California.">
+    <meta name="description" content="DahVio Studios builds military fitness score calculators (Marine PFT, Air Force PT, Navy PRT, Army AFT), WAPS promotion study tools, and field reference apps. Solo developer Ray — veteran, father, founder in Long Beach, California.">
     <meta name="robots" content="index, follow">
 
     <meta property="og:title" content="DahVio Studios — Military Fitness Calculators &amp; Veteran-Built Apps">
-    <meta property="og:description" content="Military fitness score calculators, WAPS promotion study tools, and other apps from solo developer Ray in Long Beach, California.">
+    <meta property="og:description" content="Reference and scoring tools built to published standards — military fitness, promotion prep, hazmat, and CPAT. From solo developer Ray in Long Beach, California.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://dahvio.com/">
 
@@ -36,6 +36,11 @@
     }
     </script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dahvio.css">
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW9L8BTBBW"></script>
     <script>
@@ -44,729 +49,274 @@
         gtag('js', new Date());
         gtag('config', 'G-RW9L8BTBBW');
     </script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg: #0a0a0a;
-            --text: #e8e8e8;
-            --accent: #00ff88;
-            --dim: #666;
-            --border: #1a1a1a;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* Header */
-        header {
-            padding: 3rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-        }
-
-        .logo span {
-            color: var(--accent);
-        }
-
-        /* Hero */
-        .hero {
-            padding: 8rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: var(--dim);
-            max-width: 600px;
-            margin-bottom: 3rem;
-        }
-
-        .hero-tags {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            padding: 0.5rem 1rem;
-            background: var(--border);
-            border-radius: 2rem;
-            font-size: 0.875rem;
-            color: var(--text);
-        }
-
-        /* Projects Section */
-        .section {
-            padding: 6rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 3rem;
-        }
-
-        .category {
-            margin-bottom: 4rem;
-        }
-
-        .category-name {
-            font-size: 1.125rem;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 340px));
-            justify-content: center;
-            gap: 2rem;
-        }
-
-        .project-card {
-            background: var(--border);
-            border-radius: 0.5rem;
-            overflow: hidden;
-            transition: all 0.2s ease;
-            border: 1px solid transparent;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        .project-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        .project-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            object-position: top;
-            background: #000;
-        }
-
-        .project-image-og {
-            width: 100%;
-            aspect-ratio: 1200 / 630;
-            object-fit: cover;
-            display: block;
-            background: #000;
-        }
-
-        .project-image-panel {
-            width: 100%;
-            height: 200px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: flex-start;
-            padding: 1.5rem;
-            background:
-                radial-gradient(ellipse at top right, rgba(93, 154, 182, 0.28) 0%, transparent 55%),
-                linear-gradient(135deg, #0D1218 0%, #151C24 55%, #1B2430 100%);
-            color: #F4F7FA;
-            border-bottom: 1px solid #1F2A36;
-        }
-
-        .project-image-panel-text {
-            font-size: 1.6rem;
-            font-weight: 700;
-            line-height: 1.05;
-            letter-spacing: -0.03em;
-        }
-
-        .project-image-panel-text span {
-            display: block;
-            font-size: 0.95rem;
-            font-weight: 600;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            color: #5D9AB6;
-            margin-top: 0.45rem;
-        }
-
-        .project-content {
-            padding: 2rem;
-        }
-
-        .project-name {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-        }
-
-        .project-desc {
-            color: var(--dim);
-            font-size: 0.9375rem;
-            margin-bottom: 1rem;
-            line-height: 1.5;
-        }
-
-        .project-tech {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .tech-tag {
-            font-size: 0.75rem;
-            color: var(--accent);
-            background: rgba(0, 255, 136, 0.1);
-            padding: 0.25rem 0.75rem;
-            border-radius: 0.25rem;
-        }
-
-        /* About Section */
-        .about-content {
-            max-width: 700px;
-        }
-
-        .about-content p {
-            font-size: 1.125rem;
-            color: var(--dim);
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-        }
-
-        /* Now Section */
-        .now-items {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .now-item {
-            padding: 1.5rem;
-            background: var(--border);
-            border-radius: 0.5rem;
-            border-left: 3px solid var(--accent);
-        }
-
-        .now-item h3 {
-            font-size: 1.125rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .now-item p {
-            color: var(--dim);
-        }
-
-        /* Contact Section */
-        .contact-methods {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .contact-link {
-            font-size: 1.25rem;
-            color: var(--text);
-            text-decoration: none;
-            padding-bottom: 0.25rem;
-            border-bottom: 2px solid var(--accent);
-            transition: all 0.2s ease;
-        }
-
-        .contact-link:hover {
-            color: var(--accent);
-        }
-
-        /* Footer */
-        footer {
-            padding: 3rem 0;
-            text-align: center;
-            color: var(--dim);
-            font-size: 0.875rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero {
-                padding: 4rem 0;
-            }
-
-            .section {
-                padding: 4rem 0;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Smooth scroll */
-        html {
-            scroll-behavior: smooth;
-        }
-    </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-                <div class="logo">DahVio<span>.</span></div>
-                <a href="/about" style="color:var(--dim);font-size:0.9rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--dim)'">About</a>
+            <div class="header-inner">
+                <a href="/" class="logo">DahVio<em>.</em></a>
+                <nav class="header-nav mono">
+                    <a href="#work">Work</a>
+                    <a href="#now">Now</a>
+                    <a href="/about">About</a>
+                    <a href="#contact">Contact</a>
+                </nav>
             </div>
         </div>
     </header>
 
     <section class="hero">
         <div class="container">
-            <h1>Building products<br>that solve real problems.</h1>
-            <p class="hero-subtitle">Solo developer. Veteran. Father. Building mobile apps, Chrome extensions, and web properties from Long Beach, California.</p>
-            <div class="hero-tags">
-                <span class="tag">Mobile Apps</span>
-                <span class="tag">Chrome Extensions</span>
-                <span class="tag">Web Development</span>
-                <span class="tag">Local SEO</span>
+            <h1>Tools for people whose jobs have standards.</h1>
+            <p>DahVio Studios is a one-person studio in Long Beach, California. Most of what I build is scoring and reference work — a service member's PT test, a hazmat placard, a firefighter's CPAT, a promotion board. Where there's a published standard, the standard is the product: if the number is wrong, the app is worthless, so the numbers come straight from the regulation.</p>
+            <p>The rest is what a working studio picks up along the way — browser extensions, earlier apps, a few web properties. All of it shipped.</p>
+            <div class="hero-meta mono">
+                <span>Solo developer</span>
+                <span>Marine Corps veteran</span>
+                <span>Father of two</span>
+                <span>Long Beach, CA</span>
             </div>
         </div>
     </section>
 
-    <section class="section" id="projects">
+    <section class="section" id="work">
         <div class="container">
-            <h2 class="section-title">Projects</h2>
+            <div class="section-head">
+                <span class="section-num mono">01</span>
+                <h2>Military</h2>
+            </div>
+            <p class="section-lede">Fitness scoring and promotion prep for every branch, built to the current instruction. Free calculators on the web, full apps on the App Store.</p>
 
-            <div class="category">
-                <div class="category-name">Military Study &amp; Finance Apps</div>
-                <div class="projects-grid">
-                    <a href="/waps-study-2026" class="project-card">
-                        <img src="waps-og-image.png" alt="WAPS Study for E5 and E6" class="project-image-og">
-                        <div class="project-content">
-                            <div class="project-name">WAPS Study</div>
-                            <p class="project-desc">Air Force promotion prep for E5 and E6 with AFH-1 review, flashcards, quick drills, deeper SJT practice, and free downloadable study guides for the 2027 cycle.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Flutter</span>
-                                <span class="tech-tag">iOS</span>
-                                <span class="tech-tag">Education</span>
-                            </div>
-                        </div>
-                    </a>
+            <div class="subhead mono">Fitness scoring &middot; by regulation</div>
+            <div class="rows">
+                <a href="/air-force-pt-calculator-2026" class="row">
+                    <span class="row-label mono">Air Force</span>
+                    <span class="row-main">
+                        <span class="row-name">Air Force PT Calculator</span>
+                        <span class="row-desc">USAF and Space Force PFA scoring with altitude adjustment, passing-score help, and what-if mode.</span>
+                    </span>
+                    <span class="row-ref mono">DAFMAN 36-2905</span>
+                    <span class="row-arrow mono">&rarr;</span>
+                </a>
 
-                    <a href="/paygrade" class="project-card">
-                        <div class="project-content">
-                            <div class="project-name">Paygrade <span style="font-size:0.75rem;font-weight:600;color:var(--dim);margin-left:0.5rem;">Coming Soon</span></div>
-                            <p class="project-desc">Military retirement finance calculator. High-3, BRS, Final Pay, CSB/Redux — with SBP and state tax estimates for all six branches.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Flutter</span>
-                                <span class="tech-tag">iOS</span>
-                                <span class="tech-tag">Finance</span>
-                            </div>
-                        </div>
-                    </a>
+                <a href="/marine-pft-calculator-2026" class="row">
+                    <span class="row-label mono">Marines</span>
+                    <span class="row-main">
+                        <span class="row-name">Marine PFT Calculator</span>
+                        <span class="row-desc">Pull-ups or push-ups, crunches or plank, and the 3-mile run. Max 300.</span>
+                    </span>
+                    <span class="row-ref mono">MCO 6100.13A</span>
+                    <span class="row-arrow mono">&rarr;</span>
+                </a>
 
-                    <a href="/epb-builder" class="project-card">
-                        <div class="project-content">
-                            <div class="project-name">EPB Builder <span style="font-size:0.75rem;font-weight:600;color:var(--dim);margin-left:0.5rem;">Coming Soon</span></div>
-                            <p class="project-desc">Narrative-building tool for Air Force Airmen. Translate real work into promotion-ready EPB language without staring at a blank form.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">iOS</span>
-                                <span class="tech-tag">Air Force</span>
-                                <span class="tech-tag">Productivity</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                <a href="/navy-prt-calculator-2026" class="row">
+                    <span class="row-label mono">Navy</span>
+                    <span class="row-main">
+                        <span class="row-name">Navy PRT Calculator</span>
+                        <span class="row-desc">Push-ups, plank, and all four cardio alternatives — run, swim, bike, row.</span>
+                    </span>
+                    <span class="row-ref mono">OPNAVINST 6110.1L</span>
+                    <span class="row-arrow mono">&rarr;</span>
+                </a>
+
+                <a href="/army-aft-calculator-2026" class="row">
+                    <span class="row-label mono">Army</span>
+                    <span class="row-main">
+                        <span class="row-name">Army AFT Calculator</span>
+                        <span class="row-desc">All five events: deadlift, hand-release push-ups, sprint-drag-carry, plank, 2-mile run.</span>
+                    </span>
+                    <span class="row-ref mono">FM 7-22</span>
+                    <span class="row-arrow mono">&rarr;</span>
+                </a>
             </div>
 
-            <div class="category">
-                <div class="category-name">Military Fitness Apps</div>
-                <div class="projects-grid">
-                    <a href="/air-force-pt-calculator-2026" class="project-card">
-                        <img src="air-force-og-image.png" alt="Air Force PT Calculator 2026" class="project-image-og">
-                        <div class="project-content">
-                            <div class="project-name">Air Force PT Calculator 2026</div>
-                            <p class="project-desc">Instant USAF and Space Force PFA scoring based on DAFMAN 36-2905, with passing-score help, score planning, altitude adjustment, and what-if mode.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Flutter</span>
-                                <span class="tech-tag">iOS</span>
-                                <span class="tech-tag">Fitness</span>
-                            </div>
-                        </div>
-                    </a>
+            <div class="subhead mono">Promotion &amp; career</div>
+            <div class="rows">
+                <a href="/waps-study-2026" class="row">
+                    <span class="row-label mono">Air Force</span>
+                    <span class="row-main">
+                        <span class="row-name">WAPS Study</span>
+                        <span class="row-desc">E5 and E6 promotion prep — AFH-1 review, flashcards, drills, and deeper SJT practice. Free 2027-cycle study guides on the site.</span>
+                    </span>
+                    <span class="row-ref mono">App Store</span>
+                    <span class="row-arrow mono">&rarr;</span>
+                </a>
 
-                    <a href="/marine-pft-calculator-2026" class="project-card">
-                        <img src="marine-pft-og-image.png" alt="Marine PFT Calculator 2026" class="project-image-og">
-                        <div class="project-content">
-                            <div class="project-name">Marine PFT Calculator 2026</div>
-                            <p class="project-desc">Instant Marine Corps PFT scoring based on MCO 6100.13A. Pull-ups or push-ups, crunches or plank, and 3-mile run.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Flutter</span>
-                                <span class="tech-tag">iOS</span>
-                                <span class="tech-tag">Fitness</span>
-                            </div>
-                        </div>
-                    </a>
+                <a href="/epb-builder" class="row">
+                    <span class="row-label mono">Air Force</span>
+                    <span class="row-main">
+                        <span class="row-name">EPB Builder<span class="status mono">Waitlist</span></span>
+                        <span class="row-desc">Turns plain-language accomplishments into promotion-ready EPB narrative, without staring at a blank form.</span>
+                    </span>
+                    <span class="row-ref mono">In development</span>
+                    <span class="row-arrow mono">&rarr;</span>
+                </a>
 
-                    <a href="/navy-prt-calculator-2026" class="project-card">
-                        <img src="navy-og-image.png" alt="Navy PRT Calculator 2026" class="project-image-og">
-                        <div class="project-content">
-                            <div class="project-name">Navy PRT Calculator 2026</div>
-                            <p class="project-desc">Instant Navy PRT scoring based on OPNAVINST 6110.1L. Push-ups, plank, and all four cardio alternatives covered.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Flutter</span>
-                                <span class="tech-tag">iOS</span>
-                                <span class="tech-tag">Fitness</span>
-                            </div>
-                        </div>
-                    </a>
+                <a href="/paygrade" class="row">
+                    <span class="row-label mono">All branches</span>
+                    <span class="row-main">
+                        <span class="row-name">Paygrade<span class="status mono">Waitlist</span></span>
+                        <span class="row-desc">Retirement finance — High-3, BRS, Final Pay and CSB/Redux, with SBP and state tax estimates.</span>
+                    </span>
+                    <span class="row-ref mono">In development</span>
+                    <span class="row-arrow mono">&rarr;</span>
+                </a>
+            </div>
+        </div>
+    </section>
 
-                    <a href="/army-aft-calculator-2026" class="project-card">
-                        <img src="army-og-image.png" alt="Army AFT Calculator 2026" class="project-image-og">
-                        <div class="project-content">
-                            <div class="project-name">Army AFT Calculator 2026</div>
-                            <p class="project-desc">Instant Army AFT scoring based on FM 7-22. All five events: deadlift, push-ups, sprint-drag-carry, plank, and 2-mile run.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Flutter</span>
-                                <span class="tech-tag">iOS</span>
-                                <span class="tech-tag">Fitness</span>
-                            </div>
-                        </div>
-                    </a>
+    <section class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-num mono">02</span>
+                <h2>Field &amp; trade</h2>
+            </div>
+            <p class="section-lede">Reference apps for people working away from a desk and often away from signal. Offline-first, one-time purchase, no account.</p>
+
+            <div class="rows">
+                <a href="/hazmat-pro" class="row">
+                    <span class="row-label mono">Hazmat</span>
+                    <span class="row-main">
+                        <span class="row-name">HazMat Pro</span>
+                        <span class="row-desc">All 19 DOT placards, 55+ UN numbers with ERG guide numbers, GHS pictograms, and a voice-powered Identify tool.</span>
+                    </span>
+                    <span class="row-ref mono">49 CFR &middot; ERG</span>
+                    <span class="row-arrow mono">&rarr;</span>
+                </a>
+
+                <a href="/cpat-prep" class="row">
+                    <span class="row-label mono">Fire</span>
+                    <span class="row-main">
+                        <span class="row-name">CPAT Prep</span>
+                        <span class="row-desc">Personalized weekly training plan, event timers, and confidence tracking across all 8 CPAT events.</span>
+                    </span>
+                    <span class="row-ref mono">IAFF/IAFC CPAT</span>
+                    <span class="row-arrow mono">&rarr;</span>
+                </a>
+
+                <a href="/cb-radio" class="row">
+                    <span class="row-label mono">Trucking</span>
+                    <span class="row-main">
+                        <span class="row-name">CB Radio &mdash; Trucker's Handbook</span>
+                        <span class="row-desc">All 40 channels with frequencies, the complete 10-code reference, and trucker slang.</span>
+                    </span>
+                    <span class="row-ref mono">FCC Part 95</span>
+                    <span class="row-arrow mono">&rarr;</span>
+                </a>
+
+                <a href="/hunting-tags-license-tracker" class="row">
+                    <span class="row-label mono">Hunting</span>
+                    <span class="row-main">
+                        <span class="row-name">Hunting Tags &amp; License Tracker</span>
+                        <span class="row-desc">Tags, licenses, season dates, draw applications and preference points — with reminders before every opener and deadline.</span>
+                    </span>
+                    <span class="row-ref mono">State regs</span>
+                    <span class="row-arrow mono">&rarr;</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-num mono">03</span>
+                <h2>Browser</h2>
+            </div>
+            <p class="section-lede">Chrome extensions. Local-first — no account, and the data stays in the browser.</p>
+
+            <div class="rows">
+                <a href="https://loadout.page" target="_blank" rel="noopener" class="row">
+                    <span class="row-label mono">Productivity</span>
+                    <span class="row-main">
+                        <span class="row-name">LoadOut</span>
+                        <span class="row-desc">Turns Chrome's new tab into a home base for your projects — the right links, tabs and next step, one click away.</span>
+                    </span>
+                    <span class="row-ref mono">Chrome Web Store</span>
+                    <span class="row-arrow mono">&rarr;</span>
+                </a>
+
+                <a href="/wordbridge" class="row">
+                    <span class="row-label mono">Language</span>
+                    <span class="row-main">
+                        <span class="row-name">WordBridge</span>
+                        <span class="row-desc">Highlight a word for its definition and translation; it saves with the sentence you found it in. Four study modes.</span>
+                    </span>
+                    <span class="row-ref mono">Chrome Web Store</span>
+                    <span class="row-arrow mono">&rarr;</span>
+                </a>
+
+                <a href="/echopost" class="row">
+                    <span class="row-label mono">Local SEO</span>
+                    <span class="row-main">
+                        <span class="row-name">EchoPost</span>
+                        <span class="row-desc">Turns an Instagram caption into a proper Google Business Profile post, with the right post type, length and CTA.</span>
+                    </span>
+                    <span class="row-ref mono">Chrome Web Store</span>
+                    <span class="row-arrow mono">&rarr;</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-num mono">04</span>
+                <h2>Also shipped</h2>
+            </div>
+            <p class="section-lede">Everything else that's live — earlier apps, side projects, and web properties.</p>
+
+            <ul class="archive">
+                <li><a href="https://emberjournal.app/" target="_blank" rel="noopener">Ember Journal</a><em class="kind mono">App</em><span>Private iPhone journal for messy thoughts and voice notes</span></li>
+                <li><a href="/just-walk">Just Walk</a><em class="kind mono">App</em><span>Minimal walking tracker, on-device</span></li>
+                <li><a href="/hydrate">Hydrate or Diedrate</a><em class="kind mono">App</em><span>Water tracker with a dark sense of humor</span></li>
+                <li><a href="https://confidencedaily.app" target="_blank" rel="noopener">Confidence Daily</a><em class="kind mono">App</em><span>8-week structured confidence program</span></li>
+                <li><a href="https://mysocialbattery.app" target="_blank" rel="noopener">MySocialBattery</a><em class="kind mono">App</em><span>Social energy tracking for introverts</span></li>
+                <li><a href="https://splitsecondpay.com" target="_blank" rel="noopener">SplitSecond Pay</a><em class="kind mono">App</em><span>iOS bill splitting — the first one I shipped</span></li>
+                <li><a href="https://localschemahelper.com" target="_blank" rel="noopener">Local Schema Helper</a><em class="kind mono">Extension</em><span>JSON-LD generator for local businesses</span></li>
+                <li><a href="https://chromewebstore.google.com/detail/local-seo-citation-manage/obpobpkmhihkeminlfajfipdmijmlnbf" target="_blank" rel="noopener">Citation Manager</a><em class="kind mono">Extension</em><span>NAP consistency auditing for Google Business Profile</span></li>
+                <li><a href="https://speechtechjobs.com" target="_blank" rel="noopener">SpeechTechJobs</a><em class="kind mono">Web</em><span>Job board for speech technology professionals</span></li>
+                <li><a href="https://cleanproteinlist.com" target="_blank" rel="noopener">Clean Protein List</a><em class="kind mono">Web</em><span>Interactive tools and reviews for clean protein</span></li>
+                <li><a href="https://www.homehazardsreport.com" target="_blank" rel="noopener">Home Hazards Report</a><em class="kind mono">Web</em><span>Household environmental hazard guides</span></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section" id="now">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-num mono">05</span>
+                <h2>Now</h2>
+            </div>
+            <p class="section-lede">What I'm actually working on this month.</p>
+
+            <div class="now-item">
+                <span class="now-status is-live mono">Live</span>
+                <div>
+                    <h3>LoadOut</h3>
+                    <p>Project workspaces for Chrome, now on the Web Store. Everyone who joins early access at <a href="https://loadout.page" class="inline-link">loadout.page</a> gets Pro free for life.</p>
                 </div>
             </div>
-
-            <div class="category">
-                <div class="category-name">Mobile Apps</div>
-                <div class="projects-grid">
-                    <a href="/cb-radio" class="project-card">
-                        <img src="cb_radio_screenshot.PNG" alt="CB Radio – Trucker's Handbook" class="project-image">
-                        <div class="project-content">
-                            <div class="project-name">CB Radio – Trucker's Handbook</div>
-                            <p class="project-desc">All 40 CB channels with frequencies, complete 10-code reference, trucker slang, and quick reference card. Retro amber LCD aesthetic with draggable tuning dial.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Flutter</span>
-                                <span class="tech-tag">iOS</span>
-                                <span class="tech-tag">Reference</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="/hunting-tags-license-tracker" class="project-card">
-                        <div class="project-image-panel" style="background:
-                            radial-gradient(ellipse at top right, rgba(111, 191, 139, 0.20) 0%, transparent 55%),
-                            radial-gradient(ellipse at bottom left, rgba(225, 208, 181, 0.10) 0%, transparent 45%),
-                            linear-gradient(135deg, #0D0D0D 0%, #14201A 55%, #1B2C23 100%);
-                            border-bottom: 1px solid #16241C;">
-                            <div class="project-image-panel-text" style="color:#EAEAEA;">Hunting Tags &amp; License Tracker<span style="color:#6FBF8B;">Hunt Regs, Seasons &amp; Journal</span></div>
-                        </div>
-                        <div class="project-content">
-                            <div class="project-name">Hunting Tags &amp; License Tracker</div>
-                            <p class="project-desc">Tags, licenses, hunt regs, season dates, draw applications and preference points — organized around the season, with reminders before every opener, deadline and expiry.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag" style="color:#6FBF8B;background:rgba(111, 191, 139, 0.1);">Expo</span>
-                                <span class="tech-tag" style="color:#6FBF8B;background:rgba(111, 191, 139, 0.1);">SwiftUI</span>
-                                <span class="tech-tag" style="color:#6FBF8B;background:rgba(111, 191, 139, 0.1);">iOS</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="/hazmat-pro" class="project-card">
-                        <div class="project-image-panel" style="background:
-                            radial-gradient(ellipse at top right, rgba(255, 212, 0, 0.22) 0%, transparent 55%),
-                            radial-gradient(ellipse at bottom left, rgba(229, 52, 42, 0.14) 0%, transparent 45%),
-                            linear-gradient(135deg, #0D0D0D 0%, #141414 55%, #1A1A1A 100%);
-                            border-bottom: 1px solid #262600;">
-                            <div class="project-image-panel-text" style="color:#EAEAEA;">HazMat Pro<span style="color:#FFD400;">DOT Placards &amp; UN Number Reference</span></div>
-                        </div>
-                        <div class="project-content">
-                            <div class="project-name">HazMat Pro</div>
-                            <p class="project-desc">Offline-first hazmat field reference — all 19 DOT placards, 55+ UN numbers with ERG guide numbers, GHS pictograms, and a voice-powered Identify tool.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag" style="color:#FFD400;background:rgba(255, 212, 0, 0.1);">Flutter</span>
-                                <span class="tech-tag" style="color:#FFD400;background:rgba(255, 212, 0, 0.1);">iOS</span>
-                                <span class="tech-tag" style="color:#FFD400;background:rgba(255, 212, 0, 0.1);">Reference</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="/cpat-prep" class="project-card">
-                        <div class="project-image-panel" style="background:
-                            radial-gradient(ellipse at top right, rgba(217, 78, 31, 0.24) 0%, transparent 55%),
-                            radial-gradient(ellipse at bottom left, rgba(217, 78, 31, 0.10) 0%, transparent 45%),
-                            linear-gradient(135deg, #0D0D0D 0%, #17140F 55%, #1F1108 100%);
-                            border-bottom: 1px solid #2A231C;">
-                            <div class="project-image-panel-text" style="color:#EAEAEA;">CPAT Prep<span style="color:#D94E1F;">Firefighter Physical Ability Test Training</span></div>
-                        </div>
-                        <div class="project-content">
-                            <div class="project-name">CPAT Prep</div>
-                            <p class="project-desc">Personalized weekly training plan, event-specific timers, and confidence tracking for all 8 CPAT events — offline, one-time purchase.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag" style="color:#D94E1F;background:rgba(217, 78, 31, 0.1);">Flutter</span>
-                                <span class="tech-tag" style="color:#D94E1F;background:rgba(217, 78, 31, 0.1);">iOS</span>
-                                <span class="tech-tag" style="color:#D94E1F;background:rgba(217, 78, 31, 0.1);">Fitness</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="/hydrate" class="project-card">
-                        <div class="project-image-panel" style="background:
-                            radial-gradient(ellipse at top right, rgba(201, 164, 82, 0.22) 0%, transparent 55%),
-                            radial-gradient(ellipse at bottom left, rgba(61, 173, 178, 0.18) 0%, transparent 45%),
-                            linear-gradient(135deg, #1C1C1A 0%, #23231F 55%, #2C2C29 100%);
-                            border-bottom: 1px solid #33322C;">
-                            <div class="project-image-panel-text" style="color:#EDE3CF;">Hydrate or Diedrate<span style="color:#3DADB2;">Drink Water. Avoid Doom.</span></div>
-                        </div>
-                        <div class="project-content">
-                            <div class="project-name">Hydrate or Diedrate</div>
-                            <p class="project-desc">Water tracker with a dark sense of humor. Fast-log servings, a status system from Desiccating to Preserved, and reminders with appropriate gravity.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">React Native</span>
-                                <span class="tech-tag">iPhone</span>
-                                <span class="tech-tag">Wellness</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="/just-walk" class="project-card">
-                        <img src="just-walk-screenshot.PNG" alt="Just Walk" class="project-image">
-                        <div class="project-content">
-                            <div class="project-name">Just Walk</div>
-                            <p class="project-desc">Minimal walking tracker with live time, steps, and distance, plus a simple streak and days-you-walked history that stays on-device.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Flutter</span>
-                                <span class="tech-tag">iPhone</span>
-                                <span class="tech-tag">Wellness</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="https://confidencedaily.app" class="project-card">
-                        <img src="confidence-daily-practice.PNG" alt="Confidence Daily" class="project-image">
-                        <div class="project-content">
-                            <div class="project-name">Confidence Daily</div>
-                            <p class="project-desc">Premium wellness app with 8-week structured confidence-building program. Sophisticated UI with daily practices and progress tracking.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">React Native</span>
-                                <span class="tech-tag">Premium</span>
-                            </div>
-                        </div>
-                    </a>
-                    
-                    <a href="https://splitsecondpay.com" target="_blank" class="project-card">
-                        <img src="splitsecond-pay.PNG" alt="SplitSecond Pay" class="project-image">
-                        <div class="project-content">
-                            <div class="project-name">SplitSecond Pay</div>
-                            <p class="project-desc">iOS bill-splitting app designed for real-world use. First app launch with early traction and user-driven iteration.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">iOS</span>
-                                <span class="tech-tag">React Native</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="https://tottrackr.com" target="_blank" class="project-card">
-                        <img src="tottrackr.png" alt="TotTrackr" class="project-image">
-                        <div class="project-content">
-                            <div class="project-name">TotTrackr</div>
-                            <p class="project-desc">Baby tracking app designed for one-handed operation. Built for real parents in real situations.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">React Native</span>
-                                <span class="tech-tag">UX-First</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="https://mysocialbattery.app" target="_blank" class="project-card">
-                        <img src="my-social-battery.png" alt="My Social Battery" class="project-image">
-                        <div class="project-content">
-                            <div class="project-name">MySocialBattery</div>
-                            <p class="project-desc">Social energy tracking for introverts. Monitor and manage social capacity with elegant simplicity.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Flutter</span>
-                                <span class="tech-tag">Wellness</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="https://emberjournal.app/" target="_blank" rel="noopener" class="project-card">
-                        <img src="ember-journal-screenshot.png" alt="Ember Journal — private iPhone journal" class="project-image">
-                        <div class="project-content">
-                            <div class="project-name">Ember Journal</div>
-                            <p class="project-desc">Private journal for messy thoughts, voice notes, Sparks, and letting go. Write what you can't text. Keep what helps. Burn what doesn't.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag" style="color:#FFB347;background:rgba(240, 90, 34, 0.12);">React Native</span>
-                                <span class="tech-tag" style="color:#FFB347;background:rgba(240, 90, 34, 0.12);">iPhone</span>
-                                <span class="tech-tag" style="color:#FFB347;background:rgba(240, 90, 34, 0.12);">Privacy-First</span>
-                            </div>
-                        </div>
-                    </a>
+            <div class="now-item">
+                <span class="now-status is-live mono">Live</span>
+                <div>
+                    <h3>WAPS Study</h3>
+                    <p>E5/E6 promotion prep on the App Store, now backed by free WAPS guides and 2027-cycle content on the site.</p>
                 </div>
             </div>
-
-            <div class="category">
-                <div class="category-name">Chrome Extensions</div>
-                <div class="projects-grid">
-                    <a href="https://loadout.page" target="_blank" rel="noopener" class="project-card">
-                        <img src="loadout-og-image.png" alt="LoadOut: Project Workspaces for Chrome" class="project-image-og">
-                        <div class="project-content">
-                            <div class="project-name">LoadOut</div>
-                            <p class="project-desc">Turns Chrome's new tab into a home base for your projects: the right links, tabs and next step for whatever you're working on, one click away. No account, and everything stays in your browser.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag" style="color:#38C6F4;background:rgba(56, 198, 244, 0.1);">React</span>
-                                <span class="tech-tag" style="color:#38C6F4;background:rgba(56, 198, 244, 0.1);">Manifest V3</span>
-                                <span class="tech-tag" style="color:#38C6F4;background:rgba(56, 198, 244, 0.1);">Productivity</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="/echopost" class="project-card">
-                        <img src="echopost-screenshot.png" alt="EchoPost: Instagram to Google Business Profile" class="project-image">
-                        <div class="project-content">
-                            <div class="project-name">EchoPost</div>
-                            <p class="project-desc">Turns an Instagram caption into a proper Google Business Profile post, with the right post type, length and call-to-action button.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag" style="color:#FFD21F;background:rgba(255, 210, 31, 0.1);">JavaScript</span>
-                                <span class="tech-tag" style="color:#FFD21F;background:rgba(255, 210, 31, 0.1);">AI</span>
-                                <span class="tech-tag" style="color:#FFD21F;background:rgba(255, 210, 31, 0.1);">Local SEO</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="/wordbridge" class="project-card">
-                        <img src="wordbridge-screenshot.png" alt="WordBridge: vocabulary builder and dictionary for Chrome" class="project-image">
-                        <div class="project-content">
-                            <div class="project-name">WordBridge</div>
-                            <p class="project-desc">Highlight a word to get its definition and a translation, and WordBridge saves it with the sentence you found it in. Review with flashcards, quizzes and listening practice.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag" style="color:#6FA3F8;background:rgba(59, 130, 246, 0.12);">JavaScript</span>
-                                <span class="tech-tag" style="color:#6FA3F8;background:rgba(59, 130, 246, 0.12);">Vocabulary</span>
-                                <span class="tech-tag" style="color:#6FA3F8;background:rgba(59, 130, 246, 0.12);">Local-First</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="https://localschemahelper.com" target="_blank" class="project-card">
-                        <img src="LocalSchemaHelper-Screenshot.jpg" alt="Local Schema Helper" class="project-image">
-                        <div class="project-content">
-                            <div class="project-name">Local Schema Helper</div>
-                            <p class="project-desc">Generate JSON-LD structured data for local businesses. Built for SEO professionals who need clean, compliant markup fast.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">JavaScript</span>
-                                <span class="tech-tag">SEO Tools</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="https://chromewebstore.google.com/detail/local-seo-citation-manage/obpobpkmhihkeminlfajfipdmijmlnbf?authuser=0&hl=en" target="_blank" class="project-card">
-                        <img src="Local-Citation-Manager.png" alt="Citation Manager" class="project-image">
-                        <div class="project-content">
-                            <div class="project-name">Citation Manager</div>
-                            <p class="project-desc">Local SEO Citation Manager for Google Business Profile. Audit NAP consistency and boost rankings for small businesses.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">SEO Tools</span>
-                                <span class="tech-tag">AI-Integration</span>
-                            </div>
-                        </div>
-                    </a>
+            <div class="now-item">
+                <span class="now-status mono">Building</span>
+                <div>
+                    <h3>Paygrade</h3>
+                    <p>Military retirement finance across High-3, BRS, Final Pay and CSB/Redux for all six branches. Waitlist open.</p>
                 </div>
             </div>
-
-            <div class="category">
-                <div class="category-name">Web Properties</div>
-                <div class="projects-grid">
-                    <a href="https://cleanproteinlist.com" target="_blank" class="project-card">
-                        <div class="project-content">
-                            <div class="project-name">Clean Protein List</div>
-                            <p class="project-desc">Comprehensive affiliate site with interactive tools and in-depth content for health-conscious consumers.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Affiliate Marketing</span>
-                                <span class="tech-tag">Content</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="https://checkbiolink.com" target="_blank" class="project-card">
-                        <div class="project-content">
-                            <div class="project-name">CheckBioLink</div>
-                            <p class="project-desc">Monitor your critical links 24/7 and get instant email alerts when something breaks. CheckBioLink is your safety net for online revenue.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">SaaS</span>
-                                <span class="tech-tag">E-Commerce</span>
-                            </div>
-                        </div>
-                    </a>                    
-
-                    <a href="https://speechtechjobs.com" target="_blank" class="project-card">
-                        <div class="project-content">
-                            <div class="project-name">SpeechTechJobs</div>
-                            <p class="project-desc">Specialized job board for speech technology professionals. 28+ pages of targeted opportunities.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Niche Jobs</span>
-                                <span class="tech-tag">SEO</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="https://www.homehazardsreport.com" target="_blank" class="project-card">
-                        <div class="project-content">
-                            <div class="project-name">Home Hazards Report</div>
-                            <p class="project-desc">Affiliate site leveraging environmental consulting expertise. Facebook Groups SEO arbitrage strategy.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Affiliate Marketing</span>
-                                <span class="tech-tag">SEO Arbitrage</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <div class="category">
-                <div class="category-name">Services</div>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <div class="project-content">
-                            <div class="project-name">VioleTrend</div>
-                            <p class="project-desc">Local SEO services for small businesses. Helping Long Beach businesses get found online.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Local SEO</span>
-                                <span class="tech-tag">Marketing</span>
-                            </div>
-                        </div>
-                    </div>
+            <div class="now-item">
+                <span class="now-status mono">Building</span>
+                <div>
+                    <h3>EPB Builder</h3>
+                    <p>Narrative tool for Airmen writing EPBs. Plain-language accomplishments in, promotion-ready bullets out. Waitlist open.</p>
                 </div>
             </div>
         </div>
@@ -774,58 +324,39 @@
 
     <section class="section" id="about">
         <div class="container">
-            <h2 class="section-title">About</h2>
-            <div class="about-content">
-                <p>I'm Ray, founder of DahVio Studios—named after my daughters Dahlia and Violet. Marine Corps veteran, single dad, and solo developer building products that solve real problems.</p>
-
-                <p>I started with a PT calculator, got feedback from real users, and iterated from there. The military apps came from that same instinct: promotion prep and fitness standards are high-stakes moments for enlisted members, and the tools available aren't always built by someone who's been there.</p>
-
-                <p>I build from Long Beach, California. Every project here shipped.</p>
-                <p style="margin-top:1rem;"><a href="/about" style="color:var(--accent);text-decoration:none;font-size:0.95rem;border-bottom:1px solid var(--accent);padding-bottom:2px;">Full bio and media kit →</a></p>
+            <div class="section-head">
+                <span class="section-num mono">06</span>
+                <h2>About</h2>
+            </div>
+            <div class="prose">
+                <p>I'm Ray, founder of DahVio Studios — named after my daughters, <strong>Dah</strong>lia and <strong>Vio</strong>let. Marine Corps veteran, single dad, solo developer.</p>
+                <p>I started with a PT calculator because the ones I could find were wrong, or buried in ads, or wanted a subscription to tell me a number the instruction already publishes for free. Real users sent feedback, I iterated, and the rest followed from the same instinct: promotion boards and fitness standards are high-stakes moments, and the tools weren't built by someone who'd been through them.</p>
+                <p>Everything on this page is shipped and in someone's hands.</p>
+                <p><a href="/about" class="inline-link">Full bio and media kit &rarr;</a></p>
             </div>
         </div>
     </section>
 
-    <section class="section" id="now">
-    <div class="container">
-        <h2 class="section-title">Now</h2>
-        <div class="now-items">
-            <div class="now-item">
-                <h3>Live: LoadOut</h3>
-                <p>A project-workspace new tab for Chrome, now on the Chrome Web Store. Everyone who joins early access at <a href="https://loadout.page" style="color:var(--accent);text-decoration:none;">loadout.page</a> gets Pro free for life.</p>
-            </div>
-            <div class="now-item">
-                <h3>Live: WAPS Study</h3>
-                <p>Air Force E5/E6 promotion prep app on the App Store, now supported by free WAPS guides, an email capture funnel, and 2027-cycle content on the site.</p>
-            </div>
-            <div class="now-item">
-                <h3>Building: Paygrade</h3>
-                <p>Military retirement finance calculator covering High-3, BRS, Final Pay, and CSB/Redux for all six branches. Waitlist open.</p>
-            </div>
-            <div class="now-item">
-                <h3>Building: EPB Builder</h3>
-                <p>Narrative tool for Airmen writing EPBs. Turns plain-language accomplishments into promotion-ready bullets. Waitlist open.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
     <section class="section" id="contact">
         <div class="container">
-            <h2 class="section-title">Contact</h2>
-            <div class="contact-methods">
-                <a href="mailto:ray@dahvio.com" class="contact-link">ray@dahvio.com</a>
+            <div class="section-head">
+                <span class="section-num mono">07</span>
+                <h2>Contact</h2>
             </div>
+            <p class="section-lede">Press, partnerships, bug reports, or a standard I've gotten wrong — all welcome at the same address.</p>
+            <a href="mailto:ray@dahvio.com" class="contact-link">ray@dahvio.com</a>
         </div>
     </section>
 
     <footer>
         <div class="container">
-            <p style="margin-bottom: 0.75rem;">
-                <a href="/about" style="color: var(--dim); font-size: 0.875rem; text-decoration: none; margin: 0 0.5rem; transition: color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--dim)'">About</a>
-                <a href="/llms.txt" style="color: var(--dim); font-size: 0.875rem; text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 1px; transition: color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--dim)'">llms.txt</a>
-            </p>
-            <p>&copy; 2026 DahVio Studios. Built in Long Beach, California.</p>
+            <div class="footer-inner mono">
+                <div>
+                    <a href="/about">About</a>
+                    <a href="/llms.txt">llms.txt</a>
+                </div>
+                <div>&copy; 2026 DahVio Studios &middot; Long Beach, California</div>
+            </div>
         </div>
     </footer>
 </body>

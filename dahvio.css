@@ -1,0 +1,595 @@
+/* ============================================================
+   DahVio Studios — shared design system
+   ------------------------------------------------------------
+   Direction: field manual / instrument panel.
+   Typographic hierarchy and hairline rules do the work.
+   No gradients. One accent per page, used as a signal.
+
+   A product page overrides only its accent:
+
+       <link rel="stylesheet" href="/dahvio.css">
+       <style>:root { --accent: #1a7bcf; }</style>
+
+   Everything else — type, spacing, rules, chrome — is inherited
+   so the studio reads as one thing across every page.
+   ============================================================ */
+
+/* ── Tokens ─────────────────────────────────────────────── */
+:root {
+    --bg: #0b0c0e;
+    --text: #e6e8ea;
+    --dim: #868e99;
+    --faint: #5c636d;
+    --rule: #1c2026;
+    --raise: #101318;
+
+    /* Studio amber. Product pages override this one line. */
+    --accent: #d4a24c;
+    --accent-line: color-mix(in srgb, var(--accent) 35%, transparent);
+    --accent-wash: color-mix(in srgb, var(--accent) 10%, transparent);
+
+    --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+
+    --measure: 62ch;
+}
+
+/* ── Base ───────────────────────────────────────────────── */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+a {
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+.container {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ── Shared type ────────────────────────────────────────── */
+.mono {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.inline-link {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-line);
+    transition: border-color 0.15s ease;
+}
+
+.inline-link:hover {
+    border-bottom-color: var(--accent);
+}
+
+.prose {
+    max-width: var(--measure);
+}
+
+.prose p {
+    color: var(--dim);
+    margin-bottom: 1.25rem;
+}
+
+.prose strong {
+    color: var(--text);
+    font-weight: 500;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+header {
+    border-bottom: 1px solid var(--rule);
+}
+
+.header-inner {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 1.75rem 0;
+    gap: 1.5rem;
+}
+
+.logo {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+}
+
+.logo em {
+    font-style: normal;
+    color: var(--accent);
+}
+
+.header-nav {
+    display: flex;
+    gap: 1.75rem;
+}
+
+.header-nav a {
+    color: var(--dim);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.header-nav a:hover {
+    color: var(--text);
+}
+
+/* ── Hero ───────────────────────────────────────────────── */
+.hero {
+    padding: 6.5rem 0 5.5rem;
+    border-bottom: 1px solid var(--rule);
+}
+
+.hero h1 {
+    font-size: 2.875rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    max-width: 19ch;
+    margin-bottom: 1.75rem;
+}
+
+.hero p {
+    font-size: 1.0625rem;
+    color: var(--dim);
+    max-width: 58ch;
+}
+
+.hero p + p {
+    margin-top: 1rem;
+}
+
+/* Eyebrow above an h1 — product pages use this for the category. */
+.hero-eyebrow {
+    display: block;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+}
+
+.hero-meta {
+    margin-top: 2.5rem;
+    color: var(--faint);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+}
+
+.hero-meta span::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background: var(--accent);
+    vertical-align: 0.2em;
+    margin-right: 0.6rem;
+}
+
+/* ── Sections ───────────────────────────────────────────── */
+.section {
+    padding: 5rem 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+.section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.section-num {
+    color: var(--accent);
+}
+
+.section-head h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+}
+
+.section-lede {
+    color: var(--dim);
+    max-width: var(--measure);
+    margin-bottom: 3rem;
+}
+
+.subhead {
+    color: var(--faint);
+    padding: 0 0.875rem 0.875rem;
+    margin: 0 -0.875rem 0.25rem;
+    border-bottom: 1px solid var(--rule);
+}
+
+.subhead + .subhead,
+.rows + .subhead {
+    margin-top: 3.25rem;
+}
+
+/* ── Rows — the core list pattern ───────────────────────── */
+.row {
+    display: grid;
+    grid-template-columns: 8.5rem 1fr 13rem 1.5rem;
+    align-items: baseline;
+    gap: 1.5rem;
+    padding: 1.25rem 0.875rem;
+    margin: 0 -0.875rem;
+    border-bottom: 1px solid var(--rule);
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+}
+
+a.row:hover {
+    background: var(--raise);
+}
+
+.row-label {
+    color: var(--faint);
+    transition: color 0.15s ease;
+}
+
+a.row:hover .row-label {
+    color: var(--accent);
+}
+
+.row-name {
+    display: block;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+.row-desc {
+    display: block;
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    margin-top: 0.3rem;
+}
+
+.row-ref {
+    color: var(--faint);
+    transition: color 0.15s ease;
+}
+
+a.row:hover .row-ref {
+    color: var(--dim);
+}
+
+.row-arrow {
+    color: var(--faint);
+    text-align: right;
+    transition: transform 0.15s ease, color 0.15s ease;
+}
+
+a.row:hover .row-arrow {
+    color: var(--accent);
+    transform: translateX(3px);
+}
+
+.status {
+    display: inline-block;
+    margin-left: 0.625rem;
+    padding: 0.05rem 0.45rem;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    color: var(--faint);
+    vertical-align: 0.12em;
+}
+
+/* ── Archive list ───────────────────────────────────────── */
+.archive {
+    columns: 2;
+    column-gap: 3rem;
+    margin-top: 0.5rem;
+}
+
+.archive li {
+    list-style: none;
+    break-inside: avoid;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+.archive a {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    transition: color 0.15s ease;
+}
+
+.archive a:hover {
+    color: var(--accent);
+}
+
+.archive span {
+    display: block;
+    color: var(--faint);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+}
+
+/* What kind of thing it is — app, extension, web property. */
+.archive .kind {
+    display: inline-block;
+    font-style: normal;
+    margin-left: 0.5rem;
+    padding: 0.05rem 0.4rem;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    color: var(--faint);
+    font-size: 0.625rem;
+    vertical-align: 0.1em;
+}
+
+/* ── Now list ───────────────────────────────────────────── */
+.now-item {
+    display: grid;
+    grid-template-columns: 8.5rem 1fr;
+    gap: 1.5rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+.now-item:first-child {
+    border-top: 1px solid var(--rule);
+}
+
+.now-status {
+    color: var(--faint);
+}
+
+.now-status.is-live {
+    color: var(--accent);
+}
+
+.now-item h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+}
+
+.now-item p {
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+}
+
+/* ── Data tables — scoring charts, standards, references ── */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+    margin: 1.5rem 0;
+}
+
+.data-table caption {
+    text-align: left;
+    color: var(--faint);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding-bottom: 0.875rem;
+}
+
+.data-table th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 0.6rem 1rem 0.6rem 0;
+    border-bottom: 1px solid var(--rule);
+    white-space: nowrap;
+}
+
+.data-table td {
+    padding: 0.6rem 1rem 0.6rem 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--dim);
+    font-size: 0.9375rem;
+}
+
+.data-table td:first-child {
+    color: var(--text);
+    font-weight: 500;
+}
+
+.table-scroll {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+}
+
+/* ── Callout — regulation notes, caveats ────────────────── */
+.callout {
+    border-left: 2px solid var(--accent);
+    background: var(--raise);
+    padding: 1.25rem 1.5rem;
+    margin: 2rem 0;
+    max-width: var(--measure);
+}
+
+.callout p {
+    color: var(--dim);
+    font-size: 0.9375rem;
+}
+
+.callout-label {
+    display: block;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+}
+
+/* ── Buttons / calls to action ──────────────────────────── */
+.btn {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.8rem 1.4rem;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 2px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+}
+
+.btn-quiet {
+    border-color: var(--rule);
+    color: var(--dim);
+}
+
+.btn-quiet:hover {
+    background: transparent;
+    border-color: var(--dim);
+    color: var(--text);
+}
+
+.contact-link {
+    font-size: 1.375rem;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 0.2rem;
+    transition: color 0.15s ease;
+}
+
+.contact-link:hover {
+    color: var(--accent);
+}
+
+/* ── Footer ─────────────────────────────────────────────── */
+footer {
+    padding: 2.5rem 0 3.5rem;
+    color: var(--faint);
+}
+
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem 2rem;
+}
+
+.footer-inner a {
+    color: var(--faint);
+    text-decoration: none;
+    margin-right: 1.5rem;
+    transition: color 0.15s ease;
+}
+
+.footer-inner a:hover {
+    color: var(--accent);
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 800px) {
+    .archive {
+        columns: 1;
+    }
+
+    .row {
+        grid-template-columns: 1fr auto;
+        gap: 0.35rem 1rem;
+    }
+
+    .row-label {
+        grid-column: 1;
+    }
+
+    .row-arrow {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .row-main,
+    .row-ref {
+        grid-column: 1 / -1;
+    }
+
+    .row-ref {
+        margin-top: 0.35rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 0 1.25rem;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+        max-width: none;
+    }
+
+    .hero {
+        padding: 4rem 0 3.5rem;
+    }
+
+    .section {
+        padding: 3.5rem 0;
+    }
+
+    .now-item {
+        grid-template-columns: 1fr;
+        gap: 0.4rem;
+    }
+
+    .header-nav {
+        gap: 1.1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}

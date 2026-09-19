@@ -24,26 +24,31 @@
         gtag('js', new Date());
         gtag('config', 'G-RW9L8BTBBW');
     </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dahvio.css">
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg: #0d1218;
-            --bg-card: #151c24;
+            --bg: #0b0c0e;
+            --bg-card: #101318;
             --bg-card-alt: #1b2430;
-            --text: #f4f7fa;
+            --text: #e6e8ea;
             --accent: #5d9ab6;
             --accent-soft: rgba(93, 154, 182, 0.12);
             --accent-border: rgba(93, 154, 182, 0.25);
             --secondary: #e0b043;
-            --dim: #95a4b4;
-            --border: #2a3644;
-            --border-light: #344354;
+            --dim: #868e99;
+            --border: #1c2026;
+            --border-light: #242a32;
             --success: #78c091;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            font-family: var(--sans);
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
@@ -96,9 +101,7 @@
             content: "";
             position: absolute;
             inset: 0;
-            background:
-                radial-gradient(ellipse at 75% 35%, rgba(93, 154, 182, 0.18) 0%, transparent 50%),
-                radial-gradient(ellipse at 18% 100%, rgba(24, 50, 64, 0.7) 0%, transparent 60%);
+            background:none;
             pointer-events: none;
         }
 
@@ -188,7 +191,7 @@
         }
 
         .form-card {
-            background: linear-gradient(180deg, rgba(21, 28, 36, 0.98) 0%, rgba(27, 36, 48, 0.98) 100%);
+            background:var(--raise);
             box-shadow: 0 0 30px rgba(93, 154, 182, 0.12);
         }
 
@@ -323,7 +326,7 @@
         }
 
         .cta-box {
-            background: linear-gradient(135deg, #12212a 0%, #183240 100%);
+            background:var(--raise);
             border: 1px solid rgba(93, 154, 182, 0.32);
             border-radius: 1rem;
             padding: 2.5rem;

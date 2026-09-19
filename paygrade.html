@@ -21,26 +21,31 @@
         gtag('config', 'G-RW9L8BTBBW');
     </script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dahvio.css">
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg: #080c14;
-            --bg-card: #0f1620;
+            --bg: #0b0c0e;
+            --bg-card: #101318;
             --bg-card-alt: #141e2e;
-            --text: #e8e4da;
+            --text: #e6e8ea;
             --accent: #c9a227;
             --accent-muted: rgba(201, 162, 39, 0.12);
             --accent-border: rgba(201, 162, 39, 0.28);
-            --dim: #8a8070;
-            --dim-light: #b0a898;
-            --border: #1a2234;
-            --border-light: #222f44;
+            --dim: #868e99;
+            --dim-light: #a6adb6;
+            --border: #1c2026;
+            --border-light: #242a32;
             --blue: #4a7ab5;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            font-family: var(--sans);
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
@@ -86,9 +91,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background:
-                radial-gradient(ellipse at 65% 35%, rgba(201, 162, 39, 0.1) 0%, transparent 55%),
-                radial-gradient(ellipse at 20% 90%, rgba(74, 122, 181, 0.08) 0%, transparent 50%);
+            background:none;
             pointer-events: none;
         }
 

@@ -82,19 +82,24 @@
     }
     </script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dahvio.css">
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --bg: #0b0d07;
-            --card: #14180d;
-            --text: #f1f2e9;
-            --dim: #a7ac96;
-            --accent: #6b7a3a;
+            --bg: #0b0c0e;
+            --card: #101318;
+            --text: #e6e8ea;
+            --dim: #868e99;
+            --accent: #c9a227;
             --gold: #c9a227;
-            --border: #262b17;
+            --border: #1c2026;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            font-family: var(--sans);
             background: var(--bg); color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased;
         }
         .container { max-width: 1000px; margin: 0 auto; padding: 0 1.25rem; }
@@ -125,7 +130,7 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
         .card { background: var(--card); border: 1px solid var(--border); border-radius: 0.9rem; padding: 1.4rem; }
         .note { font-size: 0.9rem; margin-top: 1rem; }
-        .cta { background: linear-gradient(135deg, #12160c 0%, #1d2312 100%); border: 1px solid rgba(107, 122, 58, 0.4); border-radius: 1rem; padding: 2.25rem; text-align: center; }
+        .cta { background:var(--raise); border: 1px solid rgba(107, 122, 58, 0.4); border-radius: 1rem; padding: 2.25rem; text-align: center; }
         .cta p { max-width: 640px; margin: 0.75rem auto 1.3rem; }
         .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.9rem 1.6rem; border-radius: 0.7rem; background: var(--accent); color: #fff; text-decoration: none; font-weight: 700; }
         .btn:hover { background: #5a672f; }

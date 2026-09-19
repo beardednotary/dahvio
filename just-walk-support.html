@@ -8,21 +8,26 @@
     <title>Just Walk - Support | DahVio Studios</title>
     <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
     <meta name="description" content="Support page for Just Walk by DahVio Studios. Get help with walk tracking, permissions, streaks, and feature questions.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dahvio.css">
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg: #161817;
-            --text: #f6f2ea;
+            --bg: #0b0c0e;
+            --text: #e6e8ea;
             --accent: #6a7de0;
-            --dim: #9a9a94;
-            --border: #343843;
-            --surface: #202321;
+            --dim: #868e99;
+            --border: #1c2026;
+            --surface: #101318;
             --surface-alt: #272a31;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            font-family: var(--sans);
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
@@ -167,9 +172,7 @@
             width: 72px;
             height: 72px;
             border-radius: 18px;
-            background:
-                radial-gradient(circle at 32% 74%, rgba(106, 125, 224, 0.35) 0, transparent 18%),
-                linear-gradient(160deg, #101111 0%, #181a19 42%, #21262f 100%);
+            background:var(--raise);
             border: 1px solid rgba(106, 125, 224, 0.35);
             display: flex;
             align-items: center;
@@ -191,8 +194,7 @@
             right: 12px;
             bottom: 12px;
             height: 14px;
-            background:
-                radial-gradient(circle, rgba(106, 125, 224, 0.2) 0, rgba(106, 125, 224, 0.2) 4px, transparent 5px) 0 0 / 18px 14px repeat-x;
+            background:none;
         }
 
         .app-info h2 {

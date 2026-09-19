@@ -8,6 +8,11 @@
     <meta name="description" content="A practical SJT cheat sheet for Airmen preparing for WAPS, focused on leadership judgment, professionalism, and how to think through answer choices.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://dahvio.com/waps-sjt-cheat-sheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dahvio.css">
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
@@ -18,6 +23,12 @@
             --accent: #1f5d78;
             --border: #d4dde5;
             --warn: #7f5f18;
+            /* System-token aliases: this page is light by design. */
+            --text: #11171d;
+            --dim: #556474;
+            --faint: #556474;
+            --rule: #d4dde5;
+            --raise: #ffffff;
         }
         body {
             font-family: Georgia, "Times New Roman", serif;
@@ -36,7 +47,7 @@
             flex-wrap: wrap;
             gap: 1rem;
             margin-bottom: 1.5rem;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            font-family: var(--sans);
         }
         .topbar a {
             color: var(--accent);
@@ -56,7 +67,7 @@
             letter-spacing: 0.12em;
             font-size: 0.78rem;
             font-weight: 700;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            font-family: var(--sans);
         }
         h1 {
             font-size: 2.45rem;

@@ -8,6 +8,11 @@
     <title>EchoPost - Privacy Policy | DahVio Studios</title>
     <link rel="icon" type="image/png" href="echopost-icon.png">
     <meta name="description" content="Privacy policy for EchoPost by DahVio Studios. What the extension sends to write a Google Business Profile post, what stays in your browser, and what it never collects.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dahvio.css">
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -20,10 +25,16 @@
             --border: rgba(23, 22, 18, 0.12);
             --surface: #FFFFFF;
             --surface-alt: #FFF1B8;
+            /* System-token aliases: this page is light by design. */
+            --text: #171612;
+            --dim: #3F3C33;
+            --faint: #6E6A5E;
+            --rule: rgba(23, 22, 18, 0.12);
+            --raise: #FFFFFF;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            font-family: var(--sans);
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
