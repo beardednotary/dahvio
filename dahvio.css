@@ -179,6 +179,15 @@ header {
     margin-bottom: 1.25rem;
 }
 
+/* Product pages: the download / waitlist buttons under the hero copy. */
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.875rem;
+    margin-top: 2.5rem;
+}
+
 .hero-meta {
     margin-top: 2.5rem;
     color: var(--faint);
@@ -435,6 +444,64 @@ a.row:hover .row-arrow {
     margin: 1.5rem 0;
 }
 
+/* ── Plates — app screens, shown like figures in a manual ─
+   Flat screenshot, hairline rule, mono caption numbered to the
+   screen it shows. No device frames, shadows or perspective. */
+.plates {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 2.5rem;
+}
+
+.plate {
+    margin: 0;
+}
+
+.plate img {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--rule);
+    background: var(--raise);
+}
+
+.plate figcaption {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.875rem;
+    color: var(--faint);
+}
+
+.plate-num {
+    color: var(--accent);
+}
+
+/* ── Q&A — product FAQs ─────────────────────────────────── */
+.qa {
+    max-width: var(--measure);
+}
+
+.qa-item {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+.qa-item:first-child {
+    border-top: 1px solid var(--rule);
+}
+
+.qa-q {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+}
+
+.qa-a {
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+}
+
 /* ── Callout — regulation notes, caveats ────────────────── */
 .callout {
     border-left: 2px solid var(--accent);
@@ -531,6 +598,11 @@ footer {
         columns: 1;
     }
 
+    .plates {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
     .row {
         grid-template-columns: 1fr auto;
         gap: 0.35rem 1rem;
@@ -558,6 +630,11 @@ footer {
 @media (max-width: 600px) {
     .container {
         padding: 0 1.25rem;
+    }
+
+    .plates {
+        grid-template-columns: 1fr;
+        max-width: 300px;
     }
 
     .hero h1 {
