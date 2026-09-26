@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Sent only to picked testers. Kept out of search, the sitemap and IndexNow. -->
+    <meta name="robots" content="noindex, nofollow">
+    <title>Telos - Tester Brief | DahVio Studios</title>
+    <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
+    <meta name="description" content="What to expect from a week testing Telos, and what to send back.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dahvio.css">
+
+    <style>
+        :root { --accent: #F5A623; }
+
+        /* The brief has lists; the system has no prose list style yet. */
+        .prose ul, .prose ol {
+            color: var(--dim);
+            margin: 0 0 1.25rem 1.25rem;
+        }
+        .prose li { margin-bottom: 0.5rem; padding-left: 0.25rem; }
+        .prose li::marker { color: var(--accent); }
+        .prose ol li::marker { font-family: var(--mono); font-size: 0.8125rem; }
+        .ui { font-family: var(--mono); font-size: 0.8125rem; color: var(--text); letter-spacing: 0.04em; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <a href="/" class="logo">DahVio<em>.</em></a>
+                <nav class="header-nav mono">
+                    <a href="#install">Install</a>
+                    <a href="#week">Your week</a>
+                    <a href="#questions">Questions</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <span class="hero-eyebrow mono">Telos &middot; Tester brief</span>
+            <h1>Telos</h1>
+            <p>Telos is a focus timer that only pays off when you put your phone down. I want to find out if that idea holds up for someone who isn't me, and mostly whether you're still opening it on day three.</p>
+            <div class="hero-meta mono">
+                <span>iPhone</span>
+                <span>iOS 15 or newer</span>
+                <span>One week</span>
+                <span>No account</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-num mono">01</span>
+                <h2>What it is</h2>
+            </div>
+            <div class="prose">
+                <p>You pick a block of time. A small guild of adventurers heads out for exactly that long, and you get on with your actual work. When you're back, you find out what they brought home.</p>
+                <p>The rule the whole thing is built on: <strong>opening the app doesn't move anything forward. Putting it down does.</strong></p>
+                <p>Nothing piles up while you watch the timer. There's nothing to tap and nothing to collect. That's backwards from most games on your phone, and it's the thing I'm testing.</p>
+                <p>One more thing to know up front. Every run starts at 100% integrity. Staring at the timer costs a bit. Opening the app mid-run costs more. Locking your phone and walking away costs nothing. Integrity barely touches the resources you earn, but it matters a lot for rare finds.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="install">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-num mono">02</span>
+                <h2>Installing it</h2>
+            </div>
+            <div class="prose">
+                <p>Send me the email on your Apple ID and I'll add you. You'll get a TestFlight invite.</p>
+                <ol>
+                    <li>Install <strong>TestFlight</strong> from the App Store if you don't have it.</li>
+                    <li>Open the invite email on your phone and tap the link.</li>
+                    <li>Install Telos from inside TestFlight.</li>
+                </ol>
+                <p>You need iOS 15 or newer. The widget and Siri need iOS 16. New builds come through TestFlight, so you'll get a notification if I push a fix.</p>
+                <p>Allow notifications when it asks. There's only one: it tells you when a run is done.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-num mono">03</span>
+                <h2>Starting a session fast</h2>
+            </div>
+            <div class="prose">
+                <p>The dispatch screen is there when you want to pick things. Most of the time you'll just want the same as last time, so there are four faster ways in. I'd like to know which ones you actually use.</p>
+                <ul>
+                    <li><span class="ui">SEND AGAIN</span> on the home screen shows your last three dispatches. One tap each.</li>
+                    <li><strong>The app icon.</strong> Press and hold it for the same three.</li>
+                    <li><strong>The widget.</strong> Add Telos to your home screen or lock screen. The medium size shows all three.</li>
+                    <li><strong>Siri and Shortcuts.</strong> Say &ldquo;Dispatch in Telos.&rdquo; Or set up an automation in the Shortcuts app that runs Telos's Dispatch action when your work Focus turns on. Then turning on Focus sends the squad out.</li>
+                </ul>
+                <p>All of these start the run right away. If you hit one by accident, <span class="ui">RECALL SQUAD</span> brings them back.</p>
+                <p>While the squad's out, the countdown shows on your lock screen. Looking at it is free. Only opening Telos counts.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="week">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-num mono">04</span>
+                <h2>Your week</h2>
+            </div>
+            <div class="prose">
+                <p>Use it for work you were going to do anyway. Please don't make up sessions for my sake. That won't tell me whether it holds up in a normal week.</p>
+                <p>Over seven days, if you can:</p>
+                <ul>
+                    <li><strong>Four or five real sessions</strong>, whatever length fits the work.</li>
+                    <li><strong>At least one short one</strong> (15 or 25 minutes) and <strong>at least one over an hour</strong>. The game treats those really differently.</li>
+                    <li><strong>One where you pick up your phone partway through on purpose</strong>, so you can see what integrity does.</li>
+                </ul>
+                <p>That's all. If you stop after two days, tell me. That's useful to know too.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-num mono">05</span>
+                <h2>Things I already know</h2>
+            </div>
+            <p class="section-lede">So you don't spend time reporting stuff that's missing on purpose.</p>
+            <div class="table-scroll">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Missing</th>
+                            <th scope="col">Why</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>App blocking</td><td>Telos can't see what else you open, and it doesn't pretend to.</td></tr>
+                        <tr><td>Accounts or sync</td><td>It makes no network calls at all. That's on purpose.</td></tr>
+                        <tr><td>Anything to buy</td><td>There are no purchases yet.</td></tr>
+                        <tr><td>New content after the Spire</td><td>The last area opens after 5 to 10 weeks of daily long sessions. It has an ending, and after that your hours just keep building the Spire. That's on purpose too.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="callout">
+                <span class="callout-label mono">What I don't know</span>
+                <p>Whether the pacing is right. The prices were checked against the game's own math, never against an actual person. If progress feels way too slow or suspiciously fast, that's the most useful thing you can tell me.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="questions">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-num mono">06</span>
+                <h2>What I need back</h2>
+            </div>
+            <p class="section-lede">Six questions at the end of the week. Short answers are fine, and blunt ones help me more than nice ones. Send them wherever we've been talking.</p>
+            <div class="qa">
+                <div class="qa-item">
+                    <h3 class="qa-q">1. Did you get the point in the first minute?</h3>
+                    <p class="qa-a">If not, where did it lose you?</p>
+                </div>
+                <div class="qa-item">
+                    <h3 class="qa-q">2. Were you still opening it on day three?</h3>
+                    <p class="qa-a">If you stopped, what was going on that day?</p>
+                </div>
+                <div class="qa-item">
+                    <h3 class="qa-q">3. On a day you meant to work, what stopped you starting a session?</h3>
+                    <p class="qa-a">Even if it's &ldquo;nothing, I just didn't.&rdquo;</p>
+                </div>
+                <div class="qa-item">
+                    <h3 class="qa-q">4. Did it change how you actually worked?</h3>
+                    <p class="qa-a">Or was it decoration on sessions you'd have done anyway?</p>
+                </div>
+                <div class="qa-item">
+                    <h3 class="qa-q">5. Did anything feel like a chore?</h3>
+                    <p class="qa-a">Especially anything where the app seemed to want something from you.</p>
+                </div>
+                <div class="qa-item">
+                    <h3 class="qa-q">6. If it disappeared tomorrow, what would you miss?</h3>
+                    <p class="qa-a">&ldquo;Nothing&rdquo; is a real answer.</p>
+                </div>
+            </div>
+            <div class="callout">
+                <span class="callout-label mono">If something breaks</span>
+                <p>Send me the build number. It's at the very bottom of <span class="ui">FACILITIES</span>.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-num mono">07</span>
+                <h2>Sending your save</h2>
+            </div>
+            <div class="prose">
+                <p>At the end of the week, tap <span class="ui">FACILITIES</span> at the bottom of the home screen, then <span class="ui">SAVE DATA</span>, then <span class="ui">EXPORT A BACKUP</span>. Send me the file however's easiest.</p>
+                <p>It's a plain JSON file with your guild, every session you ran, and the note you typed before each one. Open it first if you want to see exactly what's in it. If any of those notes are about work you'd rather I didn't see, don't send it. Your answers to the six questions matter more than the file.</p>
+            </div>
+            <div class="callout">
+                <span class="callout-label mono">What the app collects</span>
+                <p>Nothing leaves your phone. No analytics, no account, no server, and Telos makes no network calls. It counts how many times it was opened and on which days, just so that exported file can show whether you came back. It all stays on your device until you send it, and deleting the app deletes all of it.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner mono">
+                <div>
+                    <a href="/">Work</a>
+                </div>
+                <div>&copy; 2026 DahVio Studios &middot; Long Beach, California</div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
