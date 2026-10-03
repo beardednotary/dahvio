@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://dahvio.com/rant-support">
+    <title>Rant &amp; Private Burn Journal - Support | DahVio Studios</title>
+    <link rel="icon" type="image/png" href="rant-icon.png">
+    <meta name="description" content="Support for Rant &amp; Private Burn Journal (formerly Ember Journal) by DahVio Studios. Help with burning, kept entries, timed burns, voice notes, App Lock, and restoring Premium.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dahvio.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #111111;
+            --text: #F0EBE1;
+            --accent: #D4724A;
+            --dim: #B0A898;
+            --border: #2A2A2A;
+            --surface: #1A1A1A;
+            --surface-alt: #222222;
+            --gold: #E8B050;
+        }
+
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo span { color: var(--accent); }
+
+        .hero {
+            padding: 6rem 0 4rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .breadcrumb {
+            font-size: 0.875rem;
+            color: var(--dim);
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        h1 {
+            font-family: Georgia, serif;
+            font-size: 3.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--dim);
+            max-width: 620px;
+        }
+
+        .section {
+            padding: 5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 760px;
+        }
+
+        .faq-item {
+            background: var(--surface);
+            border-radius: 0.6rem;
+            border-left: 3px solid var(--accent);
+            padding: 1.5rem;
+        }
+
+        .faq-item h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-item p {
+            color: var(--dim);
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        .faq-item a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .faq-item a:hover { text-decoration: underline; }
+
+        .contact-card {
+            background: var(--surface);
+            border-radius: 0.6rem;
+            padding: 2.5rem;
+            max-width: 520px;
+        }
+
+        .contact-card p {
+            color: var(--dim);
+            margin-bottom: 1.5rem;
+            font-size: 0.9375rem;
+            line-height: 1.65;
+        }
+
+        .contact-link {
+            font-size: 1.125rem;
+            color: var(--text);
+            text-decoration: none;
+            padding-bottom: 0.25rem;
+            border-bottom: 2px solid var(--accent);
+            transition: color 0.2s ease;
+        }
+
+        .contact-link:hover { color: var(--accent); }
+
+        .app-strip {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            background: var(--surface);
+            border-radius: 0.6rem;
+            padding: 1.5rem 2rem;
+            margin-bottom: 3rem;
+            max-width: 620px;
+        }
+
+        .app-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 18px;
+            flex-shrink: 0;
+            object-fit: cover;
+            border: 1px solid rgba(212, 114, 74, 0.4);
+        }
+
+        .app-info h2 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .app-info p {
+            color: var(--dim);
+            font-size: 0.9rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(212, 114, 74, 0.12);
+            color: var(--accent);
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 0.45rem;
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--dim);
+            text-decoration: none;
+            margin: 0 0.75rem;
+        }
+
+        footer a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.15rem; }
+            .hero { padding: 4rem 0 3rem; }
+            .section { padding: 3rem 0; }
+            .app-strip {
+                padding: 1.25rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="/" class="logo">DahVio<span>.</span></a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/">DahVio Studios</a> &rsaquo; <a href="/rant">Rant &amp; Private Burn Journal</a> &rsaquo; Support
+            </div>
+            <h1>Support</h1>
+            <p class="hero-subtitle">Questions about burning, the Kept shelf, timed burns, voice notes, App Lock, or Premium in Rant &amp; Private Burn Journal (formerly Ember Journal). Start here, or email directly.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+
+            <div class="app-strip">
+                <img src="rant-icon.png" alt="Rant &amp; Private Burn Journal icon" class="app-icon">
+                <div class="app-info">
+                    <h2>Rant &amp; Private Burn Journal</h2>
+                    <p>A private journal for the messy version. Write it or say it, keep what helps, burn what doesn't.</p>
+                    <span class="tag">iPhone &middot; DahVio Studios</span>
+                </div>
+            </div>
+
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-list">
+
+                <div class="faq-item">
+                    <h3>Do I need an account?</h3>
+                    <p>No. There's no sign-in, registration, or cloud profile. Everything you write or record stays on your iPhone.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What's the difference between Keep and Burn?</h3>
+                    <p>Keep moves an entry to your Kept shelf so you can come back to it. Burn permanently deletes it after a short release ritual. Free keeps up to 10 thoughts at a time; burning one frees a slot.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Can I get a burned entry back?</h3>
+                    <p>No. Burning deletes the entry and its voice note from the app, with no trash folder and no undo. That's the point, so the app asks once before it burns.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I record a voice note?</h3>
+                    <p>On the Dump screen, tap Record a voice note. iOS will ask for microphone access the first time. Tap Stop recording when you're done, or Re-record to replace it.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do Timed Burns work?</h3>
+                    <p>Timed Burns are part of Premium. On the Kept shelf, tap Set Timer on a thought and choose 24 hours, 7 days, or 30 days. When the time is up, the thought burns itself.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I lock a thought, or the whole app?</h3>
+                    <p>On the Kept shelf, tap Lock on any thought to hide its text until you unlock it. To lock the entire app with Face ID, Touch ID, or your passcode, turn on App Lock in Settings (a Premium feature) and pick how long it waits before locking.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What are Sparks?</h3>
+                    <p>Writing prompts for when your head is full but the first sentence won't come out. There are over 90 free sparks; Premium adds the Exes &amp; People pack and the rest of the library. Tap the star to save favorites.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What does Premium include, and is it a subscription?</h3>
+                    <p>App Lock with Face ID, Timed Burns, an unlimited Kept shelf, and the Exes &amp; People spark pack. It's a single one-time purchase, shown in your local currency in the App Store. No subscription, no renewal.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>I reinstalled the app or got a new phone. Where's my Premium?</h3>
+                    <p>Go to Settings, tap Unlock Premium, then tap Restore previous purchase. Make sure you're signed in with the same Apple ID you used to buy it.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Can I move my entries to a new phone?</h3>
+                    <p>There's no account or cloud sync, so DahVio can't transfer entries for you. Setting up a new iPhone from a backup or transfer of your old one may bring app data along, but that's handled by iOS and isn't guaranteed.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Wasn't this called Ember Journal?</h3>
+                    <p>Yes. It's the same app with a new name. Your entries, settings, and any Premium purchase carry over with the update.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I erase everything?</h3>
+                    <p>Go to Settings &rsaquo; Reset All Data. This permanently deletes all entries and settings and can't be undone. Deleting the app from your iPhone also removes its data.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I report a bug?</h3>
+                    <p>Email <a href="mailto:ray@dahvio.com?subject=Rant%20Support">ray@dahvio.com</a> with what happened, what device you're using, and what you expected to see. That makes it much easier to fix quickly.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="border-bottom: 0;">
+        <div class="container">
+            <h2 class="section-title">Contact</h2>
+
+            <div class="contact-card">
+                <p>Need help, found a bug, or have an idea for the app? Email is the best way to reach DahVio Studios. Please don't include anything from your journal; it isn't needed to help you.</p>
+                <a href="mailto:ray@dahvio.com?subject=Rant%20Support" class="contact-link">ray@dahvio.com</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="/">DahVio Studios</a>
+                <a href="/rant">Rant &amp; Private Burn Journal</a>
+                <a href="/rant-privacy">Privacy Policy</a>
+                <a href="/rant-support">Support</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>

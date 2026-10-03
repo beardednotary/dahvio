@@ -18,6 +18,42 @@
       "has": [{ "type": "host", "value": "(?:www\\.)?wordbridgeesl\\.com" }],
       "destination": "https://dahvio.com/wordbridge",
       "permanent": true
+    },
+    {
+      "source": "/privacy",
+      "has": [{ "type": "host", "value": "(?:www\\.)?emberjournal\\.app" }],
+      "destination": "https://dahvio.com/rant-privacy",
+      "permanent": true
+    },
+    {
+      "source": "/privacy.html",
+      "has": [{ "type": "host", "value": "(?:www\\.)?emberjournal\\.app" }],
+      "destination": "https://dahvio.com/rant-privacy",
+      "permanent": true
+    },
+    {
+      "source": "/terms",
+      "has": [{ "type": "host", "value": "(?:www\\.)?emberjournal\\.app" }],
+      "destination": "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/",
+      "permanent": true
+    },
+    {
+      "source": "/support",
+      "has": [{ "type": "host", "value": "(?:www\\.)?emberjournal\\.app" }],
+      "destination": "https://dahvio.com/rant-support",
+      "permanent": true
+    },
+    {
+      "source": "/support.html",
+      "has": [{ "type": "host", "value": "(?:www\\.)?emberjournal\\.app" }],
+      "destination": "https://dahvio.com/rant-support",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "(?:www\\.)?emberjournal\\.app" }],
+      "destination": "https://dahvio.com/rant",
+      "permanent": true
     }
   ]
 }
