@@ -119,9 +119,23 @@ body {
 .scene-paragraph.visible { opacity: 1; transform: translateY(0); }
 .scene-paragraph em { font-style: italic; }
 /* the station: a changeable message sign */
-.scene-paragraph.radio { background: var(--board); border-radius: 4px; padding: 8px 34px 6px 12px; font-family: 'VT323', monospace; font-size: 21px; line-height: 1.1; color: var(--amber); text-transform: uppercase; letter-spacing: 0.04em; position: relative; }
-.radio-am { position: absolute; right: 8px; top: 5px; font-family: 'Overpass', sans-serif; font-size: 9px; font-weight: 800; letter-spacing: 0.1em; opacity: 0.6; }
-body[data-lit="off"] .radio-am { display: none; }
+/* The station runs through its window the way a cheap head unit does. It is the
+   only thing on the screen that moves on its own, which is the point: everything
+   else is a sign, and a sign does not play. */
+.scene-paragraph.radio { background: var(--board); border-radius: 4px; padding: 6px 12px 7px; display: flex; align-items: center; gap: 10px; }
+.radio-am { flex: none; font-family: 'Overpass', sans-serif; font-size: 9px; font-weight: 800; letter-spacing: 0.1em; color: var(--amber); opacity: 0.55; }
+body[data-lit="off"] .radio-am { visibility: hidden; }
+.radio-window { flex: 1; min-width: 0; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent); mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent); }
+.radio-ticker { display: inline-block; white-space: nowrap; font-family: 'VT323', monospace; font-size: 21px; line-height: 1.3; color: var(--amber); text-transform: uppercase; letter-spacing: 0.04em; transform: translateX(100%); }
+.radio-ticker.rolling { animation: radio-roll linear infinite; }
+@keyframes radio-roll { from { transform: translateX(var(--from)); } to { transform: translateX(var(--to)); } }
+/* Motion off: it goes back to being a line you read. */
+@media (prefers-reduced-motion: reduce) {
+  .scene-paragraph.radio { align-items: flex-start; }
+  .radio-am { padding-top: 6px; }
+  .radio-window { -webkit-mask-image: none; mask-image: none; }
+  .radio-ticker, .radio-ticker.rolling { animation: none; transform: none; white-space: normal; display: block; line-height: 1.15; }
+}
 
 /* CHOICES — signs */
 #choices-section { padding: 10px 0 14px; opacity: 0; transition: opacity 0.4s ease; }
@@ -163,6 +177,7 @@ body[data-lit="off"] .radio-am { display: none; }
 #footer { display: none !important; }
 
 /* CHARACTER SELECT */
+#resume-slot .start-btn { margin: 0 0 14px; background: var(--blue); }
 #char-select { padding: 14px 0 20px; flex: 1; overflow-y: auto; }
 .cs-title { font-size: 26px; font-weight: 800; line-height: 1.1; margin-bottom: 2px; padding: 0 4px; }
 .cs-sub { font-size: 11px; color: var(--muted); margin-bottom: 16px; padding: 0 4px; }
@@ -262,6 +277,7 @@ body[data-lit="off"] .radio-am { display: none; }
     <div id="char-select">
       <div class="cs-title">Who are you?</div>
       <div class="cs-sub">Your archetype shapes how the road reads you.</div>
+      <div id="resume-slot"></div>
 
   <div class="cs-card selected" data-archetype="drifter" onclick="selectArchetype(this)">
     <div class="cs-card-top">
@@ -420,7 +436,7 @@ const NODES = {
       "You've been sitting in this booth for twenty minutes. The coffee is bad but it's cheap and the AC works.",
       "Your waitress has refilled your cup twice without asking. That's either hospitality or pity. Hard to tell out here.",
       "The laminated menu says the breakfast plate is eggs, toast, hash browns, choice of meat. Your stomach says yes. Your wallet has other opinions.",
-      // Why cash is the stat. Said once, here, and never explained. [PROSE BY CLAUDE — rewrite in your own voice]
+      // Why cash is the stat. Said once, here, and never explained.
       "The card in it stopped being a card somewhere around Bakersfield. You've quit trying it. What's in the wallet is what there is.",
       "The sign over the eastbound on-ramp says NEEDLES. Heat already coming off the asphalt and it's not even nine."
     ],
@@ -528,7 +544,6 @@ const NODES = {
   // and buys you a town: a cheaper pump, and whatever they left behind.
   // Driving past costs you nothing and gives you nothing.
   // The two paths do not rejoin until Rattlesnake Flats.
-  // [PROSE BY CLAUDE — rewrite in your own voice]
   // ══════════════════════════════════════════════════════════════════════
   sw_003_needles: {
     location: "Needles, CA",
@@ -563,7 +578,6 @@ const NODES = {
     }
   },
 
-  // [PROSE BY CLAUDE — rewrite in your own voice]
   sw_003_alone: {
     location: "I-40 Eastbound — Between Exits",
     tags: ["travel","tension"],
@@ -589,7 +603,6 @@ const NODES = {
   // FORK B — the detour. The county road is faster and has nothing on it.
   // The highway is slower and has people on it. Neither is the right answer.
   // The two paths do not rejoin until the sun starts going down.
-  // [PROSE BY CLAUDE — rewrite in your own voice]
   // ══════════════════════════════════════════════════════════════════════
   sw_006a2: {
     location: "County Road 6 — Detour",
@@ -623,7 +636,6 @@ const NODES = {
     }
   },
 
-  // [PROSE BY CLAUDE — rewrite in your own voice]
   sw_006b2: {
     location: "I-40 Eastbound — Lane Closure",
     tags: ["travel","tension"],
@@ -725,7 +737,7 @@ const NODES = {
     location: "Rattlesnake Flats — Desert Gas Stop",
     tags: ["tension","nerve"],
     mile: 83, paywall: false,
-    // [PROSE BY CLAUDE — rewrite in your own voice] An offline approval is a real thing. So is the slip bouncing a day later.
+    // An offline approval is a real thing. So is the slip bouncing a day later.
     text: ["He looks at you. Looks at the card. Looks at you again.", "Runs it.", "The machine can't reach anything to ask. It does what they do when they can't: thinks about it longer than machines should, then approves on its own and prints a slip that will bounce when the line comes back.", "By then you're a hundred miles east.", "You don't react. That's the whole trick. You take the receipt like it means nothing and get back in your car with enough fuel to keep moving and your wallet still in your pocket.", "Across the lot the El Camino driver watched the whole thing.", "You can't tell if he's impressed or if that's just his face."],
     choices: [
       { text: "Pull out before anyone thinks too hard", sub: "Fuel gained. Wallet intact. Don't push it.", type: "neutral", next: "sw_005" }
@@ -809,7 +821,6 @@ const NODES = {
   // before the paywall road. The other two (he leaves / you refuse) leave you
   // on I-40 alone, which is their consequence.
   // Rule kept: the fruit stand never appears. A man on a tailgate is not one.
-  // [PROSE BY CLAUDE — rewrite in your own voice]
   // ══════════════════════════════════════════════════════════════════════
   sw_005e: {
     location: "I-40 Eastbound — The Road He Put You On",
@@ -843,7 +854,6 @@ const NODES = {
     }
   },
 
-  // [PROSE BY CLAUDE — rewrite in your own voice]
   sw_005f: {
     location: "I-40 Eastbound — After the Lot",
     tags: ["elcamino","tension"],
@@ -930,7 +940,6 @@ const NODES = {
     tags: ["travel","tension"],
     mile: 280, paywall: false,
     // detour_lost is set on the section road; an hour lost there is light lost here.
-    // [PROSE BY CLAUDE — rewrite in your own voice]
     textFn: (s) => s.flags.detour_lost
       ? ["The highway opens back up.", "The section road cost you most of an hour and the light shows it. The sandstone is already past amber, going dull. The shadows reach across both lanes.", "Your tank is where it is. Your wallet is where it is.", "Kingman is ahead. There's a gas station there, probably two, and a motel strip on the main drag that's been there since the highway was new.", "You do the math. It comes out an hour worse.", "The light isn't getting better any more. It's just going."]
       : ["The highway opens back up.", "Late afternoon light now. The kind that makes everything look better than it is. Sandstone going amber. Shadows getting long.", "Your tank is where it is. Your wallet is where it is.", "Kingman is ahead. There's a gas station there, probably two, and a motel strip on the main drag that's been there since the highway was new.", "You do the math.", "The light keeps getting better. The desert doesn't care what you're worried about."],
@@ -1146,7 +1155,6 @@ const NODES = {
   // The dead zone between Kingman and the rest area was 100 miles of nothing:
   // no scene, no cost, no unease. This is the money sink that fills it, and it
   // is mundane on purpose — cars break. The wrongness is that nothing caused it.
-  // [PROSE BY CLAUDE — rewrite in your own voice]
   // ══════════════════════════════════════════════════════════════════════
   sw_0095: {
     location: "I-40 Eastbound — Shoulder",
@@ -1298,7 +1306,7 @@ const NODES = {
 
   // Pushing over the grade is the only way to reach the one ordinary, lit,
   // city-priced pump in the paid half of the route. The donut locks the push,
-  // so the $24 tire at mile 350 is what buys this. [PROSE BY CLAUDE — rewrite in your own voice]
+  // so the $24 tire at mile 350 is what buys this.
   sw_0105b: {
     location: "Flagstaff, AZ — Exit",
     tags: ["travel","money","night"],
@@ -1321,7 +1329,7 @@ const NODES = {
     location: "Flagstaff Frontage Road",
     tags: ["tension","travel"],
     mile: 465, paywall: false,
-    // [PROSE BY CLAUDE — rewrite in your own voice] The Planner's card is the only
+    // The Planner's card is the only
     // thing on this route that works because of who you are rather than what you rolled.
     text: ["The frontage road runs close enough to I-40 that you can see the traffic and far enough that it feels like a different trip.", "For ten minutes you think you made the wrong choice.", "Then the road drops slightly, the engine noise softens, and the gauge settles.", "There's a station on the frontage road with the canopy lights on and nothing else. CASH INSIDE, says the pump, and inside is dark. The card reader has a green light on it."],
     choices: [
@@ -1375,7 +1383,6 @@ const NODES = {
   // The car is their shelter for all 675 miles; standing next to it is the
   // most exposed they ever get. Nothing supernatural happens here — altitude,
   // no water, no traffic, and a guardrail. That is enough.
-  // [PROSE BY CLAUDE — rewrite in your own voice]
   // ══════════════════════════════════════════════════════════════════════
   sw_0105d: {
     location: "Mountain Grade — Turnout",
@@ -1447,7 +1454,6 @@ const NODES = {
   // Mile 470 to 550 had no node at all — the largest hole left in the route.
   // The register here is distance without landmark, and a countdown to
   // something that isn't there any more. All of it is real roadside Americana.
-  // [PROSE BY CLAUDE — rewrite in your own voice]
   // ══════════════════════════════════════════════════════════════════════
   sw_0107: {
     location: "I-40 Eastbound — Past Holbrook",
@@ -1528,7 +1534,6 @@ const NODES = {
     mile: 580, paywall: false,
     onLoad: (s) => { if (s.flags.owes_the_road) s.flags.saw_the_next_one = true; },
     // The man with the gas can said "pay the next one." This is the next one.
-    // [PROSE BY CLAUDE — rewrite in your own voice]
     textFn: (s) => {
       const base = ["The first station is fine. Expensive but fine. The kind of place that knows it's the last option for a while and prices accordingly.", "You fill what you need."];
       if (s.flags.owes_the_road)
@@ -1591,7 +1596,6 @@ const NODES = {
   // Was: plywood on the windows, permanently shut. That is just bad luck.
   // Closed TODAY, for something, is a scene. Nothing is explained, nothing
   // supernatural happens, and the radio may or may not mention it later.
-  // [PROSE BY CLAUDE — rewrite in your own voice]
   sw_011c: {
     location: "New Mexico — Roadside",
     tags: ["tension","travel"],
@@ -1648,13 +1652,14 @@ const NODES = {
       const base = ["Mile 675.", "The city comes in fast after the desert. That's always how it works. Nothing nothing nothing and then exits and overpasses and a Walmart and a cluster of hotels and the skyline behind all of it.", "You take the first exit you see.", "A gas station on the corner. Fluorescent lights. A man walking a small dog around the perimeter of the lot for reasons of his own.", "You park.", "You turn the engine off.", "You sit there."];
 
       // ── What the road took. Arriving is not the same as arriving intact. ──
-      // [PROSE BY CLAUDE — rewrite in your own voice]
       if (s.strandings >= 1)
         base.push("You ran dry once, out past nowhere, and somebody you'll never see again put enough in your tank to get you the rest of the way. You didn't get his name. It didn't occur to you to ask until an hour later.");
       if (s.flags.paid_it_forward)
         base.push("Somewhere back there somebody at a pump owes the road ten dollars now, and doesn't know it yet, and will.");
       else if (s.flags.saw_the_next_one)
         base.push("Pay the next one, he said. You drove past the next one. It was easier than you'd have guessed, which is the part you'd rather not know about yourself.");
+      if (s.flags.saw_the_last_car)
+        base.push("Somewhere back there a car is still on the shoulder with its hazards going. They'll run the battery down by morning. Somebody will come for it, or they won't, and either way the road will look the same by noon.");
       if (s.stats.tank <= 15)
         base.push("The needle is under the peg. You spent the last forty miles watching it instead of the road and now you don't have to, and your eyes keep going back to it anyway.");
       if (s.stats.wallet <= 0)
@@ -1692,7 +1697,7 @@ const NODES = {
     choices: []
   },
 
-  // Drifting off is a detour now, not an ending. [PROSE: final lines changed]
+  // Drifting off is a detour now, not an ending.
   death_night: {
     location: "I-40 Eastbound — Night",
     tags: ["tension"],
@@ -1712,7 +1717,6 @@ const NODES = {
   },
 
   // ── Stranding: running dry is a detour, not an ending. Third one ends the run. ──
-  // [PROSE BY CLAUDE — rewrite in your own voice]
   strand_1: {
     location: "I-40 Eastbound — Shoulder",
     tags: ["tension"],
@@ -1750,7 +1754,6 @@ const NODES = {
     }
   },
 
-  // [PROSE BY CLAUDE — rewrite in your own voice]
   strand_end: {
     location: "I-40 Eastbound — Shoulder",
     tags: ["tension"],
@@ -1819,7 +1822,6 @@ function selectArchetype(card) {
 //      there, or there is something completely ordinary, and that is the end of it.
 //
 // Escalation is by mile, not by volume. Early it is boring. Late it is specific.
-// [PROSE BY CLAUDE — rewrite in your own voice. This is the register, not the text.]
 // ═══════════════════════════════════════════════════════════════════════════
 const RADIO_BANDS = [
 
@@ -1959,8 +1961,93 @@ function mileageCost(nextNodeId) {
 // have wins. The note is the rare one and the cross-route seed. The room key and
 // the receipt are what most trips leave you with. Later routes read these back:
 // Cord looks at the objects, not at you.
-// [PROSE BY CLAUDE — rewrite in your own voice]
 // ═══════════════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════════════
+// SAVE AND RESUME
+//
+// A run is thirty to forty-five minutes and the testers are on phones. The game
+// saves at every node, and again the moment a choice is taken (so closing the
+// app during an outcome scene resumes AFTER the choice, not before it — the
+// money has already changed hands). Character select offers "Continue" when a
+// save exists. Finishing or losing clears it. localStorage is the prototype's
+// store; the RN build uses AsyncStorage for the same shape.
+// ═══════════════════════════════════════════════════════════════════════════
+const SAVE_KEY = 'mm_save';
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+  del(k) { try { localStorage.removeItem(k); } catch (e) {} }
+};
+function saveGame(resumeAt) {
+  if (!state.stats || !state.maxStats || !resumeAt) return;
+  const snap = Object.assign({}, state, { timeouts: [], animating: false, resumeAt, savedAt: Date.now() });
+  store.set(SAVE_KEY, snap);
+}
+function clearSave() { store.del(SAVE_KEY); }
+function loadSave() {
+  const s = store.get(SAVE_KEY);
+  if (!s || !s.resumeAt || !NODES[s.resumeAt] || !s.stats) return null;
+  if (s.resumeAt === 'strand_end' || (NODES[s.resumeAt] && NODES[s.resumeAt].isVictory)) return null;
+  return s;
+}
+function offerResume() {
+  const s = loadSave(), slot = document.getElementById('resume-slot');
+  if (!s || !slot) return;
+  const arch = ARCHETYPES[s.archetype] || ARCHETYPES.drifter;
+  const mile = (NODES[s.resumeAt] && NODES[s.resumeAt].mile != null) ? NODES[s.resumeAt].mile : (s.lastMile || 0);
+  slot.innerHTML = `<button class="start-btn" onclick="resumeGame()">Continue — mile ${mile}<span class="start-btn-sub">${s.playerName && s.playerName !== arch.name ? s.playerName + " · " : ""}${arch.name} · run ${s.run || 1}</span></button>`;
+}
+function resumeGame() {
+  const s = loadSave(); if (!s) return;
+  clearTimeouts();
+  state = Object.assign({}, s, { timeouts: [], animating: false, debugRolls: DEBUG_ROLLS });
+  selectedArchetype = state.archetype || 'drifter';
+  const arch = ARCHETYPES[selectedArchetype];
+  document.getElementById('char-name').textContent = state.playerName || arch.name;
+  document.getElementById('char-type').textContent = arch.type;
+  document.getElementById('footer-arch').textContent = arch.name.split(' ').pop();
+  document.getElementById('footer-choices').textContent = state.choices || 0;
+  document.getElementById('footer-run').textContent = state.run || 1;
+  document.getElementById('main-screen').style.display = 'none';
+  document.getElementById('header').style.display = 'flex';
+  document.getElementById('odometer').style.display = 'flex';
+  document.getElementById('footer').style.display = 'flex';
+  document.getElementById('stats-panel').style.display = 'flex';
+  document.getElementById('effects-log').style.display = 'none';
+  document.getElementById('game-screen').style.display = 'flex';
+  updateStatsUI();
+  // Odometer counts from 0 on a fresh page; start it where the save was.
+  state.currentMile = (NODES[state.resumeAt] && NODES[state.resumeAt].mile) || state.lastMile || 0;
+  loadNode(state.resumeAt);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// THE LAST TRAVELER'S CAR
+//
+// When a run ends on the shoulder, the road remembers where. The next run passes
+// it, once: a car on the shoulder, hazards still going, nobody in it. Never
+// explained, never mentioned again except by the arrival. Cord's rules apply —
+// it is not impossible, only improbable, and it is yours.
+// ═══════════════════════════════════════════════════════════════════════════
+const LAST_CAR_KEY = 'mm_last_car';
+function recordLastCar() {
+  if (!state.stats) return;
+  store.set(LAST_CAR_KEY, { mile: state.lastMile || 0, archetype: state.archetype, name: state.playerName, run: state.run || 1 });
+}
+function lastCarLine(node) {
+  const car = store.get(LAST_CAR_KEY);
+  // Run numbers reset when the page reloads, so 'once' is a flag on the record, not a run check.
+  if (!car || car.shown || node.mile == null || node.isVictory) return null;
+  if (state.flags.saw_the_last_car) return null;
+  if (node.mile <= car.mile || node.mile - car.mile > 120) return null;   // you pass it soon after where it stopped, or not at all
+  state.flags.saw_the_last_car = true;
+  store.set(LAST_CAR_KEY, Object.assign(car, { shown: true }));
+  const same = car.archetype === state.archetype;
+  return same
+    ? "A car on the shoulder with its hazards still going. Nobody in it. Same make as yours, near enough, and the plates are from where you started. You don't slow down. It takes you a mile to notice you've checked the mirror three times."
+    : "A car on the shoulder with its hazards still going. Nobody in it. The plates are from where you started. You don't slow down. Nobody does, out here; you've learned that from the other side.";
+}
+
 function keepsakeFor(s) {
   if (s.flags.found_note) return {
     id: 'note', label: 'A note on motel stationery',
@@ -2171,6 +2258,7 @@ function updateStatsUI(effects = []) {
 }
 
 function startGame() {
+  clearSave();
   const arch = ARCHETYPES[selectedArchetype];
   const name = document.getElementById('player-name').value.trim() || arch.name;
   state.archetype = selectedArchetype;
@@ -2232,6 +2320,7 @@ function clearTimeouts() {
 function skipAnimation() {
   clearTimeouts();
   document.querySelectorAll('.scene-paragraph').forEach(p => p.classList.add('visible'));
+  document.querySelectorAll('.scene-paragraph.radio').forEach(b => startRadioTicker(b, 0));
   document.getElementById('tap-hint').style.display = 'none';
   // clearTimeouts() kills the pending renderChoices() timer, so render here too --
   // otherwise tapping to skip lands the player on a screen with no choices at all.
@@ -2264,6 +2353,21 @@ function setSignage(id, node) {
   document.body.dataset.wear = wearFor(node.mile);
 }
 
+// The station scrolls at a fixed speed in pixels per second, so a long line takes
+// longer to pass rather than moving faster. It loops, because it is still playing.
+const RADIO_SPEED = 88;   // px per second — the dial speed. Lower is slower.
+function startRadioTicker(block, tries) {
+  const win = block.querySelector('.radio-window'), tick = block.querySelector('.radio-ticker');
+  if (!win || !tick) return;
+  const w = win.clientWidth, t = tick.scrollWidth;
+  if ((!w || !t) && (tries || 0) < 12) { setTimeout(() => startRadioTicker(block, (tries || 0) + 1), 120); return; }
+  if (!w || !t) { tick.style.transform = 'none'; return; }   // never leave the line invisible
+  tick.style.setProperty('--from', w + 'px');
+  tick.style.setProperty('--to', -t + 'px');
+  tick.style.animationDuration = ((w + t) / RADIO_SPEED).toFixed(1) + 's';
+  tick.classList.add('rolling');
+}
+
 function loadNode(nodeId) {
   if (nodeId === '__RESUME__') nodeId = state.strandReturn || 'sw_011';
   state.currentNode = nodeId;
@@ -2277,6 +2381,7 @@ function loadNode(nodeId) {
 
   if (node.onLoad) node.onLoad(state);
   setSignage(nodeId, node);
+  if (nodeId === 'strand_end') { recordLastCar(); clearSave(); } else saveGame(nodeId);
   // Capture the distance BEFORE the mile marker advances — the radio needs to know
   // how far you just drove, and updating lastMile first makes that always zero.
   const _drove = node.mile != null ? Math.max(0, node.mile - (state.lastMile || 0)) : 0;
@@ -2294,6 +2399,8 @@ function loadNode(nodeId) {
   });
 
   let text = node.textFn ? node.textFn(state) : (node.text || []);
+  const _car = lastCarLine(node);
+  if (_car) text = text.concat([_car]);
   const _radio = radioLine(node, _drove);
   if (_radio) text = text.concat(['%%RADIO%%' + _radio]);
   const stashedIdx = text.indexOf('%%STASHED_ITEM%%');
@@ -2309,7 +2416,11 @@ function loadNode(nodeId) {
     const div = document.createElement('div');
     if (typeof p === 'string' && p.indexOf('%%RADIO%%') === 0) {
       div.className = 'scene-paragraph radio';
-      div.innerHTML = p.slice(9) + '<span class="radio-am">AM</span>';
+      div.innerHTML = '<span class="radio-am">AM</span><span class="radio-window"><span class="radio-ticker"></span></span>';
+      div.querySelector('.radio-ticker').textContent = p.slice(9);
+      // NOT in state.timeouts: skipAnimation() clears those, and the station would
+      // never start rolling for anyone who taps to skip.
+      setTimeout(() => startRadioTicker(div, 0), 40);
     } else {
       div.className = 'scene-paragraph';
       div.innerHTML = p;
@@ -2422,6 +2533,7 @@ function handleChoice(choice) {
 
   const currentNode = NODES[state.currentNode];
   if (result.outcome && currentNode && currentNode.outcomes && currentNode.outcomes[result.outcome]) {
+    saveGame(result.next);   // closing the app mid-outcome resumes after the choice, not before it
     showOutcomeThen(currentNode.outcomes[result.outcome], result.next);
     return;
   }
@@ -2486,6 +2598,7 @@ function unlockGame(nextNode) {
 function showVictory(node) {
   document.getElementById('game-screen').style.display = 'none';
   document.getElementById('main-screen').style.display = 'flex';
+  clearSave();
   const textArr = node.textFn ? node.textFn(state) : (node.text || []);
   const kept = keepsakeFor(state);
   if (kept) {
@@ -2532,6 +2645,7 @@ function restartSameRoute() {
   const nextRun = (state.run || 1) + 1;
 
   clearTimeouts();
+  clearSave();
   selectedArchetype = archKey;
   state = {
     archetype: archKey,
@@ -2582,6 +2696,7 @@ function restartFull() {
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('main-screen').style.display = 'flex';
+  offerResume();
 });
 </script>
 
