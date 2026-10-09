@@ -127,15 +127,15 @@ body {
 body[data-lit="off"] .radio-am { visibility: hidden; }
 .radio-window { flex: 1; min-width: 0; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent); mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent); }
 .radio-ticker { display: inline-block; white-space: nowrap; font-family: 'VT323', monospace; font-size: 21px; line-height: 1.3; color: var(--amber); text-transform: uppercase; letter-spacing: 0.04em; transform: translateX(100%); }
-.radio-ticker.rolling { animation: radio-roll linear infinite; }
-@keyframes radio-roll { from { transform: translateX(var(--from)); } to { transform: translateX(var(--to)); } }
-/* Motion off: it goes back to being a line you read. */
-@media (prefers-reduced-motion: reduce) {
-  .scene-paragraph.radio { align-items: flex-start; }
-  .radio-am { padding-top: 6px; }
-  .radio-window { -webkit-mask-image: none; mask-image: none; }
-  .radio-ticker, .radio-ticker.rolling { animation: none; transform: none; white-space: normal; display: block; line-height: 1.15; }
-}
+.scene-paragraph.radio { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.scene-paragraph.radio.paused .radio-am { opacity: 0.25; }
+/* Reduce Motion: no scrolling. The line types itself in once, at speaking pace, and stays. */
+.scene-paragraph.radio.still { align-items: flex-start; cursor: default; }
+.scene-paragraph.radio.still .radio-am { padding-top: 6px; }
+.scene-paragraph.radio.still .radio-window { -webkit-mask-image: none; mask-image: none; }
+.scene-paragraph.radio.still .radio-ticker { transform: none; white-space: normal; display: block; line-height: 1.15; }
+
+.build-stamp { text-align: center; font-size: 10px; color: var(--muted); margin-top: 14px; letter-spacing: 0.04em; }
 
 /* CHOICES — signs */
 #choices-section { padding: 10px 0 14px; opacity: 0; transition: opacity 0.4s ease; }
@@ -332,6 +332,7 @@ body[data-lit="off"] .radio-am { visibility: hidden; }
 
   <span class="name-label">What do they call you?</span>
   <input id="player-name" type="text" placeholder="A name or a nickname…" maxlength="24">
+  <div id="build-stamp" class="build-stamp"></div>
   <button class="start-btn" onclick="startGame()">
     Hit the road
     <span class="start-btn-sub">Barstow → Albuquerque — 675 miles</span>
@@ -2355,17 +2356,47 @@ function setSignage(id, node) {
 
 // The station scrolls at a fixed speed in pixels per second, so a long line takes
 // longer to pass rather than moving faster. It loops, because it is still playing.
+// Driven by the Web Animations API with pixel values computed here — not CSS
+// variables inside @keyframes, which older WebKit resolves badly.
 const RADIO_SPEED = 88;   // px per second — the dial speed. Lower is slower.
+const RADIO_TYPE_CPS = 26; // Reduce Motion: characters per second for the type-on.
+// Honours the phone's Reduce Motion. ?motion=reduced or ?motion=full forces either, for testing.
+function motionReduced() {
+  const q = (typeof location !== 'undefined' && location.search) || '';
+  if (/[?&]motion=full\b/.test(q)) return false;
+  if (/[?&]motion=reduced\b/.test(q)) return true;
+  try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
+}
+// Bump this on every build that goes to testers, so "which one did you play?" has an answer.
+const BUILD = '2026-10-09.3';
+
 function startRadioTicker(block, tries) {
+  if (block.dataset.started) return;
   const win = block.querySelector('.radio-window'), tick = block.querySelector('.radio-ticker');
   if (!win || !tick) return;
+  if (motionReduced()) {
+    // No scrolling. The line arrives at the pace of somebody saying it, once, and stays.
+    block.dataset.started = '1';
+    block.classList.add('still');
+    const full = tick.textContent; let i = 0;
+    tick.textContent = '';
+    const step = () => { i++; tick.textContent = full.slice(0, i); if (i < full.length) setTimeout(step, 1000 / RADIO_TYPE_CPS); };
+    step();
+    return;
+  }
   const w = win.clientWidth, t = tick.scrollWidth;
   if ((!w || !t) && (tries || 0) < 12) { setTimeout(() => startRadioTicker(block, (tries || 0) + 1), 120); return; }
-  if (!w || !t) { tick.style.transform = 'none'; return; }   // never leave the line invisible
-  tick.style.setProperty('--from', w + 'px');
-  tick.style.setProperty('--to', -t + 'px');
-  tick.style.animationDuration = ((w + t) / RADIO_SPEED).toFixed(1) + 's';
-  tick.classList.add('rolling');
+  block.dataset.started = '1';
+  if (!w || !t || !tick.animate) { block.classList.add('still'); return; }   // never leave the line invisible
+  const anim = tick.animate(
+    [{ transform: 'translateX(' + w + 'px)' }, { transform: 'translateX(' + (-t) + 'px)' }],
+    { duration: Math.round((w + t) / RADIO_SPEED * 1000), iterations: Infinity, easing: 'linear' }
+  );
+  // Tap the window to stop the dial; tap again to bring it back.
+  block.onclick = () => {
+    if (anim.playState === 'paused') { anim.play(); block.classList.remove('paused'); }
+    else { anim.pause(); block.classList.add('paused'); }
+  };
 }
 
 function loadNode(nodeId) {
@@ -2697,6 +2728,8 @@ function restartFull() {
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('main-screen').style.display = 'flex';
   offerResume();
+  const stamp = document.getElementById('build-stamp');
+  if (stamp) stamp.textContent = 'Route 1 · build ' + BUILD + (motionReduced() ? ' · reduce motion on' : '');
 });
 </script>
 
