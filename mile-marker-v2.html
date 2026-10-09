@@ -286,7 +286,7 @@ body[data-lit="off"] .radio-am { display: none; }
       <div class="cs-info">
         <span class="cs-name">The Planner</span>
         <span class="cs-archetype">Preparation • Resources</span>
-        <span class="cs-flavor">AAA card, full tank, printed directions. Boring until things go sideways.</span>
+        <span class="cs-flavor">AAA card, a gas card with something left on it, full tank, printed directions. Boring until things go sideways.</span>
       </div>
     </div>
     <div class="cs-stats">
@@ -420,6 +420,8 @@ const NODES = {
       "You've been sitting in this booth for twenty minutes. The coffee is bad but it's cheap and the AC works.",
       "Your waitress has refilled your cup twice without asking. That's either hospitality or pity. Hard to tell out here.",
       "The laminated menu says the breakfast plate is eggs, toast, hash browns, choice of meat. Your stomach says yes. Your wallet has other opinions.",
+      // Why cash is the stat. Said once, here, and never explained. [PROSE BY CLAUDE — rewrite in your own voice]
+      "The card in it stopped being a card somewhere around Bakersfield. You've quit trying it. What's in the wallet is what there is.",
       "The sign over the eastbound on-ramp says NEEDLES. Heat already coming off the asphalt and it's not even nine."
     ],
     choices: [
@@ -540,7 +542,7 @@ const NODES = {
       "The window is down on that side. You don't remember putting it down."
     ],
     choices: [
-      { text: "Top off while you're stopped", sub: "Cheaper here than out on the interstate. Town prices.", type: "safe", next: "sw_004", deltas: { wallet: -26, tank: +100 } },
+      { text: "Top off while you're stopped", sub: (s) => pumpSub(s, { rate: 0.26 }, "Cheaper than the interstate. You'd know that if you lived here."), type: "safe", requires: pumpOpen, lockText: pumpClosed, pump: { rate: 0.26 }, next: "sw_004" },
       { text: "Check the seat where they were sitting", sub: "Gut check — people leave things. Not always on purpose.", type: "neutral", check: { stat: "gut", difficulty: 6 },
         success: { next: "sw_004", outcome: "found", deltas: { wallet: +12, gut: +1 }, flags: { hitchhiker_left_something: true } },
         failure: { next: "sw_004", outcome: "nothing", deltas: {} } },
@@ -676,9 +678,11 @@ const NODES = {
       return base;
     },
     choices: [
-      { text: "Pay and go", sub: "Empties your Wallet — tank still short", type: "neutral", next: "sw_004a", deltas: { wallet: -32, tank: +100 } },
-      { text: "Ask the El Camino driver for help", sub: "Uncertain — Gut check. You don't know this person.", type: "neutral", check: { stat: "gut", difficulty: 7 }, road: +1, success: { next: "sw_004b", deltas: { wallet: -16, tank: +72, gut: +1 }, flags: { elcamino_approached: true } }, failure: { next: "sw_004c", deltas: { wallet: -32, tank: +70, gut: -1 } } },
-      { text: "Tell the attendant your card worked fine yesterday", sub: "Risky — costs Nerve if he calls it", type: "risky", check: { stat: "nerve", difficulty: 5 }, road: -2, success: { next: "sw_004d", deltas: { tank: +100, nerve: +1 }, flags: { elcamino_witnessed_bluff: true } }, failure: { next: "sw_004e", deltas: { wallet: -32, tank: +55, nerve: -1 } } }
+      { text: "Pay and go", sub: (s) => pumpSub(s, { rate: 0.32 }, "Middle of nowhere, and he prices it that way."), type: "neutral", requires: pumpOpen, lockText: pumpClosed, pump: { rate: 0.32 }, next: "sw_004a" },
+      { text: "Ask the El Camino driver for help", sub: "Uncertain — Gut check. You don't know this person. If he says yes, he splits the tank with you.", type: "neutral", check: { stat: "gut", difficulty: 7 }, road: +1, success: { next: "sw_004b", pump: { rate: 0.16 }, deltas: { gut: +1 }, flags: { elcamino_approached: true } }, failure: { next: "sw_004c", pump: { rate: 0.32 }, deltas: { gut: -1 } } },
+      // The card is dead and his machine is down. A terminal that can't phone home approves
+      // on its own and bounces later — if you don't blink, that's a full tank for nothing.
+      { text: "Tell the attendant your card worked fine yesterday", sub: "Risky — Nerve check. His machine can't check the card. Neither can you, which is the point. Costs Nerve and cash if he calls it.", type: "risky", check: { stat: "nerve", difficulty: 5 }, road: -2, success: { next: "sw_004d", deltas: { tank: +100, nerve: +1 }, flags: { elcamino_witnessed_bluff: true } }, failure: { next: "sw_004e", pump: { rate: 0.32 }, deltas: { nerve: -1 } } }
     ]
   },
 
@@ -721,7 +725,8 @@ const NODES = {
     location: "Rattlesnake Flats — Desert Gas Stop",
     tags: ["tension","nerve"],
     mile: 83, paywall: false,
-    text: ["He looks at you. Looks at the card. Looks at you again.", "Runs it.", "The machine thinks about it longer than machines should. Then it approves.", "You don't react. That's the whole trick. You take the receipt like it means nothing and get back in your car with enough fuel to keep moving and your wallet still in your pocket.", "Across the lot the El Camino driver watched the whole thing.", "You can't tell if he's impressed or if that's just his face."],
+    // [PROSE BY CLAUDE — rewrite in your own voice] An offline approval is a real thing. So is the slip bouncing a day later.
+    text: ["He looks at you. Looks at the card. Looks at you again.", "Runs it.", "The machine can't reach anything to ask. It does what they do when they can't: thinks about it longer than machines should, then approves on its own and prints a slip that will bounce when the line comes back.", "By then you're a hundred miles east.", "You don't react. That's the whole trick. You take the receipt like it means nothing and get back in your car with enough fuel to keep moving and your wallet still in your pocket.", "Across the lot the El Camino driver watched the whole thing.", "You can't tell if he's impressed or if that's just his face."],
     choices: [
       { text: "Pull out before anyone thinks too hard", sub: "Fuel gained. Wallet intact. Don't push it.", type: "neutral", next: "sw_005" }
     ]
@@ -951,10 +956,10 @@ const NODES = {
     mile: 300, paywall: false,
     text: ["Kingman comes up in pieces. Gas stations first. Fast food signs. Motel vacancy signs humming against the dark.", "You pull into the Desert Wind because the sign says cheap and because cheap is a relative word when you are tired enough.", "The clerk tells you the price without looking away from the little TV behind the counter.", "You check your wallet before you answer."],
     choices: [
-      { text: "Take a room at the Desert Wind", sub: "Requires $42 — bed, AC, lock on the door.", type: "safe", requires: {"walletMin":42}, next: "sw_008", deltas: { wallet: -52, tank: +100, nerve: +1 }, flags: {"stayed_roys":true,"stayed_desert_wind":true} },
+      { text: "Take a room at the Desert Wind", sub: "$30 — bed, AC, lock on the door. Nothing in the tank.", type: "safe", requires: {"walletMin":30}, next: "sw_008", deltas: { wallet: -30, nerve: +1 }, flags: {"stayed_roys":true,"stayed_desert_wind":true} },
       { text: "Sleep in the car", sub: "No room. No lock. But still your car.", type: "neutral", next: "sw_008", deltas: { nerve: -2, gut: -1 }, flags: {"slept_car":true} },
       { text: "Keep driving through the night", sub: "Risky — saves money, spends everything else.", type: "risky", check: { stat: "nerve", difficulty: 7 }, road: -2, success: { next: "sw_0105", deltas: { tank: -18, nerve: -3, gut: -2 }, flags: { drove_through_night: true } }, failure: { next: "death_night", deltas: { tank: -18, nerve: -3, gut: -2 } } },
-      { text: "Put what you can into the tank, sleep in the car", sub: "Costs whatever you can spare — the pump takes it either way.", type: "safe", next: "sw_008", deltas: { wallet: -32, tank: +100 }, flags: {"slept_car":true} }
+      { text: "Buy gas, sleep in the car", sub: (s) => pumpSub(s, { rate: 0.30 }, "Town prices. The lot is lit all night and you will not sleep well."), type: "safe", requires: pumpOpen, lockText: pumpClosed, pump: { rate: 0.30 }, next: "sw_008", deltas: { nerve: -2, gut: -1 }, flags: {"slept_car":true} }
     ]
   },
 
@@ -964,10 +969,10 @@ const NODES = {
     mile: 270, paywall: false,
     text: ["There's a place a few miles short of Kingman.", "A combination gas station and taxidermy shop — the sign makes this seem normal — called Roy's. The gas is more expensive than anywhere else and the man behind the counter doesn't look up when you come in.", "You fill what you need.", "Roy's has rooms out back. Cash a night. The sun is almost gone.", "Kingman can wait until morning."],
     choices: [
-      { text: "Take a room at Roy's", sub: "Requires $28 — fuel, key, four walls.", type: "safe", requires: {"walletMin":28}, next: "sw_008", deltas: { wallet: -44, tank: +100, nerve: +1 }, flags: {"stayed_roys":true} },
+      { text: "Take a room at Roy's", sub: "$24 — a key and four walls. The pump will still be there in the morning, and it will still be expensive.", type: "safe", requires: {"walletMin":24}, next: "sw_008", deltas: { wallet: -24, nerve: +1 }, flags: {"stayed_roys":true} },
       { text: "Sleep in the car", sub: "Saves the Wallet. Roy doesn't care either way.", type: "neutral", next: "sw_008", deltas: { nerve: -2, gut: -1 }, flags: {"slept_car":true} },
       { text: "Keep driving through the night", sub: "Risky — Kingman can wait, if you can.", type: "risky", check: { stat: "nerve", difficulty: 7 }, road: -2, success: { next: "sw_0105", deltas: { tank: -18, nerve: -3, gut: -2 }, flags: { drove_through_night: true } }, failure: { next: "death_night", deltas: { tank: -18, nerve: -3, gut: -2 } } },
-      { text: "Put what you can into the tank, sleep in the car", sub: "Costs whatever you can spare — the pump takes it either way.", type: "safe", next: "sw_008", deltas: { wallet: -32, tank: +100 }, flags: {"slept_car":true} }
+      { text: "Buy gas, sleep in the car", sub: (s) => pumpSub(s, { rate: 0.34 }, "Roy's gas is the most expensive on this road. It is also here."), type: "safe", requires: pumpOpen, lockText: pumpClosed, pump: { rate: 0.34 }, next: "sw_008", deltas: { nerve: -2, gut: -1 }, flags: {"slept_car":true} }
     ]
   },
 
@@ -1001,8 +1006,10 @@ const NODES = {
       ];
     },
     choices: [
-      { text: (s) => s.flags.slept_car ? "Crack the window" : "Answer the door", sub: "Nerve check — could be anything. That's the problem.", type: "risky", check: { stat: "nerve", difficulty: 6 }, success: { next: "sw_008a", deltas: { nerve: +1 } }, failure: { next: "sw_008b", deltas: { nerve: -1 } } },
-      { text: (s) => s.flags.slept_car ? "Stay perfectly still" : "Don't move. Wait.", sub: "Safe — locked doors and patience.", type: "safe", next: "sw_008c", deltas: { nerve: +1 } },
+      // The morning scene has always said something was taken in the night. Now it is.
+      // Answering is the only branch where it comes back, which is the whole point of her.
+      { text: (s) => s.flags.slept_car ? "Crack the window" : "Answer the door", sub: "Nerve check — could be anything. That's the problem.", type: "risky", check: { stat: "nerve", difficulty: 6 }, success: { next: "sw_008a", deltas: { nerve: +1 } }, failure: { next: "sw_008b", deltas: { nerve: -1, wallet: -12 }, flags: { lost_in_the_night: true } } },
+      { text: (s) => s.flags.slept_car ? "Stay perfectly still" : "Don't move. Wait.", sub: "Safe — locked doors and patience.", type: "safe", deltas: { wallet: -12 }, flags: { lost_in_the_night: true }, next: "sw_008c", deltas: { nerve: +1 } },
       { text: (s) => s.flags.slept_car ? "Look through the windshield" : "Look out the window first", sub: "Gut check — you might see something. You might not want to.", type: "neutral", check: { stat: "gut", difficulty: 5 }, success: { next: "sw_008d", deltas: { gut: +1 } }, failure: { next: "sw_008e", deltas: { gut: -1 } } }
     ]
   },
@@ -1076,6 +1083,8 @@ const NODES = {
       const place = s.flags.stayed_roys || s.flags.slept_car ? "Roy's" : "the Desert Wind";
       const base = ["Morning.", `You're packed and ready by seven. The lot at ${place} is quiet.`, "You put your bag in the back seat.", "Something is wrong."];
       if (s.flags.took_jacket) base.push("The jacket is gone from the back seat. You remember taking it. You remember putting it there. That makes the empty space worse, not better.");
+      else if (s.flags.lost_in_the_night && !(s.stats && s.stats.wallet > 0) && !(s.stats && s.stats.wallet === undefined)) base.push("Your wallet is on the gravel under the driver's door, open. There was nothing in it to take. Somebody checked anyway.", "Your license is still there. The card that doesn't work. The photograph.");
+      else if (s.flags.lost_in_the_night) base.push("Your wallet is on the gravel under the driver's door, open, twelve dollars lighter. Everything else is in it. Your license, the card that doesn't work, the photograph.", "Whoever it was had standards. Or at least a sense of proportion.");
       else base.push("Something small is missing. You stand there and inventory without meaning to. Something was taken in the night.", "Whoever it was had standards. Or at least a sense of proportion.");
       base.push("You look at the other car in the lot.", "It's empty.", "The office isn't open yet.");
       return base;
@@ -1296,7 +1305,7 @@ const NODES = {
     mile: 470, paywall: false,
     text: ["You keep your foot light and your eyes on the needle.", "The gauge rises, holds, then drops just enough to let you breathe again.", "Flagstaff comes up in fragments: exits, lights, pines, trucks grinding uphill in the right lane. A city, or what passes for one at this hour. The first place since Kingman with more than one of anything.", "There's a station at the bottom of the ramp with every light on and a price on the sign that would be ordinary anywhere else. Out here it reads like a misprint.", "You made it over the grade. That was the hard part. This is the part where you decide whether to be smart about it."],
     choices: [
-      { text: "Fill up under the lights", sub: "Requires $18 — city prices. The cheapest full tank since Barstow.", type: "safe", requires: { walletMin: 18 }, next: "sw_0107", outcome: "filled", deltas: { wallet: -30, tank: +100 } },
+      { text: "Fill up under the lights", sub: (s) => pumpSub(s, { rate: 0.24 }, "City prices. The cheapest gas since Barstow."), type: "safe", requires: pumpOpen, lockText: pumpClosed, pump: { rate: 0.24 }, next: "sw_0107", outcome: "filled" },
       { text: "Keep the engine easy", sub: "No coasting. Not yet. The state line might be cheaper, or might not be there.", type: "neutral", next: "sw_0107" }
     ],
     outcomes: {
@@ -1316,7 +1325,7 @@ const NODES = {
     // thing on this route that works because of who you are rather than what you rolled.
     text: ["The frontage road runs close enough to I-40 that you can see the traffic and far enough that it feels like a different trip.", "For ten minutes you think you made the wrong choice.", "Then the road drops slightly, the engine noise softens, and the gauge settles.", "There's a station on the frontage road with the canopy lights on and nothing else. CASH INSIDE, says the pump, and inside is dark. The card reader has a green light on it."],
     choices: [
-      { text: "Pay at the pump", sub: "Requires $18 — and a card the reader will take. You brought one.", type: "safe", requires: (s) => s.archetype === 'planner' && (s.stats.wallet || 0) >= 18, lockText: "no card. CASH INSIDE, and inside is dark.", next: "sw_0107", outcome: "card", deltas: { wallet: -30, tank: +100 } },
+      { text: "Pay at the pump", sub: (s) => s.archetype === 'planner' ? pumpSub(s, { rate: 0.30 }, "The reader has a green light. The one card you own that still works is a gas card, and this is a pump.") : "A card the reader will take. Yours stopped being a card in Bakersfield.", type: "safe", requires: (s) => s.archetype === 'planner' && pumpOpen(s), lockText: (s) => s.archetype === 'planner' ? pumpClosed(s) : "no card. CASH INSIDE, and inside is dark.", pump: { rate: 0.30 }, next: "sw_0107", outcome: "card" },
       { text: "Back on the interstate", sub: "A little worse off. Still moving.", type: "neutral", next: "sw_0107", outcome: "passed" }
     ],
     outcomes: {
@@ -1464,7 +1473,7 @@ const NODES = {
     },
     choices: [
       { text: "Take the exit", sub: "Gut check — somebody's back there. That's either good or it isn't.", type: "risky", check: { stat: "gut", difficulty: 7 }, road: +1,
-        success: { next: "sw_011", outcome: "post_open", deltas: { wallet: -28, tank: +45, gut: +1 } },
+        success: { next: "sw_011", outcome: "post_open", pump: { rate: 0.62, cap: 45 }, deltas: { gut: +1 } },
         failure: { next: "sw_011", outcome: "post_shut", deltas: { tank: -8, nerve: -1 } } },
       { text: "Sleep twenty minutes at the pull-off", sub: "Costs a little fuel idling. You have been driving a long time.", type: "safe", next: "sw_011", outcome: "slept", deltas: { nerve: +1, tank: -4 } },
       { text: "Keep going", sub: "Safe — the state line isn't far now.", type: "neutral", next: "sw_011", outcome: "drove_on" }
@@ -1506,8 +1515,8 @@ const NODES = {
       return base;
     },
     choices: [
-      { text: "Stop at the first station", sub: "Requires $22 — known quantity. Whatever it costs.", type: "safe", requires: {"walletMin":22}, next: "sw_011a", deltas: { wallet: -36, tank: +100 } },
-      { text: "Push to the second station", sub: (s) => s.flags.knows_cord_name ? "Requires $12 — he said watch it. You're watching." : "Requires $12 — gamble. Second might be cheaper. Might not exist.", type: "neutral", requires: {"walletMin":12}, check: { stat: "gut", difficulty: 6 }, success: { next: "sw_011b", deltas: { wallet: -24, tank: +100, gut: +1 } }, failure: { next: "sw_011c", deltas: { gut: -1 } } },
+      { text: "Stop at the first station", sub: (s) => pumpSub(s, { rate: 0.36 }, "A known quantity, and it knows it's the last one for a while."), type: "safe", requires: pumpOpen, lockText: pumpClosed, pump: { rate: 0.36 }, next: "sw_011a" },
+      { text: "Push to the second station", sub: (s) => s.flags.knows_cord_name ? "28c a point if it's there, and he said watch it. You're watching." : "28c a point if it's there at all. Cheaper than the first. Might not exist.", type: "neutral", requires: pumpOpen, lockText: pumpClosed, check: { stat: "gut", difficulty: 6 }, success: { next: "sw_011b", pump: { rate: 0.28 }, deltas: { gut: +1 } }, failure: { next: "sw_011c", deltas: { gut: -1 } } },
       { text: "Ask someone at the pump for help", sub: "Nerve check — no money, no pride left to protect.", type: "risky", requires: (s) => (s.stats.wallet || 0) < 12, lockText: "you've got cash. Nobody out here buys gas for somebody with cash.", check: { stat: "nerve", difficulty: 8 }, road: +1, success: { next: "sw_011_help", deltas: { tank: +26, nerve: -1 } }, failure: { next: "sw_011c", deltas: { gut: -1 } } },
       { text: "Check if you can make it on what you have", sub: "Gut check — math or instinct. Failure leaves no easy bailout.", type: "neutral", check: { stat: "gut", difficulty: 7 }, success: { next: "sw_011d", deltas: { gut: +1 } }, failure: { next: "sw_011c", deltas: { gut: -1 } } }
     ]
@@ -1604,7 +1613,7 @@ const NODES = {
       { text: "Push for Albuquerque", sub: "Tank is what it is. The city is close.", type: "risky", check: { stat: "tank", difficulty: 7 },
         success: { next: "sw_012", deltas: { nerve: +1 } },
         failure: { next: "sw_011_stall", deltas: { tank: -30 } } },
-      { text: "Turn back for the first station", sub: "Requires $22 — costs time, pride, and whatever's left. Saves the run.", type: "safe", requires: { walletMin: 22 }, next: "sw_011a", deltas: { wallet: -36, tank: +100 } }
+      { text: "Turn back for the first station", sub: (s) => pumpSub(s, { rate: 0.36 }, "Costs time and pride on top of it. Saves the run."), type: "safe", requires: pumpOpen, lockText: pumpClosed, pump: { rate: 0.36 }, next: "sw_011a" }
     ]
   },
 
@@ -1934,7 +1943,7 @@ function radioLine(node, milesDriven) {
 // Fuel burns with distance. This is the whole baseline economy: every leg of the
 // route costs what it costs in miles, and nothing else charges you for driving.
 // Tune the route's difficulty here, not by editing individual scenes.
-const TANK_PER_MILE = 0.21;
+const TANK_PER_MILE = 0.23;   // was 0.21 — fuel by the point made money go further; this is the re-tune
 
 function mileageCost(nextNodeId) {
   const dest = NODES[nextNodeId];
@@ -1971,6 +1980,50 @@ function keepsakeFor(s) {
   };
   return null;
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// THE PUMP
+//
+// Fuel is sold by the POINT, not by the fill. A pump has a `rate` in dollars per
+// point of tank, so what it costs depends on how empty you are — which is how
+// pumps work, and the only way "put what you can into the tank" can mean anything.
+//
+// Before this, every fill was a flat price for `tank: +100`: $32 whether you were
+// empty or at 81%, and a player who could only cover part of it got a proportional
+// share of 100 rather than of what they needed. That produced "I had six dollars
+// and left with a full tank," which was arithmetically correct and economically
+// absurd.
+//
+// scaleToWallet() still does the short-wallet work: it scales money and fuel by
+// the same ratio, so $6 at 32c a point buys 19 points and the pump clicks off early.
+// `cap` is for a pump that cannot fill you — the woman at the trading post is
+// selling out of a drum.
+// ═══════════════════════════════════════════════════════════════════════════
+function fuelPrice(s, pump) {
+  const max  = (s.maxStats && s.maxStats.tank) || 100;
+  const tank = (s.stats && s.stats.tank) || 0;
+  const points = Math.min(Math.max(0, max - tank), pump.cap || 100);
+  return { points, cost: Math.ceil(points * pump.rate) };
+}
+
+function pumpDeltas(s, pump) {
+  const { points, cost } = fuelPrice(s, pump);
+  return points > 0 ? { wallet: -cost, tank: +points } : {};
+}
+
+// The sub-text says the real number before you tap, including what a short wallet buys.
+function pumpSub(s, pump, tail) {
+  const { points, cost } = fuelPrice(s, pump);
+  const have = (s.stats && s.stats.wallet) || 0;
+  const rate = Math.round(pump.rate * 100) + 'c a point';
+  if (points <= 0) return 'The tank is full. ' + tail;
+  if (have >= cost)  return `$${cost} to fill from here, at ${rate}. ` + tail;
+  return `$${cost} to fill, at ${rate}. You have $${have} — the pump stops at about ${Math.round(points * have / cost)}%. ` + tail;
+}
+
+// A pump you cannot use at all is shown closed, with the reason on the sign.
+function pumpOpen(s) { return ((s.stats && s.stats.wallet) || 0) > 0 && (s.stats.tank || 0) < ((s.maxStats && s.maxStats.tank) || 100); }
+function pumpClosed(s) { return ((s.stats && s.stats.wallet) || 0) <= 0 ? 'no cash, and the pump only takes cash' : 'the tank is already full'; }
 
 function rollCheck(stat, difficulty) {
   let value = state.stats?.[stat] ?? 5;
@@ -2056,13 +2109,13 @@ function isChoiceLocked(choice) {
 }
 
 function getLockReason(choice) {
-  if (choice.lockText) return 'CLOSED — ' + choice.lockText;
+  if (choice.lockText) return 'CLOSED — ' + (typeof choice.lockText === 'function' ? choice.lockText(state) : choice.lockText);
   const req = choice.requires;
   if (!req || typeof req === 'function') return 'CLOSED';
-  if (req.walletMin !== undefined && (state.stats.wallet || 0) < req.walletMin) return `Unavailable — need $${req.walletMin}; you have $${state.stats.wallet || 0}`;
-  if (req.tankMin   !== undefined && (state.stats.tank   || 0) < req.tankMin)   return `Unavailable — need ${req.tankMin}% fuel`;
-  if (req.nerveMin  !== undefined && (state.stats.nerve  || 0) < req.nerveMin)  return `Unavailable — nerve too low`;
-  if (req.gutMin    !== undefined && (state.stats.gut    || 0) < req.gutMin)    return `Unavailable — gut too low`;
+  if (req.walletMin !== undefined && (state.stats.wallet || 0) < req.walletMin) return `CLOSED — need $${req.walletMin}; you have $${state.stats.wallet || 0}`;
+  if (req.tankMin   !== undefined && (state.stats.tank   || 0) < req.tankMin)   return `CLOSED — need ${req.tankMin}% fuel`;
+  if (req.nerveMin  !== undefined && (state.stats.nerve  || 0) < req.nerveMin)  return `CLOSED — nerve too low`;
+  if (req.gutMin    !== undefined && (state.stats.gut    || 0) < req.gutMin)    return `CLOSED — gut too low`;
   return 'CLOSED — requirement not met';
 }
 
@@ -2344,6 +2397,12 @@ function handleChoice(choice) {
   result = result || {};
 
   applyFlags(result.flags);
+
+  // A pump prices itself against the tank you're actually holding, at click time.
+  const pump = result.pump || (result.next && choice.pump);
+  // result is the choice's own arm object — copy before writing a computed price onto it,
+  // or the second run through this node is charged the first run's price.
+  if (pump) result = Object.assign({}, result, { deltas: Object.assign({}, result.deltas, pumpDeltas(state, pump)) });
 
   // Event first (a fill clamps at max), then the miles you actually drive.
   applyDeltas(result.deltas || {});
