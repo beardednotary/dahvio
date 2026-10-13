@@ -2368,7 +2368,7 @@ function motionReduced() {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
 }
 // Bump this on every build that goes to testers, so "which one did you play?" has an answer.
-const BUILD = '2026-10-09.3';
+const BUILD = '2026-10-13.1';
 
 function startRadioTicker(block, tries) {
   if (block.dataset.started) return;
@@ -2612,9 +2612,8 @@ function showPaywall(nextNode) {
       <div class="paywall-details">Route 1, the whole way. One time, no subscription.<br>Routes 2–4 when they ship, or all four roads for $7.99.</div>
       <button class="paywall-btn" onclick="unlockGame('${nextNode}')">
         Unlock Route 1 — $2.99
-        <span class="paywall-btn-sub">(prototype — tap to continue free)</span>
+        <span class="paywall-btn-sub">Prototype — nothing to pay yet. Keep driving.</span>
       </button>
-      <button class="paywall-skip" onclick="unlockGame('${nextNode}')">Continue — it's a prototype</button>
     </div>
   `;
 }
