@@ -135,6 +135,8 @@ body[data-lit="off"] .radio-am { visibility: hidden; }
 .scene-paragraph.radio.still .radio-window { -webkit-mask-image: none; mask-image: none; }
 .scene-paragraph.radio.still .radio-ticker { transform: none; white-space: normal; display: block; line-height: 1.15; }
 
+.record-line { font-size: 12px; line-height: 1.55; color: var(--muted); margin: 0 4px 16px; }
+.record-line:empty { display: none; }
 .build-stamp { text-align: center; font-size: 10px; color: var(--muted); margin-top: 14px; letter-spacing: 0.04em; }
 
 /* CHOICES — signs */
@@ -278,6 +280,7 @@ body[data-lit="off"] .radio-am { visibility: hidden; }
       <div class="cs-title">Who are you?</div>
       <div class="cs-sub">Your archetype shapes how the road reads you.</div>
       <div id="resume-slot"></div>
+      <div id="record-slot" class="record-line"></div>
 
   <div class="cs-card selected" data-archetype="drifter" onclick="selectArchetype(this)">
     <div class="cs-card-top">
@@ -705,8 +708,20 @@ const NODES = {
       { text: "Ask the El Camino driver for help", sub: "Uncertain — Gut check. You don't know this person. If he says yes, he splits the tank with you.", type: "neutral", check: { stat: "gut", difficulty: 7 }, road: +1, success: { next: "sw_004b", pump: { rate: 0.16 }, deltas: { gut: +1 }, flags: { elcamino_approached: true } }, failure: { next: "sw_004c", pump: { rate: 0.32 }, deltas: { gut: -1 } } },
       // The card is dead and his machine is down. A terminal that can't phone home approves
       // on its own and bounces later — if you don't blink, that's a full tank for nothing.
+      // The Broke Kid's door. Not charm exactly — he has had this conversation from
+      // the other side of the window and knows it goes better if you go first.
+      { text: "Tell him exactly what you've got", sub: (s) => "No check, no bluff. You put $" + ((s.stats && s.stats.wallet) || 0) + " on the counter and let him do the arithmetic. Men who sell gas out here have seen it.", type: "neutral", showIf: (s) => s.archetype === 'broke', road: +1, next: "sw_004a", outcome: "counted_it_out", pump: { rate: 0.23 }, deltas: { nerve: +1 } },
       { text: "Tell the attendant your card worked fine yesterday", sub: "Risky — Nerve check. His machine can't check the card. Neither can you, which is the point. Costs Nerve and cash if he calls it.", type: "risky", check: { stat: "nerve", difficulty: 5 }, road: -2, success: { next: "sw_004d", deltas: { tank: +100, nerve: +1 }, flags: { elcamino_witnessed_bluff: true } }, failure: { next: "sw_004e", pump: { rate: 0.32 }, deltas: { nerve: -1 } } }
-    ]
+    ],
+    outcomes: {
+      counted_it_out: [
+        "You put it on the counter in front of him. All of it, in the order it comes out of your pocket, which is not a dignified order.",
+        "He looks at it for a second and then does the thing you were hoping for, which is not making a thing of it.",
+        "'Pump two,' he says. 'I'll stop it where it stops.'",
+        "He gives you a better number than the sign does. He doesn't say so and you don't ask him to.",
+        "Across the lot the El Camino driver is looking at the thermometer on the wall like it's going to change."
+      ]
+    }
   },
 
   sw_004a: {
@@ -1167,7 +1182,16 @@ const NODES = {
   // no scene, no cost, no unease. This is the money sink that fills it, and it
   // is mundane on purpose — cars break. The wrongness is that nothing caused it.
   // ══════════════════════════════════════════════════════════════════════
+  // ── The mile-350 slot ────────────────────────────────────────────────
+  // Something goes wrong with the car in the hundred miles of nothing between
+  // Kingman and the rest area. Which something is drawn per run.
   sw_0095: {
+    mile: 350,
+    paywall: false,
+    oneOf: ['sw_0095_tire', 'sw_0095_cap', 'sw_0095_stop']
+  },
+
+  sw_0095_tire: {
     location: "I-40 Eastbound — Shoulder",
     tags: ["money","tension"],
     mile: 350,
@@ -1217,6 +1241,118 @@ const NODES = {
         "Then the last of the rubber leaves the rim and you're driving on steel, and the sound changes into something that comes up through the seat instead of through the air.",
         "You stop hard on the shoulder. The rim is scored all the way around and one section is bent out of true where it caught.",
         "The donut goes on after all, an hour later than it needed to, and now with a wheel underneath it that isn't quite round any more."
+      ]
+    }
+  },
+
+  // Nothing took it. It is not anywhere. The tether is the part that stays with you.
+  sw_0095_cap: {
+    location: "I-40 Eastbound — Pull-off",
+    tags: ["money","tension"],
+    mile: 350,
+    paywall: false,
+    textFn: (s) => {
+      const base = [
+        "You stop at a pull-off with a trash barrel and no other reason to exist.",
+        "When you come back to the car you can smell gas. Not a lot. Enough.",
+        "The filler door is open. You don't remember leaving it open.",
+        "The cap is gone.",
+        "Not loose on the ground, not hanging. Gone. The little plastic tether that's supposed to hold it is still there, still attached at the hinge, unbroken, with nothing on the end of it."
+      ];
+      if (s.flags.hitchhiker_picked_up)
+        base.push("You think about Needles. You think about the pump, and your hands, and whether you put it back. You can picture doing it. You can picture it so clearly that you stop trusting the picture.");
+      base.push("There's a hundred and ten miles of nothing between here and the rest area, and an open hole into your tank.");
+      return base;
+    },
+    choices: [
+      { text: "Stuff a rag in the filler neck", sub: "Free. It won't seal. You'll smell it the whole way and the tank will keep breathing out.", type: "safe", next: "sw_010", outcome: "rag", deltas: { nerve: -2 }, flags: { leaky_cap: true } },
+      { text: "Buy a cap at the next place that has one", sub: "Requires $15 — a universal, the wrong colour, and it will be on the car forever.", type: "safe", requires: { walletMin: 15 }, next: "sw_010", outcome: "bought", deltas: { wallet: -15 } },
+      { text: "Run it open and drive careful", sub: "Gut check — plenty of cars run without one. Not in this heat, not this far.", type: "risky", check: { stat: "gut", difficulty: 6 },
+        success: { next: "sw_010", outcome: "open_held", deltas: { gut: +1 } },
+        failure: { next: "sw_010", outcome: "open_lost", deltas: { tank: -12, nerve: -1 }, flags: { leaky_cap: true } } }
+    ],
+    outcomes: {
+      rag: [
+        "You use the cleaner half of a shop rag from under the seat and work it in with two fingers until it holds itself.",
+        "It is not a seal. It was never going to be a seal.",
+        "For the rest of the day the car smells like a filling station, faintly, all the time, and you stop noticing it, and then you notice it again every time you slow down."
+      ],
+      bought: [
+        "The next place is a parts counter inside a hardware store, and the man finds you a universal in a bin of universals.",
+        "It is black. The car is not. It clicks three times the way the instructions on the back of the card say it should.",
+        "Fifteen dollars to stop thinking about something. That's the best trade you make all day."
+      ],
+      open_held: [
+        "You drive the rest of it with a hole in the side of the car and your window down, because with the window up you can taste it.",
+        "Nothing happens. You check the gauge more than you need to and nothing happens.",
+        "That's how most of it goes, it turns out. Nothing happens, and you spend the whole time ready for it to."
+      ],
+      open_lost: [
+        "Somewhere in the next forty miles the needle drops further than the miles explain.",
+        "You do the arithmetic twice at seventy miles an hour, which is not where arithmetic belongs, and both times it comes out the same.",
+        "Heat and an open neck and a long climb. The tank has been breathing out the whole way and you have been watching the road."
+      ]
+    }
+  },
+
+  // A stop that is not about you. He never says what it is about, and nothing follows it.
+  sw_0095_stop: {
+    location: "I-40 Eastbound — Outside Seligman",
+    tags: ["tension","character"],
+    mile: 350,
+    paywall: false,
+    textFn: (s) => {
+      const base = [
+        "Lights behind you. The flat kind, no siren, that come up out of nothing on an empty road.",
+        "You were doing sixty-two. You check, because everyone checks, and you were doing sixty-two.",
+        "You pull onto the shoulder and put both hands where he can see them without deciding to.",
+        "A county car. He takes a long time getting out, the way they do, and longer at your window.",
+        "'License.'",
+        "He doesn't say why. He looks at it, and then at you, and then he takes it back to his car.",
+        "You sit. The AC runs. Nobody passes for a while and then three trucks pass at once."
+      ];
+      if (s.flags.elcamino_context_unlocked || s.flags.elcamino_approached)
+        base.push("In the side mirror he's on the radio, holding your license up to the light like there's a watermark on it.");
+      base.push("Eleven minutes. You know because you watched the clock do it.", "Then he's back, and he hands it through, and he says: 'You're fine.'", "He doesn't say what you're fine from.");
+      return base;
+    },
+    choices: [
+      { text: "Say thank you and go", sub: "Costs fuel — eleven minutes of idling in the heat, and nothing learned.", type: "safe", next: "sw_010", outcome: "went", deltas: { tank: -11, nerve: -1 } },
+      { text: "Ask what this was about", sub: "Nerve check — he has no reason to tell you. People sometimes do anyway.", type: "risky", check: { stat: "nerve", difficulty: 6 }, road: +1,
+        success: { next: "sw_010", outcome: "asked", deltas: { tank: -11, gut: +1 }, flags: { deputy_told_you: true } },
+        failure: { next: "sw_010", outcome: "rebuffed", deltas: { tank: -11, nerve: -2 } } },
+      { text: "Ask if there's a shorter way east", sub: "Gut check — he knows this county. A bad frontage road out here costs more than it saves.", type: "risky", check: { stat: "gut", difficulty: 8 },
+        success: { next: "sw_010", outcome: "shortcut", deltas: { tank: +9, gut: +1 } },
+        failure: { next: "sw_010", outcome: "lost", deltas: { tank: -16, nerve: -1 } } }
+    ],
+    outcomes: {
+      went: [
+        "You pull back onto the interstate with your hands at ten and two like somebody's still watching, and hold it there for a mile and a half.",
+        "In the mirror the county car stays on the shoulder with its lights going, pointed the way you came from.",
+        "It's still there when the road bends and takes it away from you."
+      ],
+      asked: [
+        "He looks at you for a second longer than the question deserves.",
+        "'Stopping cars today,' he says. 'All of them, out to the county line.'",
+        "You ask if something happened.",
+        "'Something always happened,' he says, and it isn't a joke, and he isn't smiling, and it isn't unfriendly either. He taps the roof twice with two fingers and walks back to his car.",
+        "You drive. You pass four more cars before the county line and none of them are pulled over."
+      ],
+      lost: [
+        "The second frontage road past the water tower is a frontage road for about four miles and then it is something else.",
+        "Gravel, then washboard, then a cattle guard with a gate beside it standing open on nothing.",
+        "You do not turn around for longer than you should, because turning around means admitting the whole thing, and when you finally do, the interstate takes twenty minutes to find.",
+        "You rejoin it two exits back from where you left."
+      ],
+      rebuffed: [
+        "'Have a good one,' he says, which is an answer to a different question than the one you asked.",
+        "He stands there while you pull out. You can see him in the mirror, not moving, until the heat off the road takes the shape of him apart."
+      ],
+      shortcut: [
+        "He thinks about it for a second, which is longer than you expected.",
+        "'Second frontage road past the water tower. Comes out past the construction. Saves you something, if you don't get greedy about it.'",
+        "It does. It comes out exactly where he said it would, past everything, and there is a stretch in the middle with no fence on either side and nothing to look at but what the road is doing.",
+        "You come out the far end with more in the tank than you had any right to."
       ]
     }
   },
@@ -1492,10 +1628,19 @@ const NODES = {
       { text: "Take the exit", sub: "Gut check — somebody's back there. That's either good or it isn't.", type: "risky", check: { stat: "gut", difficulty: 7 }, road: +1,
         success: { next: "sw_011", outcome: "post_open", pump: { rate: 0.62, cap: 45 }, deltas: { gut: +1 } },
         failure: { next: "sw_011", outcome: "post_shut", deltas: { tank: -8, nerve: -1 } } },
+      // The Drifter's door. Everyone else takes the exit on a Gut check and finds out.
+      // He has stood in enough dark lots to know which ones have somebody in them.
+      { text: "Walk around the back before you move the car", sub: "No guesswork. You've read enough of these lots to know there's somebody in this one.", type: "neutral", showIf: (s) => s.archetype === 'drifter', road: +1, next: "sw_011", outcome: "post_open_talked", pump: { rate: 0.5, cap: 45 }, deltas: { gut: +1 } },
       { text: "Sleep twenty minutes at the pull-off", sub: "Costs a little fuel idling. You have been driving a long time.", type: "safe", next: "sw_011", outcome: "slept", deltas: { nerve: +1, tank: -4 } },
       { text: "Keep going", sub: "Safe — the state line isn't far now.", type: "neutral", next: "sw_011", outcome: "drove_on" }
     ],
     outcomes: {
+      post_open_talked: [
+        "The light is a bare bulb over a side door, and under it there is a woman in her seventies in a plastic chair, doing nothing in particular, watching you come around the corner of the building on foot.",
+        "She is not surprised. That is the part you will think about later — that out of everything, she was not surprised.",
+        "She sells gas out of a drum with a hand pump. You ask how long the pumps have been out and she tells you, and then she tells you what was here before the pumps, and you stand in the dark with a hose in your hand listening to a woman describe a building that is not there.",
+        "When you ask what you owe her she names a number lower than the one she started with, and does not explain that either."
+      ],
       post_open: [
         "The light is a bare bulb over a side door, and under it there's a woman in her seventies sitting in a plastic chair doing nothing in particular.",
         "She sells you gas out of a drum with a hand pump, at a price she says out loud once and doesn't repeat. It isn't a bargain. It's possible, and out here that's the better of the two.",
@@ -1869,7 +2014,9 @@ const RADIO_BANDS = [
     "The station comes back with a weather report for a county you passed two hours ago. Highs in the nineties, he says. It's been dark a while.",
     "Somebody is taking calls. There are no callers. He waits, and thanks the last one, and waits again.",
     "A preacher, mid-sermon, on the subject of how far a man can travel before he's actually gone anywhere. He doesn't finish it. The signal drops and comes back on an ad for a mattress outlet.",
-    "Somebody reads the school closures. It's the middle of summer. He reads them the way you'd read them in February."
+    "Somebody reads the school closures. It's the middle of summer. He reads them the way you'd read them in February.",
+    // Pays off the deputy outside Seligman, for the players who asked him. Never confirmed.
+    { text: "A sheriff's department thanks the public for its patience during this morning's operation. He does not say what the operation was, or whether it found anything, and the next item is a livestock auction.", needs: 'deputy_told_you' }
   ]},
 
   // ── 550–700 · New Mexico. Specific. ───────────────────────────────────
@@ -1973,7 +2120,8 @@ function mileageCost(nextNodeId) {
   if (!dest || dest.mile == null) return { tank: 0, miles: 0 };
   const from = state.lastMile || 0;
   const miles = Math.max(0, dest.mile - from);
-  return { tank: -Math.round(miles * TANK_PER_MILE * burnMod()), miles };
+  const leak = state.flags && state.flags.leaky_cap ? 1.12 : 1;
+  return { tank: -Math.round(miles * TANK_PER_MILE * burnMod() * leak), miles };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -2040,6 +2188,52 @@ function resumeGame() {
   // Odometer counts from 0 on a fresh page; start it where the save was.
   state.currentMile = (NODES[state.resumeAt] && NODES[state.resumeAt].mile) || state.lastMile || 0;
   loadNode(state.resumeAt);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// THE RECORD
+//
+// What carries between runs. Not a score, a grade or a rank — the spec rules those
+// out and the arrival still reports itself in prose or not at all. This is the one
+// place the game admits, out of character, that there is more of it: how many ways
+// it can end, how many objects there are to come back with, and how many of each
+// you have actually seen. A player cannot want an ending they do not know exists.
+// ═══════════════════════════════════════════════════════════════════════════
+const RECORD_KEY = 'mm_record';
+const ENDING_COUNT = 3, KEEPSAKE_COUNT = 3;
+function getRecord() {
+  const r = store.get(RECORD_KEY) || {};
+  return { runs: r.runs || 0, wins: r.wins || 0, endings: r.endings || {}, kept: r.kept || {} };
+}
+function noteRunStarted() { const r = getRecord(); r.runs++; store.set(RECORD_KEY, r); }
+function noteArrival(road, keptId) {
+  const r = getRecord();
+  r.wins++;
+  r.endings[road >= 3 ? 'high' : road <= 0 ? 'low' : 'mid'] = 1;
+  if (keptId) r.kept[keptId] = 1;
+  store.set(RECORD_KEY, r);
+}
+// [PROSE] One paragraph. It counts, it never grades, and it never names what is missing.
+function recordLine() {
+  const r = getRecord();
+  if (!r.runs) return '';
+  const n = (x, one, many) => x === 1 ? one : x + ' ' + many;
+  const parts = [];
+  if (!r.wins) {
+    parts.push(r.runs === 1 ? 'One run. It did not end in Albuquerque.'
+                            : r.runs + ' runs. None of them ended in Albuquerque yet.');
+  } else {
+    parts.push(n(r.runs, 'One run', 'runs') + ', ' + n(r.wins, 'one arrival', 'arrivals') + '.');
+    const e = Object.keys(r.endings).length;
+    parts.push(e >= ENDING_COUNT
+      ? 'You have seen all ' + ENDING_COUNT + ' of the ways it ends.'
+      : 'You have seen ' + e + ' of the ' + ENDING_COUNT + ' ways it ends.');
+    const k = Object.keys(r.kept).length;
+    if (k) parts.push(k >= KEEPSAKE_COUNT
+      ? 'You have brought back all ' + KEEPSAKE_COUNT + ' of the things there are to bring back.'
+      : 'You have brought back ' + k + ' of the ' + KEEPSAKE_COUNT + ' things there are to bring back.');
+  }
+  return parts.join(' ');
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -2326,6 +2520,7 @@ function startGame() {
   state.strandReturn = null;
   state.lastMile = 0;
   state.seed = newSeed();
+  noteRunStarted();
 
   document.getElementById('char-name').textContent = name;
   document.getElementById('char-type').textContent = arch.type;
@@ -2418,7 +2613,7 @@ function motionReduced() {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
 }
 // Bump this on every build that goes to testers, so "which one did you play?" has an answer.
-const BUILD = '2026-10-13.3';
+const BUILD = '2026-10-13.5';
 
 function startRadioTicker(block, tries) {
   if (block.dataset.started) return;
@@ -2449,8 +2644,20 @@ function startRadioTicker(block, tries) {
   };
 }
 
+// A slot node holds `oneOf` instead of content: a list of scenes that could fill that
+// place on the road. The draw is seeded, so it is the same scene all the way through a
+// run (a reload resumes it) and a different one next time. Every scene in a pool shares
+// the slot's mile and exits to the same node, so the graph and the mileage still hold.
+function resolveSlot(id) {
+  const n = NODES[id];
+  if (!n || !n.oneOf || !n.oneOf.length) return id;
+  const i = Math.floor(runRand('slot:' + id) * n.oneOf.length) % n.oneOf.length;
+  return n.oneOf[i];
+}
+
 function loadNode(nodeId) {
   if (nodeId === '__RESUME__') nodeId = state.strandReturn || 'sw_011';
+  nodeId = resolveSlot(nodeId);
   state.currentNode = nodeId;
   clearTimeouts();
   state.animating = true;
@@ -2681,6 +2888,7 @@ function showVictory(node) {
   clearSave();
   const textArr = node.textFn ? node.textFn(state) : (node.text || []);
   const kept = keepsakeFor(state);
+  noteArrival(state.road || 0, kept && kept.id);
   if (kept) {
     // Stub for the cross-route mechanic: one object per route, most recent win.
     try {
@@ -2749,6 +2957,7 @@ function restartSameRoute() {
     seed: newSeed(),
     debugRolls: DEBUG_ROLLS
   };
+  noteRunStarted();
 
   document.getElementById('char-name').textContent = name;
   document.getElementById('char-type').textContent = arch.type;
@@ -2778,6 +2987,8 @@ function restartFull() {
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('main-screen').style.display = 'flex';
   offerResume();
+  const rec = document.getElementById('record-slot');
+  if (rec) rec.textContent = recordLine();
   const stamp = document.getElementById('build-stamp');
   if (stamp) stamp.textContent = 'Route 1 · build ' + BUILD + (motionReduced() ? ' · reduce motion on' : '');
 });
