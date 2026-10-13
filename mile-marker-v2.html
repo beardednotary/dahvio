@@ -308,7 +308,7 @@ body[data-lit="off"] .radio-am { visibility: hidden; }
     <div class="cs-stats">
       <div class="cs-stat-row"><span class="cs-stat-n">Nerve</span><div class="cs-pips"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div></div></div>
       <div class="cs-stat-row"><span class="cs-stat-n">Gut</span><div class="cs-pips"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div></div></div>
-      <div class="cs-stat-row"><span class="cs-stat-n">Wallet</span><div class="cs-pips"><div class="pip on hi"></div><div class="pip on hi"></div><div class="pip on hi"></div><div class="pip"></div><div class="pip"></div></div></div>
+      <div class="cs-stat-row"><span class="cs-stat-n">Wallet</span><div class="cs-pips"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div></div></div>
       <div class="cs-stat-row"><span class="cs-stat-n">Tank</span><div class="cs-pips"><div class="pip on hi"></div><div class="pip on hi"></div><div class="pip on hi"></div><div class="pip on hi"></div><div class="pip on hi"></div></div></div>
     </div>
   </div>
@@ -374,7 +374,7 @@ const ARCHETYPES = {
   },
   planner: {
     name: 'The Planner', type: 'Prepared Traveler',
-    stats: { tank: 100, wallet: 44, nerve: 4, gut: 4 },
+    stats: { tank: 100, wallet: 28, nerve: 4, gut: 4 },
     max: { tank: 100, wallet: 80, nerve: 10, gut: 10 }
   },
   broke: {
@@ -404,6 +404,7 @@ let state = {
   strandings: 0,
   strandReturn: null,
   lastMile: 0,
+  seed: 0,
   debugRolls: DEBUG_ROLLS
 };
 
@@ -433,14 +434,23 @@ const NODES = {
     tags: ["money","opening"],
     mile: 0,
     paywall: false,
-    text: [
-      "You've been sitting in this booth for twenty minutes. The coffee is bad but it's cheap and the AC works.",
-      "Your waitress has refilled your cup twice without asking. That's either hospitality or pity. Hard to tell out here.",
-      "The laminated menu says the breakfast plate is eggs, toast, hash browns, choice of meat. Your stomach says yes. Your wallet has other opinions.",
-      // Why cash is the stat. Said once, here, and never explained.
-      "The card in it stopped being a card somewhere around Bakersfield. You've quit trying it. What's in the wallet is what there is.",
-      "The sign over the eastbound on-ramp says NEEDLES. Heat already coming off the asphalt and it's not even nine."
-    ],
+    // The last line reads the run's burn modifier. It is the only warning the player
+    // gets that this road is going to cost more or less than the last one, and the
+    // game never refers to it again.
+    textFn: (s) => {
+      const b = burnMod();
+      const base = [
+        "You've been sitting in this booth for twenty minutes. The coffee is bad but it's cheap and the AC works.",
+        "Your waitress has refilled your cup twice without asking. That's either hospitality or pity. Hard to tell out here.",
+        "The laminated menu says the breakfast plate is eggs, toast, hash browns, choice of meat. Your stomach says yes. Your wallet has other opinions.",
+        // Why cash is the stat. Said once, here, and never explained.
+        "The card in it stopped being a card somewhere around Bakersfield. You've quit trying it. What's in the wallet is what there is."
+      ];
+      if (b >= 1.07)      base.push("The sign over the eastbound on-ramp says NEEDLES. The bank across the street has a clock that does the temperature too, and it already says 104, and it is not yet nine.", "Out there it will be worse. It is always worse out there.");
+      else if (b <= 0.93) base.push("The sign over the eastbound on-ramp says NEEDLES. There's cloud over the pass this morning and the vinyl isn't sticking to your arms yet. You'll take it. It won't last.");
+      else                base.push("The sign over the eastbound on-ramp says NEEDLES. Heat already coming off the asphalt and it's not even nine.");
+      return base;
+    },
     choices: [
       { text: "Order the breakfast plate", sub: "Costs Wallet — starts with full Gut", type: "safe", next: "sw_002", deltas: { wallet: -9, gut: +1 } },
       { text: "Just the coffee and go", sub: "Safe — keeps Wallet intact, Gut starts low", type: "neutral", next: "sw_002", deltas: { wallet: -3, gut: -1 } },
@@ -1887,7 +1897,7 @@ const RADIO_CHANCE = 0.45;
 function radioSeed(id) {
   let h = 0;
   for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
-  return (h + (state.run || 1) * 7919) >>> 0;
+  return (h + ((state.seed || state.run || 1) >>> 0) * 7919) >>> 0;
 }
 
 // A line may be a plain string, a function of the current mile, or an object:
@@ -1948,12 +1958,22 @@ function radioLine(node, milesDriven) {
 // Tune the route's difficulty here, not by editing individual scenes.
 const TANK_PER_MILE = 0.23;   // was 0.21 — fuel by the point made money go further; this is the re-tune
 
+// How hard the road is working you today: heat, headwind, how the car is running.
+// Drawn once per run from the seed and applied to every mile. Never shown as a number
+// — the diner says what kind of day it is, and nothing mentions it again.
+// This is what un-solves the route: a fixed road burns a fixed amount of fuel, so a
+// big enough wallet covers any price list. A road that costs a different amount every
+// run cannot be budgeted for in advance.
+const BURN_SWING = 0.26, BURN_FLOOR = 0.87;      // 0.87 .. 1.13, centred on 1.00 so the
+                                                 // spread costs nothing on average
+function burnMod() { return BURN_FLOOR + runRand('burn') * BURN_SWING; }
+
 function mileageCost(nextNodeId) {
   const dest = NODES[nextNodeId];
   if (!dest || dest.mile == null) return { tank: 0, miles: 0 };
   const from = state.lastMile || 0;
   const miles = Math.max(0, dest.mile - from);
-  return { tank: -Math.round(miles * TANK_PER_MILE), miles };
+  return { tank: -Math.round(miles * TANK_PER_MILE * burnMod()), miles };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -2087,11 +2107,40 @@ function keepsakeFor(s) {
 // `cap` is for a pump that cannot fill you — the woman at the trading post is
 // selling out of a drum.
 // ═══════════════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════════════
+// THE RUN SEED
+//
+// One number, drawn when the run starts and carried in the save, from which every
+// per-run difference is derived. Stable inside a run (a reload resumes the same
+// road) and different between runs. This is what stops a route from being
+// memorised: a probe found that a fixed price list made the game solvable — one
+// archetype could walk the same no-dice line every time and win every time.
+// ═══════════════════════════════════════════════════════════════════════════
+function newSeed() { return (Math.floor(Math.random() * 0xffffffff) >>> 0) || 1; }
+function runRand(key) {
+  let h = (state.seed || 1) >>> 0;
+  for (let i = 0; i < key.length; i++) h = (Math.imul(h, 31) + key.charCodeAt(i)) >>> 0;
+  h ^= h << 13; h >>>= 0; h ^= h >>> 17; h ^= h << 5; h >>>= 0;
+  return h / 4294967296;
+}
+
+// Gas is not the same price every week. Each pump gets its own multiplier for the
+// run — roughly four fifths to a quarter over — so no two runs cost the same and no
+// budget carries from one to the next. `fixed: true` opts a pump out (favours and
+// anything whose price is part of the fiction).
+const PRICE_SWING = 0.44, PRICE_FLOOR = 0.82;
+function pumpRate(pump) {
+  if (pump.fixed) return pump.rate;
+  const r = runRand('price:' + (state.currentNode || '-') + ':' + pump.rate);
+  return Math.max(0.08, Math.round(pump.rate * (PRICE_FLOOR + r * PRICE_SWING) * 100) / 100);
+}
+
 function fuelPrice(s, pump) {
   const max  = (s.maxStats && s.maxStats.tank) || 100;
   const tank = (s.stats && s.stats.tank) || 0;
+  const rate = pumpRate(pump);
   const points = Math.min(Math.max(0, max - tank), pump.cap || 100);
-  return { points, cost: Math.ceil(points * pump.rate) };
+  return { points, cost: Math.ceil(points * rate), rate };
 }
 
 function pumpDeltas(s, pump) {
@@ -2101,9 +2150,9 @@ function pumpDeltas(s, pump) {
 
 // The sub-text says the real number before you tap, including what a short wallet buys.
 function pumpSub(s, pump, tail) {
-  const { points, cost } = fuelPrice(s, pump);
+  const { points, cost, rate: r } = fuelPrice(s, pump);
   const have = (s.stats && s.stats.wallet) || 0;
-  const rate = Math.round(pump.rate * 100) + 'c a point';
+  const rate = Math.round(r * 100) + 'c a point';
   if (points <= 0) return 'The tank is full. ' + tail;
   if (have >= cost)  return `$${cost} to fill from here, at ${rate}. ` + tail;
   return `$${cost} to fill, at ${rate}. You have $${have} — the pump stops at about ${Math.round(points * have / cost)}%. ` + tail;
@@ -2276,6 +2325,7 @@ function startGame() {
   state.strandings = 0;
   state.strandReturn = null;
   state.lastMile = 0;
+  state.seed = newSeed();
 
   document.getElementById('char-name').textContent = name;
   document.getElementById('char-type').textContent = arch.type;
@@ -2368,7 +2418,7 @@ function motionReduced() {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
 }
 // Bump this on every build that goes to testers, so "which one did you play?" has an answer.
-const BUILD = '2026-10-13.1';
+const BUILD = '2026-10-13.3';
 
 function startRadioTicker(block, tries) {
   if (block.dataset.started) return;
@@ -2696,6 +2746,7 @@ function restartSameRoute() {
     strandings: 0,
     strandReturn: null,
     lastMile: 0,
+    seed: newSeed(),
     debugRolls: DEBUG_ROLLS
   };
 
