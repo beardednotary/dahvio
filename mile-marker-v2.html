@@ -338,7 +338,7 @@ body[data-lit="off"] .radio-am { visibility: hidden; }
   <div id="build-stamp" class="build-stamp"></div>
   <button class="start-btn" onclick="startGame()">
     Hit the road
-    <span class="start-btn-sub">Barstow → Albuquerque — 675 miles</span>
+    <span class="start-btn-sub" id="route-blurb">Barstow → Albuquerque — 675 miles</span>
   </button>
 </div>
 
@@ -369,6 +369,38 @@ body[data-lit="off"] .radio-am { visibility: hidden; }
 // ═══════════════════════════════════════════════════════
 // STATE — narrative flags + testable resource stats
 // ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════════════
+// ROUTES
+//
+// Everything that used to be a Route 1 constant lives here. A route knows where it
+// starts, how it is signed, how many ways it can end and how many things there are to
+// bring back — the last two feed the record on the character screen.
+//
+// `miles`: null means the route does not tell you how far it is. Route 2 is signed the
+// way backroads actually are — the next town, not the destination — so the mile post
+// still counts up and the distance-remaining goes quiet. `destination` is then the
+// label for wherever you are heading right now, set as you go, rather than a fixed city.
+// ═══════════════════════════════════════════════════════════════════════════
+const ROUTES = {
+  southwest: {
+    id: 'southwest',
+    name: 'Southwest Desert Run',
+    shield: 'I-40 EAST',
+    from: 'Barstow, CA',
+    to: 'Albuquerque, NM',
+    destination: 'Albuquerque',
+    blurb: 'Barstow → Albuquerque — 675 miles',
+    start: 'sw_001',
+    strandFallback: 'sw_011',
+    miles: 675,
+    endings: 3,
+    keepsakes: 3
+  }
+};
+const DEFAULT_ROUTE = 'southwest';
+// The route the player is on. Everything below asks this, not a literal.
+function R() { return ROUTES[(typeof state !== 'undefined' && state.route) || DEFAULT_ROUTE] || ROUTES[DEFAULT_ROUTE]; }
+
 const ARCHETYPES = {
   drifter: {
     name: 'The Drifter', type: 'Solo Traveler',
@@ -409,6 +441,7 @@ let state = {
   lastMile: 0,
   seed: 0,
   taken: 0,
+  route: DEFAULT_ROUTE,
   debugRolls: DEBUG_ROLLS
 };
 
@@ -2192,6 +2225,7 @@ function resumeGame() {
   document.getElementById('stats-panel').style.display = 'flex';
   document.getElementById('effects-log').style.display = 'none';
   document.getElementById('game-screen').style.display = 'flex';
+  signRoute();
   updateStatsUI();
   // Odometer counts from 0 on a fresh page; start it where the save was.
   state.currentMile = (NODES[state.resumeAt] && NODES[state.resumeAt].mile) || state.lastMile || 0;
@@ -2208,18 +2242,24 @@ function resumeGame() {
 // you have actually seen. A player cannot want an ending they do not know exists.
 // ═══════════════════════════════════════════════════════════════════════════
 const RECORD_KEY = 'mm_record';
-const ENDING_COUNT = 3, KEEPSAKE_COUNT = 3;
-function getRecord() {
-  const r = store.get(RECORD_KEY) || {};
+// Each route keeps its own record, under its own id.
+function getRecord(routeId) {
+  const all = store.get(RECORD_KEY) || {};
+  const r = all[routeId || R().id] || {};
   return { runs: r.runs || 0, wins: r.wins || 0, endings: r.endings || {}, kept: r.kept || {} };
 }
-function noteRunStarted() { const r = getRecord(); r.runs++; store.set(RECORD_KEY, r); }
-function noteArrival(road, keptId) {
+function putRecord(r, routeId) {
+  const all = store.get(RECORD_KEY) || {};
+  all[routeId || R().id] = r;
+  store.set(RECORD_KEY, all);
+}
+function noteRunStarted() { const r = getRecord(); r.runs++; putRecord(r); }
+function noteArrival(road, keptId, endingId) {
   const r = getRecord();
   r.wins++;
-  r.endings[road >= 3 ? 'high' : road <= 0 ? 'low' : 'mid'] = 1;
+  r.endings[endingId || (road >= 3 ? 'high' : road <= 0 ? 'low' : 'mid')] = 1;
   if (keptId) r.kept[keptId] = 1;
-  store.set(RECORD_KEY, r);
+  putRecord(r);
 }
 // [PROSE] One paragraph. It counts, it never grades, and it never names what is missing.
 function recordLine() {
@@ -2233,13 +2273,14 @@ function recordLine() {
   } else {
     parts.push(n(r.runs, 'One run', 'runs') + ', ' + n(r.wins, 'one arrival', 'arrivals') + '.');
     const e = Object.keys(r.endings).length;
-    parts.push(e >= ENDING_COUNT
-      ? 'You have seen all ' + ENDING_COUNT + ' of the ways it ends.'
-      : 'You have seen ' + e + ' of the ' + ENDING_COUNT + ' ways it ends.');
+    const endings = R().endings, keepsakes = R().keepsakes;
+    parts.push(e >= endings
+      ? 'You have seen all ' + endings + ' of the ways it ends.'
+      : 'You have seen ' + e + ' of the ' + endings + ' ways it ends.');
     const k = Object.keys(r.kept).length;
-    if (k) parts.push(k >= KEEPSAKE_COUNT
-      ? 'You have brought back all ' + KEEPSAKE_COUNT + ' of the things there are to bring back.'
-      : 'You have brought back ' + k + ' of the ' + KEEPSAKE_COUNT + ' things there are to bring back.');
+    if (k) parts.push(k >= keepsakes
+      ? 'You have brought back all ' + keepsakes + ' of the things there are to bring back.'
+      : 'You have brought back ' + k + ' of the ' + keepsakes + ' things there are to bring back.');
   }
   return parts.join(' ');
 }
@@ -2425,7 +2466,7 @@ function applyDeltas(rawDeltas = {}, milesDriven = 0) {
 const MAX_STRANDINGS = 2;
 
 function strandOut(returnNode) {
-  state.strandReturn = returnNode || state.strandReturn || 'sw_011';
+  state.strandReturn = returnNode || state.strandReturn || R().strandFallback;
   state.strandings = (state.strandings || 0) + 1;
   if (state.strandings >= MAX_STRANDINGS) { loadNode('strand_end'); return; }
   // Nothing left to trade — no cash, no nerve to ask with — ends it early.
@@ -2530,6 +2571,8 @@ function startGame() {
   state.lastMile = 0;
   state.seed = newSeed();
   state.taken = 0;
+  state.route = state.route || DEFAULT_ROUTE;
+  state.heading = null;
   noteRunStarted();
 
   document.getElementById('char-name').textContent = name;
@@ -2537,6 +2580,7 @@ function startGame() {
   document.getElementById('footer-arch').textContent = arch.name.split(' ').pop();
   document.getElementById('footer-choices').textContent = '0';
   document.getElementById('footer-run').textContent = state.run;
+  signRoute();
 
   document.getElementById('main-screen').style.display = 'none';
   document.getElementById('header').style.display = 'flex';
@@ -2547,11 +2591,24 @@ function startGame() {
   document.getElementById('game-screen').style.display = 'flex';
   updateStatsUI();
 
-  loadNode('sw_001');
+  loadNode(R().start);
+}
+
+// The green sign at the top is the route's, not Route 1's. On a route that does not
+// name its destination, `state.heading` carries whatever the last sign said.
+function signRoute() {
+  const r = R();
+  const label = document.getElementById('route-label');
+  const name = document.getElementById('route-name');
+  if (label) label.textContent = r.shield;
+  if (name) name.textContent = state.heading || r.destination;
 }
 
 function updateOdometer(mile) {
-  const pct = Math.min(100, (mile / 675) * 100);
+  const total = R().miles;
+  const pct = total ? Math.min(100, (mile / total) * 100) : 0;
+  const track = document.getElementById('odo-track');
+  if (track) track.style.visibility = total ? 'visible' : 'hidden';
   document.getElementById('odo-fill').style.width = pct + '%';
   const el = document.getElementById('odo-num');
   const from = state.currentMile;
@@ -2562,7 +2619,8 @@ function updateOdometer(mile) {
     const shown = Math.round(from + ((mile - from) * step / steps));
     el.textContent = shown;
     const left = document.getElementById('odo-left');
-    if (left) left.textContent = Math.max(0, 675 - shown);
+    const total = R().miles;
+    if (left) left.textContent = total ? Math.max(0, total - shown) : '';
     if (step >= steps) clearInterval(interval);
   }, 40);
   state.currentMile = mile;
@@ -2623,7 +2681,7 @@ function motionReduced() {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
 }
 // Bump this on every build that goes to testers, so "which one did you play?" has an answer.
-const BUILD = '2026-10-14.1';
+const BUILD = '2026-10-14.2';
 
 function startRadioTicker(block, tries) {
   if (block.dataset.started) return;
@@ -2666,7 +2724,7 @@ function resolveSlot(id) {
 }
 
 function loadNode(nodeId) {
-  if (nodeId === '__RESUME__') nodeId = state.strandReturn || 'sw_011';
+  if (nodeId === '__RESUME__') nodeId = state.strandReturn || R().strandFallback;
   nodeId = resolveSlot(nodeId);
   state.currentNode = nodeId;
   clearTimeouts();
@@ -2678,6 +2736,8 @@ function loadNode(nodeId) {
   if (node.paywall && !state.paid) { showPaywall(nodeId); return; }
 
   if (node.onLoad) node.onLoad(state);
+  // A route that signs the next town instead of the destination sets it per node.
+  if (node.heading) { state.heading = node.heading; signRoute(); }
   setSignage(nodeId, node);
   if (nodeId === 'strand_end') { recordLastCar(); clearSave(); } else saveGame(nodeId);
   // Capture the distance BEFORE the mile marker advances — the radio needs to know
@@ -2880,7 +2940,7 @@ function showPaywall(nextNode) {
   document.getElementById('main-screen').style.display = 'flex';
   document.getElementById('main-screen').innerHTML = `
     <div id="paywall-screen">
-      <div class="paywall-miles">Mile ${state.currentMile} — Albuquerque ${675 - state.currentMile}</div>
+      <div class="paywall-miles">Mile ${state.currentMile}${R().miles ? ' — ' + R().destination + ' ' + (R().miles - state.currentMile) : ''}</div>
       <div class="paywall-title">The road ahead is long.</div>
       <div class="paywall-divider"></div>
       <div class="paywall-body">You've made ${state.choices} choices.<br>The hard part is still out there.</div>
@@ -2910,9 +2970,9 @@ function showVictory(node) {
   if (kept) {
     // Stub for the cross-route mechanic: one object per route, most recent win.
     try {
-      const store = JSON.parse(localStorage.getItem('mm_keepsakes') || '{}');
-      store.southwest = kept.id;
-      localStorage.setItem('mm_keepsakes', JSON.stringify(store));
+      const kstore = JSON.parse(localStorage.getItem('mm_keepsakes') || '{}');
+      kstore[R().id] = kept.id;
+      localStorage.setItem('mm_keepsakes', JSON.stringify(kstore));
     } catch (e) {}
   }
 
@@ -2973,6 +3033,9 @@ function restartSameRoute() {
     strandReturn: null,
     lastMile: 0,
     seed: newSeed(),
+    taken: 0,
+    route: state.route || DEFAULT_ROUTE,
+    heading: null,
     debugRolls: DEBUG_ROLLS
   };
   noteRunStarted();
@@ -2989,8 +3052,9 @@ function restartSameRoute() {
   document.getElementById('footer').style.display = 'flex';
   document.getElementById('stats-panel').style.display = 'flex';
   document.getElementById('game-screen').style.display = 'flex';
+  signRoute();
   updateStatsUI();
-  loadNode('sw_001');
+  loadNode(R().start);
 }
 
 function chooseNewTraveler() {
@@ -3005,6 +3069,8 @@ function restartFull() {
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('main-screen').style.display = 'flex';
   offerResume();
+  const blurb = document.getElementById('route-blurb');
+  if (blurb) blurb.textContent = R().blurb;
   const rec = document.getElementById('record-slot');
   if (rec) rec.textContent = recordLine();
   const stamp = document.getElementById('build-stamp');
