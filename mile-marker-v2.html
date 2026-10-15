@@ -408,6 +408,7 @@ let state = {
   strandReturn: null,
   lastMile: 0,
   seed: 0,
+  taken: 0,
   debugRolls: DEBUG_ROLLS
 };
 
@@ -1043,8 +1044,8 @@ const NODES = {
     choices: [
       // The morning scene has always said something was taken in the night. Now it is.
       // Answering is the only branch where it comes back, which is the whole point of her.
-      { text: (s) => s.flags.slept_car ? "Crack the window" : "Answer the door", sub: "Nerve check — could be anything. That's the problem.", type: "risky", check: { stat: "nerve", difficulty: 6 }, success: { next: "sw_008a", deltas: { nerve: +1 } }, failure: { next: "sw_008b", deltas: { nerve: -1, wallet: -12 }, flags: { lost_in_the_night: true } } },
-      { text: (s) => s.flags.slept_car ? "Stay perfectly still" : "Don't move. Wait.", sub: "Safe — locked doors and patience.", type: "safe", deltas: { wallet: -12 }, flags: { lost_in_the_night: true }, next: "sw_008c", deltas: { nerve: +1 } },
+      { text: (s) => s.flags.slept_car ? "Crack the window" : "Answer the door", sub: "Nerve check — could be anything. That's the problem.", type: "risky", check: { stat: "nerve", difficulty: 6 }, success: { next: "sw_008a", deltas: { nerve: +1 } }, failure: { next: "sw_008b", deltas: { nerve: -1 }, take: 12, flags: { lost_in_the_night: true } } },
+      { text: (s) => s.flags.slept_car ? "Stay perfectly still" : "Don't move. Wait.", sub: "Safe — locked doors and patience.", type: "safe", take: 12, flags: { lost_in_the_night: true }, next: "sw_008c", deltas: { nerve: +1 } },
       { text: (s) => s.flags.slept_car ? "Look through the windshield" : "Look out the window first", sub: "Gut check — you might see something. You might not want to.", type: "neutral", check: { stat: "gut", difficulty: 5 }, success: { next: "sw_008d", deltas: { gut: +1 } }, failure: { next: "sw_008e", deltas: { gut: -1 } } }
     ]
   },
@@ -1118,8 +1119,15 @@ const NODES = {
       const place = s.flags.stayed_roys || s.flags.slept_car ? "Roy's" : "the Desert Wind";
       const base = ["Morning.", `You're packed and ready by seven. The lot at ${place} is quiet.`, "You put your bag in the back seat.", "Something is wrong."];
       if (s.flags.took_jacket) base.push("The jacket is gone from the back seat. You remember taking it. You remember putting it there. That makes the empty space worse, not better.");
-      else if (s.flags.lost_in_the_night && !(s.stats && s.stats.wallet > 0) && !(s.stats && s.stats.wallet === undefined)) base.push("Your wallet is on the gravel under the driver's door, open. There was nothing in it to take. Somebody checked anyway.", "Your license is still there. The card that doesn't work. The photograph.");
-      else if (s.flags.lost_in_the_night) base.push("Your wallet is on the gravel under the driver's door, open, twelve dollars lighter. Everything else is in it. Your license, the card that doesn't work, the photograph.", "Whoever it was had standards. Or at least a sense of proportion.");
+      else if (s.flags.lost_in_the_night) {
+        const took = s.taken || 0;
+        if (took === 0)
+          base.push("Your wallet is on the gravel under the driver's door, open. There was nothing in it to take. Somebody checked anyway.", "Your license is still there. The card that doesn't work. The photograph.");
+        else if (took >= 12)
+          base.push("Your wallet is on the gravel under the driver's door, open, twelve dollars lighter. Everything else is in it. Your license, the card that doesn't work, the photograph.", "Whoever it was had standards. Or at least a sense of proportion.");
+        else
+          base.push("Your wallet is on the gravel under the driver's door, open and empty. Everything else is in it — your license, the card that doesn't work, the photograph — and what's gone is the part that wasn't much to begin with.", "Whoever it was had standards. They just didn't find anything to have standards about.");
+      }
       else base.push("Something small is missing. You stand there and inventory without meaning to. Something was taken in the night.", "Whoever it was had standards. Or at least a sense of proportion.");
       base.push("You look at the other car in the lot.", "It's empty.", "The office isn't open yet.");
       return base;
@@ -2405,7 +2413,8 @@ function applyDeltas(rawDeltas = {}, milesDriven = 0) {
     if (stat === 'tank')   amount = `${amount}%`;
     effects.push({ stat, delta: shown, text: `${label} ${sign}${amount}` });
   });
-  if (short) effects.push({ stat: 'short', delta: 0, text: 'pump clicked off early' });
+  // Only a fill can click off early. Any other shortfall is a different sentence.
+  if (short) effects.push({ stat: 'short', delta: 0, text: (deltas.tank || 0) > 0 ? 'pump clicked off early' : 'that was everything you had' });
   clampStats();
   state.lastEffects = effects;
   updateStatsUI(effects);
@@ -2520,6 +2529,7 @@ function startGame() {
   state.strandReturn = null;
   state.lastMile = 0;
   state.seed = newSeed();
+  state.taken = 0;
   noteRunStarted();
 
   document.getElementById('char-name').textContent = name;
@@ -2613,7 +2623,7 @@ function motionReduced() {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
 }
 // Bump this on every build that goes to testers, so "which one did you play?" has an answer.
-const BUILD = '2026-10-13.5';
+const BUILD = '2026-10-14.1';
 
 function startRadioTicker(block, tries) {
   if (block.dataset.started) return;
@@ -2796,6 +2806,14 @@ function handleChoice(choice) {
   result = result || {};
 
   applyFlags(result.flags);
+
+  // Somebody taking money is not a purchase: you cannot be short for it, and the scene
+  // that follows has to be able to say what was actually taken. Capped at what you have,
+  // recorded in state.taken, then applied as an ordinary delta so the receipt shows it.
+  if (result.take) {
+    state.taken = Math.min(result.take, state.stats.wallet || 0);
+    result = Object.assign({}, result, { deltas: Object.assign({}, result.deltas, { wallet: -state.taken }) });
+  }
 
   // A pump prices itself against the tank you're actually holding, at click time.
   const pump = result.pump || (result.next && choice.pump);
