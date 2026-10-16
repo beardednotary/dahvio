@@ -897,8 +897,8 @@ $('fbForm').addEventListener('submit', async e => {
 // ---------- leaderboards ----------
 // Scores live in Ray's Supabase project. The page only calls two functions there
 // (pf_submit, pf_board), which validate everything; the table itself is closed to the
-// public key. Leave the URL or key blank and leaderboards stay hidden.
-const LB_URL = '', LB_KEY = '';
+// public key, so the publishable key below is safe to ship. Blank it to hide leaderboards.
+const LB_URL = 'https://hnbpqnpojouxwwucwrpi.supabase.co', LB_KEY = 'sb_publishable_WREnqZzPJ--Ws3jOTYGe-Q_F_g-Xooi';
 const LB_ON = !!(LB_URL && LB_KEY);
 const BOARDS = {
   streak: { note: 'Most kicks in a row', unit: v => v },
