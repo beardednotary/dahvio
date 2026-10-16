@@ -201,6 +201,7 @@ body{
 .card textarea::placeholder,.card input[type=text]::placeholder{color:rgba(255,255,255,.45)}
 .card textarea:focus,.card input[type=text]:focus{outline:3px solid var(--gold);outline-offset:1px}
 .fine{margin:0;font:700 12px/1.4 var(--body);color:var(--muted)}
+.fine a{color:var(--gold)}
 #fbStatus{margin:0;font:800 14px/1.4 var(--body);color:var(--gold)}
 #fbStatus:empty{display:none}
 .credit{margin:2px 0 0;text-align:center;color:var(--muted);font:700 13px/1.4 var(--body)}
@@ -271,7 +272,7 @@ body{
       </ul>
     </details>
     <button class="cbtn plain" type="button" id="fbOpen" hidden>Send feedback</button>
-    <p class="credit">A <a href="https://dahvio.com">DahVio Studios</a> game · iPhone app in the works</p>
+    <p class="credit">A <a href="https://dahvio.com">DahVio Studios</a> game · iPhone app in the works · <a href="https://dahvio.com/paper-football-privacy">Privacy</a></p>
   </div>
 </section>
 
@@ -305,7 +306,7 @@ body{
     <textarea id="fbMsg" name="message" rows="3" maxlength="2000" placeholder="What you liked, what bugged you, ideas…"></textarea>
     <label class="field" for="fbName">Your name <small>optional</small></label>
     <input id="fbName" name="name" type="text" maxlength="60" autocomplete="name" placeholder="So Ray knows who said it">
-    <p class="fine">Also sends your difficulty, Tune settings, score and device type, so Ray can match feedback to how you played.</p>
+    <p class="fine">Also sends your difficulty, Tune settings, score and device type, so Ray can match feedback to how you played. <a href="https://dahvio.com/paper-football-privacy">Privacy</a></p>
     <p id="fbStatus" role="status"></p>
     <div class="row"><button class="cbtn plain" type="button" id="fbCancel">Cancel</button><button class="cbtn gold" type="submit" id="fbSend">Send</button></div>
   </form>
