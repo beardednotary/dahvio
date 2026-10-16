@@ -164,6 +164,7 @@ body{
 .go{background:var(--go);color:var(--outline)}
 .blue{background:var(--p1);color:#fff}
 .teal{background:var(--teal);color:#fff}
+.red{background:var(--p2);color:#fff}
 .plain{background:var(--panel2);color:#fff;justify-content:center}
 .switch{position:relative;display:flex;align-items:center;gap:12px;cursor:pointer;padding:4px 2px;font:800 15px/1.3 var(--body)}
 .switch input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
@@ -213,6 +214,32 @@ body{
 .slider input{width:100%;margin:0;accent-color:var(--gold)}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
 .row .cbtn{justify-content:center;text-align:center}
+.plain svg{width:22px;height:22px;flex:none;align-self:center;margin-right:-2px}
+
+/* Leaderboards: candy tabs, then a ranked list where your own row glows gold */
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.tabs button{cursor:pointer;padding:9px 6px 10px;border:3px solid var(--outline);border-radius:12px;background:rgba(255,255,255,.08);color:#fff;font:400 16px/1 var(--display);letter-spacing:.02em}
+.tabs button[aria-selected=true]{background:var(--gold);color:var(--outline);box-shadow:0 3px 0 var(--outline)}
+.tabs button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+#lbLevel{justify-content:center;margin:0}
+#lbLevel > span{display:none}
+.ranks{list-style:none;margin:0;padding:6px;display:grid;gap:4px;min-height:132px;max-height:46vh;overflow:auto;background:rgba(0,0,0,.24);border-radius:16px;align-content:start}
+.ranks li{display:grid;grid-template-columns:32px minmax(0,1fr) auto;align-items:center;gap:10px;padding:6px 10px 6px 6px;border-radius:11px;background:rgba(255,255,255,.05)}
+.ranks .rk{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--panel2);border:2px solid var(--outline);font:400 15px/1 var(--display);font-variant-numeric:tabular-nums}
+.ranks li:nth-child(1) .rk{background:var(--gold);color:var(--outline)}
+.ranks li:nth-child(2) .rk{background:#dfe6ef;color:var(--outline)}
+.ranks li:nth-child(3) .rk{background:#e39a5b;color:var(--outline)}
+.ranks .nk{font:800 16px/1.2 var(--body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ranks .vl{font:400 22px/1 var(--display);color:var(--gold);font-variant-numeric:tabular-nums}
+.ranks li.me{background:var(--gold);color:var(--outline);box-shadow:inset 0 0 0 2px var(--outline)}
+.ranks li.me .vl{color:var(--outline)}
+.ranks li.gap{background:none;justify-content:center;display:block;text-align:center;padding:0;color:var(--muted);font:800 14px/1 var(--body)}
+.ranks .empty{background:none;display:block;text-align:center;padding:34px 10px;color:var(--muted);font:700 15px/1.4 var(--body)}
+.nickrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.nickrow .cbtn{width:auto;padding:8px 14px 9px;font-size:18px;box-shadow:0 4px 0 var(--outline),inset 0 -3px 0 rgba(0,0,0,.14)}
+.say{margin:0;font:800 14px/1.4 var(--body);color:var(--gold)}
+.say:empty{display:none}
+.trophy{display:block;width:84px;height:72px;margin:-6px auto -4px;filter:drop-shadow(0 4px 0 var(--outline))}
 
 @media (prefers-reduced-motion:reduce){#banner,.pop{animation:none}}
 </style>
@@ -260,6 +287,7 @@ body{
     </div>
     <button class="cbtn blue" type="button" data-act="pass">Pass &amp; Play <small>2 players, 1 phone</small></button>
     <button class="cbtn teal" type="button" data-act="challenge">Fan Challenge <small id="best">10 kicks</small></button>
+    <button class="cbtn red" type="button" data-act="streak">Kick Streak <small id="sbest">Till you miss</small></button>
     <label class="switch" for="fan"><input type="checkbox" id="fan"><span class="track"></span>Desk fan on extra points<em>HARD</em></label>
     <details class="how">
       <summary>How to play</summary>
@@ -269,8 +297,10 @@ body{
         <li>Slide it off the table: turnover.</li>
         <li>Four flicks per drive.</li>
         <li>After a touchdown, flick it through the finger posts for 1.</li>
+        <li>Kick Streak: every make moves the kick back and turns the fan up. One miss ends it.</li>
       </ul>
     </details>
+    <button class="cbtn plain" type="button" id="lbOpen" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v6a5 5 0 0 1-10 0z M7 5H3.5a3.5 3.5 0 0 0 4 4.4 M17 5h3.5a3.5 3.5 0 0 1-4 4.4 M12 14v4 M8 21h8 M9.5 18h5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Leaderboards</button>
     <button class="cbtn plain" type="button" id="fbOpen" hidden>Send feedback</button>
     <p class="credit">A <a href="https://dahvio.com">DahVio Studios</a> game · iPhone app in the works · <a href="https://dahvio.com/paper-football-privacy">Privacy</a></p>
   </div>
@@ -312,6 +342,58 @@ body{
   </form>
 </section>
 
+<section id="lb" class="sheet" hidden>
+  <div class="card">
+    <svg class="trophy" viewBox="0 0 84 72" aria-hidden="true">
+      <path d="M20 14H8a10 10 0 0 0 14 14 M64 14h12a10 10 0 0 1-14 14" fill="none" style="stroke:var(--outline)" stroke-width="9" stroke-linecap="round"/>
+      <path d="M20 14H8a10 10 0 0 0 14 14 M64 14h12a10 10 0 0 1-14 14" fill="none" style="stroke:var(--gold)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M22 6h40v14c0 13-9 22-20 22S22 33 22 20z" style="fill:var(--gold);stroke:var(--outline)" stroke-width="3.5" stroke-linejoin="round"/>
+      <path d="M30 12v8c0 6 3 10 7 12" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" opacity=".6"/>
+      <rect x="36" y="41" width="12" height="12" style="fill:var(--gold);stroke:var(--outline)" stroke-width="3.5"/>
+      <rect x="25" y="52" width="34" height="13" rx="4" style="fill:var(--p2);stroke:var(--outline)" stroke-width="3.5"/>
+    </svg>
+    <h2>Leaderboards</h2>
+    <div class="tabs" role="tablist" aria-label="Board">
+      <button type="button" role="tab" data-b="streak" aria-selected="true">Streak</button>
+      <button type="button" role="tab" data-b="fan" aria-selected="false">Fan 10</button>
+      <button type="button" role="tab" data-b="win" aria-selected="false">Wins</button>
+    </div>
+    <div class="level" id="lbLevel" role="radiogroup" aria-label="Computer difficulty" hidden>
+      <span>Computer</span>
+      <label><input type="radio" name="lbLevel" value="easy"><span>Easy</span></label>
+      <label><input type="radio" name="lbLevel" value="normal"><span>Normal</span></label>
+      <label><input type="radio" name="lbLevel" value="hard"><span>Hard</span></label>
+    </div>
+    <p class="blurb" id="lbNote"></p>
+    <ol class="ranks" id="lbList" aria-live="polite"></ol>
+    <label class="field" for="lbNick">Your name on the boards <small>2–12 letters</small></label>
+    <div class="nickrow"><input id="lbNick" type="text" maxlength="12" autocomplete="nickname" spellcheck="false" placeholder="Pick a nickname"><button class="cbtn gold" type="button" id="lbSave">Save</button></div>
+    <p class="say" id="lbSay" role="status"></p>
+    <p class="fine">No account: just a nickname, shown publicly next to your scores. A new name shows up the next time you post. <a href="https://dahvio.com/paper-football-privacy">Privacy</a></p>
+    <button class="cbtn plain" type="button" id="lbDone">Done</button>
+  </div>
+</section>
+
+<section id="post" class="sheet" hidden>
+  <form class="card" id="postForm" novalidate>
+    <svg class="trophy" viewBox="0 0 84 72" aria-hidden="true">
+      <path d="M20 14H8a10 10 0 0 0 14 14 M64 14h12a10 10 0 0 1-14 14" fill="none" style="stroke:var(--outline)" stroke-width="9" stroke-linecap="round"/>
+      <path d="M20 14H8a10 10 0 0 0 14 14 M64 14h12a10 10 0 0 1-14 14" fill="none" style="stroke:var(--gold)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M22 6h40v14c0 13-9 22-20 22S22 33 22 20z" style="fill:var(--gold);stroke:var(--outline)" stroke-width="3.5" stroke-linejoin="round"/>
+      <path d="M30 12v8c0 6 3 10 7 12" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" opacity=".6"/>
+      <rect x="36" y="41" width="12" height="12" style="fill:var(--gold);stroke:var(--outline)" stroke-width="3.5"/>
+      <rect x="25" y="52" width="34" height="13" rx="4" style="fill:var(--p2);stroke:var(--outline)" stroke-width="3.5"/>
+    </svg>
+    <h2 id="postT">New best!</h2>
+    <p class="blurb" id="postS"></p>
+    <label class="field" for="postNick">Your name on the boards <small>2–12 letters</small></label>
+    <input id="postNick" type="text" maxlength="12" autocomplete="nickname" spellcheck="false" placeholder="Pick a nickname">
+    <p class="fine">No account needed. Your nickname and score are shown publicly. <a href="https://dahvio.com/paper-football-privacy">Privacy</a></p>
+    <p class="say" id="postSay" role="status"></p>
+    <div class="row"><button class="cbtn plain" type="button" id="postSkip">Skip</button><button class="cbtn gold" type="submit" id="postSend">Post it</button></div>
+  </form>
+</section>
+
 <section id="tune" class="sheet" hidden>
   <div class="card">
     <h2>Tune the feel</h2>
@@ -343,8 +425,8 @@ const DEF = { fric: 620, flick: 0.36, kick: 0.38, fan: false, mute: false, level
 const cfg = { ...DEF };
 try { Object.assign(cfg, JSON.parse(localStorage.getItem('pf-cfg') || '{}')); } catch (e) {}
 const saveCfg = () => { try { localStorage.setItem('pf-cfg', JSON.stringify(cfg)); } catch (e) {} };
-let best = 0;
-try { best = +localStorage.getItem('pf-best') || 0; } catch (e) {}
+let best = 0, streakBest = 0;
+try { best = +localStorage.getItem('pf-best') || 0; streakBest = +localStorage.getItem('pf-streak') || 0; } catch (e) {}
 
 // ---------- layout ----------
 let W = 360, H = 640, S = 1, DPR = 1, blurK = 1;
@@ -404,6 +486,7 @@ function buildWood() {
 let G = null, paused = true, gt = 0, Q = [], trail = [], sw = null, parts = [];
 const later = (ms, fn) => Q.push({ at: gt + ms / 1000, fn, g: G && G.gen });
 const human = () => G.mode !== 'cpu' || G.poss === 0;
+const solo = () => G.mode === 'challenge' || G.mode === 'streak';
 const possessive = i => G.names[i] === 'You' ? 'Your' : G.names[i] + "'s";
 const gauss = () => Math.sqrt(-2 * Math.log(1 - Math.random())) * Math.cos(2 * Math.PI * Math.random());
 
@@ -412,6 +495,7 @@ function newGame(mode) {
         score: [0, 0], poss: 0, target: 21, scene: 'slide', state: 'idle', over: false };
   Q = []; trail = []; parts = [];
   if (mode === 'challenge') { G.ch = { i: 0, made: 0 }; startKick('ch'); banner('Fan Challenge', 'Ten kicks. Time the fan.', 1500, true); }
+  else if (mode === 'streak') { G.st = { n: 0 }; startKick('st'); banner('Kick Streak', 'Keep it going. One miss ends it.', 1500, true); }
   else { startPossession(0); banner(mode === 'pass' ? "Blue's ball" : 'Kickoff!', 'First to 21', 1300, true); }
 }
 function startPossession(p) {
@@ -489,7 +573,7 @@ function checkWin() {
     const n = G.names[p], line = `${G.score[0]} to ${G.score[1]}`;
     later(1200, () => { banner(n === 'You' ? 'You win!' : n + ' wins!', line, 2400); rain(120); });
     $('status').textContent = (n === 'You' ? 'You won ' : n + ' won ') + line + '. Go again?';
-    later(3800, openMenu);
+    later(3800, () => G.mode === 'cpu' && p === 0 ? offerPost('win_' + (CPU[cfg.level] ? cfg.level : 'normal'), 1) : openMenu());
     return true;
   }
   return false;
@@ -499,11 +583,18 @@ function checkWin() {
 function startKick(kind) {
   G.scene = 'kick'; G.celebrate = false; parts = [];
   let Zp, fanMax = 0;
+  let fanSpeed = 0;
   if (kind === 'pat') { Zp = 380; if (cfg.fan) fanMax = 140; }
+  else if (kind === 'st') {
+    // Gentle ramp: two calm warm-ups, then about an inch and a bit more fan per make;
+    // distance tops out near 41 in and the fan near full, after which it only speeds up
+    const n = G.st.n; Zp = Math.min(300 + n * 15, 615);
+    fanMax = n < 2 ? 0 : Math.min(40 + (n - 2) * 11, 260); fanSpeed = Math.max(0, n - 24) * 0.05;
+  }
   else { const i = G.ch.i; Zp = 300 + i * 25; fanMax = 70 + i * 16; }
   G.kick = { kind, Zp, crossed: false, result: null, ghosts: [],
     ball: { x: 0, z: 0, h: 0, vx: 0, vz: 0, vh: 0, rot: 0, spin: 0 },
-    fan: fanMax ? { dir: Math.random() < 0.5 ? 1 : -1, max: fanMax, speed: 1.1 + Math.random() * 0.6, phase: Math.random() * 6.28, ang: 0 } : null };
+    fan: fanMax ? { dir: Math.random() < 0.5 ? 1 : -1, max: fanMax, speed: Math.min(3, 1.1 + fanSpeed + Math.random() * 0.6), phase: Math.random() * 6.28, ang: 0 } : null };
   G.state = 'kaim'; hud(); prompt();
 }
 function windNow() {
@@ -550,6 +641,21 @@ function kickResult() {
     banner(title, good ? `${G.names[G.poss]} +1` : why, 1300, !good);
     if (checkWin()) return;
     later(1400, () => startPossession(1 - G.poss));
+  } else if (k.kind === 'st') {
+    const st = G.st;
+    if (good) {
+      st.n++; hud();
+      banner(title, `Streak ${st.n}`, 1200);
+      later(1300, () => startKick('st'));
+      return;
+    }
+    G.over = true; G.state = 'over'; hud();
+    banner(title, why, 1200, true);
+    const isBest = st.n > streakBest;
+    if (isBest) { streakBest = st.n; try { localStorage.setItem('pf-streak', streakBest); } catch (e) {} }
+    later(1300, () => { banner(`Streak: ${st.n}`, isBest ? 'New best!' : `Your best: ${streakBest}`, 2400); if (isBest) rain(120); });
+    $('status').textContent = `Kick Streak: ${st.n} in a row.`;
+    later(3800, () => offerPost('streak', st.n));
   } else {
     const c = G.ch; if (good) c.made++; c.i++;
     hud();
@@ -560,7 +666,7 @@ function kickResult() {
       if (isBest) { best = c.made; try { localStorage.setItem('pf-best', best); } catch (e) {} }
       later(1300, () => { banner(`${c.made} of 10`, isBest ? 'New best!' : `Your best: ${best} of 10`, 2400); if (isBest) rain(120); });
       $('status').textContent = `Fan Challenge: ${c.made} of 10.`;
-      later(3800, openMenu);
+      later(3800, () => offerPost('fan', c.made));
     } else later(1300, () => startKick('ch'));
   }
 }
@@ -676,6 +782,14 @@ function hud() {
     $('m2').textContent = `${Math.round(G.kick.Zp / PXIN)} in kick · fan on`;
     return;
   }
+  if (G.mode === 'streak') {
+    $('n1').textContent = 'Streak'; setNum('s1', G.st.n);
+    $('n2').textContent = 'Best'; setNum('s2', Math.max(streakBest, G.st.n));
+    $('sd1').classList.add('has'); $('sd2').classList.remove('has');
+    $('dots').hidden = true;
+    $('m2').textContent = `${Math.round(G.kick.Zp / PXIN)} in kick${G.kick.fan ? ' · fan on' : ''}`;
+    return;
+  }
   $('n1').textContent = G.names[0]; setNum('s1', G.score[0]);
   $('n2').textContent = G.names[1]; setNum('s2', G.score[1]);
   $('sd1').classList.toggle('has', G.poss === 0); $('sd2').classList.toggle('has', G.poss === 1);
@@ -703,11 +817,12 @@ function openMenu() {
   paused = true;
   $('resume').hidden = !(G && !G.over);
   $('best').textContent = best ? `Best ${best}/10` : '10 kicks';
+  $('sbest').textContent = streakBest ? `Best ${streakBest}` : 'Till you miss';
   $('fan').checked = !!cfg.fan;
   document.querySelectorAll('input[name=level]').forEach(r => { r.checked = r.value === (CPU[cfg.level] ? cfg.level : 'normal'); });
   $('menu').hidden = false;
 }
-function closeSheets() { $('menu').hidden = true; $('tune').hidden = true; paused = false; }
+function closeSheets() { $('menu').hidden = true; $('tune').hidden = true; $('lb').hidden = true; $('post').hidden = true; paused = false; }
 $('menu').addEventListener('click', e => {
   const b = e.target.closest('[data-act]'); if (!b) return;
   audioInit();
@@ -742,6 +857,7 @@ function feedbackData() {
   const fd = new FormData($('fbForm')), name = (fd.get('name') || '').trim();
   const game = !G ? 'Not played yet'
     : G.mode === 'challenge' ? `Fan challenge, ${G.ch.made} of ${G.ch.i} made`
+    : G.mode === 'streak' ? `Kick streak, ${G.st.n} in a row${G.over ? ' (final)' : ''}`
     : `${G.mode === 'cpu' ? 'vs CPU' : 'Pass & play'}, ${G.score[0]} to ${G.score[1]}${G.over ? ' (final)' : ''}`;
   return {
     _subject: 'Paper Football feedback' + (name ? ` from ${name}` : ''),
@@ -755,6 +871,7 @@ function feedbackData() {
     tune: `grip ${cfg.fric}, flick ${cfg.flick}, kick ${cfg.kick}`,
     game,
     fan_best: best ? `${best} of 10` : '',
+    streak_best: streakBest || '',
     screen: `${innerWidth}x${innerHeight}`,
     device: navigator.userAgent,
   };
@@ -775,6 +892,140 @@ $('fbForm').addEventListener('submit', async e => {
   } catch (err) {
     fbStatus("Couldn't send that. Check your connection and try again.");
   } finally { btn.disabled = false; btn.textContent = 'Send'; }
+});
+
+// ---------- leaderboards ----------
+// Scores live in Ray's Supabase project. The page only calls two functions there
+// (pf_submit, pf_board), which validate everything; the table itself is closed to the
+// public key. Leave the URL or key blank and leaderboards stay hidden.
+const LB_URL = '', LB_KEY = '';
+const LB_ON = !!(LB_URL && LB_KEY);
+const BOARDS = {
+  streak: { note: 'Most kicks in a row', unit: v => v },
+  fan: { note: 'Best Fan Challenge, out of 10', unit: v => v + '/10' },
+  win_easy: { note: 'Wins against the Easy computer', unit: v => v },
+  win_normal: { note: 'Wins against the Normal computer', unit: v => v },
+  win_hard: { note: 'Wins against the Hard computer', unit: v => v },
+};
+const lb = { player: '', nick: '', posted: {}, offered: {} };
+try { Object.assign(lb, JSON.parse(localStorage.getItem('pf-lb') || '{}')); } catch (e) {}
+const saveLb = () => { try { localStorage.setItem('pf-lb', JSON.stringify(lb)); } catch (e) {} };
+if (!/^[0-9a-f-]{36}$/.test(lb.player)) {
+  const b = crypto.getRandomValues(new Uint8Array(16)); b[6] = b[6] & 15 | 64; b[8] = b[8] & 63 | 128;
+  const h = [...b].map(x => x.toString(16).padStart(2, '0')).join('');
+  lb.player = `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`; saveLb();
+}
+// Same word list the server checks; numbers and symbols standing in for letters are undone first
+const BAD = /fuck|shit|cunt|nigg|fag|bitch|dick|cocksuck|pussy|whore|slut|rapist|nazi|hitler|porn|penis|vagina|kkk|retard/;
+const LEET = { 0: 'o', 1: 'i', 3: 'e', 4: 'a', 5: 's', 7: 't', '@': 'a', $: 's' };
+function checkNick(raw) {
+  const n = raw.trim().replace(/\s+/g, ' ');
+  if (!/^[A-Za-z0-9][A-Za-z0-9 _.-]{1,11}$/.test(n)) return { err: 'Use 2 to 12 letters or numbers.' };
+  const flat = n.toLowerCase().replace(/[013457@$]/g, c => LEET[c]).replace(/[^a-z]/g, '');
+  if (BAD.test(flat)) return { err: 'Pick a different name.' };
+  return { nick: n };
+}
+async function sb(fn, body) {
+  const headers = { 'Content-Type': 'application/json', apikey: LB_KEY };
+  if (LB_KEY.startsWith('eyJ')) headers.Authorization = 'Bearer ' + LB_KEY;
+  const res = await fetch(`${LB_URL}/rest/v1/rpc/${fn}`, { method: 'POST', headers, body: JSON.stringify(body) });
+  const txt = await res.text(); let data = null;
+  try { data = txt ? JSON.parse(txt) : null; } catch (e) {}
+  if (!res.ok) throw new Error((data && data.message) || 'HTTP ' + res.status);
+  return data;
+}
+const postErr = e => /not allowed/.test(e.message) ? 'Pick a different name.'
+  : /too soon/.test(e.message) ? 'Hang on a few seconds, then try again.'
+  : "Couldn't reach the leaderboard. Check your connection and try again.";
+const postScore = (board, value) => sb('pf_submit', { p_player: lb.player, p_nickname: lb.nick, p_board: board, p_value: value })
+  .then(() => { lb.posted[board] = Math.max(lb.posted[board] || 0, value); saveLb(); });
+
+// Board sheet
+let lbBoard = 'streak', lbReq = 0;
+$('lbOpen').hidden = !LB_ON;
+function openBoards(board) {
+  paused = true; $('menu').hidden = true; $('post').hidden = true;
+  if (board) lbBoard = board;
+  $('lbNick').value = lb.nick; $('lbSay').textContent = '';
+  $('lb').hidden = false; showBoard();
+}
+function showBoard() {
+  const win = lbBoard.startsWith('win_');
+  document.querySelectorAll('#lb [data-b]').forEach(t => t.setAttribute('aria-selected', String(t.dataset.b === (win ? 'win' : lbBoard))));
+  $('lbLevel').hidden = !win;
+  if (win) document.querySelectorAll('input[name=lbLevel]').forEach(r => { r.checked = 'win_' + r.value === lbBoard; });
+  $('lbNote').textContent = BOARDS[lbBoard].note;
+  const list = $('lbList'), req = ++lbReq, board = lbBoard;
+  const msg = t => { list.replaceChildren(Object.assign(document.createElement('li'), { className: 'empty', textContent: t })); };
+  msg('Loading…');
+  sb('pf_board', { p_board: board, p_me: lb.player, p_limit: 25 }).then(rows => {
+    if (req !== lbReq) return;
+    if (!rows || !rows.length) return msg(win ? 'No wins posted yet. Beat the computer and claim the top spot.' : 'No scores yet. Be the first!');
+    const out = [];
+    rows.forEach((r, i) => {
+      if (i && r.me && r.rank > rows[i - 1].rank + 1) out.push(Object.assign(document.createElement('li'), { className: 'gap', textContent: '⋯' }));
+      const li = document.createElement('li'); if (r.me) li.className = 'me';
+      const rk = document.createElement('span'); rk.className = 'rk'; rk.textContent = r.rank;
+      const nk = document.createElement('span'); nk.className = 'nk'; nk.textContent = r.me ? r.nickname + ' (you)' : r.nickname;
+      const vl = document.createElement('span'); vl.className = 'vl'; vl.textContent = BOARDS[board].unit(r.value);
+      li.append(rk, nk, vl); out.push(li);
+    });
+    list.replaceChildren(...out);
+    const me = list.querySelector('.me'); if (me) me.scrollIntoView({ block: 'nearest' });
+  }).catch(() => { if (req === lbReq) msg("Couldn't load the leaderboard. Check your connection."); });
+}
+$('lbOpen').addEventListener('click', () => openBoards());
+document.querySelectorAll('#lb [data-b]').forEach(t => t.addEventListener('click', () => {
+  lbBoard = t.dataset.b === 'win' ? 'win_' + (CPU[cfg.level] ? cfg.level : 'normal') : t.dataset.b; showBoard();
+}));
+document.querySelectorAll('input[name=lbLevel]').forEach(r => r.addEventListener('change', () => { lbBoard = 'win_' + r.value; showBoard(); }));
+$('lbSave').addEventListener('click', () => {
+  const c = checkNick($('lbNick').value);
+  if (c.err) { $('lbSay').textContent = c.err; return; }
+  lb.nick = c.nick; saveLb(); $('lbNick').value = c.nick;
+  $('lbSay').textContent = 'Saved. It shows up the next time you post a score.';
+});
+$('lbDone').addEventListener('click', () => { $('lb').hidden = true; openMenu(); });
+
+// After a game: offer to post new personal bests; CPU wins post on their own once you have a name
+let pending = null;
+function offerPost(board, value) {
+  if (!LB_ON || value < 1) return openMenu();
+  const win = board.startsWith('win_');
+  const lvl = board.slice(4).replace(/^./, c => c.toUpperCase());
+  if (win && lb.nick) {
+    openMenu();
+    postScore(board, 1).then(() => { $('status').textContent += ` Posted to the ${lvl} wins board.`; }).catch(() => {});
+    return;
+  }
+  if (!win && value <= Math.max(lb.posted[board] || 0, lb.offered[board] || 0)) return openMenu();
+  pending = { board, value };
+  paused = true; $('menu').hidden = true;
+  $('postT').textContent = win ? 'You won!' : 'New best!';
+  $('postS').textContent = win ? `Put this win on the ${lvl} wins board? After this, your wins post on their own.`
+    : board === 'streak' ? `Put your ${value}-kick streak on the leaderboard?`
+    : `Put your ${value} of 10 on the Fan Challenge board?`;
+  $('postNick').value = lb.nick; $('postSay').textContent = '';
+  $('post').hidden = false;
+}
+$('postSkip').addEventListener('click', () => {
+  if (pending && !pending.board.startsWith('win_')) { lb.offered[pending.board] = Math.max(lb.offered[pending.board] || 0, pending.value); saveLb(); }
+  pending = null; $('post').hidden = true; openMenu();
+});
+$('postForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  if (!pending) return;
+  const c = checkNick($('postNick').value);
+  if (c.err) { $('postSay').textContent = c.err; return; }
+  lb.nick = c.nick; saveLb();
+  const btn = $('postSend'); btn.disabled = true; btn.textContent = 'Posting…'; $('postSay').textContent = '';
+  try {
+    await postScore(pending.board, pending.value);
+    const board = pending.board; pending = null;
+    openBoards(board);
+    $('lbSay').textContent = 'Posted!';
+  } catch (err) { $('postSay').textContent = postErr(err); }
+  finally { btn.disabled = false; btn.textContent = 'Post it'; }
 });
 
 // ---------- sound ----------
@@ -1009,7 +1260,7 @@ function drawCarton(x, y, ang) {
 function proj(x, z, h) { const d = Math.max(5, z + ZC), k = F / d; return [L.cx + x * k, L.hz + (CAMH - h) * k, k]; }
 function drawKick() {
   const k = G.kick, b = k.ball, Zp = k.Zp, far = Zp + 95;
-  const def = G.mode === 'challenge' ? 1 : 1 - G.poss;
+  const def = solo() ? 1 : 1 - G.poss;
   ctx.save();
   ctx.translate((Math.random() - 0.5) * cam.shake * 2, (Math.random() - 0.5) * cam.shake * 2);
   const A = proj(-TW, far, 0), B = proj(TW, far, 0), Cn = proj(TW, -95, 0), D = proj(-TW, -95, 0);
@@ -1188,7 +1439,7 @@ function drawHands(Zp, def) {
   ctx.restore();
 }
 function drawKickBall() {
-  const k = G.kick, b = k.ball, team = G.mode === 'challenge' ? 0 : G.poss;
+  const k = G.kick, b = k.ball, team = solo() ? 0 : G.poss;
   const flying = G.state !== 'kaim';
   const [shx, shy, sk] = proj(b.x, b.z, 0);
   ctx.save(); ctx.fillStyle = `rgba(30,10,0,${0.3 * Math.max(0.2, 1 - b.h / 220)})`;
