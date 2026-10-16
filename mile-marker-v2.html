@@ -253,7 +253,7 @@ body[data-lit="off"] .radio-am { visibility: hidden; }
       </div>
       <div id="header-dest">
         <span id="route-name">Albuquerque</span>
-        <span id="odo-left">675</span>
+        <span id="odo-left"></span>
       </div>
     </div>
     <div id="milepost">
@@ -368,6 +368,7 @@ body[data-lit="off"] .radio-am { visibility: hidden; }
 <!-- Route 2 content. Its own file so there is one source of truth; the engine
      registers it only if it loaded, so the HTML still plays Route 1 alone. -->
 <script src="routes/deep-south.js"></script>
+<script src="routes/pacific-coast.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════
 // STATE — narrative flags + testable resource stats
@@ -428,6 +429,29 @@ if (typeof DEEP_SOUTH !== 'undefined' && DEEP_SOUTH && DEEP_SOUTH.nodes) {
     unfinished: true
   };
 }
+if (typeof PACIFIC_COAST !== 'undefined' && PACIFIC_COAST && PACIFIC_COAST.nodes) {
+  ROUTES[PACIFIC_COAST.id] = {
+    id: PACIFIC_COAST.id,
+    name: PACIFIC_COAST.name,
+    shield: 'US 101 SOUTH',
+    from: 'Astoria, OR',
+    to: 'San Francisco, CA',
+    destination: 'San Francisco',
+    blurb: 'Astoria → San Francisco — 721 miles',
+    label: 'Route 3',
+    road: 'US 101 South',
+    keepsakeFor: PACIFIC_COAST.keepsakeFor,
+    start: PACIFIC_COAST.start,
+    strandFallback: PACIFIC_COAST.strandReturnDefault,
+    miles: PACIFIC_COAST.miles,
+    tankPerMile: PACIFIC_COAST.tankPerMile,
+    radioBands: PACIFIC_COAST.radioBands,
+    radioSilent: PACIFIC_COAST.radioSilent,
+    endings: 3,
+    keepsakes: 3,
+    unfinished: true
+  };
+}
 const DEFAULT_ROUTE = 'southwest';
 // The route the player is on. Everything below asks this, not a literal.
 function R() { return ROUTES[(typeof state !== 'undefined' && state.route) || DEFAULT_ROUTE] || ROUTES[DEFAULT_ROUTE]; }
@@ -480,6 +504,7 @@ let state = {
   route: DEFAULT_ROUTE,
   miles: null,
   shield: null,
+  extra: 0,
   debugRolls: DEBUG_ROLLS
 };
 
@@ -2029,6 +2054,7 @@ const NODES = {
 // Route 2's scenes join the same node table. Same schema, same engine; the module
 // never touches mechanics.
 if (typeof DEEP_SOUTH !== 'undefined' && DEEP_SOUTH && DEEP_SOUTH.nodes) Object.assign(NODES, DEEP_SOUTH.nodes);
+if (typeof PACIFIC_COAST !== 'undefined' && PACIFIC_COAST && PACIFIC_COAST.nodes) Object.assign(NODES, PACIFIC_COAST.nodes);
 
 // ═══════════════════════════════════════════════════════
 // ENGINE
@@ -2201,11 +2227,13 @@ const BURN_SWING = 0.26, BURN_FLOOR = 0.87;      // 0.87 .. 1.13, centred on 1.0
                                                  // spread costs nothing on average
 function burnMod() { return BURN_FLOOR + runRand('burn') * BURN_SWING; }
 
-function mileageCost(nextNodeId) {
+function mileageCost(nextNodeId, addMiles) {
   const dest = NODES[nextNodeId];
   if (!dest || dest.mile == null) return { tank: 0, miles: 0 };
   const from = state.lastMile || 0;
-  const miles = Math.max(0, dest.mile - from);
+  // A detour that rejoins the road costs real distance the node graph cannot express,
+  // because the node it rejoins at has one mile on it for everybody.
+  const miles = Math.max(0, dest.mile - from) + (addMiles || 0);
   const leak = state.flags && state.flags.leaky_cap ? 1.12 : 1;
   const perMile = R().tankPerMile || TANK_PER_MILE;
   return { tank: -Math.round(miles * perMile * burnMod() * leak), miles };
@@ -2627,6 +2655,7 @@ function startGame() {
   state.heading = null;
   state.miles = null;
   state.shield = null;
+  state.extra = 0;
   noteRunStarted();
 
   document.getElementById('char-name').textContent = name;
@@ -2659,7 +2688,7 @@ function signRoute() {
 }
 
 function updateOdometer(mile) {
-  const total = state.miles || R().miles;
+  const total = (state.miles || R().miles) + (state.extra || 0);
   const pct = total ? Math.min(100, (mile / total) * 100) : 0;
   const track = document.getElementById('odo-track');
   if (track) track.style.visibility = total ? 'visible' : 'hidden';
@@ -2673,7 +2702,7 @@ function updateOdometer(mile) {
     const shown = Math.round(from + ((mile - from) * step / steps));
     el.textContent = shown;
     const left = document.getElementById('odo-left');
-    const total = state.miles || R().miles;
+    const total = (state.miles || R().miles) + (state.extra || 0);
     if (left) left.textContent = total ? Math.max(0, total - shown) : '';
     if (step >= steps) clearInterval(interval);
   }, 40);
@@ -2716,8 +2745,9 @@ function isNightNode(id, node) {
 // over its 675, so Route 1 ages within three miles of where it always did.
 function wearFor(mile) {
   if (mile == null) return document.body.dataset.wear || '0';
-  const total = (typeof state !== 'undefined' && (state.miles || R().miles)) || 675;
-  const f = total ? mile / total : 0;
+  const extra = (typeof state !== 'undefined' && state.extra) || 0;
+  const total = ((typeof state !== 'undefined' && (state.miles || R().miles)) || 675) + extra;
+  const f = total ? (mile + extra) / total : 0;
   return f < 0.296 ? '0' : f < 0.593 ? '1' : f < 0.815 ? '2' : '3';
 }
 function setSignage(id, node) {
@@ -2740,7 +2770,7 @@ function motionReduced() {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
 }
 // Bump this on every build that goes to testers, so "which one did you play?" has an answer.
-const BUILD = '2026-10-16.6';
+const BUILD = '2026-10-16.9';
 
 function startRadioTicker(block, tries) {
   if (block.dataset.started) return;
@@ -2812,7 +2842,7 @@ function loadNode(nodeId) {
   // Capture the distance BEFORE the mile marker advances — the radio needs to know
   // how far you just drove, and updating lastMile first makes that always zero.
   const _drove = node.mile != null ? Math.max(0, node.mile - (state.lastMile || 0)) : 0;
-  if (node.mile != null) { updateOdometer(node.mile); state.lastMile = node.mile; }
+  if (node.mile != null) { updateOdometer(node.mile + (state.extra || 0)); state.lastMile = node.mile; }
 
   document.getElementById('location-name').textContent = node.location;
 
@@ -2953,7 +2983,8 @@ function handleChoice(choice) {
   // Event first (a fill clamps at max), then the miles you actually drive.
   applyDeltas(result.deltas || {});
   const eventFx = state.lastEffects.slice();
-  const trip = mileageCost(result.next);
+  if (choice.addMiles) state.extra = (state.extra || 0) + choice.addMiles;
+  const trip = mileageCost(result.next, choice.addMiles);
   if (trip.tank) {
     applyDeltas({ tank: trip.tank }, trip.miles);
     state.lastEffects = eventFx.concat(state.lastEffects);
@@ -3108,6 +3139,7 @@ function restartSameRoute() {
     heading: null,
     miles: null,
     shield: null,
+    extra: 0,
     debugRolls: DEBUG_ROLLS
   };
   noteRunStarted();
@@ -3145,6 +3177,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (urlRoute) state.route = urlRoute;
   const blurb = document.getElementById('route-blurb');
   if (blurb) blurb.textContent = R().blurb;
+  const left0 = document.getElementById('odo-left');
+  if (left0) left0.textContent = R().miles || '';
   const rec = document.getElementById('record-slot');
   if (rec) rec.textContent = recordLine();
   const stamp = document.getElementById('build-stamp');
