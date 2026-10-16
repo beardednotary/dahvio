@@ -176,6 +176,13 @@ body{
 .how{background:rgba(0,0,0,.2);border-radius:14px;padding:9px 14px}
 .how summary{cursor:pointer;font:400 17px/1.3 var(--display);letter-spacing:.03em}
 .how ul{margin:8px 0 4px;padding-left:18px;font:700 14px/1.5 var(--body);color:#dcebf0}
+.level{display:flex;align-items:center;gap:6px;margin:-2px 0 4px}
+.level > span{margin-right:auto;font:800 13px/1 var(--body);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.level label{position:relative;cursor:pointer}
+.level input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.level label span{display:block;padding:8px 11px 9px;border:3px solid var(--outline);border-radius:12px;background:rgba(255,255,255,.08);font:400 15px/1 var(--display);letter-spacing:.02em}
+.level input:checked + span{background:var(--gold);color:var(--outline);box-shadow:0 3px 0 var(--outline)}
+.level input:focus-visible + span{outline:3px solid #fff;outline-offset:2px}
 .credit{margin:2px 0 0;text-align:center;color:var(--muted);font:700 13px/1.4 var(--body)}
 .credit a{color:var(--gold);text-decoration:none;border-bottom:1px solid currentColor}
 .card h2{margin:0;text-align:center;font:400 32px/1.1 var(--display);color:var(--gold);-webkit-text-stroke:5px var(--outline);paint-order:stroke fill;text-shadow:0 3px 0 var(--outline)}
@@ -224,6 +231,12 @@ body{
     <p class="blurb" id="status">Flick it. Hang it off the edge. Kick it through the fingers.</p>
     <button class="cbtn go" type="button" data-act="resume" id="resume" hidden>Resume <small>Back to the game</small></button>
     <button class="cbtn gold" type="button" data-act="cpu">Play vs CPU <small>First to 21</small></button>
+    <div class="level" role="radiogroup" aria-label="Computer difficulty">
+      <span>Computer</span>
+      <label><input type="radio" name="level" value="easy"><span>Easy</span></label>
+      <label><input type="radio" name="level" value="normal"><span>Normal</span></label>
+      <label><input type="radio" name="level" value="hard"><span>Hard</span></label>
+    </div>
     <button class="cbtn blue" type="button" data-act="pass">Pass &amp; Play <small>2 players, 1 phone</small></button>
     <button class="cbtn teal" type="button" data-act="challenge">Fan Challenge <small id="best">10 kicks</small></button>
     <label class="switch" for="fan"><input type="checkbox" id="fan"><span class="track"></span>Desk fan on extra points<em>HARD</em></label>
@@ -268,7 +281,7 @@ const TW = 158, R = 26, PXIN = 15, NUDGE = 175;
 const F = 470, ZC = 120, CAMH = 90, GRAV = 900, ELEV = 50 * Math.PI / 180;
 const POST = 54, CROSS = 40, TOPH = 118, BR = 14;
 
-const DEF = { fric: 620, flick: 0.36, kick: 0.38, fan: false, mute: false };
+const DEF = { fric: 620, flick: 0.36, kick: 0.38, fan: false, mute: false, level: 'normal' };
 const cfg = { ...DEF };
 try { Object.assign(cfg, JSON.parse(localStorage.getItem('pf-cfg') || '{}')); } catch (e) {}
 const saveCfg = () => { try { localStorage.setItem('pf-cfg', JSON.stringify(cfg)); } catch (e) {} };
@@ -495,25 +508,35 @@ function kickResult() {
 }
 
 // ---------- computer ----------
+// Mistake profiles, calibrated by simulating 4,000 drives each at default table grip:
+// touchdown on roughly 29% (easy), 48% (normal) and 72% (hard) of drives.
+// rel/abs: distance error (fraction of shot, plus px); ang: aim error (rad); layup: how far short it plays
+// an early long flick; aggro: chance it goes for it anyway; shy: tendency to under-hit.
+const CPU = {
+  easy:   { rel: 0.15, abs: 55, ang: 0.1,   layup: 60, aggro: 0.4, shy: 0.08, kickAng: 0.09,  kickSp: 0.06 },
+  normal: { rel: 0.08, abs: 25, ang: 0.06,  layup: 45, aggro: 0.2, shy: 0.03, kickAng: 0.065, kickSp: 0.05 },
+  hard:   { rel: 0.05, abs: 9,  ang: 0.035, layup: 40, aggro: 0.1, shy: 0,    kickAng: 0.045, kickSp: 0.04 },
+};
+const cpuP = () => CPU[cfg.level] || CPU.normal;
 function cpuSlide() {
   later(900, () => {
     if (G.state !== 'aim' || human()) return;
-    const b = G.ball, ty = L.edgeY + R * 0.3, tx = b.x * 0.5;
+    const p = cpuP(), b = G.ball, ty = L.edgeY + R * 0.3, tx = b.x * 0.5;
     const dx = tx - b.x, dy = ty - b.y, d = Math.hypot(dx, dy);
     let go = d;
-    if (G.down < 4 && d > 140) go = d - 38;            // lay up, then creep
-    go = Math.max(4, go * (1 + gauss() * (0.03 + d / 9000)) + gauss() * 5);
+    if (G.down < 4 && d > 140 && Math.random() > p.aggro) go = d - p.layup;   // lay up, then creep
+    go = Math.max(4, go * (1 - p.shy + gauss() * (p.rel + d / 9000)) + gauss() * p.abs);
     const v = Math.sqrt(2 * cfg.fric * go);
-    const ang = Math.atan2(dy, dx) + gauss() * 0.03;
+    const ang = Math.atan2(dy, dx) + gauss() * p.ang;
     launch(Math.cos(ang) * v, Math.sin(ang) * v, go < 30);
   });
 }
 function cpuKick() {
   later(1100, () => {
     if (G.state !== 'kaim' || human()) return;
-    const k = G.kick, v = 760 * (1 + gauss() * 0.04);
+    const p = cpuP(), k = G.kick, v = 760 * (1 + gauss() * p.kickSp);
     const t = k.Zp / (v * Math.cos(ELEV)), drift = 0.5 * windNow() * t * t * 0.8;
-    kickWorld(v, Math.atan2(-drift, k.Zp) + gauss() * 0.04);
+    kickWorld(v, Math.atan2(-drift, k.Zp) + gauss() * p.kickAng);
   });
 }
 
@@ -623,6 +646,7 @@ function openMenu() {
   $('resume').hidden = !(G && !G.over);
   $('best').textContent = best ? `Best ${best}/10` : '10 kicks';
   $('fan').checked = !!cfg.fan;
+  document.querySelectorAll('input[name=level]').forEach(r => { r.checked = r.value === (CPU[cfg.level] ? cfg.level : 'normal'); });
   $('menu').hidden = false;
 }
 function closeSheets() { $('menu').hidden = true; $('tune').hidden = true; paused = false; }
@@ -634,6 +658,7 @@ $('menu').addEventListener('click', e => {
   if (a !== 'resume') newGame(a);
 });
 $('fan').addEventListener('change', e => { cfg.fan = e.target.checked; saveCfg(); });
+document.querySelectorAll('input[name=level]').forEach(r => r.addEventListener('change', () => { cfg.level = r.value; saveCfg(); }));
 $('menuBtn').addEventListener('click', openMenu);
 $('tuneBtn').addEventListener('click', () => { paused = true; syncTune(); $('tune').hidden = false; });
 $('done').addEventListener('click', () => { $('tune').hidden = true; if ($('menu').hidden) paused = false; });
