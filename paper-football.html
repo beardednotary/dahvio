@@ -306,7 +306,7 @@ function resize() {
   L.cx = W / 2;
   L.edgeY = 112 + probeT.offsetHeight / S;
   L.startY = L.edgeY + Math.min(450, H - L.edgeY - 84 - probeB.offsetHeight / S);
-  L.hz = Math.max(L.edgeY + 40, H * 0.7 - CAMH * F / ZC);
+  L.hz = Math.max(L.edgeY + 40, H * 0.74 - CAMH * F / ZC);
   L.woodH = H - L.edgeY + 240;
   cam.ax = cam.fx = L.cx; cam.ay = cam.fy = L.edgeY + 200; cam.z = 1;
   if (G && G.ball) { const d = L.edgeY - oldEdge; G.ball.y += d; if (G.spot) G.spot.y += d; }
@@ -908,7 +908,6 @@ function drawKick() {
   ctx.translate((Math.random() - 0.5) * cam.shake * 2, (Math.random() - 0.5) * cam.shake * 2);
   const A = proj(-TW, far, 0), B = proj(TW, far, 0), Cn = proj(TW, -95, 0), D = proj(-TW, -95, 0);
   drawBackdrop(A[1]);
-  drawOpponent(Zp, def);
   ctx.save();
   ctx.beginPath(); ctx.moveTo(A[0], A[1]); ctx.lineTo(B[0], B[1]); ctx.lineTo(Cn[0], Cn[1]); ctx.lineTo(D[0], D[1]); ctx.closePath();
   let g = ctx.createLinearGradient(0, A[1], 0, H);
@@ -935,6 +934,9 @@ function drawKick() {
   ctx.restore();
   ctx.lineCap = 'round'; ctx.strokeStyle = C.lip; ctx.lineWidth = 4; line(A[0], A[1] + 2, B[0], B[1] + 2);
   ctx.strokeStyle = C.outline; ctx.lineWidth = 2.5; line(A[0] - 30, A[1], B[0] + 30, B[1]);
+  // arms first, then the body over their tops so they hang from the shoulders; the body stops at the table edge
+  drawArms(Zp, def);
+  ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, A[1]); ctx.clip(); drawOpponent(Zp, def); ctx.restore();
 
   if (b.z >= Zp) { drawKickBall(); drawHands(Zp, def); } else { drawHands(Zp, def); drawKickBall(); }
   if (k.fan) drawFan();
@@ -968,21 +970,76 @@ function drawBackdrop(fy) {
   for (let y = ty + 18; y < fy; y += 18) line(0, y, W, y);
   ctx.fillStyle = '#1f6f72'; ctx.fillRect(0, ty - 5, W, 6);
 }
+// The opponent: a kid in a hoodie sitting across the table, seen from the chest up.
+const OPP_Z = 150, HAIR = '#3b2a20';
+const OPP_DROP = 20;                                   // seat the kid lower so the head clears the scoreboard
+function oppShoulder(s) { return [s * 108, 108 - OPP_DROP]; }
+// Upper arms hang from the shoulders, elbows rest on the table, forearms rise to the hands.
+function drawArms(Zp, def) {
+  const hood = def ? C.p2 : C.p1, lw = Math.max(1.6, 3 * proj(0, Zp, 0)[2]);
+  ctx.save(); ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  const seg = (a, b, w) => {
+    const p0 = proj(a[0], a[1], a[2]), p1 = proj(b[0], b[1], b[2]), ww = w * (p0[2] + p1[2]) / 2;
+    ctx.strokeStyle = C.outline; ctx.lineWidth = ww + lw * 2; line(p0[0], p0[1], p1[0], p1[1]);
+    ctx.strokeStyle = hood; ctx.lineWidth = ww; line(p0[0], p0[1], p1[0], p1[1]);
+  };
+  for (const s of [-1, 1]) {
+    const [sx, sh] = oppShoulder(s);
+    const shoulder = [sx, Zp + OPP_Z, sh], elbow = [s * (POST + 72), Zp + 55, 8], wrist = [s * (POST + 30), Zp + 2, 6];
+    seg(shoulder, elbow, 36);
+    seg(elbow, wrist, 31);
+    const e = proj(elbow[0], elbow[1], elbow[2]);                 // elbow cap hides the joint seam
+    ctx.fillStyle = hood; ctx.beginPath(); ctx.arc(e[0], e[1], 15.5 * e[2], 0, 7); ctx.fill();
+  }
+  ctx.restore();
+}
 function drawOpponent(Zp, def) {
-  const [, by, k] = proj(0, Zp + 140, 0);
-  const X = x => L.cx + x * k, Y = h => by - h * k;
+  const [, by, k] = proj(0, Zp + OPP_Z, 0);
+  const X = x => L.cx + x * k, Y = h => by - (h - OPP_DROP) * k;
   const hood = def ? C.p2 : C.p1;
-  ctx.save(); ctx.lineJoin = 'round';
-  rr(X(-140), Y(360), 280 * k, 400 * k, 90 * k);
+  ctx.save(); ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.strokeStyle = C.outline; ctx.lineWidth = 3 * k;
+  // hood bunched behind the neck
+  ctx.fillStyle = hood; ctx.beginPath(); ctx.ellipse(X(0), Y(140), 50 * k, 15 * k, 0, 0, 7); fillStroke();
+  ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.fill();
+  // torso with rounded shoulders and a collar dip
+  ctx.beginPath();
+  ctx.moveTo(X(-130), Y(-30)); ctx.lineTo(X(-130), Y(84));
+  ctx.quadraticCurveTo(X(-131), Y(124), X(-94), Y(128));
+  ctx.lineTo(X(-34), Y(136));
+  ctx.quadraticCurveTo(X(0), Y(122), X(34), Y(136));
+  ctx.lineTo(X(94), Y(128));
+  ctx.quadraticCurveTo(X(131), Y(124), X(130), Y(84));
+  ctx.lineTo(X(130), Y(-30)); ctx.closePath();
   ctx.fillStyle = hood; ctx.fill();
-  const g = ctx.createLinearGradient(X(-140), 0, X(140), 0);
-  g.addColorStop(0, 'rgba(0,0,0,.18)'); g.addColorStop(1, 'rgba(0,0,0,.36)');
-  ctx.fillStyle = g; ctx.fill();
-  ctx.strokeStyle = C.outline; ctx.lineWidth = 3 * k; ctx.stroke();
-  ctx.strokeStyle = 'rgba(0,0,0,.22)'; ctx.lineWidth = 3 * k;
-  rr(X(-85), Y(130), 170 * k, 80 * k, 34 * k); ctx.stroke();
-  ctx.strokeStyle = '#fff7ea'; ctx.lineCap = 'round'; ctx.lineWidth = 4 * k;
-  line(X(-24), Y(330), X(-30), Y(250)); line(X(24), Y(330), X(30), Y(250));
+  let g = ctx.createLinearGradient(X(-130), 0, X(130), 0);
+  g.addColorStop(0, 'rgba(255,255,255,.1)'); g.addColorStop(0.55, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,.22)');
+  ctx.fillStyle = g; ctx.fill(); ctx.stroke();
+  // drawstrings
+  ctx.save(); ctx.strokeStyle = '#fff7ea'; ctx.lineWidth = 3 * k;
+  line(X(-11), Y(127), X(-13), Y(92)); line(X(11), Y(127), X(13), Y(92));
+  ctx.restore();
+  // neck, ears, head
+  const hx = X(0), hy = Y(188), rad = 56 * k;
+  g = ctx.createLinearGradient(hx - rad, 0, hx + rad, 0); g.addColorStop(0, C.skin); g.addColorStop(1, C.skin2);
+  ctx.fillStyle = C.skin2; rr(X(-13), Y(160), 26 * k, 34 * k, 6 * k); fillStroke();
+  ctx.fillStyle = g;
+  for (const s of [-1, 1]) { ctx.beginPath(); ctx.arc(hx + s * rad * 0.97, hy + rad * 0.12, rad * 0.2, 0, 7); fillStroke(); }
+  ctx.beginPath(); ctx.arc(hx, hy, rad, 0, 7); fillStroke();
+  // hair: a cap over the top with a swoopy fringe
+  ctx.beginPath();
+  ctx.arc(hx, hy, rad * 1.05, Math.PI * 0.93, Math.PI * 2.07);
+  ctx.quadraticCurveTo(hx + rad * 0.6, hy - rad * 0.2, hx + rad * 0.2, hy - rad * 0.45);
+  ctx.quadraticCurveTo(hx - rad * 0.15, hy - rad * 0.2, hx - rad * 0.5, hy - rad * 0.42);
+  ctx.quadraticCurveTo(hx - rad * 0.85, hy - rad * 0.15, hx + Math.cos(Math.PI * 0.93) * rad * 1.05, hy + Math.sin(Math.PI * 0.93) * rad * 1.05);
+  ctx.closePath(); ctx.fillStyle = HAIR; fillStroke();
+  // face
+  ctx.fillStyle = C.outline;
+  for (const s of [-1, 1]) { ctx.beginPath(); ctx.ellipse(hx + s * rad * 0.32, hy + rad * 0.1, rad * 0.085, rad * 0.13, 0, 0, 7); ctx.fill(); }
+  ctx.fillStyle = '#ffffff';
+  for (const s of [-1, 1]) { ctx.beginPath(); ctx.arc(hx + s * rad * 0.32 + rad * 0.03, hy + rad * 0.05, rad * 0.035, 0, 7); ctx.fill(); }
+  ctx.fillStyle = 'rgba(240,110,110,.28)';
+  for (const s of [-1, 1]) { ctx.beginPath(); ctx.arc(hx + s * rad * 0.55, hy + rad * 0.38, rad * 0.14, 0, 7); ctx.fill(); }
+  ctx.lineWidth = 2.6 * k; ctx.beginPath(); ctx.arc(hx, hy + rad * 0.3, rad * 0.24, Math.PI * 0.2, Math.PI * 0.8); ctx.stroke();
   ctx.restore();
 }
 function drawHands(Zp, def) {
@@ -990,13 +1047,6 @@ function drawHands(Zp, def) {
   const X = x => L.cx + x * k, Y = h => by - h * k;
   const lw = Math.max(1.6, 3 * k), hood = def ? C.p2 : C.p1;
   ctx.save(); ctx.lineJoin = 'round'; ctx.lineCap = 'round';
-  const seg = (x0, z0, h0, x1, z1, h1, w) => {
-    const p0 = proj(x0, z0, h0), p1 = proj(x1, z1, h1), ww = w * (p0[2] + p1[2]) / 2;
-    ctx.strokeStyle = C.outline; ctx.lineWidth = ww + lw * 2; line(p0[0], p0[1], p1[0], p1[1]);
-    ctx.strokeStyle = hood; ctx.lineWidth = ww; line(p0[0], p0[1], p1[0], p1[1]);
-  };
-  for (const s of [-1, 1]) seg(s * 132, Zp + 135, 190, s * 150, Zp + 72, 18, 34);
-  for (const s of [-1, 1]) seg(s * 150, Zp + 72, 18, s * (POST + 34), Zp + 6, 6, 32);
   // The holder faces the kicker, so we see palms: index finger up as the upright, thumb pointing in as
   // half the crossbar, the other three fingers curled into the palm. Local x is measured outward from the upright.
   const crease = 'rgba(120,55,20,.5)';
