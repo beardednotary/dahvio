@@ -135,13 +135,13 @@ body{
 
 /* Menus */
 .sheet{
-  position:fixed;inset:0;z-index:10;display:grid;place-items:center;overflow:auto;touch-action:pan-y;
+  position:fixed;inset:0;z-index:10;display:grid;overflow:auto;touch-action:pan-y;
   background:rgba(8,20,26,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
   padding-block:calc(env(safe-area-inset-top,0px) + 16px) calc(env(safe-area-inset-bottom,0px) + 16px);
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
 }
 .card{
-  width:min(100%,360px);box-sizing:border-box;display:grid;gap:12px;padding:22px 18px 20px;
+  width:min(100%,360px);box-sizing:border-box;display:grid;gap:12px;padding:22px 18px 20px;margin:auto;
   background:linear-gradient(180deg,var(--panel2),var(--panel));
   border:3px solid var(--outline);border-radius:26px;box-shadow:0 8px 0 var(--outline),0 26px 60px rgba(0,0,0,.5);
 }
@@ -183,6 +183,26 @@ body{
 .level label span{display:block;padding:8px 11px 9px;border:3px solid var(--outline);border-radius:12px;background:rgba(255,255,255,.08);font:400 15px/1 var(--display);letter-spacing:.02em}
 .level input:checked + span{background:var(--gold);color:var(--outline);box-shadow:0 3px 0 var(--outline)}
 .level input:focus-visible + span{outline:3px solid #fff;outline-offset:2px}
+.q{border:0;margin:0;padding:0;min-width:0}
+.q legend{padding:0;margin-bottom:8px;font:800 14px/1.3 var(--body)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips label{position:relative;cursor:pointer}
+.chips input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.chips span{display:block;padding:8px 11px 9px;border:3px solid var(--outline);border-radius:12px;background:rgba(255,255,255,.08);font:800 14px/1 var(--body)}
+.chips input:checked + span{background:var(--gold);color:var(--outline);box-shadow:0 3px 0 var(--outline)}
+.chips input:focus-visible + span{outline:3px solid #fff;outline-offset:2px}
+.field{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:-6px;font:800 14px/1.3 var(--body)}
+.field small{font:700 12px var(--body);color:var(--muted)}
+.card textarea,.card input[type=text]{
+  width:100%;box-sizing:border-box;padding:10px 12px;resize:vertical;
+  border:3px solid var(--outline);border-radius:14px;background:rgba(0,0,0,.28);color:#fff;
+  font:700 16px/1.4 var(--body);-webkit-user-select:text;user-select:text;
+}
+.card textarea::placeholder,.card input[type=text]::placeholder{color:rgba(255,255,255,.45)}
+.card textarea:focus,.card input[type=text]:focus{outline:3px solid var(--gold);outline-offset:1px}
+.fine{margin:0;font:700 12px/1.4 var(--body);color:var(--muted)}
+#fbStatus{margin:0;font:800 14px/1.4 var(--body);color:var(--gold)}
+#fbStatus:empty{display:none}
 .credit{margin:2px 0 0;text-align:center;color:var(--muted);font:700 13px/1.4 var(--body)}
 .credit a{color:var(--gold);text-decoration:none;border-bottom:1px solid currentColor}
 .card h2{margin:0;text-align:center;font:400 32px/1.1 var(--display);color:var(--gold);-webkit-text-stroke:5px var(--outline);paint-order:stroke fill;text-shadow:0 3px 0 var(--outline)}
@@ -250,8 +270,45 @@ body{
         <li>After a touchdown, flick it through the finger posts for 1.</li>
       </ul>
     </details>
+    <button class="cbtn plain" type="button" id="fbOpen" hidden>Send feedback</button>
     <p class="credit">A <a href="https://dahvio.com">DahVio Studios</a> game · iPhone app in the works</p>
   </div>
+</section>
+
+<section id="fb" class="sheet" hidden>
+  <form class="card" id="fbForm" novalidate>
+    <h2>Send feedback</h2>
+    <p class="blurb">Tap whatever fits and add anything else. It goes straight to Ray.</p>
+    <fieldset class="q"><legend>How did flicking feel?</legend><div class="chips">
+      <label><input type="radio" name="flick" value="Too slippery"><span>Too slippery</span></label>
+      <label><input type="radio" name="flick" value="Just right"><span>Just right</span></label>
+      <label><input type="radio" name="flick" value="Too sticky"><span>Too sticky</span></label>
+    </div></fieldset>
+    <fieldset class="q"><legend>The computer was…</legend><div class="chips">
+      <label><input type="radio" name="computer" value="Too easy"><span>Too easy</span></label>
+      <label><input type="radio" name="computer" value="Fair"><span>Fair</span></label>
+      <label><input type="radio" name="computer" value="Too hard"><span>Too hard</span></label>
+    </div></fieldset>
+    <fieldset class="q"><legend>Anything confusing?</legend><div class="chips">
+      <label><input type="checkbox" name="confusing" value="Aiming flicks"><span>Aiming flicks</span></label>
+      <label><input type="checkbox" name="confusing" value="How to score"><span>How to score</span></label>
+      <label><input type="checkbox" name="confusing" value="Tap to nudge"><span>Tap to nudge</span></label>
+      <label><input type="checkbox" name="confusing" value="Extra point kick"><span>Extra point kick</span></label>
+      <label><input type="checkbox" name="confusing" value="Fan challenge"><span>Fan challenge</span></label>
+    </div></fieldset>
+    <fieldset class="q"><legend>Would you play again?</legend><div class="chips">
+      <label><input type="radio" name="again" value="Yes"><span>Yes</span></label>
+      <label><input type="radio" name="again" value="Maybe"><span>Maybe</span></label>
+      <label><input type="radio" name="again" value="No"><span>No</span></label>
+    </div></fieldset>
+    <label class="field" for="fbMsg">Anything else?</label>
+    <textarea id="fbMsg" name="message" rows="3" maxlength="2000" placeholder="What you liked, what bugged you, ideas…"></textarea>
+    <label class="field" for="fbName">Your name <small>optional</small></label>
+    <input id="fbName" name="name" type="text" maxlength="60" autocomplete="name" placeholder="So Ray knows who said it">
+    <p class="fine">Also sends your difficulty, Tune settings, score and device type, so Ray can match feedback to how you played.</p>
+    <p id="fbStatus" role="status"></p>
+    <div class="row"><button class="cbtn plain" type="button" id="fbCancel">Cancel</button><button class="cbtn gold" type="submit" id="fbSend">Send</button></div>
+  </form>
 </section>
 
 <section id="tune" class="sheet" hidden>
@@ -670,6 +727,54 @@ function syncTune() {
   $('fricV').textContent = cfg.fric; $('flickV').textContent = cfg.flick.toFixed(2); $('kickV').textContent = cfg.kick.toFixed(2);
   $('mute').checked = !!cfg.mute;
 }
+
+// ---------- feedback ----------
+// Submissions go to Ray's Formspree form. Only offered on dahvio.com (and local testing),
+// since other hosts block the request.
+const FEEDBACK_URL = 'https://formspree.io/f/xaeqagyj';
+const canSendFeedback = /(^|\.)dahvio\.com$|^localhost$|^127\.0\.0\.1$/.test(location.hostname);
+$('fbOpen').hidden = !canSendFeedback;
+const fbStatus = t => { $('fbStatus').textContent = t; };
+$('fbOpen').addEventListener('click', () => { $('menu').hidden = true; fbStatus(''); $('fb').hidden = false; });
+$('fbCancel').addEventListener('click', () => { $('fb').hidden = true; openMenu(); });
+function feedbackData() {
+  const fd = new FormData($('fbForm')), name = (fd.get('name') || '').trim();
+  const game = !G ? 'Not played yet'
+    : G.mode === 'challenge' ? `Fan challenge, ${G.ch.made} of ${G.ch.i} made`
+    : `${G.mode === 'cpu' ? 'vs CPU' : 'Pass & play'}, ${G.score[0]} to ${G.score[1]}${G.over ? ' (final)' : ''}`;
+  return {
+    _subject: 'Paper Football feedback' + (name ? ` from ${name}` : ''),
+    flick: fd.get('flick') || '',
+    computer: fd.get('computer') || '',
+    confusing: fd.getAll('confusing').join(', '),
+    play_again: fd.get('again') || '',
+    message: (fd.get('message') || '').trim(),
+    name,
+    difficulty: cfg.level,
+    tune: `grip ${cfg.fric}, flick ${cfg.flick}, kick ${cfg.kick}`,
+    game,
+    fan_best: best ? `${best} of 10` : '',
+    screen: `${innerWidth}x${innerHeight}`,
+    device: navigator.userAgent,
+  };
+}
+$('fbForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const data = feedbackData();
+  if (!data.flick && !data.computer && !data.confusing && !data.play_again && !data.message) {
+    fbStatus('Tap at least one answer or write a note first.'); return;
+  }
+  const btn = $('fbSend'); btn.disabled = true; btn.textContent = 'Sending…'; fbStatus('');
+  try {
+    const res = await fetch(FEEDBACK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) });
+    if (!res.ok) throw new Error(res.status);
+    $('fbForm').reset();
+    fbStatus('Thanks! Your feedback is on its way to Ray.');
+    setTimeout(() => { if (!$('fb').hidden) { $('fb').hidden = true; openMenu(); } }, 1800);
+  } catch (err) {
+    fbStatus("Couldn't send that. Check your connection and try again.");
+  } finally { btn.disabled = false; btn.textContent = 'Send'; }
+});
 
 // ---------- sound ----------
 let AC = null;
