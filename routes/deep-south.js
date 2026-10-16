@@ -58,7 +58,7 @@ const DEEP_SOUTH = {
       "The station comes in before you're out of the county. Cotton futures. A man reads them like he's reading them to the cotton.",
       "A gospel quartet, live or close to it. The bass singer is a half-step under everybody and nobody's fixing it.",
       "A boil-water notice for a county. He gives the county and he gives the reason and the reason is 'precautionary,' and that's the whole notice.",
-      (m) => `The river stage. Memphis, then Helena, then Greenville. You're ${m < 140 ? 'not to Greenville yet' : 'at Greenville'}. The number for Greenville is higher than the other two.`
+      "The river stage for three towns, read in the order the water comes to them. He gets the middle one wrong, says so, and starts over from the top. The last number is the biggest and he reads it the same as the others."
     ]},
     { from: 150, to: 300, lines: [
       "A lost dog. Brown, some white, answers to a name. The description goes on longer than a dog needs — a scar, a way of holding one ear, a habit with screen doors. Whoever wrote it had time.",
