@@ -19,6 +19,10 @@ DahVio Studios is an independent software studio founded by Ray Ro. The studio p
 - [MySocialBattery](https://mysocialbattery.app): Social energy tracking app for introverts.
 - [SplitSecond Pay](https://splitsecondpay.com): iOS bill-splitting app for real-world use.
 
+## Games
+
+- [Paper Football](https://dahvio.com/paper-football): Free browser game of tabletop paper football. Swipe to flick the folded note, hang it off the far edge for a touchdown, and kick extra points through finger goalposts. Play the computer, pass and play with a friend, or try the desk-fan kicking challenge. iPhone version in development.
+
 ## Chrome Extensions
 
 - [LoadOut](https://loadout.page): Project workspaces for Chrome. Turns the new tab into a home base for your projects, with each project's links, saved tabs, modes and next step one click away. No account; data stays in the browser.
