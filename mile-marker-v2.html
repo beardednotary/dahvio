@@ -2131,8 +2131,10 @@ function radioSeed(id) {
 }
 
 // A line may be a plain string, a function of the current mile, or an object:
-//   { text, sets: 'flag' }   sets a flag when it plays
-//   { text, needs: 'flag' }  only plays if that flag is already set
+//   { text, sets: 'flag' }     sets a flag when it plays
+//   { text, needs: 'flag' }    only plays if that flag is already set
+//   { text, needsNot: 'flag' } only plays if that flag is NOT set — for a line that
+//                              stops being true once the route forks away from it
 // A callback line the player has no memory of is just a line, so `needs` skips
 // past it rather than wasting the slot.
 function radioResolve(entry, mile) {
@@ -2177,6 +2179,7 @@ function radioLine(node, milesDriven) {
   for (let i = 0; i < band.lines.length; i++) {
     const entry = radioResolve(band.lines[(seed + i) % band.lines.length], node.mile);
     if (entry.needs && !state.flags[entry.needs]) continue;
+    if (entry.needsNot && state.flags[entry.needsNot]) continue;
     if (!unheard(entry.text)) continue;
     return play(entry.text);
   }
@@ -2732,7 +2735,7 @@ function motionReduced() {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
 }
 // Bump this on every build that goes to testers, so "which one did you play?" has an answer.
-const BUILD = '2026-10-16.4';
+const BUILD = '2026-10-16.5';
 
 function startRadioTicker(block, tries) {
   if (block.dataset.started) return;

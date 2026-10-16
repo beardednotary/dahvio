@@ -69,7 +69,7 @@ const DEEP_SOUTH = {
     { from: 300, to: 430, lines: [
       "A preacher, mid-sermon, on how far a man can travel before he's actually gone anywhere. You've heard it. You can't place where. He doesn't finish it.",
       "The hog report. Barrows and gilts. A long pause with the mic open — you can hear a fan going in the room — and then the same numbers again.",
-      "A weather report for Shelby County, Tennessee. Where you started. Highs in the nineties. It's night and you're four hundred miles south of there.",
+      "A weather report for Shelby County, Tennessee. Where you started. Highs in the nineties tomorrow, read like somebody there is listening for it.",
       "A woman reads a list of names. First and last. No reason given. Eleven of them, and then a hymn.",
       // The only check-free, conduct-free way to learn the river is there at all.
       { text: "River stages, read as part of a longer list. He gets to the Pascagoula and says it twice — once the way it is spelled and once the way people down there say it — and goes straight on to the next one.", sets: 'heard_of_the_river' },
@@ -78,10 +78,13 @@ const DEEP_SOUTH = {
       { text: "An abandoned vehicle advisory. A pickup, make and colour, left at a pump on Lamar Avenue in Memphis. Owner is asked to contact. He reads the plate twice because he misreads it the first time.", needs: 'asked_pickup' }
     ]},
     { from: 430, to: 600, lines: [
-      "The tide table for Mobile Bay. Tonight. High at 11:40, he says, and you look at the clock, and you're going to be on the causeway around then.",
-      "Road closures. One of them is 98 at the bay. He says it's been closed since Tuesday. You're on 98.",
-      "Livestock prices. Feeder cattle, slaughter cows. The numbers are the same numbers. You couldn't say what you mean by that.",
+      { text: "The tide table for Mobile Bay. Tonight. High at 11:40, he says, and you look at the clock, and you're going to be on the causeway around then.", needsNot: 'left_98' },
+      { text: "Road closures. One of them is 98 at the bay. He says it's been closed since Tuesday. You're on 98.", needsNot: 'left_98' },
+      "A marine forecast, read for people on boats. Seas two feet or less, wind out of the southeast, and a small craft advisory he cancels in the next sentence without saying who cancelled it.",
       "A swap meet. Saturday, eight to two. He gives the town, and it's a town you drove through this morning, and it's behind you.",
+      // The two roads off 98 get their own water. Neither names a town.
+      { text: "A man reads the shrimp prices. Count per pound, and then the boats that brought them in. The list of boats takes longer than the list of prices and he does not hurry it.", needs: 'left_98' },
+      { text: "A bridge opening. He gives the hour and he gives the river and he says it will be up twenty minutes. He does not say which bridge. Everybody listening knows which bridge.", needs: 'left_98' },
       // Pays off calling it in at the crossroads on 49W.
       { text: "A sheriff's department thanks the public for its cooperation and says the matter on the county line is closed. He does not say what the matter was. The next thing is a feed store.", needs: 'called_checkpoint' }
     ]}
@@ -1118,8 +1121,8 @@ const DEEP_SOUTH = {
     },
     choices: [
       { text: "East on 98", sub: "Mobile. The city, the bay, the bridge across it. The road you were already on.", type: "neutral", next: "ds_012" },
-      { text: "South on 63", sub: "Pascagoula. A shipyard town on a river with a story attached to it.", type: "neutral", showIf: (s) => !!(s.flags.loyce_spoke || s.flags.bude_warned || s.flags.loyce_kind || s.flags.heard_of_the_river), next: "ds_p1" },
-      { text: "Southwest on 49, and then west", sub: "The Pass. No city at the end of it. That appears to be the entire recommendation.", type: "neutral", showIf: (s) => !!s.flags.stayed_natchez, next: "ds_b1" }
+      { text: "South on 63", sub: "Pascagoula. A shipyard town on a river with a story attached to it.", type: "neutral", showIf: (s) => !!(s.flags.loyce_spoke || s.flags.bude_warned || s.flags.loyce_kind || s.flags.heard_of_the_river), flags: { left_98: true }, next: "ds_p1" },
+      { text: "Southwest on 49, and then west", sub: "The Pass. No city at the end of it. That appears to be the entire recommendation.", type: "neutral", showIf: (s) => !!s.flags.stayed_natchez, flags: { left_98: true }, next: "ds_b1" }
     ]
   },
 
