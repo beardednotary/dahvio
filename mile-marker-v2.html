@@ -2710,10 +2710,15 @@ function isNightNode(id, node) {
   if (node.mile == null) return document.body.dataset.time === 'night';
   return false;
 }
-// Signs age by mile band: crisp out of Barstow, chalky by the state line.
+// Signs age with how far along the road you are: crisp out of Barstow, chalky by the
+// state line. A fraction rather than a mile, so a 721-mile route does not go fully
+// weathered with 170 miles still to drive. The thresholds are Route 1's old 200/400/550
+// over its 675, so Route 1 ages within three miles of where it always did.
 function wearFor(mile) {
   if (mile == null) return document.body.dataset.wear || '0';
-  return mile < 200 ? '0' : mile < 400 ? '1' : mile < 550 ? '2' : '3';
+  const total = (typeof state !== 'undefined' && (state.miles || R().miles)) || 675;
+  const f = total ? mile / total : 0;
+  return f < 0.296 ? '0' : f < 0.593 ? '1' : f < 0.815 ? '2' : '3';
 }
 function setSignage(id, node) {
   document.body.dataset.time = isNightNode(id, node) ? 'night' : 'day';
@@ -2735,7 +2740,7 @@ function motionReduced() {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
 }
 // Bump this on every build that goes to testers, so "which one did you play?" has an answer.
-const BUILD = '2026-10-16.5';
+const BUILD = '2026-10-16.6';
 
 function startRadioTicker(block, tries) {
   if (block.dataset.started) return;
