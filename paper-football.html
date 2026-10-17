@@ -63,7 +63,7 @@
   --p1:#2f7cf6; --p2:#ef4b3f; --gold:#ffc93c; --teal:#1fb3a2; --go:#5fd35d;
   --metal:#3d5866; --blade:#8fd3f2;
   --wall:#f7e2b8; --wall2:#ebc48a; --tile:#2b8a8e;
-  --panel:#132b35; --panel2:#1c4351; --muted:#a9c6cf;
+  --panel:#132b35; --panel2:#1c4351; --muted:#a9c6cf; --plum:#8f63ea;
   --display:"Lilita One","Arial Black",sans-serif;
   --body:"Nunito",system-ui,-apple-system,sans-serif;
   color-scheme:dark;
@@ -111,6 +111,8 @@ body{
 #dots i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.18);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5)}
 #dots i.used{background:var(--gold);box-shadow:none}
 #dots i.now{background:#fff;box-shadow:0 0 0 2px rgba(255,201,60,.6)}
+#dots i.x{background:var(--p2);box-shadow:inset 0 0 0 1.5px #fff}
+#dots i.gone{display:none}
 
 #tip{
   position:fixed;z-index:4;pointer-events:none;left:50%;transform:translateX(-50%);
@@ -165,6 +167,23 @@ body{
 .blue{background:var(--p1);color:#fff}
 .teal{background:var(--teal);color:#fff}
 .red{background:var(--p2);color:#fff}
+.plum{background:var(--plum);color:#fff}
+/* Kicking modes sit side by side as three chunky tiles */
+.sub{margin:2px 0 -4px;font:800 13px/1 var(--body);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.kicks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.kicks .cbtn{flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:12px 4px 11px;font-size:19px;text-align:center}
+.kicks .cbtn small{text-align:center;font-size:12px}
+/* Challenge result: you vs them, the HUD scoreboard blown up */
+.duel{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px}
+.duel > div{display:grid;justify-items:center;gap:2px;padding:10px 6px 12px;border:3px solid var(--outline);border-radius:18px;box-shadow:0 5px 0 var(--outline);min-width:0}
+.duel span{font:400 14px/1.1 var(--display);letter-spacing:.05em;text-transform:uppercase;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.duel b{font:400 40px/1 var(--display);font-weight:400;text-shadow:0 3px 0 rgba(0,0,0,.28);font-variant-numeric:tabular-nums}
+.duel i{font:400 18px/1 var(--display);font-style:normal;color:var(--gold);-webkit-text-stroke:4px var(--outline);paint-order:stroke fill}
+.duel.one{grid-template-columns:minmax(0,190px);justify-content:center}
+#chalBtn{font-size:21px;white-space:nowrap}
+#chalSay{-webkit-user-select:text;user-select:text;text-align:center}
+.duel .lead{box-shadow:0 5px 0 var(--outline),inset 0 -7px 0 var(--gold)}
+.pill{justify-self:center;margin:0;background:rgba(0,0,0,.28);border-radius:999px;padding:6px 14px 7px;font:800 14px/1.3 var(--body);text-align:center}
 .plain{background:var(--panel2);color:#fff;justify-content:center}
 .switch{position:relative;display:flex;align-items:center;gap:12px;cursor:pointer;padding:4px 2px;font:800 15px/1.3 var(--body)}
 .switch input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
@@ -217,7 +236,7 @@ body{
 .plain svg{width:22px;height:22px;flex:none;align-self:center;margin-right:-2px}
 
 /* Leaderboards: candy tabs, then a ranked list where your own row glows gold */
-.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .tabs button{cursor:pointer;padding:9px 6px 10px;border:3px solid var(--outline);border-radius:12px;background:rgba(255,255,255,.08);color:#fff;font:400 16px/1 var(--display);letter-spacing:.02em}
 .tabs button[aria-selected=true]{background:var(--gold);color:var(--outline);box-shadow:0 3px 0 var(--outline)}
 .tabs button:focus-visible{outline:3px solid #fff;outline-offset:2px}
@@ -277,6 +296,8 @@ body{
       <div><small>PAPER</small><strong>FOOTBALL</strong></div>
     </div>
     <p class="blurb" id="status">Flick it. Hang it off the edge. Kick it through the fingers.</p>
+    <button class="cbtn go" type="button" id="chalBtn" hidden>Challenge a friend <small id="chalSm"></small></button>
+    <p class="say" id="chalSay" role="status"></p>
     <button class="cbtn go" type="button" data-act="resume" id="resume" hidden>Resume <small>Back to the game</small></button>
     <button class="cbtn gold" type="button" data-act="cpu">Play vs CPU <small>First to 21</small></button>
     <div class="level" role="radiogroup" aria-label="Computer difficulty">
@@ -286,8 +307,12 @@ body{
       <label><input type="radio" name="level" value="hard"><span>Hard</span></label>
     </div>
     <button class="cbtn blue" type="button" data-act="pass">Pass &amp; Play <small>2 players, 1 phone</small></button>
-    <button class="cbtn teal" type="button" data-act="challenge">Fan Challenge <small id="best">10 kicks</small></button>
-    <button class="cbtn red" type="button" data-act="streak">Kick Streak <small id="sbest">Till you miss</small></button>
+    <p class="sub">Kicking</p>
+    <div class="kicks">
+      <button class="cbtn teal" type="button" data-act="challenge">Fan 10 <small id="best">10 kicks</small></button>
+      <button class="cbtn red" type="button" data-act="streak">Streak <small id="sbest">Till you miss</small></button>
+      <button class="cbtn plum" type="button" data-act="bomb">Long Bomb <small id="bbest">3 strikes</small></button>
+    </div>
     <label class="switch" for="fan"><input type="checkbox" id="fan"><span class="track"></span>Desk fan on extra points<em>HARD</em></label>
     <details class="how">
       <summary>How to play</summary>
@@ -297,7 +322,10 @@ body{
         <li>Slide it off the table: turnover.</li>
         <li>Four flicks per drive.</li>
         <li>After a touchdown, flick it through the finger posts for 1.</li>
-        <li>Kick Streak: every make moves the kick back and turns the fan up. One miss ends it.</li>
+        <li>Fan 10: ten kicks, the fan gets stronger every kick.</li>
+        <li>Streak: every make moves the kick back and turns the fan up. One miss ends it.</li>
+        <li>Long Bomb: no fan, every make moves you back 3 inches. Three misses and you're out.</li>
+        <li>After a kicking run, Challenge a friend sends a link: they get the same fan, one shot to beat you.</li>
       </ul>
     </details>
     <button class="cbtn plain" type="button" id="lbOpen" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v6a5 5 0 0 1-10 0z M7 5H3.5a3.5 3.5 0 0 0 4 4.4 M17 5h3.5a3.5 3.5 0 0 1-4 4.4 M12 14v4 M8 21h8 M9.5 18h5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Leaderboards</button>
@@ -356,6 +384,7 @@ body{
     <div class="tabs" role="tablist" aria-label="Board">
       <button type="button" role="tab" data-b="streak" aria-selected="true">Streak</button>
       <button type="button" role="tab" data-b="fan" aria-selected="false">Fan 10</button>
+      <button type="button" role="tab" data-b="bomb" aria-selected="false">Bomb</button>
       <button type="button" role="tab" data-b="win" aria-selected="false">Wins</button>
     </div>
     <div class="level" id="lbLevel" role="radiogroup" aria-label="Computer difficulty" hidden>
@@ -394,6 +423,29 @@ body{
   </form>
 </section>
 
+<section id="chal" class="sheet" hidden>
+  <form class="card" id="chalForm" novalidate>
+    <h2>Challenge!</h2>
+    <div class="duel one"><div class="s2"><span id="cName"></span><b id="cVal"></b></div></div>
+    <p class="blurb" id="cText"></p>
+    <label class="field" for="chalNick">Your name <small>2–12 letters</small></label>
+    <input id="chalNick" type="text" maxlength="12" autocomplete="nickname" spellcheck="false" placeholder="Pick a nickname">
+    <p class="say" id="cSay" role="status"></p>
+    <div class="row"><button class="cbtn plain" type="button" id="chalNo">Not now</button><button class="cbtn gold" type="submit">Kick it</button></div>
+  </form>
+</section>
+
+<section id="h2h" class="sheet" hidden>
+  <div class="card">
+    <h2 id="hT"></h2>
+    <div class="duel" id="duel"><div class="s1" id="hMe"><span>You</span><b id="hMeV"></b></div><i>VS</i><div class="s2" id="hThem"><span id="hThemN"></span><b id="hThemV"></b></div></div>
+    <p class="pill" id="hS"></p>
+    <ol class="ranks" id="hList" aria-label="Everyone who took this challenge"></ol>
+    <p class="say" id="hSay" role="status"></p>
+    <div class="row"><button class="cbtn plain" type="button" id="hDone">Done</button><button class="cbtn go" type="button" id="hBack">Challenge back</button></div>
+  </div>
+</section>
+
 <section id="tune" class="sheet" hidden>
   <div class="card">
     <h2>Tune the feel</h2>
@@ -425,8 +477,8 @@ const DEF = { fric: 620, flick: 0.36, kick: 0.38, fan: false, mute: false, level
 const cfg = { ...DEF };
 try { Object.assign(cfg, JSON.parse(localStorage.getItem('pf-cfg') || '{}')); } catch (e) {}
 const saveCfg = () => { try { localStorage.setItem('pf-cfg', JSON.stringify(cfg)); } catch (e) {} };
-let best = 0, streakBest = 0;
-try { best = +localStorage.getItem('pf-best') || 0; streakBest = +localStorage.getItem('pf-streak') || 0; } catch (e) {}
+let best = 0, streakBest = 0, bombBest = 0;
+try { best = +localStorage.getItem('pf-best') || 0; streakBest = +localStorage.getItem('pf-streak') || 0; bombBest = +localStorage.getItem('pf-bomb') || 0; } catch (e) {}
 
 // ---------- layout ----------
 let W = 360, H = 640, S = 1, DPR = 1, blurK = 1;
@@ -486,16 +538,19 @@ function buildWood() {
 let G = null, paused = true, gt = 0, Q = [], trail = [], sw = null, parts = [];
 const later = (ms, fn) => Q.push({ at: gt + ms / 1000, fn, g: G && G.gen });
 const human = () => G.mode !== 'cpu' || G.poss === 0;
-const solo = () => G.mode === 'challenge' || G.mode === 'streak';
+const solo = () => G.mode === 'challenge' || G.mode === 'streak' || G.mode === 'bomb';
 const possessive = i => G.names[i] === 'You' ? 'Your' : G.names[i] + "'s";
 const gauss = () => Math.sqrt(-2 * Math.log(1 - Math.random())) * Math.cos(2 * Math.PI * Math.random());
 
-function newGame(mode) {
+// seed: makes every fan in a kicking run repeatable, so a friend can replay the same run from a challenge link
+function newGame(mode, seed, chal) {
   G = { gen: (G ? G.gen : 0) + 1, mode, names: mode === 'pass' ? ['Blue', 'Red'] : ['You', 'CPU'],
-        score: [0, 0], poss: 0, target: 21, scene: 'slide', state: 'idle', over: false };
-  Q = []; trail = []; parts = [];
+        score: [0, 0], poss: 0, target: 21, scene: 'slide', state: 'idle', over: false,
+        seed: seed || 1 + Math.floor(Math.random() * 2147483646), chal: chal || null };
+  Q = []; trail = []; parts = []; lastRun = null;
   if (mode === 'challenge') { G.ch = { i: 0, made: 0 }; startKick('ch'); banner('Fan Challenge', 'Ten kicks. Time the fan.', 1500, true); }
   else if (mode === 'streak') { G.st = { n: 0 }; startKick('st'); banner('Kick Streak', 'Keep it going. One miss ends it.', 1500, true); }
+  else if (mode === 'bomb') { G.bm = { made: 0, strikes: 0, longest: 0 }; startKick('bm'); banner('Long Bomb', 'No fan. Three misses and you\'re out.', 1500, true); }
   else { startPossession(0); banner(mode === 'pass' ? "Blue's ball" : 'Kickoff!', 'First to 21', 1300, true); }
 }
 function startPossession(p) {
@@ -591,15 +646,17 @@ function startKick(kind) {
     const n = G.st.n; Zp = Math.min(300 + n * 15, 615);
     fanMax = n < 2 ? 0 : Math.min(40 + (n - 2) * 11, 260); fanSpeed = Math.max(0, n - 24) * 0.05;
   }
+  else if (kind === 'bm') Zp = 375 + G.bm.made * 45;   // 25 in, then 3 in further per make
   else { const i = G.ch.i; Zp = 300 + i * 25; fanMax = 70 + i * 16; }
-  G.kick = { kind, Zp, crossed: false, result: null, ghosts: [],
+  const r = kind === 'pat' ? Math.random : rng(G.seed + (kind === 'st' ? G.st.n : kind === 'ch' ? G.ch.i : 0) * 7919);
+  G.kick = { kind, Zp, crossed: false, result: null, ghosts: [], t0: gt,
     ball: { x: 0, z: 0, h: 0, vx: 0, vz: 0, vh: 0, rot: 0, spin: 0 },
-    fan: fanMax ? { dir: Math.random() < 0.5 ? 1 : -1, max: fanMax, speed: Math.min(3, 1.1 + fanSpeed + Math.random() * 0.6), phase: Math.random() * 6.28, ang: 0 } : null };
+    fan: fanMax ? { dir: r() < 0.5 ? 1 : -1, max: fanMax, speed: Math.min(3, 1.1 + fanSpeed + r() * 0.6), phase: r() * 6.28, ang: 0 } : null };
   G.state = 'kaim'; hud(); prompt();
 }
 function windNow() {
   const f = G && G.kick && G.kick.fan; if (!f) return 0;
-  const s = 0.5 + 0.5 * Math.sin(gt * f.speed + f.phase);
+  const s = 0.5 + 0.5 * Math.sin((gt - G.kick.t0) * f.speed + f.phase);
   return f.dir * f.max * (0.12 + 0.88 * s * s);
 }
 function kickWorld(v, ang) {
@@ -655,7 +712,28 @@ function kickResult() {
     if (isBest) { streakBest = st.n; try { localStorage.setItem('pf-streak', streakBest); } catch (e) {} }
     later(1300, () => { banner(`Streak: ${st.n}`, isBest ? 'New best!' : `Your best: ${streakBest}`, 2400); if (isBest) rain(120); });
     $('status').textContent = `Kick Streak: ${st.n} in a row.`;
-    later(3800, () => offerPost('streak', st.n));
+    later(3800, () => endRun('streak', st.n));
+  } else if (k.kind === 'bm') {
+    const m = G.bm, inches = Math.round(k.Zp / PXIN);
+    if (good) {
+      m.made++; m.longest = Math.max(m.longest, inches); hud();
+      banner(title, `${inches} in · back 3`, 1200);
+      later(1300, () => startKick('bm'));
+      return;
+    }
+    m.strikes++; hud();
+    if (m.strikes < 3) {
+      banner(title, `${why} · strike ${m.strikes}`, 1200, true);
+      later(1300, () => startKick('bm'));
+      return;
+    }
+    G.over = true; G.state = 'over';
+    banner(title, 'Strike three', 1200, true);
+    const isBest = m.longest > bombBest;
+    if (isBest) { bombBest = m.longest; try { localStorage.setItem('pf-bomb', bombBest); } catch (e) {} }
+    later(1300, () => { banner(`Longest: ${m.longest} in`, isBest ? 'New best!' : `Your best: ${bombBest} in`, 2400); if (isBest) rain(120); });
+    $('status').textContent = m.longest ? `Long Bomb: ${m.longest} in.` : 'Long Bomb: no makes this time.';
+    later(3800, () => endRun('bomb', m.longest));
   } else {
     const c = G.ch; if (good) c.made++; c.i++;
     hud();
@@ -666,7 +744,7 @@ function kickResult() {
       if (isBest) { best = c.made; try { localStorage.setItem('pf-best', best); } catch (e) {} }
       later(1300, () => { banner(`${c.made} of 10`, isBest ? 'New best!' : `Your best: ${best} of 10`, 2400); if (isBest) rain(120); });
       $('status').textContent = `Fan Challenge: ${c.made} of 10.`;
-      later(3800, () => offerPost('fan', c.made));
+      later(3800, () => endRun('fan', c.made));
     } else later(1300, () => startKick('ch'));
   }
 }
@@ -782,9 +860,19 @@ function hud() {
     $('m2').textContent = `${Math.round(G.kick.Zp / PXIN)} in kick · fan on`;
     return;
   }
+  if (G.mode === 'bomb') {
+    const m = G.bm;
+    $('n1').textContent = 'Long'; setNum('s1', m.longest);
+    $('n2').textContent = G.chal ? 'Beat' : 'Best'; setNum('s2', G.chal ? G.chal.value : Math.max(bombBest, m.longest));
+    $('sd1').classList.add('has'); $('sd2').classList.remove('has');
+    $('dots').hidden = false;
+    for (let i = 0; i < 4; i++) dots[i].className = i > 2 ? 'gone' : i < m.strikes ? 'x' : '';
+    $('m2').textContent = `${Math.round(G.kick.Zp / PXIN)} in kick`;
+    return;
+  }
   if (G.mode === 'streak') {
     $('n1').textContent = 'Streak'; setNum('s1', G.st.n);
-    $('n2').textContent = 'Best'; setNum('s2', Math.max(streakBest, G.st.n));
+    $('n2').textContent = G.chal ? 'Beat' : 'Best'; setNum('s2', G.chal ? G.chal.value : Math.max(streakBest, G.st.n));
     $('sd1').classList.add('has'); $('sd2').classList.remove('has');
     $('dots').hidden = true;
     $('m2').textContent = `${Math.round(G.kick.Zp / PXIN)} in kick${G.kick.fan ? ' · fan on' : ''}`;
@@ -818,11 +906,15 @@ function openMenu() {
   $('resume').hidden = !(G && !G.over);
   $('best').textContent = best ? `Best ${best}/10` : '10 kicks';
   $('sbest').textContent = streakBest ? `Best ${streakBest}` : 'Till you miss';
+  $('bbest').textContent = bombBest ? `Best ${bombBest} in` : '3 strikes';
+  const canChal = LB_ON && lastRun && (!G || G.over);
+  $('chalBtn').hidden = !canChal;
+  if (canChal) $('chalSm').textContent = lastRun.code ? 'Send the link' : `Beat my ${BOARDS[lastRun.mode].unit(lastRun.value)}`;
   $('fan').checked = !!cfg.fan;
   document.querySelectorAll('input[name=level]').forEach(r => { r.checked = r.value === (CPU[cfg.level] ? cfg.level : 'normal'); });
   $('menu').hidden = false;
 }
-function closeSheets() { $('menu').hidden = true; $('tune').hidden = true; $('lb').hidden = true; $('post').hidden = true; paused = false; }
+function closeSheets() { ['menu', 'tune', 'lb', 'post', 'chal', 'h2h'].forEach(id => { $(id).hidden = true; }); paused = false; }
 $('menu').addEventListener('click', e => {
   const b = e.target.closest('[data-act]'); if (!b) return;
   audioInit();
@@ -858,6 +950,7 @@ function feedbackData() {
   const game = !G ? 'Not played yet'
     : G.mode === 'challenge' ? `Fan challenge, ${G.ch.made} of ${G.ch.i} made`
     : G.mode === 'streak' ? `Kick streak, ${G.st.n} in a row${G.over ? ' (final)' : ''}`
+    : G.mode === 'bomb' ? `Long bomb, longest ${G.bm.longest} in, ${G.bm.strikes} strikes${G.over ? ' (final)' : ''}`
     : `${G.mode === 'cpu' ? 'vs CPU' : 'Pass & play'}, ${G.score[0]} to ${G.score[1]}${G.over ? ' (final)' : ''}`;
   return {
     _subject: 'Paper Football feedback' + (name ? ` from ${name}` : ''),
@@ -872,6 +965,7 @@ function feedbackData() {
     game,
     fan_best: best ? `${best} of 10` : '',
     streak_best: streakBest || '',
+    bomb_best: bombBest ? `${bombBest} in` : '',
     screen: `${innerWidth}x${innerHeight}`,
     device: navigator.userAgent,
   };
@@ -903,6 +997,7 @@ const LB_ON = !!(LB_URL && LB_KEY);
 const BOARDS = {
   streak: { note: 'Most kicks in a row', unit: v => v },
   fan: { note: 'Best Fan Challenge, out of 10', unit: v => v + '/10' },
+  bomb: { note: 'Longest Long Bomb kick made', unit: v => v + ' in' },
   win_easy: { note: 'Wins against the Easy computer', unit: v => v },
   win_normal: { note: 'Wins against the Normal computer', unit: v => v },
   win_hard: { note: 'Wins against the Hard computer', unit: v => v },
@@ -964,15 +1059,18 @@ function showBoard() {
     const out = [];
     rows.forEach((r, i) => {
       if (i && r.me && r.rank > rows[i - 1].rank + 1) out.push(Object.assign(document.createElement('li'), { className: 'gap', textContent: '⋯' }));
-      const li = document.createElement('li'); if (r.me) li.className = 'me';
-      const rk = document.createElement('span'); rk.className = 'rk'; rk.textContent = r.rank;
-      const nk = document.createElement('span'); nk.className = 'nk'; nk.textContent = r.me ? r.nickname + ' (you)' : r.nickname;
-      const vl = document.createElement('span'); vl.className = 'vl'; vl.textContent = BOARDS[board].unit(r.value);
-      li.append(rk, nk, vl); out.push(li);
+      out.push(rankRow(r.rank, r.nickname, r.me, BOARDS[board].unit(r.value)));
     });
     list.replaceChildren(...out);
     const me = list.querySelector('.me'); if (me) me.scrollIntoView({ block: 'nearest' });
   }).catch(() => { if (req === lbReq) msg("Couldn't load the leaderboard. Check your connection."); });
+}
+function rankRow(rank, nick, me, val) {
+  const li = document.createElement('li'); if (me) li.className = 'me';
+  const rk = document.createElement('span'); rk.className = 'rk'; rk.textContent = rank;
+  const nk = document.createElement('span'); nk.className = 'nk'; nk.textContent = me ? nick + ' (you)' : nick;
+  const vl = document.createElement('span'); vl.className = 'vl'; vl.textContent = val;
+  li.append(rk, nk, vl); return li;
 }
 $('lbOpen').addEventListener('click', () => openBoards());
 document.querySelectorAll('#lb [data-b]').forEach(t => t.addEventListener('click', () => {
@@ -999,17 +1097,18 @@ function offerPost(board, value) {
     return;
   }
   if (!win && value <= Math.max(lb.posted[board] || 0, lb.offered[board] || 0)) return openMenu();
-  pending = { board, value };
+  pending = { kind: 'post', board, value };
   paused = true; $('menu').hidden = true;
   $('postT').textContent = win ? 'You won!' : 'New best!';
   $('postS').textContent = win ? `Put this win on the ${lvl} wins board? After this, your wins post on their own.`
     : board === 'streak' ? `Put your ${value}-kick streak on the leaderboard?`
+    : board === 'bomb' ? `Put your ${value}-inch Long Bomb on the leaderboard?`
     : `Put your ${value} of 10 on the Fan Challenge board?`;
-  $('postNick').value = lb.nick; $('postSay').textContent = '';
+  $('postNick').value = lb.nick; $('postSay').textContent = ''; $('postSend').textContent = 'Post it';
   $('post').hidden = false;
 }
 $('postSkip').addEventListener('click', () => {
-  if (pending && !pending.board.startsWith('win_')) { lb.offered[pending.board] = Math.max(lb.offered[pending.board] || 0, pending.value); saveLb(); }
+  if (pending && pending.kind === 'post' && !pending.board.startsWith('win_')) { lb.offered[pending.board] = Math.max(lb.offered[pending.board] || 0, pending.value); saveLb(); }
   pending = null; $('post').hidden = true; openMenu();
 });
 $('postForm').addEventListener('submit', async e => {
@@ -1018,6 +1117,7 @@ $('postForm').addEventListener('submit', async e => {
   const c = checkNick($('postNick').value);
   if (c.err) { $('postSay').textContent = c.err; return; }
   lb.nick = c.nick; saveLb();
+  if (pending.kind === 'name') { const then = pending.then; pending = null; $('post').hidden = true; openMenu(); then(); return; }
   const btn = $('postSend'); btn.disabled = true; btn.textContent = 'Posting…'; $('postSay').textContent = '';
   try {
     await postScore(pending.board, pending.value);
@@ -1026,6 +1126,123 @@ $('postForm').addEventListener('submit', async e => {
     $('lbSay').textContent = 'Posted!';
   } catch (err) { $('postSay').textContent = postErr(err); }
   finally { btn.disabled = false; btn.textContent = 'Post it'; }
+});
+
+// ---------- challenges ----------
+// A finished kicking run can become a link. Whoever opens it replays the same fan seed
+// with one shot, then both scores show side by side. Anyone with the link can take it,
+// so dropping it in a group chat works too.
+const MODE_OF = { fan: 'challenge', streak: 'streak', bomb: 'bomb' };
+const MODE_LABEL = { fan: 'Fan Challenge', streak: 'Kick Streak', bomb: 'Long Bomb' };
+const STATUS0 = $('status').textContent;
+let lastRun = null, viewing = null;
+const chalSay = t => { $('chalSay').textContent = t; };
+const chalText = (mode, v) => mode === 'fan' ? `I made ${v} of 10 in the Paper Football Fan Challenge. Same fan, one shot. Can you beat it?`
+  : mode === 'streak' ? `I kicked ${v} in a row in Paper Football. Same fan, one shot. Can you beat it?`
+  : `I hit a ${v}-inch Long Bomb in Paper Football. One shot. Can you beat it?`;
+const chalUrl = code => `${location.origin}${location.pathname}?c=${code}`;
+
+function endRun(mode, value) {
+  lastRun = { mode, seed: G.seed, value };
+  if (!G.chal || !LB_ON) return offerPost(mode, value);
+  paused = true;
+  sb('pf_challenge_answer', { p_code: G.chal.code, p_player: lb.player, p_nickname: lb.nick, p_value: value })
+    .then(c => showDuel(c, c.mine_answer ?? value))
+    .catch(e => { $('status').textContent = /own challenge/.test(e.message) ? 'That was your own challenge.' : postErr(e); offerPost(mode, value); });
+}
+
+function askName(then) {
+  pending = { kind: 'name', then };
+  paused = true; $('menu').hidden = true;
+  $('postT').textContent = 'Your name';
+  $('postS').textContent = 'Pick the name your friends will see on the challenge.';
+  $('postNick').value = lb.nick; $('postSay').textContent = ''; $('postSend').textContent = 'Save';
+  $('post').hidden = false;
+}
+
+// Make the link on the first tap, then hand it to the share sheet (or the clipboard)
+async function shareRun() {
+  const r = lastRun; if (!r) return;
+  if (!r.code) {
+    if (!lb.nick) return askName(shareRun);
+    const btn = $('chalBtn'); btn.disabled = true; $('chalSm').textContent = 'Making link…'; chalSay('');
+    try { r.code = await sb('pf_challenge_create', { p_player: lb.player, p_nickname: lb.nick, p_mode: r.mode, p_seed: r.seed, p_value: r.value }); }
+    catch (e) { chalSay(postErr(e)); return; }
+    finally { btn.disabled = false; openMenu(); }
+  }
+  const url = chalUrl(r.code), text = chalText(r.mode, r.value);
+  if (navigator.share) {
+    try { await navigator.share({ title: 'Paper Football challenge', text, url }); chalSay('Sent! Open the link again any time to see who took it.'); return; }
+    catch (e) {
+      if (e.name === 'AbortError') return;
+      if (e.name === 'NotAllowedError') { chalSay('Link ready. Tap Send the link.'); return; }
+    }
+  }
+  try { await navigator.clipboard.writeText(`${text} ${url}`); chalSay('Link copied. Paste it to a friend.'); }
+  catch (e) { chalSay(url); }
+}
+$('chalBtn').addEventListener('click', shareRun);
+
+async function openChallengeLink() {
+  const code = new URLSearchParams(location.search).get('c');
+  if (!code || !LB_ON) return;
+  history.replaceState(null, '', location.pathname);
+  $('status').textContent = 'Loading challenge…';
+  let c;
+  try { c = await sb('pf_challenge_get', { p_code: code, p_me: lb.player }); }
+  catch (e) { $('status').textContent = "Couldn't load that challenge. Check your connection and open the link again."; return; }
+  if (!c) { $('status').textContent = "That challenge link doesn't work anymore."; return; }
+  $('status').textContent = STATUS0;
+  if (c.mine || c.mine_answer != null) return showDuel(c, c.mine_answer);
+  viewing = c; paused = true; $('menu').hidden = true;
+  $('cName').textContent = c.nickname; $('cVal').textContent = BOARDS[c.mode].unit(c.value);
+  $('cText').textContent = `${c.nickname} challenges you to beat that in ${MODE_LABEL[c.mode]}. ${c.mode === 'bomb' ? 'Same kicks' : 'Same fan'}, one shot.`;
+  $('chalNick').value = lb.nick; $('cSay').textContent = '';
+  $('chal').hidden = false;
+}
+$('chalForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const n = checkNick($('chalNick').value);
+  if (n.err) { $('cSay').textContent = n.err; return; }
+  lb.nick = n.nick; saveLb(); audioInit();
+  const c = viewing; viewing = null; closeSheets();
+  newGame(MODE_OF[c.mode], c.seed, c);
+  banner('Challenge!', `Beat ${c.nickname}: ${BOARDS[c.mode].unit(c.value)}`, 1600, true);
+});
+$('chalNo').addEventListener('click', () => { viewing = null; $('chal').hidden = true; openMenu(); });
+
+// Result card: you vs the challenger, then everyone who has taken it
+function showDuel(c, myVal) {
+  viewing = c; paused = true;
+  ['menu', 'post', 'chal'].forEach(id => { $(id).hidden = true; });
+  const unit = BOARDS[c.mode].unit, n = c.answers.length;
+  $('duel').hidden = c.mine;
+  if (c.mine) $('hT').textContent = 'Your challenge';
+  else {
+    $('hMeV').textContent = unit(myVal); $('hThemN').textContent = c.nickname; $('hThemV').textContent = unit(c.value);
+    $('hMe').classList.toggle('lead', myVal > c.value); $('hThem').classList.toggle('lead', c.value > myVal);
+    $('hT').textContent = myVal > c.value ? 'You win!' : myVal < c.value ? `${c.nickname} wins` : 'Dead even!';
+    if (myVal > c.value) rain(100);
+  }
+  $('hS').textContent = c.mine
+    ? `${MODE_LABEL[c.mode]}, your ${unit(c.value)}. ${n ? `${n} ${n === 1 ? 'friend has' : 'friends have'} taken it.` : 'Nobody has taken it yet.'}`
+    : `${MODE_LABEL[c.mode]} · ${n + 1} players so far`;
+  const rows = [{ nickname: c.nickname, value: c.value, me: c.mine }, ...c.answers].sort((a, b) => b.value - a.value);
+  $('hList').replaceChildren(...rows.map(r => rankRow(1 + rows.filter(x => x.value > r.value).length, r.nickname, r.me, unit(r.value))));
+  $('hList').hidden = !n;
+  $('hBack').textContent = c.mine ? 'Share again' : 'Challenge back';
+  $('hSay').textContent = '';
+  $('h2h').hidden = false;
+}
+$('hBack').addEventListener('click', () => {
+  const c = viewing;
+  if (c.mine) lastRun = { mode: c.mode, seed: c.seed, value: c.value, code: c.code };
+  else if (!lastRun) lastRun = { mode: c.mode, seed: c.seed, value: c.mine_answer };
+  viewing = null; $('h2h').hidden = true; openMenu(); shareRun();
+});
+$('hDone').addEventListener('click', () => {
+  viewing = null; $('h2h').hidden = true;
+  if (G && G.over && G.chal && lastRun) offerPost(lastRun.mode, lastRun.value); else openMenu();
 });
 
 // ---------- sound ----------
@@ -1557,7 +1774,7 @@ let last = performance.now();
 function frame(now) { const dt = Math.min(0.05, (now - last) / 1000); last = now; update(dt); draw(); requestAnimationFrame(frame); }
 
 addEventListener('resize', resize);
-resize(); syncTune(); openMenu();
+resize(); syncTune(); openMenu(); openChallengeLink();
 requestAnimationFrame(frame);
 window.__pf = { get G() { return G; }, cfg, L, newGame, onSwipe, startKick: k => startKick(k) };
 })();
