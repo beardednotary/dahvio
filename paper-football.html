@@ -260,6 +260,24 @@ body{
 .say:empty{display:none}
 .trophy{display:block;width:84px;height:72px;margin:-6px auto -4px;filter:drop-shadow(0 4px 0 var(--outline))}
 
+#skinsOpen em{margin-left:8px;font:400 12px/1 var(--display);font-style:normal;letter-spacing:.04em;color:var(--outline);background:var(--gold);border:2px solid var(--outline);border-radius:999px;padding:3px 7px;align-self:center}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:4px;background:rgba(0,0,0,.28);border-radius:16px}
+.tabs button{border:0;border-radius:12px;padding:9px 6px 10px;background:transparent;color:var(--muted);font:400 18px/1 var(--display);letter-spacing:.02em;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--gold);color:var(--outline);box-shadow:0 3px 0 var(--outline)}
+.tabs button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.skin-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-height:min(52vh,460px);overflow:auto;padding:2px 2px 6px;margin:0 -2px}
+.skin-grid .set{grid-column:1/-1;margin:6px 0 -2px;font:800 12px/1 var(--body);color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.skin{display:grid;gap:4px;padding:6px 6px 8px;text-align:left;border:3px solid var(--outline);border-radius:14px;background:rgba(0,0,0,.22);color:#fff;cursor:pointer}
+.skin canvas{display:block;width:100%;aspect-ratio:3/2;height:auto;border-radius:9px;background:#0e1f26}
+.skin b{font:400 15px/1.15 var(--display);letter-spacing:.02em}
+.skin span{font:800 11.5px/1.3 var(--body);color:var(--muted)}
+.skin.eq{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold) inset}
+.skin.eq span{color:var(--gold)}
+.skin:disabled{cursor:default}
+.skin:disabled canvas{filter:grayscale(.55) brightness(.6)}
+#skinsDone{justify-content:center}
+.skin:disabled b{color:var(--muted)}
+.skin:focus-visible{outline:3px solid #fff;outline-offset:2px}
 @media (prefers-reduced-motion:reduce){#banner,.pop{animation:none}}
 </style>
 </head>
@@ -328,6 +346,7 @@ body{
         <li>After a kicking run, Challenge a friend sends a link: they get the same fan, one shot to beat you.</li>
       </ul>
     </details>
+    <button class="cbtn plain" type="button" id="skinsOpen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 21 19H3z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M7.5 14h9M9.6 10.3h4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Skins<em id="skinsNew" hidden>NEW</em></button>
     <button class="cbtn plain" type="button" id="lbOpen" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v6a5 5 0 0 1-10 0z M7 5H3.5a3.5 3.5 0 0 0 4 4.4 M17 5h3.5a3.5 3.5 0 0 1-4 4.4 M12 14v4 M8 21h8 M9.5 18h5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Leaderboards</button>
     <button class="cbtn plain" type="button" id="fbOpen" hidden>Send feedback</button>
     <p class="credit">A <a href="https://dahvio.com">DahVio Studios</a> game · iPhone app in the works · <a href="https://dahvio.com/paper-football-privacy">Privacy</a></p>
@@ -446,6 +465,19 @@ body{
   </div>
 </section>
 
+<section id="skins" class="sheet" hidden>
+  <div class="card">
+    <h2>Skin Locker</h2>
+    <p class="blurb">Pick a table and a football. Play to unlock more.</p>
+    <div class="tabs" role="tablist" aria-label="Skin type">
+      <button type="button" role="tab" id="tabT" aria-selected="true">Tables</button>
+      <button type="button" role="tab" id="tabB" aria-selected="false">Footballs</button>
+    </div>
+    <div class="skin-grid" id="skinGrid"></div>
+    <button class="cbtn gold" type="button" id="skinsDone">Done</button>
+  </div>
+</section>
+
 <section id="tune" class="sheet" hidden>
   <div class="card">
     <h2>Tune the feel</h2>
@@ -461,7 +493,7 @@ body{
 <script>
 (() => {
 const $ = id => document.getElementById(id);
-const cv = $('cv'), ctx = cv.getContext('2d');
+const cv = $('cv'); let ctx = cv.getContext('2d');
 const css = getComputedStyle(document.documentElement);
 const C = {};
 ['floor','floor2','wood','lip','lip2','outline','paper','paper2','pad','pad2','rule','margin','skin','skin2','nail','p1','p2','gold','teal','metal','blade','wall','wall2','tile']
@@ -473,12 +505,17 @@ const TW = 158, R = 26, PXIN = 15, NUDGE = 175;
 const F = 470, ZC = 120, CAMH = 90, GRAV = 900, ELEV = 50 * Math.PI / 180;
 const POST = 54, CROSS = 40, TOPH = 118, BR = 14;
 
-const DEF = { fric: 620, flick: 0.36, kick: 0.38, fan: false, mute: false, level: 'normal' };
+const DEF = { fric: 620, flick: 0.36, kick: 0.38, fan: false, mute: false, level: 'normal', table: 'oak', ball: 'notebook' };
 const cfg = { ...DEF };
 try { Object.assign(cfg, JSON.parse(localStorage.getItem('pf-cfg') || '{}')); } catch (e) {}
 const saveCfg = () => { try { localStorage.setItem('pf-cfg', JSON.stringify(cfg)); } catch (e) {} };
 let best = 0, streakBest = 0, bombBest = 0;
 try { best = +localStorage.getItem('pf-best') || 0; streakBest = +localStorage.getItem('pf-streak') || 0; bombBest = +localStorage.getItem('pf-bomb') || 0; } catch (e) {}
+// Lifetime stats that unlock skins. Wins and touchdowns count against the computer (touchdowns also in Pass & Play).
+const stats = { wins: { easy: 0, normal: 0, hard: 0 }, tds: 0, beaten: [] };
+try { const s = JSON.parse(localStorage.getItem('pf-stats') || '{}'); Object.assign(stats, s); stats.wins = { easy: 0, normal: 0, hard: 0, ...(s.wins || {}) }; if (!Array.isArray(stats.beaten)) stats.beaten = []; } catch (e) {}
+const saveStats = () => { try { localStorage.setItem('pf-stats', JSON.stringify(stats)); } catch (e) {} };
+const winsAll = () => stats.wins.easy + stats.wins.normal + stats.wins.hard;
 
 // ---------- layout ----------
 let W = 360, H = 640, S = 1, DPR = 1, blurK = 1;
@@ -499,39 +536,20 @@ function resize() {
   L.edgeY = 112 + probeT.offsetHeight / S;
   L.startY = L.edgeY + Math.min(450, H - L.edgeY - 84 - probeB.offsetHeight / S);
   L.hz = Math.max(L.edgeY + 40, H * 0.74 - CAMH * F / ZC);
-  L.woodH = H - L.edgeY + 240;
+  L.woodH = Math.max(H - L.edgeY + 240, 920);
   cam.ax = cam.fx = L.cx; cam.ay = cam.fy = L.edgeY + 200; cam.z = 1;
   if (G && G.ball) { const d = L.edgeY - oldEdge; G.ball.y += d; if (G.spot) G.spot.y += d; }
-  buildWood();
+  buildTable();
 }
 function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
-// Four planks of warm wood, grain running the length of the table, baked once per size
-function buildWood() {
-  const w = TW * 2, h = L.woodH, sc = Math.min(S * DPR, 3);
+// The equipped table's top-down texture, baked once per size or when a new table is equipped.
+// Row 0 is the far (scoring) edge; the kick scene maps the same texture into perspective.
+let tableCv = null, tableSc = 1;
+function buildTable() {
+  const t = TABLES[cfg.table] || TABLES.oak, w = TW * 2, h = L.woodH, sc = Math.min(S * DPR, 3);
   const c = document.createElement('canvas'); c.width = Math.ceil(w * sc); c.height = Math.ceil(h * sc);
-  const g = c.getContext('2d'); g.scale(sc, sc);
-  const rnd = rng(11), pw = w / 4, tints = ['#d88c47', '#d1843f', '#dc9452', '#cd8140'];
-  for (let i = 0; i < 4; i++) {
-    const x0 = i * pw;
-    g.fillStyle = tints[i]; g.fillRect(x0, 0, pw, h);
-    for (let j = 0; j < 18; j++) {
-      const gx = x0 + rnd() * pw, amp = 1 + rnd() * 3.5, fr = 0.008 + rnd() * 0.02, ph = rnd() * 6;
-      g.strokeStyle = `rgba(120,58,18,${0.07 + rnd() * 0.15})`; g.lineWidth = 0.6 + rnd() * 1.6;
-      g.beginPath();
-      for (let y = 0; y <= h; y += 6) { const x = gx + Math.sin(y * fr + ph) * amp + Math.sin(y * fr * 3.3 + ph) * amp * 0.3; y ? g.lineTo(x, y) : g.moveTo(x, y); }
-      g.stroke();
-    }
-    if (rnd() < 0.85) {
-      const kx = x0 + pw * (0.25 + rnd() * 0.5), ky = 70 + rnd() * (h - 160);
-      for (let r = 10; r > 1; r -= 2.4) { g.strokeStyle = 'rgba(110,52,16,.26)'; g.lineWidth = 1.2; g.beginPath(); g.ellipse(kx, ky, r * 0.7, r * 2, 0, 0, 7); g.stroke(); }
-      g.fillStyle = 'rgba(96,44,12,.4)'; g.beginPath(); g.ellipse(kx, ky, 2.2, 5.5, 0, 0, 7); g.fill();
-    }
-    if (i > 0) { g.fillStyle = 'rgba(74,34,8,.6)'; g.fillRect(x0 - 1, 0, 2, h); g.fillStyle = 'rgba(255,222,170,.35)'; g.fillRect(x0 + 1, 0, 1, h); }
-  }
-  const lg = g.createRadialGradient(w * 0.42, 220, 20, w * 0.5, 300, Math.max(w, h) * 0.8);
-  lg.addColorStop(0, 'rgba(255,238,205,.26)'); lg.addColorStop(1, 'rgba(60,24,4,.28)');
-  g.fillStyle = lg; g.fillRect(0, 0, w, h);
-  woodCv = c;
+  const g = c.getContext('2d'); g.scale(sc, sc); t.paint(g, w, h);
+  tableCv = c; tableSc = sc;
 }
 
 // ---------- state ----------
@@ -592,6 +610,7 @@ function settle() {
   if (oh > 0) {
     G.state = 'wait'; G.celebrate = true; G.wobble = 1;
     G.score[G.poss] += 6; sfx('td'); hud();
+    if (G.mode === 'pass' || (G.mode === 'cpu' && G.poss === 0)) { stats.tds++; checkUnlocks(); }
     cam.shake = 7;
     burst(L.cx + b.x, b.y, 70); floatText(L.cx + b.x, b.y - 30, '+6');
     banner('Touchdown!', b.y - L.edgeY < R * 0.18 ? 'Hanging by a thread!' : `${G.names[G.poss]} +6`, 1500);
@@ -625,6 +644,7 @@ function resolveFall(kind) {
 function checkWin() {
   for (let p = 0; p < 2; p++) if (G.score[p] >= G.target) {
     G.over = true; G.state = 'over';
+    if (G.mode === 'cpu' && p === 0) { stats.wins[CPU[cfg.level] ? cfg.level : 'normal']++; checkUnlocks(); }
     const n = G.names[p], line = `${G.score[0]} to ${G.score[1]}`;
     later(1200, () => { banner(n === 'You' ? 'You win!' : n + ' wins!', line, 2400); rain(120); });
     $('status').textContent = (n === 'You' ? 'You won ' : n + ' won ') + line + '. Go again?';
@@ -910,11 +930,12 @@ function openMenu() {
   const canChal = LB_ON && lastRun && (!G || G.over);
   $('chalBtn').hidden = !canChal;
   if (canChal) $('chalSm').textContent = lastRun.code ? 'Send the link' : `Beat my ${BOARDS[lastRun.mode].unit(lastRun.value)}`;
+  if (freshSkins.length) $('status').textContent = `Unlocked: ${freshSkins.join(', ')}. Open Skins to use ${freshSkins.length > 1 ? 'them' : 'it'}.`;
   $('fan').checked = !!cfg.fan;
   document.querySelectorAll('input[name=level]').forEach(r => { r.checked = r.value === (CPU[cfg.level] ? cfg.level : 'normal'); });
   $('menu').hidden = false;
 }
-function closeSheets() { ['menu', 'tune', 'lb', 'post', 'chal', 'h2h'].forEach(id => { $(id).hidden = true; }); paused = false; }
+function closeSheets() { ['menu', 'tune', 'lb', 'post', 'chal', 'h2h', 'skins'].forEach(id => { $(id).hidden = true; }); paused = false; }
 $('menu').addEventListener('click', e => {
   const b = e.target.closest('[data-act]'); if (!b) return;
   audioInit();
@@ -1143,6 +1164,7 @@ const chalText = (mode, v) => mode === 'fan' ? `I made ${v} of 10 in the Paper F
 const chalUrl = code => `${location.origin}${location.pathname}?c=${code}`;
 
 function endRun(mode, value) {
+  checkUnlocks();
   lastRun = { mode, seed: G.seed, value };
   if (!G.chal || !LB_ON) return offerPost(mode, value);
   paused = true;
@@ -1222,7 +1244,7 @@ function showDuel(c, myVal) {
     $('hMeV').textContent = unit(myVal); $('hThemN').textContent = c.nickname; $('hThemV').textContent = unit(c.value);
     $('hMe').classList.toggle('lead', myVal > c.value); $('hThem').classList.toggle('lead', c.value > myVal);
     $('hT').textContent = myVal > c.value ? 'You win!' : myVal < c.value ? `${c.nickname} wins` : 'Dead even!';
-    if (myVal > c.value) rain(100);
+    if (myVal > c.value) { rain(100); if (c.code && !stats.beaten.includes(c.code)) { stats.beaten.push(c.code); checkUnlocks(); } }
   }
   $('hS').textContent = c.mine
     ? `${MODE_LABEL[c.mode]}, your ${unit(c.value)}. ${n ? `${n} ${n === 1 ? 'friend has' : 'friends have'} taken it.` : 'Nobody has taken it yet.'}`
@@ -1330,7 +1352,7 @@ function rr(x, y, w, h, r) {
 function line(x0, y0, x1, y1) { ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke(); }
 function fillStroke() { ctx.fill(); ctx.stroke(); }
 
-// The football: a chunky folded triangle with visible thickness. Team 0 is notebook paper, team 1 is legal pad.
+// The football: a chunky folded triangle with visible thickness, painted with the team's football skin.
 function drawPaper(x, y, a, r, team, o) {
   o = o || {};
   const al = o.alpha == null ? 1 : o.alpha, sq = o.squash == null ? 1 : o.squash, lift = o.lift || 0;
@@ -1344,18 +1366,14 @@ function drawPaper(x, y, a, r, team, o) {
     tri(0); ctx.fill(); ctx.restore();
   }
   const th = r * 0.17;
+  const sk = o.skin || ballSkin(team);
   ctx.strokeStyle = C.outline; ctx.lineWidth = r * 0.1;
-  ctx.fillStyle = team ? C.pad2 : C.paper2;
+  ctx.fillStyle = sk.side;
   tri(th); fillStroke();
   tri(th * 0.5); ctx.fill();
-  tri(0);
-  const g = ctx.createLinearGradient(-r, -r, r, r);
-  g.addColorStop(0, team ? C.pad : C.paper); g.addColorStop(1, team ? C.pad2 : C.paper2);
-  ctx.fillStyle = g; ctx.fill();
+  tri(0); ctx.fillStyle = '#ffffff'; ctx.fill();
   ctx.save(); ctx.clip(); ctx.rotate(a); ctx.scale(1, sq);
-  ctx.globalAlpha = al * 0.6; ctx.strokeStyle = C.rule; ctx.lineWidth = r * 0.045;
-  for (let yy = -r; yy < r; yy += r * 0.22) line(-r, yy, r, yy);
-  ctx.strokeStyle = C.margin; line(-r * 0.2, -r, -r * 0.2, r);
+  sk.face(ctx, r);
   ctx.globalAlpha = al;
   const v1 = V(1), v2 = V(2), v0 = V(0);
   const m01 = [(v0[0] + v1[0]) / 2, (v0[1] + v1[1]) / 2], m12 = [(v1[0] + v2[0]) / 2, (v1[1] + v2[1]) / 2];
@@ -1365,7 +1383,8 @@ function drawPaper(x, y, a, r, team, o) {
   ctx.strokeStyle = 'rgba(255,255,255,.95)'; ctx.lineWidth = r * 0.07; ctx.lineCap = 'round';
   line(v2[0] * 0.8, v2[1] * 0.8, v0[0] * 0.8, v0[1] * 0.8);
   ctx.restore();
-  tri(0); ctx.strokeStyle = C.outline; ctx.lineWidth = r * 0.1; ctx.stroke();
+  if (sk.glow) { ctx.shadowColor = sk.glow; ctx.shadowBlur = r * 0.5 * blurK; }
+  tri(0); ctx.strokeStyle = sk.glow || C.outline; ctx.lineWidth = r * 0.1; ctx.stroke();
   ctx.restore();
 }
 
@@ -1375,9 +1394,9 @@ function applyCam() {
   ctx.translate(cam.ax + sx, cam.ay + sy); ctx.scale(cam.z, cam.z); ctx.translate(-cam.fx, -cam.fy);
 }
 function drawFloor(x0, y0, x1, y1) {
-  const T = 40;
-  ctx.fillStyle = C.floor; ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
-  ctx.fillStyle = C.floor2;
+  const fl = curTable().floor || [C.floor, C.floor2, 40], T = fl[2];
+  ctx.fillStyle = fl[0]; ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
+  ctx.fillStyle = fl[1];
   for (let y = Math.floor(y0 / T) * T; y < y1; y += T)
     for (let x = Math.floor(x0 / T) * T; x < x1; x += T)
       if (((x / T) + (y / T)) % 2 === 0) ctx.fillRect(x, y, T, T);
@@ -1397,28 +1416,30 @@ function drawSlide() {
     g = ctx.createLinearGradient(ex, 0, ex + s * 30, 0); g.addColorStop(0, 'rgba(0,0,0,.5)'); g.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.fillStyle = g; ctx.fillRect(Math.min(ex, ex + s * 30), ey - 10, 30, wh);
   }
-  ctx.drawImage(woodCv, tl, ey, TW * 2, wh);
+  const tb = curTable();
+  ctx.drawImage(tableCv, tl, ey, TW * 2, wh);
   // scoring strip glows along the far edge
   const pulse = 0.5 + 0.5 * Math.sin(gt * 3);
   g = ctx.createLinearGradient(0, ey, 0, ey + 46);
-  g.addColorStop(0, `rgba(255,214,90,${0.38 + 0.2 * pulse})`); g.addColorStop(1, 'rgba(255,214,90,0)');
+  const gc = tb.glow || '255,214,90';
+  g.addColorStop(0, `rgba(${gc},${0.38 + 0.2 * pulse})`); g.addColorStop(1, `rgba(${gc},0)`);
   ctx.fillStyle = g; ctx.fillRect(tl, ey, TW * 2, 46);
   // rounded lip on the three edges
-  g = ctx.createLinearGradient(0, ey, 0, ey + 8); g.addColorStop(0, C.lip); g.addColorStop(1, C.lip2);
+  g = ctx.createLinearGradient(0, ey, 0, ey + 8); g.addColorStop(0, tb.lip[0]); g.addColorStop(1, tb.lip[1]);
   ctx.fillStyle = g; ctx.fillRect(tl, ey, TW * 2, 8);
-  g = ctx.createLinearGradient(tl, 0, tl + 8, 0); g.addColorStop(0, C.lip); g.addColorStop(1, C.lip2);
+  g = ctx.createLinearGradient(tl, 0, tl + 8, 0); g.addColorStop(0, tb.lip[0]); g.addColorStop(1, tb.lip[1]);
   ctx.fillStyle = g; ctx.fillRect(tl, ey + 8, 8, wh);
-  g = ctx.createLinearGradient(tr, 0, tr - 8, 0); g.addColorStop(0, C.lip); g.addColorStop(1, C.lip2);
+  g = ctx.createLinearGradient(tr, 0, tr - 8, 0); g.addColorStop(0, tb.lip[0]); g.addColorStop(1, tb.lip[1]);
   ctx.fillStyle = g; ctx.fillRect(tr - 8, ey + 8, 8, wh);
   ctx.strokeStyle = 'rgba(60,26,6,.55)'; ctx.lineWidth = 1;
   for (let i = 1; i * PXIN < L.startY - ey; i++) { const y = ey + i * PXIN; line(tl + 8, y, tl + 8 + (i % 6 ? 4 : 9), y); }
-  ctx.strokeStyle = C.outline; ctx.lineWidth = 3; ctx.lineJoin = 'round';
-  ctx.beginPath(); ctx.moveTo(tl, ey + wh); ctx.lineTo(tl, ey); ctx.lineTo(tr, ey); ctx.lineTo(tr, ey + wh); ctx.stroke();
+  ctx.save(); ctx.lineWidth = 3; ctx.lineJoin = 'round'; ctx.strokeStyle = C.outline;
+  if (tb.edgeGlow) { ctx.strokeStyle = tb.edgeGlow; ctx.shadowColor = tb.edgeGlow; ctx.shadowBlur = 12 * blurK; }
+  ctx.beginPath(); ctx.moveTo(tl, ey + wh); ctx.lineTo(tl, ey); ctx.lineTo(tr, ey); ctx.lineTo(tr, ey + wh); ctx.stroke(); ctx.restore();
   // kickoff ring
   ctx.strokeStyle = 'rgba(255,245,225,.45)'; ctx.lineWidth = 2.5; ctx.setLineDash([6, 6]);
   ctx.beginPath(); ctx.arc(cx, L.startY, R + 10, 0, 7); ctx.stroke(); ctx.setLineDash([]);
-  drawCarton(tl + 48, L.startY + 62, -0.18);
-  drawPencil(tr - 34, L.startY + 8, -1.95);
+  drawProps();
 
   if (trail.length > 1) {
     ctx.save(); ctx.lineCap = 'round';
@@ -1473,6 +1494,503 @@ function drawCarton(x, y, ang) {
   ctx.restore();
 }
 
+// ---------- skins ----------
+// Tables paint a top-down texture (row 0 = far edge). Footballs paint a face in the ball's local space (tip along +x).
+const ln = (g, a, b, c, d) => { g.beginPath(); g.moveTo(a, b); g.lineTo(c, d); g.stroke(); };
+function woodGrain(g, x0, w, h, n, rnd, dark) {
+  for (let j = 0; j < n; j++) {
+    const gx = x0 + rnd() * w, amp = 1 + rnd() * 3.5, fr = 0.008 + rnd() * 0.02, ph = rnd() * 6;
+    g.strokeStyle = `rgba(${dark},${0.07 + rnd() * 0.15})`; g.lineWidth = 0.6 + rnd() * 1.6;
+    g.beginPath();
+    for (let y = 0; y <= h; y += 6) { const x = gx + Math.sin(y * fr + ph) * amp + Math.sin(y * fr * 3.3 + ph) * amp * 0.3; y ? g.lineTo(x, y) : g.moveTo(x, y); }
+    g.stroke();
+  }
+}
+function softLight(g, w, h, a) {
+  const lg = g.createRadialGradient(w * 0.42, 220, 20, w * 0.5, 300, Math.max(w, h) * 0.8);
+  lg.addColorStop(0, `rgba(255,238,205,${a})`); lg.addColorStop(1, 'rgba(40,16,0,.24)');
+  g.fillStyle = lg; g.fillRect(0, 0, w, h);
+}
+function turfField(g, w, h, o) {
+  for (let y = 0, i = 0; y < h; y += 30, i++) { g.fillStyle = o.dark ? (i % 2 ? '#2b6d36' : '#286432') : (i % 2 ? '#47a653' : '#3f9a4a'); g.fillRect(0, y, w, 30); }
+  const rnd = rng(8); g.fillStyle = 'rgba(0,0,0,.07)'; for (let i = 0; i < 1800; i++) g.fillRect(rnd() * w, rnd() * h, 1.2, 2.6);
+  g.fillStyle = o.ez; g.fillRect(0, 0, w, 84);
+  g.save(); g.beginPath(); g.rect(0, 0, w, 84); g.clip(); g.strokeStyle = 'rgba(255,255,255,.1)'; g.lineWidth = 10;
+  for (let x = -90; x < w + 90; x += 26) ln(g, x, 84, x + 84, 0); g.restore();
+  g.font = '34px "Lilita One", "Arial Black", sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineJoin = 'round';
+  g.lineWidth = 7; g.strokeStyle = '#2a170b'; g.strokeText(o.name, w / 2, 50); g.fillStyle = '#ffffff'; g.fillText(o.name, w / 2, 50);
+  g.fillStyle = '#ffffff'; g.fillRect(0, 84, w, 5);
+  g.font = '20px "Lilita One", "Arial Black", sans-serif';
+  for (let y = 84 + 75, n = 10; y < h; y += 75, n += 10) {
+    g.fillStyle = '#ffffff'; g.fillRect(0, y, w, 3);
+    for (const x of [w * 0.36, w * 0.64]) g.fillRect(x - 7, y + 37, 14, 2.5);
+    const num = String(n <= 50 ? n : Math.max(0, 100 - n));
+    g.fillStyle = 'rgba(255,255,255,.85)'; g.fillText(num, 28, y + 22); g.fillText(num, w - 28, y + 22);
+  }
+  if (o.dark) {
+    for (const x of [0, w]) { const l = g.createRadialGradient(x, 0, 10, x, 0, 420); l.addColorStop(0, 'rgba(255,250,220,.4)'); l.addColorStop(1, 'rgba(255,250,220,0)'); g.fillStyle = l; g.fillRect(0, 0, w, h); }
+    g.fillStyle = 'rgba(0,8,20,.18)'; g.fillRect(0, 0, w, h);
+  }
+  if (o.snow) {
+    const rn = rng(12);
+    for (let i = 0; i < 70; i++) { const x = rn() * w, y = rn() * h, r = 12 + rn() * 30; const s = g.createRadialGradient(x, y, 1, x, y, r); s.addColorStop(0, 'rgba(255,255,255,.6)'); s.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = s; g.fillRect(x - r, y - r, 2 * r, 2 * r); }
+    g.fillStyle = '#ffffff'; for (let i = 0; i < 260; i++) { g.beginPath(); g.arc(rn() * w, rn() * h, 0.8 + rn() * 1.6, 0, 7); g.fill(); }
+  }
+}
+
+const TABLES = {
+  oak: { name: 'Lunch Table', set: 'house', lip: ['#ffd29a', '#c47533'], floor: null, bd: 'cafeteria', props: 'lunch',
+    paint(g, w, h) {
+      const rnd = rng(11), pw = w / 4, tints = ['#d88c47', '#d1843f', '#dc9452', '#cd8140'];
+      for (let i = 0; i < 4; i++) {
+        const x0 = i * pw; g.fillStyle = tints[i]; g.fillRect(x0, 0, pw, h);
+        woodGrain(g, x0, pw, h, 18, rnd, '120,58,18');
+        if (rnd() < 0.85) { const kx = x0 + pw * (0.25 + rnd() * 0.5), ky = 70 + rnd() * (h - 160);
+          for (let r = 10; r > 1; r -= 2.4) { g.strokeStyle = 'rgba(110,52,16,.26)'; g.lineWidth = 1.2; g.beginPath(); g.ellipse(kx, ky, r * 0.7, r * 2, 0, 0, 7); g.stroke(); }
+          g.fillStyle = 'rgba(96,44,12,.4)'; g.beginPath(); g.ellipse(kx, ky, 2.2, 5.5, 0, 0, 7); g.fill(); }
+        if (i > 0) { g.fillStyle = 'rgba(74,34,8,.6)'; g.fillRect(x0 - 1, 0, 2, h); g.fillStyle = 'rgba(255,222,170,.35)'; g.fillRect(x0 + 1, 0, 1, h); }
+      }
+      softLight(g, w, h, 0.26);
+    } },
+  kitchen: { name: 'Kitchen Table', set: 'house', lip: ['#fbfaf6', '#d6cfc2'], floor: ['#f2efe8', '#2b2b30', 22], bd: 'kitchen', props: 'kitchen',
+    u: ['Win 3 games', () => winsAll(), 3],
+    paint(g, w, h) {
+      g.fillStyle = '#fbfaf6'; g.fillRect(0, 0, w, h);
+      g.fillStyle = 'rgba(214,52,52,.40)'; for (let x = 0; x < w; x += 28) g.fillRect(x, 0, 14, h); for (let y = 0; y < h; y += 28) g.fillRect(0, y, w, 14);
+      g.fillStyle = 'rgba(0,0,0,.045)'; for (let y = 0; y < h; y += 3) g.fillRect(0, y, w, 1);
+      softLight(g, w, h, 0.18);
+    } },
+  bar: { name: 'Sports Bar', set: 'house', lip: ['#a8643c', '#4a2414'], floor: ['#2a1c16', '#241712', 40], bd: 'bar', props: 'bar', glow: '255,190,90',
+    u: ['Win on Hard', () => stats.wins.hard, 1],
+    paint(g, w, h) {
+      const b = g.createLinearGradient(0, 0, w, 0); b.addColorStop(0, '#5a2e1a'); b.addColorStop(0.5, '#6b3720'); b.addColorStop(1, '#4e2716');
+      g.fillStyle = b; g.fillRect(0, 0, w, h); woodGrain(g, 0, w, h, 34, rng(9), '20,6,0');
+      g.save(); g.globalCompositeOperation = 'lighter';
+      for (const y0 of [120, 520]) { const s = g.createLinearGradient(0, y0, w, y0 + 260); s.addColorStop(0.42, 'rgba(255,220,180,0)'); s.addColorStop(0.5, 'rgba(255,220,180,.16)'); s.addColorStop(0.58, 'rgba(255,220,180,0)'); g.fillStyle = s; g.fillRect(0, y0 - 100, w, 460); }
+      g.restore();
+      g.strokeStyle = 'rgba(255,240,220,.14)'; g.lineWidth = 2;
+      for (const [x, y, r] of [[70, 300, 22], [88, 312, 21], [250, 190, 18], [210, 620, 20]]) { g.beginPath(); g.arc(x, y, r, 0, 7); g.stroke(); }
+    } },
+  office: { name: 'Office Desk', set: 'house', lip: ['#e6e9ec', '#8e959d'], floor: ['#4b5a6b', '#465566', 40], bd: 'office', props: 'office',
+    u: ['Kick Streak of 5', () => streakBest, 5],
+    paint(g, w, h) {
+      g.fillStyle = '#c9cdd2'; g.fillRect(0, 0, w, h);
+      const rn = rng(3); g.fillStyle = 'rgba(0,0,0,.035)'; for (let i = 0; i < 2600; i++) g.fillRect(rn() * w, rn() * h, 2, 2);
+      g.fillStyle = '#2f5b46'; g.fillRect(22, 26, w - 44, h - 52);
+      g.fillStyle = 'rgba(255,255,255,.04)'; for (let y = 26; y < h - 26; y += 4) g.fillRect(22, y, w - 44, 1);
+      g.fillStyle = '#1c3a2c';
+      g.beginPath(); g.moveTo(22, 26); g.lineTo(62, 26); g.lineTo(22, 66); g.closePath(); g.fill();
+      g.beginPath(); g.moveTo(w - 22, 26); g.lineTo(w - 62, 26); g.lineTo(w - 22, 66); g.closePath(); g.fill();
+      g.strokeStyle = '#2a170b'; g.lineWidth = 2; g.strokeRect(22, 26, w - 44, h - 52);
+    } },
+  turf: { name: 'Home Turf', set: 'gameday', lip: ['#e8f2e9', '#7b8a7d'], floor: ['#2b6b37', '#286433', 40], bd: 'stadium',
+    paint(g, w, h) { turfField(g, w, h, { ez: '#1d3f8f', name: 'HARBOR CITY' }); } },
+  night: { name: 'Night Game', set: 'gameday', lip: ['#e8f2e9', '#59675b'], floor: ['#173d24', '#153820', 40], bd: 'stadiumNight',
+    u: ['Score 30 touchdowns', () => stats.tds, 30],
+    paint(g, w, h) { turfField(g, w, h, { ez: '#7b1f2b', name: 'IRONSIDES', dark: true }); } },
+  snow: { name: 'Whiteout', set: 'gameday', lip: ['#ffffff', '#9fb0b8'], floor: ['#e9f0f2', '#dfe8ec', 40], bd: 'stadiumSnow',
+    u: ['Kick Streak of 15', () => streakBest, 15],
+    paint(g, w, h) { turfField(g, w, h, { ez: '#1f5a3a', name: 'NORTH PINES', snow: true }); } },
+  neon: { name: 'Neon Grid', set: 'night', lip: ['#3df6ff', '#126a78'], floor: ['#05030c', '#0a0618', 40], bd: 'neon', glow: '61,246,255', edgeGlow: '#3df6ff',
+    u: ['Kick Streak of 10', () => streakBest, 10],
+    paint(g, w, h) {
+      g.fillStyle = '#0d0820'; g.fillRect(0, 0, w, h);
+      g.save(); g.shadowColor = '#ff3df0'; g.shadowBlur = 8; g.strokeStyle = 'rgba(255,61,240,.7)'; g.lineWidth = 1.6;
+      for (let x = 0; x <= w + 1; x += w / 12) ln(g, x, 0, x, h); for (let y = 0; y <= h; y += 30) ln(g, 0, y, w, y); g.restore();
+    } },
+  blacklight: { name: 'Blacklight', set: 'night', lip: ['#b6ff3a', '#3c6a10'], floor: ['#08040f', '#0d0718', 40], bd: 'blacklight', glow: '182,255,58', edgeGlow: '#b6ff3a',
+    u: ["Beat a friend's challenge", () => stats.beaten.length, 1],
+    paint(g, w, h) {
+      g.fillStyle = '#1b0b3a'; g.fillRect(0, 0, w, h);
+      const rn = rng(21), cols = ['#b6ff3a', '#ff4fd8', '#ff9a2e', '#3df6ff'];
+      g.save();
+      for (let i = 0; i < 60; i++) {
+        const x = rn() * w, y = rn() * h, r = 4 + rn() * 13, c = cols[i % 4];
+        g.shadowColor = c; g.shadowBlur = 10; g.fillStyle = c; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill();
+        for (let k = 0; k < 5; k++) { const t = rn() * 6.283, d = r + 3 + rn() * 12; g.beginPath(); g.arc(x + Math.cos(t) * d, y + Math.sin(t) * d, 1 + rn() * 2.6, 0, 7); g.fill(); }
+      }
+      g.restore();
+    } },
+  sunset: { name: 'Sunset Strip', set: 'night', lip: ['#fff1b0', '#c2627a'], floor: ['#1a0b2e', '#220f3a', 40], bd: 'sunset', glow: '255,241,176', edgeGlow: '#ffd23f',
+    u: ['Long Bomb of 40 in', () => bombBest, 40],
+    paint(g, w, h) {
+      const cols = ['#ffd23f', '#ffab3d', '#ff7a45', '#f2506b', '#c23a8f', '#7a2fa0'];
+      g.fillStyle = '#2a0f3d'; g.fillRect(0, 0, w, h);
+      for (let y0 = 0; y0 < h; y0 += 170) for (let i = 0, y = y0; i < 6; i++) { const hgt = 24 - i * 2; g.fillStyle = cols[i]; g.fillRect(0, y, w, hgt); y += hgt + 3 + i * 1.2; }
+    } },
+  chalk: { name: 'Playbook', set: 'collector', lip: ['#a87442', '#5a3a20'], floor: ['#3a2a1e', '#33251a', 40], bd: 'coach', props: 'chalk',
+    u: ['Win 10 games', () => winsAll(), 10],
+    paint(g, w, h) {
+      g.fillStyle = '#2d3b34'; g.fillRect(0, 0, w, h);
+      const rn = rng(6);
+      for (let i = 0; i < 40; i++) { const x = rn() * w, y = rn() * h, r = 20 + rn() * 50; const s = g.createRadialGradient(x, y, 1, x, y, r); s.addColorStop(0, 'rgba(255,255,255,.07)'); s.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = s; g.fillRect(x - r, y - r, 2 * r, 2 * r); }
+      g.strokeStyle = 'rgba(245,245,235,.8)'; g.lineWidth = 2.4; g.lineCap = 'round';
+      for (let y0 = 90; y0 < h - 60; y0 += 230) {
+        for (const [x, y] of [[50, y0 + 60], [100, y0 + 74], [150, y0 + 66]]) { ln(g, x - 7, y - 7, x + 7, y + 7); ln(g, x + 7, y - 7, x - 7, y + 7); }
+        for (const [x, y] of [[200, y0], [244, y0 + 16], [278, y0 + 40]]) { g.beginPath(); g.arc(x, y, 8, 0, 7); g.stroke(); }
+        g.beginPath(); g.moveTo(100, y0 + 62); g.quadraticCurveTo(112, y0 + 10, 160, y0 - 4); g.stroke(); ln(g, 160, y0 - 4, 148, y0 - 9); ln(g, 160, y0 - 4, 150, y0 + 5);
+        g.setLineDash([6, 7]); g.beginPath(); g.moveTo(50, y0 + 48); g.quadraticCurveTo(36, y0, 72, y0 - 18); g.stroke(); g.setLineDash([]);
+      }
+    } },
+  marble: { name: 'Marble & Gold', set: 'collector', lip: ['#ffffff', '#b9b6b0'], floor: ['#1d1f24', '#23262c', 40], bd: 'coach',
+    u: ['Win 5 on Hard', () => stats.wins.hard, 5],
+    paint(g, w, h) {
+      g.fillStyle = '#f3f1ee'; g.fillRect(0, 0, w, h);
+      const rn = rng(15);
+      for (let i = 0; i < 22; i++) {
+        g.strokeStyle = `rgba(110,110,120,${0.12 + rn() * 0.3})`; g.lineWidth = 0.6 + rn() * 2;
+        g.beginPath(); let x = rn() * w, y = rn() * h * 0.2 - 40; g.moveTo(x, y);
+        for (let k = 0; k < 10; k++) { const nx = x + (rn() - 0.45) * 120, ny = y + 40 + rn() * 50; g.quadraticCurveTo((x + nx) / 2 + (rn() - 0.5) * 50, (y + ny) / 2, nx, ny); x = nx; y = ny; }
+        g.stroke();
+      }
+    } },
+  blueprint: { name: 'Blueprint', set: 'collector', lip: ['#dbe8f7', '#5d7ea8'], floor: ['#0f2440', '#12294a', 40], bd: 'coach', props: 'blueprint',
+    u: ['Fan 10: make all 10', () => best, 10],
+    paint(g, w, h) {
+      g.fillStyle = '#1e4f8f'; g.fillRect(0, 0, w, h);
+      g.strokeStyle = 'rgba(255,255,255,.12)'; g.lineWidth = 1;
+      for (let x = 0; x <= w; x += 15) ln(g, x, 0, x, h); for (let y = 0; y <= h; y += 15) ln(g, 0, y, w, y);
+      g.strokeStyle = 'rgba(255,255,255,.28)'; for (let x = 0; x <= w; x += 75) ln(g, x, 0, x, h); for (let y = 0; y <= h; y += 75) ln(g, 0, y, w, y);
+      g.strokeStyle = 'rgba(255,255,255,.85)'; g.lineWidth = 1.4;
+      ln(g, w - 30, 12, w - 30, 462); ln(g, w - 37, 12, w - 23, 12); ln(g, w - 37, 462, w - 23, 462);
+      g.save(); g.translate(w - 30, 237); g.rotate(-Math.PI / 2); g.fillStyle = '#1e4f8f'; g.fillRect(-28, -9, 56, 18);
+      g.fillStyle = '#ffffff'; g.font = '13px "Nunito", sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('30 in', 0, 0); g.restore();
+    } },
+};
+
+const SETS = [['house', 'Around the House'], ['gameday', 'Gameday'], ['night', 'After Hours'], ['collector', "Collector's Case"]];
+
+const notebookFace = pad => (c, r) => {
+  const gr = c.createLinearGradient(-r, -r, r, r);
+  gr.addColorStop(0, pad ? C.pad : C.paper); gr.addColorStop(1, pad ? C.pad2 : C.paper2);
+  c.fillStyle = gr; c.fillRect(-r, -r, 2 * r, 2 * r);
+  c.save(); c.globalAlpha *= 0.6; c.strokeStyle = C.rule; c.lineWidth = r * 0.045;
+  for (let y = -r; y < r; y += r * 0.22) ln(c, -r, y, r, y);
+  c.strokeStyle = C.margin; ln(c, -r * 0.2, -r, -r * 0.2, r); if (pad) ln(c, -r * 0.28, -r, -r * 0.28, r);
+  c.restore();
+};
+const stripeFace = (c1, c2, c3) => (c, r) => {
+  c.fillStyle = c1; c.fillRect(-r, -r, 2 * r, 2 * r);
+  c.fillStyle = c2; c.fillRect(-r * 0.35, -r, r * 0.26, 2 * r);
+  c.fillStyle = c3; c.fillRect(-r * 0.62, -r, r * 0.1, 2 * r); c.fillRect(-r * 0.05, -r, r * 0.1, 2 * r);
+};
+const BALLS = {
+  notebook: { name: 'Notebook', set: 'house', side: '#dfe6ef', face: notebookFace(false) },
+  legal: { name: 'Legal Pad', set: 'house', side: '#efcd58', face: notebookFace(true) },
+  newspaper: { name: 'Sports Page', set: 'house', side: '#cfc9bb', u: ['Win 1 game', () => winsAll(), 1],
+    face(c, r) {
+      c.fillStyle = '#efeadf'; c.fillRect(-r, -r, 2 * r, 2 * r);
+      c.fillStyle = '#3a3a3a'; c.fillRect(-r * 0.9, -r * 0.55, r * 0.5, r * 1.1);
+      c.strokeStyle = 'rgba(40,40,40,.45)'; c.lineWidth = r * 0.04; for (let x = -r * 0.3; x < r; x += r * 0.13) ln(c, x, -r, x, r);
+      c.fillStyle = '#9a9a9a'; c.fillRect(r * 0.05, -r * 0.3, r * 0.35, r * 0.6);
+    } },
+  napkin: { name: 'Bar Napkin', set: 'house', side: '#d6d7d2', u: ['Score 10 touchdowns', () => stats.tds, 10],
+    face(c, r) {
+      c.fillStyle = '#fbfbf8'; c.fillRect(-r, -r, 2 * r, 2 * r);
+      c.strokeStyle = 'rgba(150,150,160,.35)'; c.lineWidth = r * 0.035;
+      for (let k = -2 * r; k < 2 * r; k += r * 0.24) { ln(c, k, -r, k + 2 * r, r); ln(c, k, r, k + 2 * r, -r); }
+    } },
+  homework: { name: 'Homework', set: 'house', side: '#dfe6ef', u: ['Kick Streak of 3', () => streakBest, 3],
+    face(c, r) {
+      notebookFace(false)(c, r);
+      c.save(); c.rotate(Math.PI / 2); c.fillStyle = '#d8312a'; c.font = `${r * 0.72}px ${FD}`; c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.fillText('F', -r * 0.05, -r * 0.18); c.strokeStyle = '#d8312a'; c.lineWidth = r * 0.06; c.beginPath(); c.arc(-r * 0.05, -r * 0.18, r * 0.36, 0, 7); c.stroke(); c.restore();
+    } },
+  sticky: { name: 'Sticky Note', set: 'house', side: '#e6c23d', u: ['Score 25 touchdowns', () => stats.tds, 25],
+    face(c, r) {
+      c.fillStyle = '#ffe066'; c.fillRect(-r, -r, 2 * r, 2 * r);
+      c.fillStyle = 'rgba(200,150,0,.25)'; c.fillRect(-r, -r, r * 0.45, 2 * r);
+      c.strokeStyle = 'rgba(40,60,140,.7)'; c.lineWidth = r * 0.06; c.lineCap = 'round';
+      c.beginPath(); c.moveTo(-r * 0.1, -r * 0.45); c.quadraticCurveTo(r * 0.05, -r * 0.25, -r * 0.05, 0); c.quadraticCurveTo(-r * 0.15, r * 0.25, r * 0.05, r * 0.45); c.stroke();
+      c.beginPath(); c.moveTo(r * 0.25, -r * 0.35); c.lineTo(r * 0.25, r * 0.35); c.stroke();
+    } },
+  harbor: { name: 'Harbor City', set: 'gameday', side: '#c9d3e6', u: ['Win on Normal', () => stats.wins.normal + stats.wins.hard, 1], face: stripeFace('#ffffff', '#1d3f8f', '#f2b632') },
+  ironsides: { name: 'Ironsides', set: 'gameday', side: '#d9c9cc', u: ['Win on Hard', () => stats.wins.hard, 1], face: stripeFace('#ffffff', '#7b1f2b', '#111111') },
+  pines: { name: 'North Pines', set: 'gameday', side: '#c9d9cf', u: ['Kick Streak of 8', () => streakBest, 8], face: stripeFace('#ffffff', '#1f5a3a', '#c9a96b') },
+  neonball: { name: 'Neon', set: 'night', side: '#2a1250', glow: '#3df6ff', u: ['Kick Streak of 12', () => streakBest, 12],
+    face(c, r) { c.fillStyle = '#120a24'; c.fillRect(-r, -r, 2 * r, 2 * r); c.strokeStyle = 'rgba(80,240,255,.35)'; c.lineWidth = r * 0.04; for (let y = -r; y < r; y += r * 0.3) ln(c, -r, y, r, y); } },
+  uv: { name: 'UV Splash', set: 'night', side: '#2d1b4d', glow: '#ff4fd8', u: ["Beat a friend's challenge", () => stats.beaten.length, 1],
+    face(c, r) { c.fillStyle = '#1a0f2e'; c.fillRect(-r, -r, 2 * r, 2 * r); c.strokeStyle = '#b6ff3a'; c.lineWidth = r * 0.08; ln(c, -r * 0.4, -r, -r * 0.4, r); c.strokeStyle = '#ff4fd8'; ln(c, -r * 0.1, -r, -r * 0.1, r); } },
+  chrome: { name: 'Chrome', set: 'night', side: '#6c7684', u: ['Long Bomb of 35 in', () => bombBest, 35],
+    face(c, r) {
+      const gr = c.createLinearGradient(-r, -r, r, r);
+      gr.addColorStop(0, '#f4f7fb'); gr.addColorStop(0.35, '#9aa6b5'); gr.addColorStop(0.55, '#ffffff'); gr.addColorStop(0.8, '#7b8796'); gr.addColorStop(1, '#d7dde6');
+      c.fillStyle = gr; c.fillRect(-r, -r, 2 * r, 2 * r);
+    } },
+  graph: { name: 'Graph Paper', set: 'collector', side: '#d6e6dc', u: ['Fan 10: make 7', () => best, 7],
+    face(c, r) { c.fillStyle = '#ffffff'; c.fillRect(-r, -r, 2 * r, 2 * r); c.strokeStyle = 'rgba(70,160,110,.45)'; c.lineWidth = r * 0.03; for (let k = -r; k < r; k += r * 0.16) { ln(c, k, -r, k, r); ln(c, -r, k, r, k); } } },
+  gold: { name: 'Gold Foil', set: 'collector', side: '#a8741b', u: ['Win 5 on Hard', () => stats.wins.hard, 5],
+    face(c, r) {
+      const gr = c.createLinearGradient(-r, -r, r, r);
+      gr.addColorStop(0, '#fff1a8'); gr.addColorStop(0.3, '#e0a92e'); gr.addColorStop(0.5, '#fff6c9'); gr.addColorStop(0.75, '#b9811c'); gr.addColorStop(1, '#f2c75a');
+      c.fillStyle = gr; c.fillRect(-r, -r, 2 * r, 2 * r);
+      c.strokeStyle = 'rgba(120,80,10,.35)'; c.lineWidth = r * 0.03; for (let k = -r; k < r; k += r * 0.18) ln(c, k, -r, k + r * 0.4, r);
+    } },
+  washi: { name: 'Washi', set: 'collector', side: '#d9bfa6', u: ['Long Bomb of 30 in', () => bombBest, 30],
+    face(c, r) {
+      c.fillStyle = '#f7e4d2'; c.fillRect(-r, -r, 2 * r, 2 * r);
+      const rn = rng(4);
+      for (let i = 0; i < 26; i++) { const x = (rn() * 2 - 1) * r, y = (rn() * 2 - 1) * r; c.fillStyle = i % 2 ? '#e8705a' : '#2f9e93';
+        for (let p = 0; p < 5; p++) { const t = p * 1.2566; c.beginPath(); c.arc(x + Math.cos(t) * r * 0.06, y + Math.sin(t) * r * 0.06, r * 0.045, 0, 7); c.fill(); } }
+    } },
+};
+const unlocked = it => !it.u || it.u[1]() >= it.u[2];
+const curTable = () => TABLES[cfg.table] && unlocked(TABLES[cfg.table]) ? TABLES[cfg.table] : TABLES.oak;
+// Team 0 (you, or Blue) carries your equipped football; team 1 (the computer, or Red) gets a legal pad,
+// or notebook paper when you've equipped the legal pad, so the two always look different.
+function ballSkin(team) {
+  const mine = BALLS[cfg.ball] && unlocked(BALLS[cfg.ball]) ? cfg.ball : 'notebook';
+  if (!team) return BALLS[mine];
+  return mine === 'legal' ? BALLS.notebook : BALLS.legal;
+}
+
+// Unlocks: remember what's been seen so only new ones are announced
+let seenSkins = null;
+try { seenSkins = JSON.parse(localStorage.getItem('pf-seen') || 'null'); } catch (e) {}
+const allSkins = () => [...Object.entries(TABLES).map(([k, v]) => ['t:' + k, v]), ...Object.entries(BALLS).map(([k, v]) => ['b:' + k, v])];
+if (!Array.isArray(seenSkins)) { seenSkins = allSkins().filter(([, v]) => unlocked(v)).map(([k]) => k); try { localStorage.setItem('pf-seen', JSON.stringify(seenSkins)); } catch (e) {} }
+let freshSkins = [];
+function checkUnlocks() {
+  saveStats();
+  for (const [k, v] of allSkins()) if (unlocked(v) && !seenSkins.includes(k)) { seenSkins.push(k); freshSkins.push(v.name); }
+  try { localStorage.setItem('pf-seen', JSON.stringify(seenSkins)); } catch (e) {}
+  $('skinsNew').hidden = !freshSkins.length;
+}
+
+// ---------- props on the table (slide view) ----------
+function drawProps() {
+  const tl = L.cx - TW, tr = L.cx + TW, p = curTable().props;
+  if (p === 'lunch') { drawCarton(tl + 48, L.startY + 62, -0.18); drawPencil(tr - 34, L.startY + 8, -1.95); }
+  else if (p === 'kitchen') drawShaker(tr - 46, L.startY + 50);
+  else if (p === 'bar') drawCoaster(tr - 50, L.startY + 46);
+  else if (p === 'office') { drawPaperclip(tl + 52, L.startY + 54, -0.5); drawPencil(tr - 34, L.startY + 8, -1.95); }
+  else if (p === 'chalk') drawChalk(tr - 50, L.startY + 40);
+  else if (p === 'blueprint') drawPencil(tl + 40, L.startY + 30, -1.2);
+}
+function drawShaker(x, y) {
+  ctx.save(); ctx.translate(x, y);
+  ctx.save(); ctx.shadowColor = 'rgba(30,10,0,.45)'; ctx.shadowBlur = 8 * blurK; ctx.shadowOffsetY = 5 * blurK; ctx.fillStyle = '#e9f1f5'; ctx.beginPath(); ctx.arc(0, 0, 17, 0, 7); ctx.fill(); ctx.restore();
+  ctx.fillStyle = '#c9d3da'; ctx.beginPath(); ctx.arc(0, 0, 10, 0, 7); ctx.fill();
+  ctx.strokeStyle = C.outline; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(0, 0, 17, 0, 7); ctx.stroke();
+  ctx.fillStyle = '#5b6670'; for (const [dx, dy] of [[-3.5, -2.5], [3.5, -2.5], [0, 3.5]]) { ctx.beginPath(); ctx.arc(dx, dy, 1.6, 0, 7); ctx.fill(); }
+  ctx.restore();
+}
+function drawCoaster(x, y) {
+  ctx.save(); ctx.translate(x, y);
+  ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.5)'; ctx.shadowBlur = 8 * blurK; ctx.shadowOffsetY = 4 * blurK; ctx.fillStyle = '#d29a62'; ctx.beginPath(); ctx.arc(0, 0, 26, 0, 7); ctx.fill(); ctx.restore();
+  ctx.strokeStyle = C.outline; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(0, 0, 26, 0, 7); ctx.stroke();
+  ctx.strokeStyle = '#8a1f1f'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(0, 0, 19, 0, 7); ctx.stroke();
+  ctx.fillStyle = '#8a1f1f'; ctx.font = '10px ' + FD; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('ON TAP', 0, 1);
+  ctx.restore();
+}
+function drawPaperclip(x, y, a) {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(a); ctx.strokeStyle = '#d7dde3'; ctx.lineWidth = 3;
+  rr(-18, -7, 36, 14, 7); ctx.stroke(); rr(-12, -3.5, 26, 7, 3.5); ctx.stroke();
+  ctx.restore();
+}
+function drawChalk(x, y) {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(0.4);
+  ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.45)'; ctx.shadowBlur = 6 * blurK; ctx.shadowOffsetY = 3 * blurK; ctx.fillStyle = '#f4f1e6'; rr(-20, -5, 40, 10, 4); ctx.fill(); ctx.restore();
+  ctx.strokeStyle = C.outline; ctx.lineWidth = 2; rr(-20, -5, 40, 10, 4); ctx.stroke();
+  ctx.translate(0, 34); ctx.rotate(-0.6);
+  ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.45)'; ctx.shadowBlur = 6 * blurK; ctx.shadowOffsetY = 3 * blurK; ctx.fillStyle = '#5a3a20'; rr(-26, -10, 52, 20, 4); ctx.fill(); ctx.restore();
+  ctx.fillStyle = '#c7c2b4'; rr(-26, 2, 52, 8, 3); ctx.fill();
+  ctx.strokeStyle = C.outline; rr(-26, -10, 52, 20, 4); ctx.stroke();
+  ctx.restore();
+}
+
+// ---------- kick-scene backdrops ----------
+function room(fy, wa, wb, wains, trim) {
+  const g = ctx.createLinearGradient(0, 0, 0, fy); g.addColorStop(0, wa); g.addColorStop(1, wb);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, fy + 2);
+  const ty = fy - 40;
+  ctx.fillStyle = wains; ctx.fillRect(0, ty, W, fy - ty + 2);
+  ctx.strokeStyle = 'rgba(0,0,0,.14)'; ctx.lineWidth = 1; for (let x = 0; x < W; x += 14) line(x, ty, x, fy);
+  ctx.fillStyle = trim; ctx.fillRect(0, ty - 5, W, 6);
+}
+function wallClock(x, y) {
+  ctx.fillStyle = '#ffffff'; ctx.strokeStyle = C.outline; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.arc(x, y, 17, 0, 7); fillStroke(); ctx.lineCap = 'round'; ctx.lineWidth = 2.5;
+  line(x, y, x + Math.sin(0.785) * 8, y - Math.cos(0.785) * 8); line(x, y, x + 12, y);
+}
+function crowd(y0, y1, cols, seed, dim) {
+  const rn = rng(seed);
+  ctx.fillStyle = dim ? '#151a24' : '#2a3140'; ctx.fillRect(0, y0, W, y1 - y0);
+  for (let y = y0 + 5; y < y1; y += 9) for (let x = (y / 9 % 2) * 5; x < W; x += 10) {
+    ctx.fillStyle = cols[Math.floor(rn() * cols.length)]; ctx.globalAlpha = dim ? 0.55 : 0.9;
+    ctx.beginPath(); ctx.arc(x + rn() * 3, y + rn() * 2, 3.2, 0, 7); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+}
+function lightTower(x, y, glow) {
+  ctx.fillStyle = '#596270'; ctx.fillRect(x - 2, y, 4, 60);
+  if (glow) { const l = ctx.createRadialGradient(x, y, 2, x, y, 90); l.addColorStop(0, 'rgba(255,252,230,.6)'); l.addColorStop(1, 'rgba(255,252,230,0)'); ctx.fillStyle = l; ctx.fillRect(x - 90, y - 90, 180, 180); }
+  ctx.fillStyle = '#3d4552'; rr(x - 22, y - 14, 44, 18, 3); ctx.fill();
+  ctx.fillStyle = '#fffbe6'; for (let i = 0; i < 4; i++) for (let j = 0; j < 2; j++) { ctx.beginPath(); ctx.arc(x - 15 + i * 10, y - 9 + j * 8, 3, 0, 7); ctx.fill(); }
+}
+const BACKDROPS = {
+  cafeteria: fy => drawBackdrop(fy),
+  kitchen(fy) {
+    room(fy, '#fff3c4', '#f3dc97', '#ffffff', '#d8cfc0');
+    const wy = L.hz - 150, x = L.cx - 200;
+    let g = ctx.createLinearGradient(0, wy, 0, wy + 96); g.addColorStop(0, '#9fd8ff'); g.addColorStop(1, '#e6f6ff');
+    rr(x, wy, 116, 96, 10); ctx.fillStyle = g; ctx.fill(); ctx.lineWidth = 6; ctx.strokeStyle = '#ffffff'; ctx.stroke();
+    for (const cx2 of [x - 6, x + 92]) { ctx.fillStyle = '#ffffff'; ctx.fillRect(cx2, wy - 8, 30, 116); ctx.fillStyle = 'rgba(214,52,52,.45)'; for (let k = 0; k < 30; k += 10) ctx.fillRect(cx2 + k, wy - 8, 5, 116); for (let k = 0; k < 116; k += 10) ctx.fillRect(cx2, wy - 8 + k, 30, 5); }
+    wallClock(L.cx + 150, Math.max(34, L.hz - 92));
+  },
+  bar(fy) {
+    room(fy, '#4a2a19', '#2c170d', '#3b2216', '#1d0f08');
+    const wy = L.hz - 150;
+    for (const dx of [-190, 190]) {
+      const x = L.cx + dx - 60; ctx.fillStyle = '#111317'; rr(x - 4, wy - 4, 128, 80, 6); ctx.fill();
+      const g = ctx.createLinearGradient(0, wy, 0, wy + 72); g.addColorStop(0, '#2f8f45'); g.addColorStop(1, '#1d6a33'); ctx.fillStyle = g; ctx.fillRect(x, wy, 120, 72);
+      ctx.strokeStyle = 'rgba(255,255,255,.6)'; ctx.lineWidth = 1.5; for (let k = 12; k < 120; k += 18) line(x + k, wy, x + k - 10, wy + 72);
+      ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(x, wy + 58, 120, 14);
+    }
+    for (let x = 10, i = 0; x < W; x += 34, i++) { const y = wy - 26 + Math.sin(i * 1.3) * 6; const l = ctx.createRadialGradient(x, y, 1, x, y, 16); l.addColorStop(0, 'rgba(255,200,110,.9)'); l.addColorStop(1, 'rgba(255,200,110,0)'); ctx.fillStyle = l; ctx.fillRect(x - 16, y - 16, 32, 32); }
+  },
+  office(fy) {
+    room(fy, '#c7d0d8', '#aab5bf', '#8d98a3', '#6d7882');
+    const wy = L.hz - 150, x = L.cx + 110;
+    ctx.fillStyle = '#ffffff'; rr(x, wy, 130, 84, 4); ctx.fill(); ctx.strokeStyle = '#7f8a94'; ctx.lineWidth = 4; ctx.stroke();
+    ctx.lineWidth = 2.5; ctx.strokeStyle = '#d33b3b'; ctx.lineCap = 'round';
+    for (const [a, b] of [[x + 22, wy + 28], [x + 46, wy + 50]]) { line(a - 6, b - 6, a + 6, b + 6); line(a + 6, b - 6, a - 6, b + 6); }
+    ctx.strokeStyle = '#2f5fb3'; for (const [a, b] of [[x + 92, wy + 24], [x + 106, wy + 52]]) { ctx.beginPath(); ctx.arc(a, b, 7, 0, 7); ctx.stroke(); }
+    ctx.beginPath(); ctx.moveTo(x + 46, wy + 44); ctx.quadraticCurveTo(x + 62, wy + 14, x + 84, wy + 18); ctx.stroke();
+    wallClock(L.cx - 150, Math.max(34, L.hz - 92));
+  },
+  stadium: fy => stadium(fy, ['#8fd0ff', '#d8f0ff'], false, false),
+  stadiumNight: fy => stadium(fy, ['#06122a', '#13305a'], true, false),
+  stadiumSnow: fy => stadium(fy, ['#aab8c2', '#dfe7eb'], false, true),
+  neon(fy) {
+    const g = ctx.createLinearGradient(0, 0, 0, fy); g.addColorStop(0, '#0a0418'); g.addColorStop(1, '#26084a'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, fy + 2);
+    ctx.save(); ctx.shadowColor = '#ff3df0'; ctx.shadowBlur = 10; ctx.strokeStyle = 'rgba(255,61,240,.55)'; ctx.lineWidth = 1.5;
+    const hy = fy - 46; for (let i = -12; i <= 12; i++) line(L.cx + i * 18, hy, L.cx + i * 70, fy); for (let k = 0; k < 4; k++) { const y = hy + k * k * 3.5; line(0, y, W, y); }
+    ctx.shadowColor = '#3df6ff'; ctx.strokeStyle = '#3df6ff'; ctx.lineWidth = 3; line(0, hy, W, hy); ctx.restore();
+  },
+  blacklight(fy) {
+    ctx.fillStyle = '#120724'; ctx.fillRect(0, 0, W, fy + 2);
+    const rn = rng(31), cols = ['#b6ff3a', '#ff4fd8', '#ff9a2e', '#3df6ff'];
+    ctx.save(); for (let i = 0; i < 26; i++) { const c = cols[i % 4]; ctx.shadowColor = c; ctx.shadowBlur = 12; ctx.fillStyle = c; ctx.beginPath(); ctx.arc(rn() * W, rn() * fy, 3 + rn() * 9, 0, 7); ctx.fill(); }
+    ctx.strokeStyle = '#ff4fd8'; ctx.shadowColor = '#ff4fd8'; ctx.lineWidth = 3; rr(L.cx - 230, L.hz - 150, 90, 120, 6); ctx.stroke();
+    ctx.strokeStyle = '#b6ff3a'; ctx.shadowColor = '#b6ff3a'; rr(L.cx + 140, L.hz - 140, 90, 110, 6); ctx.stroke(); ctx.restore();
+  },
+  sunset(fy) {
+    const g = ctx.createLinearGradient(0, 0, 0, fy); g.addColorStop(0, '#1a0b2e'); g.addColorStop(0.6, '#7a2fa0'); g.addColorStop(1, '#ff7a45'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, fy + 2);
+    const sy = fy - 30, sr = 120;
+    ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, fy - 10); ctx.clip();
+    const sg = ctx.createLinearGradient(0, sy - sr, 0, sy); sg.addColorStop(0, '#ffd23f'); sg.addColorStop(1, '#f2506b');
+    ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(L.cx, sy, sr, 0, 7); ctx.fill();
+    ctx.fillStyle = '#7a2fa0'; for (let k = 0; k < 6; k++) ctx.fillRect(L.cx - sr, sy - 50 + k * 10, sr * 2, 2 + k * 1.2);
+    ctx.restore();
+    ctx.fillStyle = '#2a0f3d'; ctx.fillRect(0, fy - 10, W, 12);
+  },
+  coach(fy) {
+    ctx.fillStyle = '#7a4a2a'; ctx.fillRect(0, 0, W, fy + 2);
+    for (let x = 0, i = 0; x < W; x += 30, i++) { ctx.fillStyle = i % 2 ? '#6e4225' : '#7f4e2d'; ctx.fillRect(x, 0, 30, fy); ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.fillRect(x, 0, 2, fy); }
+    const sy = L.hz - 70;
+    for (const side of [-1, 1]) {
+      const x0 = side < 0 ? L.cx - 270 : L.cx + 130;
+      ctx.fillStyle = '#4a2a15'; ctx.fillRect(x0, sy, 140, 8);
+      for (let t = 0; t < 3; t++) {
+        const tx = x0 + 22 + t * 46, ty = sy - 8;
+        ctx.fillStyle = '#e2b13c'; ctx.strokeStyle = C.outline; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(tx - 12, ty - 30); ctx.lineTo(tx + 12, ty - 30); ctx.quadraticCurveTo(tx + 12, ty - 12, tx, ty - 10); ctx.quadraticCurveTo(tx - 12, ty - 12, tx - 12, ty - 30); fillStroke();
+        ctx.fillRect(tx - 2, ty - 10, 4, 6); rr(tx - 9, ty - 4, 18, 5, 1.5); fillStroke();
+      }
+    }
+    ctx.fillStyle = '#1f6f72'; ctx.strokeStyle = C.outline; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(L.cx + 160, L.hz - 160); ctx.lineTo(L.cx + 260, L.hz - 145); ctx.lineTo(L.cx + 160, L.hz - 130); ctx.closePath(); fillStroke();
+    ctx.fillStyle = '#ffffff'; ctx.font = '13px ' + FD; ctx.textBaseline = 'middle'; ctx.fillText('PF', L.cx + 172, L.hz - 145);
+    ctx.fillStyle = '#4a2a15'; ctx.fillRect(0, fy - 34, W, 36);
+  },
+};
+function stadium(fy, sky, night, snow) {
+  const g = ctx.createLinearGradient(0, 0, 0, fy); g.addColorStop(0, sky[0]); g.addColorStop(1, sky[1]); ctx.fillStyle = g; ctx.fillRect(0, 0, W, fy + 2);
+  const top = Math.max(0, L.hz - 130);
+  crowd(top, fy - 30, snow ? ['#d8312a', '#2f7cf6', '#f2b632', '#ffffff', '#1f5a3a', '#e86a4f'] : ['#ffffff', '#ffc93c', '#2f7cf6', '#ef4b3f', '#1fb3a2', '#f4c39a', '#3b2a20'], 44, night);
+  ctx.fillStyle = night ? '#2a0f14' : snow ? '#1f5a3a' : '#1d3f8f'; ctx.fillRect(0, fy - 30, W, 32);
+  ctx.fillStyle = 'rgba(255,255,255,.85)'; ctx.fillRect(0, fy - 30, W, 3);
+  lightTower(L.cx - W / 2 + 34, top - 30, night); lightTower(L.cx + W / 2 - 34, top - 30, night);
+  if (snow) { ctx.fillStyle = 'rgba(255,255,255,.9)'; for (let i = 0; i < 80; i++) { const x = ((i * 97.3 + gt * (14 + (i % 5) * 4)) % (W + 20)) - 10, y = ((i * 53.7 + gt * (30 + (i % 7) * 6)) % (fy + 10)); ctx.beginPath(); ctx.arc(x, y, 1 + (i % 3) * 0.7, 0, 7); ctx.fill(); } }
+}
+
+// ---------- kick-scene table: the equipped texture in perspective, one strip per screen row ----------
+function drawTablePersp(far) {
+  const top = proj(0, far, 0)[1], step = 1.5, texH = L.woodH, srcW = tableCv.width;
+  for (let y = Math.max(0, top); y < H; y += step) {
+    const z0 = CAMH * F / (y - L.hz) - ZC, z1 = CAMH * F / (y + step - L.hz) - ZC;
+    const v0 = Math.max(0, far - z0), v1 = far - z1;
+    if (v1 <= 0) continue;
+    if (v0 >= texH) break;
+    const km = F / ((z0 + z1) / 2 + ZC), half = TW * km;
+    ctx.drawImage(tableCv, 0, v0 * tableSc, srcW, Math.max(0.5, Math.min(v1, texH) - v0) * tableSc, L.cx - half, y, half * 2, step + 0.6);
+  }
+}
+
+// ---------- Skin Locker ----------
+let lockerTab = 'tables';
+function tileFor(id, it, kind) {
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'skin';
+  const on = unlocked(it), eq = kind === 'tables' ? curTable() === it : ballSkin(0) === it;
+  b.disabled = !on; b.classList.toggle('eq', eq);
+  const cnv = document.createElement('canvas'); cnv.width = 10; cnv.height = 10;
+  const name = document.createElement('b'); name.textContent = it.name;
+  const st = document.createElement('span');
+  if (eq) st.textContent = 'Equipped';
+  else if (on) st.textContent = 'Tap to use';
+  else { const have = Math.min(it.u[1](), it.u[2]); st.textContent = it.u[2] > 1 ? `${it.u[0]} · ${have}/${it.u[2]}` : it.u[0]; }
+  b.setAttribute('aria-label', `${it.name}. ${st.textContent}`);
+  b.append(cnv, name, st);
+  b.addEventListener('click', () => {
+    if (kind === 'tables') { cfg.table = id; buildTable(); } else cfg.ball = id;
+    saveCfg(); renderLocker();
+  });
+  return [b, cnv];
+}
+function renderLocker() {
+  const grid = $('skinGrid'), reg = lockerTab === 'tables' ? TABLES : BALLS, draws = [];
+  $('tabT').setAttribute('aria-selected', lockerTab === 'tables'); $('tabB').setAttribute('aria-selected', lockerTab === 'balls');
+  grid.replaceChildren();
+  for (const [set, label] of SETS) {
+    const h = document.createElement('p'); h.className = 'set'; h.textContent = label; grid.append(h);
+    for (const [id, it] of Object.entries(reg)) if (it.set === set) { const [b, cnv] = tileFor(id, it, lockerTab); grid.append(b); draws.push([cnv, id, it]); }
+  }
+  const kind = lockerTab;
+  requestAnimationFrame(() => draws.forEach(([cnv, id, it]) => { if (cnv.isConnected) lockerPreview(cnv, it, kind); }));
+}
+// Draw a tile preview with the game's own painters by pointing the shared drawing context at the tile
+function lockerPreview(cnv, it, kind) {
+  const w = cnv.clientWidth || 140, h = cnv.clientHeight || 90, dpr = Math.min(window.devicePixelRatio || 1, 3);
+  cnv.width = Math.round(w * dpr); cnv.height = Math.round(h * dpr);
+  const g = cnv.getContext('2d'), saved = ctx, savedBlur = blurK;
+  ctx = g; blurK = dpr;
+  try {
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (kind === 'tables') {
+      const fy = 24, k = w / (TW * 2);
+      const fl = it.floor || [C.floor, C.floor2, 40];
+      g.fillStyle = fl[0]; g.fillRect(0, 0, w, fy); g.fillStyle = fl[1]; for (let x = 0; x < w; x += fl[2] / 2) if ((x / (fl[2] / 2)) % 2 === 0) g.fillRect(x, 0, fl[2] / 2, fy / 2), g.fillRect(x + fl[2] / 2, fy / 2, fl[2] / 2, fy / 2);
+      g.save(); g.translate(0, fy); g.scale(k, k); g.beginPath(); g.rect(0, 0, TW * 2, (h - fy) / k); g.clip(); it.paint(g, TW * 2, (h - fy) / k + 4); g.restore();
+      const lg = g.createLinearGradient(0, fy, 0, fy + 5); lg.addColorStop(0, it.lip[0]); lg.addColorStop(1, it.lip[1]); g.fillStyle = lg; g.fillRect(0, fy, w, 5);
+      g.strokeStyle = it.edgeGlow || C.outline; g.lineWidth = 2; g.beginPath(); g.moveTo(0, fy); g.lineTo(w, fy); g.stroke();
+      drawPaper(w / 2, fy + 7, -Math.PI / 2 + 0.1, 15, 0, { skin: ballSkin(0) });
+    } else {
+      const bg = g.createRadialGradient(w / 2, h * 0.45, 4, w / 2, h / 2, w * 0.7); bg.addColorStop(0, '#2a5a6b'); bg.addColorStop(1, '#122a33');
+      g.fillStyle = bg; g.fillRect(0, 0, w, h);
+      drawPaper(w / 2, h / 2 - 2, -Math.PI / 2 + 0.25, Math.min(w, h) * 0.32, 0, { skin: it });
+    }
+  } finally { ctx = saved; blurK = savedBlur; }
+}
+function openLocker() {
+  freshSkins = []; $('skinsNew').hidden = true;
+  paused = true; $('menu').hidden = true; $('skins').hidden = false; renderLocker();
+}
+$('skinsOpen').addEventListener('click', openLocker);
+$('tabT').addEventListener('click', () => { lockerTab = 'tables'; renderLocker(); });
+$('tabB').addEventListener('click', () => { lockerTab = 'balls'; renderLocker(); });
+$('skinsDone').addEventListener('click', () => { $('skins').hidden = true; openMenu(); });
+
 // ---------- kick scene ----------
 function proj(x, z, h) { const d = Math.max(5, z + ZC), k = F / d; return [L.cx + x * k, L.hz + (CAMH - h) * k, k]; }
 function drawKick() {
@@ -1481,24 +1999,14 @@ function drawKick() {
   ctx.save();
   ctx.translate((Math.random() - 0.5) * cam.shake * 2, (Math.random() - 0.5) * cam.shake * 2);
   const A = proj(-TW, far, 0), B = proj(TW, far, 0), Cn = proj(TW, -95, 0), D = proj(-TW, -95, 0);
-  drawBackdrop(A[1]);
+  (BACKDROPS[curTable().bd] || drawBackdrop)(A[1]);
   ctx.save();
   ctx.beginPath(); ctx.moveTo(A[0], A[1]); ctx.lineTo(B[0], B[1]); ctx.lineTo(Cn[0], Cn[1]); ctx.lineTo(D[0], D[1]); ctx.closePath();
-  let g = ctx.createLinearGradient(0, A[1], 0, H);
-  g.addColorStop(0, '#bd7334'); g.addColorStop(0.35, '#d68a45'); g.addColorStop(1, '#e49a55');
-  ctx.fillStyle = g; ctx.fill(); ctx.clip();
-  const gr = rng(5);
-  for (let j = 0; j < 26; j++) {
-    const gx = -TW + gr() * TW * 2, amp = 2 + gr() * 3, ph = gr() * 6;
-    ctx.strokeStyle = `rgba(120,58,18,${0.08 + gr() * 0.12})`; ctx.lineWidth = 0.8 + gr();
-    ctx.beginPath();
-    for (let z = -90; z <= far; z += 20) { const p = proj(gx + Math.sin(z * 0.02 + ph) * amp, z, 0); z > -90 ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]); }
-    ctx.stroke();
-  }
-  for (let i = 1; i < 4; i++) {
-    const x = -TW + i * TW / 2, p0 = proj(x, far, 0), p1 = proj(x, -95, 0);
-    ctx.strokeStyle = 'rgba(74,34,8,.55)'; ctx.lineWidth = 2; line(p0[0], p0[1], p1[0], p1[1]);
-  }
+  ctx.fillStyle = '#000000'; ctx.fill(); ctx.clip();
+  drawTablePersp(far);
+  let g = ctx.createLinearGradient(0, A[1], 0, A[1] + 140);
+  g.addColorStop(0, 'rgba(0,0,0,.28)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, A[1], W, 140);
   ctx.font = '13px ' + FB; ctx.textBaseline = 'middle';
   for (let z = Zp - 90; z > -60; z -= 90) {
     const p0 = proj(-TW + 14, z, 0), p1 = proj(TW - 14, z, 0);
@@ -1506,7 +2014,7 @@ function drawKick() {
     ctx.fillStyle = 'rgba(255,244,225,.7)'; ctx.fillText(Math.round((Zp - z) / PXIN) + ' in', Math.max(10, p0[0] + 4), p0[1] - 9);
   }
   ctx.restore();
-  ctx.lineCap = 'round'; ctx.strokeStyle = C.lip; ctx.lineWidth = 4; line(A[0], A[1] + 2, B[0], B[1] + 2);
+  ctx.lineCap = 'round'; ctx.strokeStyle = curTable().lip[0]; ctx.lineWidth = 4; line(A[0], A[1] + 2, B[0], B[1] + 2);
   ctx.strokeStyle = C.outline; ctx.lineWidth = 2.5; line(A[0] - 30, A[1], B[0] + 30, B[1]);
   // arms first, then the body over their tops so they hang from the shoulders; the body stops at the table edge
   drawArms(Zp, def);
@@ -1775,8 +2283,9 @@ function frame(now) { const dt = Math.min(0.05, (now - last) / 1000); last = now
 
 addEventListener('resize', resize);
 resize(); syncTune(); openMenu(); openChallengeLink();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(buildTable);
 requestAnimationFrame(frame);
-window.__pf = { get G() { return G; }, cfg, L, newGame, onSwipe, startKick: k => startKick(k) };
+window.__pf = { get G() { return G; }, cfg, L, newGame, onSwipe, startKick: k => startKick(k), tick: dt => { update(dt); draw(); } };
 })();
 </script>
 </body>
