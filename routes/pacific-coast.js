@@ -59,6 +59,13 @@ const PACIFIC_COAST = {
       "A fog advisory for the coast range, which he reads out of a different kind of paper than the one he was reading before. You can hear it. Then music, half a bar in and already going.",
       // The only check-free way to learn the Capes road is broken before you commit to it.
       { text: "Somebody is complaining about the county on behalf of somebody else. A road out by the water, closed again, closed for years. He agrees with her, says the name of the cape, and goes to an ad for a tyre shop.", sets: 'heard_road_closed' }
+    ]},
+    { from: 150, to: 300, lines: [
+      "The crab price at the dock in Newport. He reads it, and then he reads it again, and then he says he is just the one reading it.",
+      "Beach conditions. Sneaker waves possible. Then he explains what a sneaker wave is, slowly, the way you would explain it to somebody who had never seen the sea, because every year it needs explaining again.",
+      "An elk advisory for 38 east of Reedsport. The herd is down by the road. He reads it the way he reads the weather, which out here is what it is.",
+      "A dune rental place reads its own ad. The ad is about freedom. The part after the ad, which he also reads, is about deposits.",
+      "A missing hiker, found. He gives the trail and the age and the word 'safe' and then he says it again, and the next thing is a song that has been playing since before he started talking."
     ]}
   ],
 
@@ -209,7 +216,7 @@ const PACIFIC_COAST = {
     },
     choices: [
       { text: "Fill up here", sub: (s) => pumpSub(s, { rate: 0.28 }, "Dairy-town prices. The next pump after this is Cloverdale, whichever way you go."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.28 }, next: "pc_003" },
-      { text: "Ice cream, at nine in the morning", sub: "Requires $5 — there is a queue and you would be in it.", type: "neutral", requires: { walletMin: 5 }, next: "pc_003", deltas: { wallet: -5, gut: +1 }, flags: { had_icecream: true } },
+      { text: "Ice cream, at nine in the morning", sub: "Requires $5 — there is a queue and you would be in it.", type: "neutral", showIf: (s) => !s.flags.had_icecream, requires: { walletMin: 5 }, next: "pc_003", deltas: { wallet: -5, gut: +1 }, flags: { had_icecream: true } },
       { text: "Take the Capes loop", sub: "The brown sign. Three headlands and the water the whole way. It comes back to 101 at Cloverdale.", type: "neutral", addMiles: 5, next: "pc_c1", flags: { took_capes: true } },
       { text: "Stay on 101", sub: "Safe — inland through the trees, twenty-two miles, Cloverdale by ten.", type: "safe", next: "pc_004" }
     ]
@@ -379,7 +386,7 @@ const PACIFIC_COAST = {
       }
       base.push(
         "Cloverdale is a feed store, a church, a tavern that opens at eleven, and a gas station with two pumps and a hand-lettered card taped inside the window of the door.",
-        "NEXT GAS 32 MI — THEN 41 — WE ARE NOT KIDDING",
+        "NEXT GAS LINCOLN CITY 22 MI — NOTHING ON THE BEACH ROADS — WE ARE NOT KIDDING",
         "Somebody wrote the last line later. The pen is different."
       );
       if (s.flags.read_closure_sign)
@@ -391,14 +398,13 @@ const PACIFIC_COAST = {
       { text: "Ask who wrote the second line", sub: "Nerve check — somebody in there is the kind of person who tapes a card in a door.", type: "neutral", check: { stat: "nerve", difficulty: 4 }, road: +1,
         success: { next: "pc_005", outcome: "asked", deltas: { nerve: +1 }, flags: { asked_card: true } },
         failure: { next: "pc_005", outcome: "asked_bad" } },
-      { text: "South — you have enough", sub: "Safe, probably. Thirty-two miles is thirty-two miles.", type: "safe", next: "pc_005" }
+      { text: "South — you have enough", sub: "Safe — twenty-two miles is twenty-two miles, and the card says so.", type: "safe", next: "pc_005" }
     ],
     outcomes: {
       asked: [
         "'I did,' she says. 'Both lines. The second one about four years after the first one.'",
-        "She rings up somebody's milk. 'People read the number and they think it's the distance. It's not the distance. It's the distance and then whether the one at the end of it is open.'",
-        "'Is it open?'",
-        "'Usually,' she says."
+        "She rings up somebody's milk. 'People read the number. Nobody reads the middle.'",
+        "'Every summer somebody takes a beach road for the sunset on what they've got in the tank. Then they come back up it on foot and they come in here.' She hands the man his change. 'So I wrote it down. Then I wrote it down again.'"
       ],
       asked_bad: [
         "'Been there a while,' she says, which is an answer to a question you did not ask, and she goes back to the till.",
@@ -408,25 +414,301 @@ const PACIFIC_COAST = {
   },
 
   // ═════════════════════════════════════════════════════════════════════════
-  // 05 — PLACEHOLDER TERMINUS. Everything south of Cloverdale is unwritten:
-  // Lincoln City, Newport, the dunes, Coos Bay, Brookings, the California
-  // line, Eureka, Shelter Cove, the Avenue, Leggett. See the design spec.
+  // LEG 2 — CLOVERDALE TO FLORENCE. Leg 1 taught distance. Leg 2 teaches money:
+  // every stop has a thing that costs a little and returns nothing you can
+  // measure. Fuel is everywhere on this stretch, and that is the trick of it.
   // ═════════════════════════════════════════════════════════════════════════
+
+  // 05 — LINCOLN CITY. Gas on every corner, and a river you can see all of.
   pc_005: {
-    location: "US-101 South — Oregon coast",
+    location: "Lincoln City, OR — US-101",
     tags: ["travel"],
-    mile: 100,
+    mile: 110,
+    paywall: false,
+    textFn: (s) => {
+      const base = [
+        "Lincoln City is seven miles long and about four blocks wide, and all seven miles of it are on 101. Outlet mall, casino, kite shop, chowder, motel, motel, chowder.",
+        "There is gas on every other corner."
+      ];
+      if (s.flags.asked_card)
+        base.push("Nothing on the beach roads, the woman at Cloverdale wrote, and then wrote again. This is not a beach road. This is the opposite of one, and it goes on for seven miles.");
+      base.push(
+        "Halfway through town the highway crosses a river so short there is a sign about it. The D River comes out of a lake on the inland side of the road and goes into the Pacific on the other, and from the bridge you can see the whole of it, start to finish.",
+        "The sign says it is one of the shortest rivers in the world. Another town somewhere has disagreed about this, and the sign is what is left of the argument.",
+        "Kites over the beach. A great many of them. One of them is a whale."
+      );
+      return base;
+    },
+    choices: [
+      { text: "Fill up while it is everywhere", sub: (s) => pumpSub(s, { rate: 0.27 }, "Strip prices. There is gas the whole length of town."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.27 }, next: "pc_006" },
+      { text: "Walk the whole length of the D River", sub: "Free. It will not take long. That is the point of it.", type: "neutral", next: "pc_006", deltas: { gut: +1 }, outcome: "river" },
+      { text: "Through town and out", sub: "Safe — seven miles of stoplights and then the coast again.", type: "safe", next: "pc_006" }
+    ],
+    outcomes: {
+      river: [
+        "It takes about a minute and a half. You start where it comes out from under the road, all of it at once, brown from the lake, and you walk beside it across the sand, and then it is the ocean.",
+        "A kid is standing in it with both feet. He is standing in the entire width of a river. He knows this and he is not going to get over it any time soon.",
+        "You walk back up and you have seen a whole river, beginning and end, which is more than you can say for most of them."
+      ]
+    }
+  },
+
+  // 06 — DEPOE BAY. A harbour you enter through a slot in the rock. Whales,
+  // for twenty-five dollars, or for nothing if you are patient and lucky.
+  pc_006: {
+    location: "Depoe Bay, OR — the sea wall",
+    tags: ["money","quiet"],
+    mile: 122,
+    paywall: false,
+    text: [
+      "Depoe Bay is a town built along the top of a sea wall, and the whole of the business district faces the water like an audience.",
+      "The harbour is behind the highway bridge, and the way in is a gap in the rock about fifty feet wide with the open Pacific on the other side of it. Boats come through it under power, and while they are coming through it nobody on the wall says anything at all.",
+      "Along the wall, when the swell lines up, the ocean comes up through holes in the rock and goes thirty feet into the air. A man in a raincoat is standing exactly where the sign says not to stand, and he is getting exactly what the sign said he would.",
+      "Across 101 there is a booth with a chalkboard.",
+      "WHALES — GRAYS ALL SUMMER — 1 HR — NEXT BOAT 11:30 — $25 CASH"
+    ],
+    choices: [
+      { text: "Buy a seat on the 11:30", sub: "Requires $25 — an hour on a small boat, and no promises written on the board.", type: "neutral", requires: { walletMin: 25 }, check: { stat: "gut", difficulty: 5 },
+        success: { next: "pc_007", outcome: "boat_saw", deltas: { wallet: -25, gut: +2 }, flags: { saw_whale: true, took_boat: true } },
+        failure: { next: "pc_007", outcome: "boat_none", deltas: { wallet: -25, nerve: -1 }, flags: { took_boat: true } } },
+      { text: "Watch from the wall for nothing", sub: "Gut check — they come in close here, the board says. Sometimes.", type: "neutral", check: { stat: "gut", difficulty: 6 },
+        success: { next: "pc_007", outcome: "wall_saw", deltas: { gut: +2 }, flags: { saw_whale: true } },
+        failure: { next: "pc_007", outcome: "wall_none" } },
+      { text: "On to Newport", sub: "Safe — twelve miles, and there are sea lions there that do not charge.", type: "safe", next: "pc_007" }
+    ],
+    outcomes: {
+      boat_saw: [
+        "The boat goes out through the slot with eleven people on it and the skipper does not slow down, and everybody on the wall watches you go the way you were watching the others.",
+        "Twenty minutes out there is a breath. That is what you see first. A noise like a tyre going down, and a column of mist that hangs there after whatever made it has gone under.",
+        "Then the back of it. Grey, scarred, the length of the boat, rolling over slowly and on purpose and going down again without any interest in you whatsoever.",
+        "It was twenty-five dollars. You would be lying if you said you were thinking about that."
+      ],
+      boat_none: [
+        "The boat goes out through the slot and an hour later it comes back in through it.",
+        "In between there is a great deal of grey water and a skipper who says they were here yesterday, and a woman at the rail who has been sick quietly over the side three times and apologised each time.",
+        "Twenty-five dollars. The board did not promise anything. You read it twice before you paid and it did not promise anything."
+      ],
+      wall_saw: [
+        "You give it ten minutes and then fifteen. A woman beside you with binoculars says 'there,' not to you, and points, and you look where she is pointing and see nothing.",
+        "Then you see it. A breath, close, maybe two hundred yards out, a little column of mist standing up off the water and hanging.",
+        "The back comes up after it, grey, enormous, and goes down again. The boat that left at eleven-thirty is a mile further out, looking the other way."
+      ],
+      wall_none: [
+        "You give it twenty minutes. The spouting horns go off. The man in the raincoat gets soaked again and seems pleased about it.",
+        "There are no whales. There is a great deal of water that could have whales in it, which is a different thing, and after a while you walk back to the car."
+      ]
+    }
+  },
+
+  // 07 — NEWPORT. The Bayfront. The route's first honest wage, and the first
+  // place the comfort tax is a plate of food you would have bought anyway.
+  pc_007: {
+    location: "Newport, OR — the Bayfront",
+    tags: ["money","character"],
+    mile: 134,
+    paywall: false,
+    textFn: (s) => {
+      const base = [
+        "The Yaquina Bay Bridge is green and arched and built in the thirties by people who believed a bridge should look like it meant it. It lifts you over the bay and sets you down in Newport like it is presenting you to somebody.",
+        "Down on the Bayfront the canneries are still canneries, mostly, and the smell is the smell.",
+        "Under the public docks there are sea lions. Dozens of them, piled on floats that were put out for boats and given up, barking at nothing in particular at a volume you would have to hear to believe."
+      ];
+      if (s.flags.saw_whale)
+        base.push("You saw a whale this morning. These are louder about it.");
+      else if (s.flags.took_boat)
+        base.push("Twenty-five dollars and no whale, and here are forty sea lions for free, shouting.");
+      base.push(
+        "There is a fish and chips window with a queue. There is a crab boat tied up at the end of the dock with pots stacked on the deck higher than the wheelhouse, and one man on it trying to get them onto the dock by himself.",
+        "He is not managing. He is not asking anybody either."
+      );
+      if (s.flags.had_icecream)
+        base.push("You had ice cream in Tillamook before ten. Nobody is keeping score of this except you.");
+      return base;
+    },
+    choices: [
+      { text: "Offer the man a hand with the pots", sub: "Nerve check — he has not asked, and he is not going to.", type: "neutral", check: { stat: "nerve", difficulty: 4 }, road: +1,
+        success: { next: "pc_007b", outcome: "pots", deltas: { wallet: +24, gut: -1 }, flags: { worked_pots: true } },
+        failure: { next: "pc_007b", outcome: "pots_slow", deltas: { wallet: +10, nerve: -1 }, flags: { worked_pots: true } } },
+      { text: "Fish and chips from the window", sub: "Requires $12 — cod, and more of it than you need.", type: "neutral", requires: { walletMin: 12 }, next: "pc_007b", deltas: { wallet: -12, gut: +1 }, outcome: "chips" },
+      { text: "Down to the docks to look at the sea lions", sub: "Free. Loud.", type: "neutral", next: "pc_007b", deltas: { gut: +1 }, outcome: "lions" },
+      { text: "Back over the bridge and south", sub: "Safe — there is gas on the way out of town.", type: "safe", next: "pc_007b" }
+    ],
+    outcomes: {
+      pots: [
+        "He looks at you for about as long as it takes to decide you are not going to fall in, and then he hands you a pot.",
+        "They are steel frames with mesh over them and they are heavier than they look and wet all the way through. You pass them up and he stacks them, and neither of you talks, and it takes most of an hour.",
+        "When it is done he takes a fold of bills out of his coat and counts off twenty-four dollars without asking what you thought it was worth. 'Going south?' he says. You say yes. He nods like that explains something.",
+        "Your hands smell of bait and will for the rest of the day."
+      ],
+      pots_slow: [
+        "He lets you help. You are slower than he would be on his own and you both know it by the fourth pot.",
+        "He finishes the last ten himself while you hold the dock line, which is the job he gives people who are not good at the other job.",
+        "He gives you ten dollars anyway. 'For the line,' he says, which is generous, and you both know that too."
+      ],
+      chips: [
+        "It is cod in a paper boat with a lot of chips under it and a little cup of tartar sauce that is not enough, and you eat it standing at a rail with the sea lions shouting below.",
+        "A gull lands on the rail four feet away and watches every single chip. It does not get one. It is not discouraged."
+      ],
+      lions: [
+        "Up close they are enormous and they smell like what they eat. They lie on the floats in heaps, on top of each other, and the ones on the bottom of the heaps complain about it continuously.",
+        "Every so often one of them slides off into the water and another one hauls itself up into the gap, and the barking goes up a register while they argue about it, and then it settles back to the ordinary level, which is very loud."
+      ]
+    }
+  },
+
+  // 07b — NEWPORT, the way out. A pump, on the way out of town, which is the
+  // last one for twenty-three miles and nobody needs telling.
+  pc_007b: {
+    location: "Newport, OR — 101 South at the bridge",
+    tags: ["travel","money"],
+    mile: 135,
+    paywall: false,
+    textFn: (s) => {
+      const base = [];
+      if (s.flags.worked_pots)
+        base.push("Your hands are cold and smell of bait and there is money in your pocket you did not have this morning.");
+      base.push(
+        "South of the bridge there is a gas station with a boy in a reflective vest standing between the pumps.",
+        "In Oregon somebody pumps it for you. You wait in the car and he comes to the window and asks how much, and you tell him, and he does it, and he takes the money, and it is the most human contact most people in this state have with a gas station.",
+        "The road south from here runs along the edge of everything for twenty-three miles to Yachats and Cape Perpetua."
+      );
+      return base;
+    },
+    choices: [
+      { text: "Let him fill it", sub: (s) => pumpSub(s, { rate: 0.29 }, "Twenty-nine cents a point. He will wash the windscreen whether you ask or not."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.29 }, next: "pc_008" },
+      { text: "South", sub: "Safe — you have what you have.", type: "safe", next: "pc_008" }
+    ]
+  },
+
+  // 08 — CAPE PERPETUA. Thor's Well: the sea fills a hole in the rock from below
+  // and drains it again, and it looks like it has no bottom. The route's
+  // mechanic as an image. Also the first place on this route that can hurt you.
+  pc_008: {
+    location: "Cape Perpetua, OR — below the highway",
+    tags: ["danger","quiet"],
+    mile: 158,
+    paywall: false,
+    textFn: (s) => {
+      const base = [
+        "South of Newport the road gets close to the water and stays close. Waldport, which is a bridge and a bay. Yachats, which is a village that has decided to be a village on purpose and is very good at it.",
+        "Then the land goes up into Cape Perpetua, and the highway hangs on the side of the cape a couple of hundred feet above the sea.",
+        "Below the road, at the bottom of a trail, the shore is black rock in shelves. And in the middle of one shelf there is a hole.",
+        "People call it Thor's Well. It is round, about the size of a hot tub, and the sea comes in underneath the shelf and fills it from below until it overflows and pours off across the rock in white sheets in every direction.",
+        "Then the swell goes back out, and the whole thing drains. Down. Out of sight. It looks like it goes nowhere and has no bottom. It has a bottom. You cannot see it from anywhere it is safe to stand.",
+        "A sign at the top of the trail says SNEAKER WAVES — NEVER TURN YOUR BACK ON THE OCEAN, and somebody has drawn a small wave on it in biro."
+      ];
+      if (s.flags.asked_dory)
+        base.push("Going out's easy, the man at Pacific City said. Coming in you've got no choice left. You watch the well fill and empty and fill and you think about that more than you mean to.");
+      base.push("Up the hill, a narrow road climbs to the top of the cape, to a stone shelter somebody built there ninety years ago so people could stand out of the wind and look at all of it.");
+      return base;
+    },
+    choices: [
+      { text: "Go out on the shelf for a proper look", sub: "Nerve check — the good view is where the sign says not to be.", type: "neutral", check: { stat: "nerve", difficulty: 5 },
+        success: { next: "pc_009", outcome: "close", deltas: { nerve: +1, gut: +2 }, flags: { saw_well_close: true } },
+        failure: { next: "pc_009", outcome: "wave", take: 12, deltas: { nerve: -2 }, flags: { soaked: true } } },
+      { text: "Watch it from the end of the trail", sub: "Free. From here it is just the most remarkable thing you have seen all day.", type: "neutral", next: "pc_009", deltas: { gut: +1 }, outcome: "trail" },
+      { text: "Drive up to the top of the cape", sub: "Two miles up and two back. The highest you can drive on this coast.", type: "neutral", addMiles: 4, next: "pc_009", deltas: { gut: +2 }, outcome: "top", flags: { saw_from_top: true } },
+      { text: "Carry on south", sub: "Safe — it is a hole. You have seen holes.", type: "safe", next: "pc_009" }
+    ],
+    outcomes: {
+      close: [
+        "The basalt is wet and black and grippy in a way that makes you trust it more than you should. You go out to where three other people are already standing, and you stand with them.",
+        "From here you can see down into it. Not to the bottom. Ten feet, maybe, of churning white, and then dark.",
+        "It fills. It goes over. Water runs past your shoes in a thin fast sheet and goes back where it came from. It drains. You hear it drain.",
+        "You go back up the trail with your back to the ocean, which is the one thing the sign asked, and nothing happens."
+      ],
+      // The sea takes what is in the back pocket, capped at what you had. Says so.
+      wave: (s) => [
+        "You are watching the well. That is the problem. Everybody out there is watching the well.",
+        "The wave does not come over the edge of the shelf so much as the edge of the shelf stops being there, and there is water around your knees and then your waist and it is pulling, not pushing, back the way it came.",
+        "You go down on one hand on the rock and it holds. Somebody has your jacket by the shoulder. Then it is gone and the shelf is just wet rock again and the well is doing what it was doing.",
+        (s.taken || 0) > 0
+          ? "Back at the car you are shaking in a way you did not decide to, and the " + (s.taken >= 12 ? "twelve dollars" : "few dollars") + " that were in your back pocket are in the Pacific Ocean, or in the well, which as far as you can tell is the same place."
+          : "Back at the car you are shaking in a way you did not decide to. You check your back pocket out of habit. There was nothing in it to lose, and for once that is the good news."
+      ],
+      trail: [
+        "From the end of the trail it is like watching a fountain someone built backwards.",
+        "It fills, it overflows, the white runs off in every direction across the black rock, and then it drains, and every time it drains you lean forward a little to see where it goes.",
+        "Out on the shelf three people are standing much closer than you are, and you watch them watch it, and you watch the water behind them."
+      ],
+      top: [
+        "The road up is steep and narrow and there is nowhere to pass. At the top there is a car park and a short path and a shelter made of stacked stone with a window in it that has no glass.",
+        "From up here you can see the coast going south in headlands, one behind the other, each one paler than the last, until they stop being land and start being weather.",
+        "A plaque says on a clear day you can see seventy miles. It is not a clear day. You can see a great deal of it anyway."
+      ]
+    }
+  },
+
+  // 09 — HECETA HEAD. A lighthouse you can see for free and a sea cave you pay
+  // to go down into. The comfort tax at its purest: you pay, it is
+  // astonishing, and it returns nothing the road can use.
+  pc_009: {
+    location: "Heceta Head, OR — US-101",
+    tags: ["money","quiet"],
+    mile: 171,
+    paywall: false,
+    textFn: (s) => {
+      const base = [];
+      if (s.flags.soaked)
+        base.push("Your jeans are still wet from the shelf at Cape Perpetua and the heater has stopped pretending it can do anything about them.");
+      else if (s.flags.saw_well_close)
+        base.push("You keep seeing it when you blink. The white going over, and then the drain, and then the dark where the bottom should be.");
+      if (s.flags.saw_from_top)
+        base.push("From the shelter on top of Cape Perpetua this headland was one of the pale ones further down. Now it is the one you are on, and it is not pale at all.");
+      base.push(
+        "The highway comes round a headland on a bridge and there is a lighthouse below you, white, on a shelf of rock, with a keeper's house beside it painted the colours keepers' houses are painted.",
+        "There is a pullout above it that is full of people taking the same photograph.",
+        "A mile on, on the ocean side, there is a building with a gift shop and a turnstile and a sign. SEA LION CAVES. An elevator goes two hundred feet down inside the cliff to a sea cave you could fit a church in. The sea lions are in it, or they are not; it depends on the season, and a board by the turnstile says which.",
+        "The price is on the board as well."
+      );
+      return base;
+    },
+    choices: [
+      { text: "Pay and go down", sub: "Requires $14 — two hundred feet down inside a cliff.", type: "neutral", requires: { walletMin: 14 }, next: "pc_010", deltas: { wallet: -14, gut: +2 }, outcome: "cave", flags: { went_down: true } },
+      { text: "Stand at the pullout and look at the lighthouse", sub: "Free. Everybody else is.", type: "neutral", next: "pc_010", deltas: { gut: +1 }, outcome: "light" },
+      { text: "On to Florence", sub: "Safe — thirteen miles, and the dunes start just past it.", type: "safe", next: "pc_010" }
+    ],
+    outcomes: {
+      cave: [
+        "The elevator is old and slow and the operator does not say anything the whole way down. The doors open on a walkway in the rock and a smell that arrives about a second before the sound does.",
+        "The cave is enormous. Green water coming and going on the floor of it, and light coming in sideways from two openings to the sea, and on the rocks at the far end, a couple of hundred sea lions, piled and shouting, and the shouting goes all the way up into the roof and comes back.",
+        "You stand at the rail for as long as the people behind you let you.",
+        "On the way back up you have the thought that this was the first thing all day that you paid for and could not have got any other way, and you do not know yet whether that is a good thought or not."
+      ],
+      light: [
+        "From up here the lighthouse is small and perfect and looks exactly like the postcard of itself in the gift shop a mile down the road.",
+        "A man next to you tells his wife it is the most photographed lighthouse in the country. She asks who counted. He does not know."
+      ]
+    }
+  },
+
+  // ═════════════════════════════════════════════════════════════════════════
+  // 10 — PLACEHOLDER TERMINUS, FLORENCE. Everything south of here is unwritten:
+  // the dunes, Reedsport, Coos Bay, the Rogue, Brookings, the California line,
+  // Eureka, Shelter Cove, the Avenue, Leggett. See the design spec.
+  // ═════════════════════════════════════════════════════════════════════════
+  pc_010: {
+    location: "Florence, OR — the Siuslaw bridge",
+    tags: ["travel"],
+    mile: 184,
     paywall: false,
     isVictory: true,
     ending: 'daylight',
-    arrival: "Neskowin, OR — end of the written road",
-    text: [
-      "The road goes on south through Neskowin and Lincoln City and Depoe Bay and a great deal of water you have not seen yet.",
-      "This is as far as it is built.",
-      "Six hundred and twenty more miles of it exist on paper — the dunes, the Rogue, the California line, a hundred miles of coast with no road on it at all, a dead-end town called Shelter Cove, and two different ways into San Francisco.",
-      "None of it is written. You are standing at the end of the part that is.",
-      "Thank you for driving it."
-    ],
+    arrival: "Florence, OR — end of the written road",
+    textFn: (s) => {
+      const base = [
+        "Florence is an old town on a river with another of the green bridges over it, and south of the bridge the land changes all at once.",
+        "Sand. Not beach. Dunes, inland, as high as the trees and higher, going south for forty miles between the highway and the sea. Every half mile along 101 there is somebody renting something with big tyres that will take you out into them for an hour, and the price of an hour is on a banner."
+      ];
+      if (s.flags.worked_pots) base.push("Your hands still smell of the dock at Newport.");
+      if (s.flags.went_down) base.push("You can still hear the cave if you think about it, which you keep doing.");
+      base.push(
+        "This is as far as the road is built.",
+        "Five hundred and forty more miles of it exist on paper: the dunes, Coos Bay, the Rogue River, the California line, the redwoods, a hundred miles of coast with no road on it at all, a dead-end town called Shelter Cove, and two different ways into San Francisco.",
+        "Thank you for driving this far."
+      );
+      return base;
+    },
     choices: []
   }
 
@@ -463,7 +745,26 @@ const PACIFIC_COAST = {
 // Nothing in this slice should foreshadow him; he is an observer and the point
 // is that the hurrying player never learns they missed him.
 //
-// pc_005 IS A STUB, flagged `isVictory` only so the graph terminates and the
+// LEG 2 IS MONEY. Leg 1 taught distance; leg 2 puts a price on every stop that
+// returns nothing the road can use — a whale boat with no promise on the board,
+// a plate of cod, an elevator into a cliff. Fuel is everywhere on this stretch
+// (Lincoln City 0.27, Newport 0.29) and that is the trick: the player learns to
+// stop watching the needle exactly where the wallet starts going.
+//
+// THE OREGON COAST IS NOT SCARCE. There is gas every twenty miles or so from
+// Astoria to Brookings. The Cloverdale card originally claimed 32 miles to the
+// next pump; Lincoln City is 22 and has fuel the length of it. Corrected. The
+// real scarcity on this route is California — the Lost Coast, Shelter Cove,
+// CA-1 below Leggett — and Oregon's only dry roads are the ones off the highway.
+//
+// FIRST INCOME: the crab pots at Newport, $24 or $10. Route 3 had none before
+// this and the Broke Kid cannot reach California without one.
+//
+// FIRST DANGER: Thor's Well. A failed Nerve check on the shelf is a sneaker wave
+// and a `take: 12` — the sea has the money in your back pocket. Not a stranding;
+// this route's harm is meant to be a bill, not a cliff.
+//
+// pc_010 IS A STUB, flagged `isVictory` only so the graph terminates and the
 // harness can walk it. Delete it when leg 3 lands.
 // ═══════════════════════════════════════════════════════════════════════════
 

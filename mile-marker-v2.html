@@ -1983,10 +1983,13 @@ const NODES = {
     mile: null,
     paywall: false,
     onLoad: (s) => { s.flags.stranded_once = true; },
-    text: [
+    textFn: (s) => [
       "The engine doesn't announce it. It just stops pulling.",
       "You coast as far as the shoulder gives you and then you're a parked car in a place nobody parks.",
-      "The vents keep moving air that stopped being cold a while ago.",
+      // The one line in this scene that has weather in it, so it has to be the route's.
+      R().id === 'coast' ? "With the fan off the windows start to fog from the inside, and in a minute you cannot see the road you are parked beside."
+        : R().id === 'south' ? "The vents keep moving air that was never cool to begin with."
+        : "The vents keep moving air that stopped being cold a while ago.",
       "You wait. That's the whole activity. You count the cars that don't slow down.",
       "Then one does.",
       "A truck pulls onto the shoulder ahead of you and backs up, unhurried, until it's close enough to talk without either of you getting out.",
@@ -2770,7 +2773,7 @@ function motionReduced() {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
 }
 // Bump this on every build that goes to testers, so "which one did you play?" has an answer.
-const BUILD = '2026-10-16.9';
+const BUILD = '2026-10-20.2';
 
 function startRadioTicker(block, tries) {
   if (block.dataset.started) return;
