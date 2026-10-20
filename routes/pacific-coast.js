@@ -683,28 +683,295 @@ const PACIFIC_COAST = {
   },
 
   // ═════════════════════════════════════════════════════════════════════════
-  // 10 — PLACEHOLDER TERMINUS, FLORENCE. Everything south of here is unwritten:
-  // the dunes, Reedsport, Coos Bay, the Rogue, Brookings, the California line,
-  // Eureka, Shelter Cove, the Avenue, Leggett. See the design spec.
+  // LEG 3 — FLORENCE TO COOS BAY, AND OUT TO CAPE ARAGO. The dunes, and the
+  // middle rung of the ladder: the first dead end, at a price low enough that
+  // the lesson lands before Shelter Cove charges the full amount for it.
   // ═════════════════════════════════════════════════════════════════════════
+
+  // 10 — FLORENCE. A river town with a green bridge, and then sand.
   pc_010: {
     location: "Florence, OR — the Siuslaw bridge",
-    tags: ["travel"],
+    tags: ["travel","money"],
     mile: 184,
     paywall: false,
-    isVictory: true,
-    ending: 'daylight',
-    arrival: "Florence, OR — end of the written road",
     textFn: (s) => {
       const base = [
-        "Florence is an old town on a river with another of the green bridges over it, and south of the bridge the land changes all at once.",
-        "Sand. Not beach. Dunes, inland, as high as the trees and higher, going south for forty miles between the highway and the sea. Every half mile along 101 there is somebody renting something with big tyres that will take you out into them for an hour, and the price of an hour is on a banner."
+        "Florence is an old town on a river, with another of the green bridges over it — this one opens in the middle for boats, and has two little towers on it for the men who used to open it.",
+        "Old Town is one street of it along the water. A fish market, a bookshop, a place selling saltwater taffy in a window with a machine pulling it, slowly, all day, for nobody in particular."
       ];
       if (s.flags.worked_pots) base.push("Your hands still smell of the dock at Newport.");
       if (s.flags.went_down) base.push("You can still hear the cave if you think about it, which you keep doing.");
       base.push(
+        "South of the bridge the land changes all at once.",
+        "Sand. Not beach. Dunes, inland, as high as the trees and higher, going south for forty miles between the highway and the sea. Every half mile along 101 there is somebody renting something with big tyres that will take you out into them, and the price of it is on a banner."
+      );
+      return base;
+    },
+    choices: [
+      { text: "Fill up before the dunes", sub: (s) => pumpSub(s, { rate: 0.28 }, "River-town prices. Reedsport is twenty-one miles."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.28 }, next: "pc_011" },
+      { text: "Watch the taffy machine for a minute", sub: "Free. It is not going anywhere and neither, for a minute, are you.", type: "neutral", next: "pc_011", deltas: { gut: +1 }, outcome: "taffy" },
+      { text: "Over the bridge and south", sub: "Safe — the dunes are on the right for the next forty miles. You will see them.", type: "safe", next: "pc_011" }
+    ],
+    outcomes: {
+      taffy: [
+        "Two steel arms turn in a slow circle and fold a rope of pink taffy over itself, and over itself, and over itself.",
+        "A woman inside cuts it into pieces and twists each one into wax paper without looking at her hands. There is a sign that says the machine is from 1950-something. The machine does not look like it knows that."
+      ]
+    }
+  },
+
+  // 11 — THE DUNES. Money for a ride, nothing for a walk, and a sign to a beach
+  // access that the card at Cloverdale already warned you about.
+  pc_011: {
+    location: "Oregon Dunes — off US-101",
+    tags: ["money","danger"],
+    mile: 196,
+    paywall: false,
+    textFn: (s) => {
+      const base = [
+        "For twelve miles the dunes are just a brightness behind the trees on the right, and then there is a turn-off and a car park and a wooden platform built out over the edge of them, and you can see.",
+        "It does not look like Oregon. It looks like somewhere that has never heard of Oregon. Sand in ridges three hundred feet high, pale, going west to a line of dark trees and the sea beyond the trees, with the wind taking the tops off the ridges in long thin sheets.",
+        "Back on the highway the rental places have banners. DUNE TOURS · 30 MIN · $40 · BUGGIES · SANDRAILS · NO EXPERIENCE NEEDED.",
+        "Past them, a smaller sign, nailed to a post: BEACH ACCESS, and an arrow, and a road that goes into the trees and comes out the other side with sand already blown across it."
+      ];
+      if (s.flags.asked_card)
+        base.push("Nothing on the beach roads. She wrote it down, and then she wrote it down again.");
+      return base;
+    },
+    choices: [
+      { text: "Pay for half an hour in a dune buggy", sub: "Requires $40 — a man drives, you hold on. No experience needed.", type: "neutral", requires: { walletMin: 40 }, next: "pc_012", deltas: { wallet: -40, gut: +2, nerve: +1 }, outcome: "ride", flags: { rode_buggy: true } },
+      { text: "Walk out from the platform", sub: "Free. The sand is soft and every ridge is further than it looks.", type: "neutral", next: "pc_012", deltas: { gut: +1 }, outcome: "walk" },
+      { text: "Follow the BEACH ACCESS sign", sub: "Gut check — it is an ordinary car, and that is ordinary sand, probably.", type: "neutral", check: { stat: "gut", difficulty: 5 },
+        success: { next: "pc_012", outcome: "turned", deltas: { gut: +1 }, flags: { read_sand: true } },
+        failure: { next: "pc_011s", outcome: "stuck", deltas: { nerve: -1 }, flags: { stuck_sand: true } } },
+      { text: "Keep to 101", sub: "Safe — they are dunes. You can see them from here.", type: "safe", next: "pc_012" }
+    ],
+    outcomes: {
+      ride: [
+        "The buggy is a steel cage on enormous tyres with a seat belt that goes over both shoulders, and the man who drives it does not say anything until you are on top of the first ridge.",
+        "Then he goes down the far side of it, and there is a moment where the whole front of the buggy is pointed at nothing and the sand is coming up the windscreen, and you are making a noise you did not know you made.",
+        "Thirty minutes. At the end of it you are full of sand in places that are going to be finding sand until San Francisco, and forty dollars lighter, and grinning in a way your face did not consult you about."
+      ],
+      walk: [
+        "Every step goes in to the ankle and comes back out with half of it. The first ridge looks like a five-minute walk and takes fifteen.",
+        "From the top of it there is nothing in any direction but more of it, and the wind, and somewhere very far off the sound of an engine going up something and coming down the other side.",
+        "You sit on the crest and the sand keeps moving under you, very slightly, all the time, towards the trees. The whole thing is walking inland at a few feet a year. You do not stay long enough to notice."
+      ],
+      turned: [
+        "The road goes into the trees and the trees thin out and the asphalt gets a sand-coloured edge, and then a sand-coloured middle.",
+        "There is a pickup parked at the side of it with a tow strap coiled on the tailgate and nobody in it, which is a sign of a kind.",
+        "You stop where there is still more road than sand, and turn round in three careful points, and go back the way you came. Somebody in a car like yours has not done this today. You can see the tracks."
+      ],
+      stuck: [
+        "The road goes into the trees and the trees thin out and the asphalt gets a sand-coloured edge, and then a sand-coloured middle, and then it is not asphalt.",
+        "You feel the back of the car go soft before you understand it. You give it more, because that is what everybody does, and that is the wrong thing, and now it is sitting on its own axles in a groove it dug for itself."
+      ]
+    }
+  },
+
+  // 11s — STUCK IN THE SAND. A bill, or a favour. Nobody leaves you there.
+  pc_011s: {
+    location: "Oregon Dunes — a beach access road",
+    tags: ["danger","money","character"],
+    mile: 196,
+    paywall: false,
+    text: [
+      "The back wheels are in to the hubs. Getting out to look at it is worse than not looking at it.",
+      "You have been there ten minutes when a pickup comes up the road from the beach, slowly, the way a person drives who knows exactly where the soft bits are. It stops level with you. The man inside looks at the car, then at the groove behind it, then at you.",
+      "There is a tow strap on his tailgate. It is not the first time today it has been off the tailgate.",
+      "'Twenty,' he says. 'Or you can dig. People dig.' He says it like a forecast. He is not going anywhere either way."
+    ],
+    choices: [
+      { text: "Pay him the twenty", sub: "Requires $20 — two minutes and a strap, and you are on asphalt.", type: "safe", requires: { walletMin: 20 }, next: "pc_012", deltas: { wallet: -20 }, outcome: "paid" },
+      { text: "Dig it out yourself", sub: "Nerve check — he is going to watch.", type: "neutral", check: { stat: "nerve", difficulty: 5 },
+        success: { next: "pc_012", outcome: "dug", deltas: { tank: -3, gut: +1 }, flags: { dug_out: true } },
+        failure: { next: "pc_012", outcome: "dug_bad", deltas: { tank: -6, nerve: -2 }, flags: { pulled_free: true } } }
+    ],
+    outcomes: {
+      paid: [
+        "He backs up, hooks the strap to something under your bumper without having to look for it, and pulls, and the car comes up out of the sand like it was never in any real difficulty.",
+        "He coils the strap. He takes the twenty and puts it in his shirt pocket with the others, by the look of it. 'Don't go that way again,' he says, which is the whole of the advice."
+      ],
+      dug: [
+        "You dig with your hands and a floor mat. You let half the air out of the back tyres because he says, without being asked, to let half the air out of the back tyres.",
+        "It takes twenty minutes. Then you ease it out in first, very gently, and the car crawls up out of its own groove and onto something firm, and he nods once from the cab of his truck, as if a thing has been settled between you.",
+        "He tells you where the air pump is in Reedsport. You did not ask that either."
+      ],
+      dug_bad: [
+        "You dig. You spin it. You dig again and spin it again and the groove gets deeper and the engine gets louder and the needle on the dash does what needles do when you spin wheels in sand for a quarter of an hour.",
+        "In the end he gets out of the truck without saying anything and hooks the strap on and pulls you out.",
+        "You reach for your wallet. He shakes his head and coils the strap. 'Wasn't going to watch you do that all afternoon,' he says, and drives off back down to the beach, slowly, knowing where the soft bits are."
+      ]
+    }
+  },
+
+  // 12 — REEDSPORT AND WINCHESTER BAY. The Umpqua, a lighthouse, a pump, and a
+  // meadow of elk three miles up a side road that cost nothing to look at.
+  pc_012: {
+    location: "Reedsport, OR — the Umpqua",
+    tags: ["travel","money"],
+    mile: 205,
+    paywall: false,
+    textFn: (s) => {
+      const base = [];
+      if (s.flags.stuck_sand)
+        base.push("There is sand in the wheel arches and sand in the footwells and sand, somehow, in the cupholder. The car is going to be giving it back for days.");
+      else if (s.flags.rode_buggy)
+        base.push("You are still finding sand. You are going to be finding sand for a while.");
+      else if (s.flags.read_sand)
+        base.push("Back on the beach road there is a pickup with a tow strap on its tailgate, and today it is waiting for somebody else.");
+      if (s.flags.pulled_free)
+        base.push("He would not take the money. You have that in your pocket still, and the feeling of having been watched dig, and you are not sure which one weighs more.");
+      else if (s.flags.dug_out)
+        base.push("The air pump is at the station by the river, which is exactly where he said it would be. You put back what you let out of the tyres and they stop looking sorry for themselves.");
+      base.push(
+        "The Umpqua River comes out of the mountains here wide and slow and brown, and Reedsport sits on the flat beside it, built low and a bit damp, like it is expecting the river to come and visit.",
+        "Down at the mouth, at Winchester Bay, there is a lighthouse with a red and white light that turns in daylight for nobody, and a harbour full of boats that go out for salmon, and a dune rental place with a queue.",
+        "A brown sign on the edge of town points east, up Route 38. ELK VIEWING AREA 3."
+      );
+      return base;
+    },
+    choices: [
+      { text: "Fill up at the river", sub: (s) => pumpSub(s, { rate: 0.29 }, "Coos Bay is twenty-seven miles."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.29 }, next: "pc_013" },
+      { text: "Out 38 to look at the elk", sub: "Three miles up, three back. Free. They are either there or they are not.", type: "neutral", addMiles: 6, next: "pc_013", deltas: { gut: +2 }, outcome: "elk", flags: { saw_elk: true } },
+      { text: "South to Coos Bay", sub: "Safe — twenty-seven miles of trees with the dunes on the right.", type: "safe", next: "pc_013" }
+    ],
+    outcomes: {
+      elk: [
+        "Route 38 follows the river up into a valley, and three miles in there is a pullout with a fence along it and a wide flat meadow beyond the fence, and the meadow is full of elk.",
+        "Sixty of them, maybe. Big, brown, pale at the back end, grazing with their heads down and their ears moving, in no hurry at all, a hundred yards from a state highway. A bull with a rack of antlers like a coat stand lifts his head and looks at the road and puts it down again.",
+        "A family at the fence has a pair of binoculars they are passing round. The youngest is using them the wrong way round and is perfectly happy.",
+        "Nobody charged anybody anything for this. You notice yourself noticing that, and you drive back down to 101."
+      ]
+    }
+  },
+
+  // 13 — COOS BAY. The biggest town on the coast, a mile of bridge into it, and a
+  // brown sign to the end of a road. The Arago turn is the ladder's middle rung.
+  pc_013: {
+    location: "Coos Bay, OR — US-101",
+    tags: ["travel","money","fork"],
+    mile: 232,
+    paywall: false,
+    textFn: (s) => {
+      const base = [
+        "The bridge into North Bend is nearly a mile long, green, arched in the middle high enough for a ship, and the whole of the bay goes by underneath it, wide and grey and flat.",
+        "Coos Bay is the biggest town on the Oregon coast and it does not look like a postcard of anything. It looks like work. There are log ships at the docks and piles of wood chips by the water the size of hills, and a mill whistle, and a main street with an old cinema on it with Egyptians painted on the front."
+      ];
+      if (s.flags.saw_elk) base.push("You saw sixty elk for nothing an hour ago. This town has never once been free for anybody.");
+      base.push(
+        "At the south end of town there is a brown sign pointing west, out towards the coast you have not been able to see since the dunes.",
+        "CHARLESTON 9 · SHORE ACRES 13 · CAPE ARAGO 14",
+        "There is nothing written under CAPE ARAGO. There does not need to be. The road ends there. You can tell from the way the sign is laid out that there is nowhere else on it to go."
+      );
+      return base;
+    },
+    choices: [
+      { text: "Fill up in town", sub: (s) => pumpSub(s, { rate: 0.28 }, "City prices. Bandon is twenty-four miles south on 101."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.28 }, next: "pc_013" },
+      { text: "Out the Cape Arago road", sub: "Fourteen miles out to the end, and fourteen back. The brown sign does not mention the back. The green one will.", type: "neutral", addMiles: 9, next: "pc_a1", flags: { took_arago: true } },
+      { text: "South on 101", sub: "Safe — Bandon in twenty-four miles, back near the water.", type: "safe", next: "pc_014" }
+    ]
+  },
+
+  // A1 — CHARLESTON. A fishing village, a cove, and a garden on a cliff you pay
+  // the state ten dollars to park beside.
+  pc_a1: {
+    location: "Charleston, OR — the Cape Arago Highway",
+    tags: ["travel","money"],
+    mile: 232,
+    owed: 9,      // back to 101 at Coos Bay. Shown on the sign, never charged here.
+    paywall: false,
+    text: [
+      "The road goes out along the bay and over a bridge at Charleston, which is a fishing village of the working kind: a boat basin, a fish plant, a shack selling crab out of a steaming pot by the road, and a smell that is half salt and half diesel.",
+      "After Charleston it narrows and climbs and finds the coast again, and here it is a different coast. Rock. Cliffs of it in layers, tipped up on end, with the sea breaking into the cracks between the layers.",
+      "Sunset Bay is a cove like a held breath, round and calm, with the ocean pushing at the narrow mouth of it and not getting in.",
+      "A little further there is a car park and a gate and a machine. SHORE ACRES STATE PARK · DAY USE · $10. Behind the gate, a garden. Formal beds and a lily pond and a rose garden, on the top of a cliff, belonging to a house that is not there any more — a lumber man built it so he could look at the sea, and it burned, and the state kept the garden."
+    ],
+    choices: [
+      { text: "Pay the machine and walk the garden", sub: "Requires $10 — roses on the edge of a cliff, which is not where roses go.", type: "neutral", requires: { walletMin: 10 }, addMiles: 5, next: "pc_a2", deltas: { wallet: -10, gut: +2 }, outcome: "garden", flags: { paid_shore: true } },
+      { text: "Stop at Sunset Bay and look at it for free", sub: "Free. A cove. Nobody is charging for the cove.", type: "neutral", addMiles: 5, next: "pc_a2", deltas: { gut: +1 }, outcome: "cove" },
+      { text: "On to the end of the road", sub: "Neutral — it is five more miles, and you have come this far.", type: "neutral", addMiles: 5, next: "pc_a2" }
+    ],
+    outcomes: {
+      garden: [
+        "The garden is absurd and perfect: clipped hedges in rows, roses in labelled beds, a pond with lilies on it and a bench beside the pond, and over the edge of the lawn a hundred feet straight down to water that is trying to take the whole cliff apart.",
+        "A gardener is deadheading the roses into a bucket. She has a radio on in her apron pocket, very quietly, and it is the same station.",
+        "At the end of the lawn there is a stone wall and an observation building where the house was, and in a glass case a photograph of the house. It was enormous. Somebody built all of it to look at this, and all of it is gone, and this is still here."
+      ],
+      cove: [
+        "You stand at the top of the little beach and watch the swell come up to the mouth of the cove and stop, as if there were a line drawn across it.",
+        "Inside the line the water is flat enough for a child to be wading in it to the waist with her trousers rolled. Outside the line it is the Pacific Ocean. Twenty yards separate the two, and she is not aware of the second one at all."
+      ]
+    }
+  },
+
+  // A2 — CAPE ARAGO. The end of the road. A reef covered in animals that are
+  // louder than the sea, and a woman counting them. Then the way you came.
+  pc_a2: {
+    location: "Cape Arago, OR — end of the road",
+    tags: ["quiet","character"],
+    mile: 232,
+    owed: 14,     // the whole way back. The sign goes up as you drive away from it.
+    paywall: false,
+    textFn: (s) => {
+      const base = [
+        "The road ends in a loop at the top of the cape, around a car park and a toilet block and a sign about the reef.",
+        "You hear the reef before you see it. Out in the water, a few hundred yards off, there are flat rocks and a low island, and they are covered — covered — in sea lions and seals and things larger than either, and the noise of them comes in off the water louder than the waves it is coming in on.",
+        "Some of the large ones are elephant seals. You did not know there were elephant seals in Oregon. They lie on the rock like dropped luggage and every so often one rears up and roars at another one, and the other one ignores it.",
+        "At the railing a woman in a fleece with a clipboard is looking through a scope, and every few seconds she presses a clicker in her other hand."
+      ];
+      if (s.flags.paid_shore)
+        base.push("The gardener's radio was playing the same station. You think about that for longer than it deserves.");
+      return base;
+    },
+    choices: [
+      { text: "Ask her what she is counting", sub: "Nerve check — she is working, and the clicker is going.", type: "neutral", check: { stat: "nerve", difficulty: 4 }, road: +1, addMiles: 14,
+        success: { next: "pc_014", outcome: "count", deltas: { nerve: +1, gut: +1 }, flags: { counted_seals: true } },
+        failure: { next: "pc_014", outcome: "count_bad" } },
+      { text: "Stand at the rail and listen to it", sub: "Free. It will not get quieter.", type: "neutral", addMiles: 14, next: "pc_014", deltas: { gut: +2 }, outcome: "listen" },
+      { text: "Back the way you came", sub: "Safe — it is the only way there is. Fourteen miles to 101.", type: "safe", addMiles: 14, next: "pc_014" }
+    ],
+    outcomes: {
+      count: [
+        "'Pups,' she says, without taking her eye from the scope. Click. 'Elephant seal pups, this week. Then the adults again on Friday.' Click.",
+        "She is a volunteer. She has been doing it for nine years, once a week, every week, out here, for the state.",
+        "You ask her what the number is for. She thinks about it, which is more than most people would. 'So somebody knows,' she says. 'If it changes. Somebody has to have been counting before it changed, or nobody can say it did.' Click."
+      ],
+      count_bad: [
+        "'Busy,' she says, and does not look up, and the clicker goes twice while she says it.",
+        "You stand next to her for a little while anyway. She does not mind that. She just does not have a number to spare."
+      ],
+      listen: [
+        "You stand there until you stop being able to tell the animals from the water. The barking, the roaring, a sort of long groaning sound that comes from the large ones, and under all of it the sea doing the same thing it was doing at Astoria this morning.",
+        "The light is getting long. You came fourteen miles to stand here, and you are going to drive fourteen back past everything you have already seen, and you knew that when you turned off, and it is still worth it. You notice that it is still worth it. You notice that you are keeping track."
+      ]
+    }
+  },
+
+  // ═════════════════════════════════════════════════════════════════════════
+  // 14 — PLACEHOLDER TERMINUS, BANDON. Everything south of here is unwritten:
+  // the Rogue, Gold Beach, Brookings, the California line, Crescent City,
+  // Eureka, Shelter Cove, the Avenue, Leggett. See the design spec.
+  // ═════════════════════════════════════════════════════════════════════════
+  pc_014: {
+    location: "Bandon, OR — Old Town",
+    tags: ["travel"],
+    mile: 256,
+    paywall: false,
+    isVictory: true,
+    ending: 'daylight',
+    arrival: "Bandon, OR — end of the written road",
+    textFn: (s) => {
+      const base = [];
+      if (s.flags.took_arago)
+        base.push("Fourteen miles back past Sunset Bay and Charleston and the crab pot steaming by the road, and over the long bridge again in the other direction, and then twenty-four on 101. The cape cost you twenty-eight miles. Nobody sent a bill for it, which is how you know it was the expensive kind.");
+      if (s.flags.counted_seals)
+        base.push("So somebody knows, if it changes. You have been thinking about it since the cape.");
+      base.push(
+        "Bandon is cranberry bogs on the way in and an Old Town by a harbour, and below the bluff a beach full of rocks standing up out of the sand like the furniture of a house that has been taken away.",
+        "One of them has a face, people say. You look at it for a while and you can see why they say it.",
         "This is as far as the road is built.",
-        "Five hundred and forty more miles of it exist on paper: the dunes, Coos Bay, the Rogue River, the California line, the redwoods, a hundred miles of coast with no road on it at all, a dead-end town called Shelter Cove, and two different ways into San Francisco.",
+        "Four hundred and sixty more miles of it exist on paper: the Rogue River, the California line, the redwoods, a hundred miles of coast with no road on it at all, a dead-end town called Shelter Cove, and two different ways into San Francisco.",
         "Thank you for driving this far."
       );
       return base;
@@ -764,8 +1031,20 @@ const PACIFIC_COAST = {
 // and a `take: 12` — the sea has the money in your back pocket. Not a stranding;
 // this route's harm is meant to be a bill, not a cliff.
 //
-// pc_010 IS A STUB, flagged `isVictory` only so the graph terminates and the
-// harness can walk it. Delete it when leg 3 lands.
+// LEG 3 IS THE MIDDLE RUNG. Cape Arago is the route's first dead end: 14 miles
+// out from Coos Bay to a road that ends in a loop, and 14 back the way you came.
+// The ladder now reads Column (4) · Capes (21) · Arago (28, dead end) · Shelter
+// Cove (42, dead end, no fuel at the bottom). Same lesson, louder each time.
+// Arago's mileage is ESTIMATED (Coos Bay–Charleston 9, Charleston–cape 5) and
+// wants Ray's map. So does Coos Bay–Bandon on 101, set at 24 here.
+//
+// The sand. The BEACH ACCESS sign off the dunes is the Cloverdale card paying
+// off: a Gut check in an ordinary car. Failing it costs $20 or a dig, and the
+// dig failing costs fuel and nothing else — the man with the strap will not
+// watch you do that all afternoon. Nobody on this route leaves you there.
+//
+// pc_014 IS A STUB, flagged `isVictory` only so the graph terminates and the
+// harness can walk it. Delete it when leg 4 lands.
 // ═══════════════════════════════════════════════════════════════════════════
 
 if (typeof module !== 'undefined') module.exports = PACIFIC_COAST;

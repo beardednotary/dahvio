@@ -2691,7 +2691,7 @@ function signRoute() {
 }
 
 function updateOdometer(mile) {
-  const total = (state.miles || R().miles) + (state.extra || 0);
+  const total = (state.miles || R().miles) + (state.extra || 0) + (state.owed || 0);
   const pct = total ? Math.min(100, (mile / total) * 100) : 0;
   const track = document.getElementById('odo-track');
   if (track) track.style.visibility = total ? 'visible' : 'hidden';
@@ -2705,7 +2705,7 @@ function updateOdometer(mile) {
     const shown = Math.round(from + ((mile - from) * step / steps));
     el.textContent = shown;
     const left = document.getElementById('odo-left');
-    const total = (state.miles || R().miles) + (state.extra || 0);
+    const total = (state.miles || R().miles) + (state.extra || 0) + (state.owed || 0);
     if (left) left.textContent = total ? Math.max(0, total - shown) : '';
     if (step >= steps) clearInterval(interval);
   }, 40);
@@ -2773,7 +2773,7 @@ function motionReduced() {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
 }
 // Bump this on every build that goes to testers, so "which one did you play?" has an answer.
-const BUILD = '2026-10-20.2';
+const BUILD = '2026-10-20.4';
 
 function startRadioTicker(block, tries) {
   if (block.dataset.started) return;
@@ -2845,6 +2845,8 @@ function loadNode(nodeId) {
   // Capture the distance BEFORE the mile marker advances — the radio needs to know
   // how far you just drove, and updating lastMile first makes that always zero.
   const _drove = node.mile != null ? Math.max(0, node.mile - (state.lastMile || 0)) : 0;
+  // Set before the odometer reads it. Every node sets it, so it clears itself on the way out.
+  state.owed = node.owed || 0;
   if (node.mile != null) { updateOdometer(node.mile + (state.extra || 0)); state.lastMile = node.mile; }
 
   document.getElementById('location-name').textContent = node.location;
