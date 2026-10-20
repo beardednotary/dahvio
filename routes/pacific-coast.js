@@ -66,6 +66,13 @@ const PACIFIC_COAST = {
       "An elk advisory for 38 east of Reedsport. The herd is down by the road. He reads it the way he reads the weather, which out here is what it is.",
       "A dune rental place reads its own ad. The ad is about freedom. The part after the ad, which he also reads, is about deposits.",
       "A missing hiker, found. He gives the trail and the age and the word 'safe' and then he says it again, and the next thing is a song that has been playing since before he started talking."
+    ]},
+    { from: 300, to: 450, lines: [
+      "The river report for the Rogue. Flows, temperatures, which holes the steelhead are in. He reads it like a man reading out the names of old friends.",
+      "A siren test notice. The tsunami sirens along the coast will sound at noon on the first Wednesday of the month, he says. This is only a test. He says the last part twice.",
+      "The temperatures along the coast. Brookings, eighty-one. Port Orford, fifty-eight. Forty miles apart. He reads them both in the same voice and does not try to explain it.",
+      "A road work notice for 101 south of the state line. One lane, flaggers, delays of up to twenty minutes. He gives the dates, and then gives them again, as though somebody had asked.",
+      "A man on a call-in is selling a boat. He describes it for longer than a boat needs. He says it has never let him down. He says it a third time, and then he starts to say why he is selling it, and the line goes quiet."
     ]}
   ],
 
@@ -152,7 +159,7 @@ const PACIFIC_COAST = {
       "At the pump on the way out, the man ahead of you is filling a truck and a jerry can, and he does both without hurrying, and he looks at your plates while he does it."
     ],
     choices: [
-      { text: "Walk down to the rock", sub: "Free. Twenty minutes. Your shoes will be wet after.", type: "neutral", next: "pc_003", deltas: { gut: +1 }, outcome: "walked", flags: { walked_beach: true } },
+      { text: "Walk down to the rock", sub: "Free. Twenty minutes. Your shoes will be wet after.", type: "neutral", next: "pc_003", outcome: "walked", flags: { walked_beach: true } },
       { text: "Pick something up off the sand", sub: "Free — Gut check. Most of what is down there is not worth carrying.", type: "neutral", check: { stat: "gut", difficulty: 5 },
         success: { next: "pc_003", outcome: "stone", deltas: { gut: +1 }, flags: { took_stone: true, walked_beach: true } },
         failure: { next: "pc_003", outcome: "nostone", flags: { walked_beach: true } } },
@@ -250,7 +257,7 @@ const PACIFIC_COAST = {
       return base;
     },
     choices: [
-      { text: "Walk around the barriers", sub: "Free. Two miles on foot, there and back. The car stays here.", type: "neutral", addMiles: 5, next: "pc_c2", deltas: { gut: +2, nerve: +1 }, outcome: "walked", flags: { walked_meares: true } },
+      { text: "Walk around the barriers", sub: "Free. Two miles on foot, there and back. The car stays here.", type: "neutral", addMiles: 5, next: "pc_c2", deltas: { nerve: +1 }, outcome: "walked", flags: { walked_meares: true } },
       { text: "Read the county sign all the way through", sub: "Gut check — there is a date on it.", type: "neutral", check: { stat: "gut", difficulty: 4 }, addMiles: 5,
         success: { next: "pc_c2", outcome: "read", deltas: { gut: +1 }, flags: { read_closure_sign: true } },
         failure: { next: "pc_c2", outcome: "unread" } },
@@ -339,7 +346,7 @@ const PACIFIC_COAST = {
       "There is a shop at the top of the ramp that sells coffee and sells nothing you need, and has a stack of tide tables by the door, free, take one."
     ],
     choices: [
-      { text: "Take a tide table", sub: "Free. It is a month of highs and lows for water you are leaving.", type: "neutral", addMiles: 5, next: "pc_004", deltas: { gut: +1 }, flags: { took_tidetable: true } },
+      { text: "Take a tide table", sub: "Free. It is a month of highs and lows for water you are leaving.", type: "neutral", addMiles: 5, next: "pc_004", flags: { took_tidetable: true } },
       { text: "Ask the man with the winch how often it goes wrong", sub: "Nerve check — he is working and you are watching.", type: "neutral", check: { stat: "nerve", difficulty: 5 }, road: +1, addMiles: 5,
         success: { next: "pc_004", outcome: "asked", deltas: { nerve: +1 }, flags: { asked_dory: true } },
         failure: { next: "pc_004", outcome: "asked_bad", deltas: { nerve: -1 } } },
@@ -441,7 +448,7 @@ const PACIFIC_COAST = {
     },
     choices: [
       { text: "Fill up while it is everywhere", sub: (s) => pumpSub(s, { rate: 0.27 }, "Strip prices. There is gas the whole length of town."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.27 }, next: "pc_006" },
-      { text: "Walk the whole length of the D River", sub: "Free. It will not take long. That is the point of it.", type: "neutral", next: "pc_006", deltas: { gut: +1 }, outcome: "river" },
+      { text: "Walk the whole length of the D River", sub: "Free. It will not take long. That is the point of it.", type: "neutral", next: "pc_006", outcome: "river" },
       { text: "Through town and out", sub: "Safe — seven miles of stoplights and then the coast again.", type: "safe", next: "pc_006" }
     ],
     outcomes: {
@@ -530,7 +537,7 @@ const PACIFIC_COAST = {
         success: { next: "pc_007b", outcome: "pots", deltas: { wallet: +24, gut: -1 }, flags: { worked_pots: true } },
         failure: { next: "pc_007b", outcome: "pots_slow", deltas: { wallet: +10, nerve: -1 }, flags: { worked_pots: true } } },
       { text: "Fish and chips from the window", sub: "Requires $12 — cod, and more of it than you need.", type: "neutral", requires: { walletMin: 12 }, next: "pc_007b", deltas: { wallet: -12, gut: +1 }, outcome: "chips" },
-      { text: "Down to the docks to look at the sea lions", sub: "Free. Loud.", type: "neutral", next: "pc_007b", deltas: { gut: +1 }, outcome: "lions" },
+      { text: "Down to the docks to look at the sea lions", sub: "Free. Loud.", type: "neutral", next: "pc_007b", outcome: "lions" },
       { text: "Back over the bridge and south", sub: "Safe — there is gas on the way out of town.", type: "safe", next: "pc_007b" }
     ],
     outcomes: {
@@ -606,7 +613,7 @@ const PACIFIC_COAST = {
       { text: "Go out on the shelf for a proper look", sub: "Nerve check — the good view is where the sign says not to be.", type: "neutral", check: { stat: "nerve", difficulty: 5 },
         success: { next: "pc_009", outcome: "close", deltas: { nerve: +1, gut: +2 }, flags: { saw_well_close: true } },
         failure: { next: "pc_009", outcome: "wave", take: 12, deltas: { nerve: -2 }, flags: { soaked: true } } },
-      { text: "Watch it from the end of the trail", sub: "Free. From here it is just the most remarkable thing you have seen all day.", type: "neutral", next: "pc_009", deltas: { gut: +1 }, outcome: "trail" },
+      { text: "Watch it from the end of the trail", sub: "Free. From here it is just the most remarkable thing you have seen all day.", type: "neutral", next: "pc_009", outcome: "trail" },
       { text: "Drive up to the top of the cape", sub: "Two miles up and two back. The highest you can drive on this coast.", type: "neutral", addMiles: 4, next: "pc_009", deltas: { gut: +2 }, outcome: "top", flags: { saw_from_top: true } },
       { text: "Carry on south", sub: "Safe — it is a hole. You have seen holes.", type: "safe", next: "pc_009" }
     ],
@@ -665,7 +672,7 @@ const PACIFIC_COAST = {
     },
     choices: [
       { text: "Pay and go down", sub: "Requires $14 — two hundred feet down inside a cliff.", type: "neutral", requires: { walletMin: 14 }, next: "pc_010", deltas: { wallet: -14, gut: +2 }, outcome: "cave", flags: { went_down: true } },
-      { text: "Stand at the pullout and look at the lighthouse", sub: "Free. Everybody else is.", type: "neutral", next: "pc_010", deltas: { gut: +1 }, outcome: "light" },
+      { text: "Stand at the pullout and look at the lighthouse", sub: "Free. Everybody else is.", type: "neutral", next: "pc_010", outcome: "light" },
       { text: "On to Florence", sub: "Safe — thirteen miles, and the dunes start just past it.", type: "safe", next: "pc_010" }
     ],
     outcomes: {
@@ -709,7 +716,7 @@ const PACIFIC_COAST = {
     },
     choices: [
       { text: "Fill up before the dunes", sub: (s) => pumpSub(s, { rate: 0.28 }, "River-town prices. Reedsport is twenty-one miles."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.28 }, next: "pc_011" },
-      { text: "Watch the taffy machine for a minute", sub: "Free. It is not going anywhere and neither, for a minute, are you.", type: "neutral", next: "pc_011", deltas: { gut: +1 }, outcome: "taffy" },
+      { text: "Watch the taffy machine for a minute", sub: "Free. It is not going anywhere and neither, for a minute, are you.", type: "neutral", next: "pc_011", outcome: "taffy" },
       { text: "Over the bridge and south", sub: "Safe — the dunes are on the right for the next forty miles. You will see them.", type: "safe", next: "pc_011" }
     ],
     outcomes: {
@@ -740,7 +747,7 @@ const PACIFIC_COAST = {
     },
     choices: [
       { text: "Pay for half an hour in a dune buggy", sub: "Requires $40 — a man drives, you hold on. No experience needed.", type: "neutral", requires: { walletMin: 40 }, next: "pc_012", deltas: { wallet: -40, gut: +2, nerve: +1 }, outcome: "ride", flags: { rode_buggy: true } },
-      { text: "Walk out from the platform", sub: "Free. The sand is soft and every ridge is further than it looks.", type: "neutral", next: "pc_012", deltas: { gut: +1 }, outcome: "walk" },
+      { text: "Walk out from the platform", sub: "Free. The sand is soft and every ridge is further than it looks.", type: "neutral", next: "pc_012", outcome: "walk" },
       { text: "Follow the BEACH ACCESS sign", sub: "Gut check — it is an ordinary car, and that is ordinary sand, probably.", type: "neutral", check: { stat: "gut", difficulty: 5 },
         success: { next: "pc_012", outcome: "turned", deltas: { gut: +1 }, flags: { read_sand: true } },
         failure: { next: "pc_011s", outcome: "stuck", deltas: { nerve: -1 }, flags: { stuck_sand: true } } },
@@ -889,7 +896,7 @@ const PACIFIC_COAST = {
     ],
     choices: [
       { text: "Pay the machine and walk the garden", sub: "Requires $10 — roses on the edge of a cliff, which is not where roses go.", type: "neutral", requires: { walletMin: 10 }, addMiles: 5, next: "pc_a2", deltas: { wallet: -10, gut: +2 }, outcome: "garden", flags: { paid_shore: true } },
-      { text: "Stop at Sunset Bay and look at it for free", sub: "Free. A cove. Nobody is charging for the cove.", type: "neutral", addMiles: 5, next: "pc_a2", deltas: { gut: +1 }, outcome: "cove" },
+      { text: "Stop at Sunset Bay and look at it for free", sub: "Free. A cove. Nobody is charging for the cove.", type: "neutral", addMiles: 5, next: "pc_a2", outcome: "cove" },
       { text: "On to the end of the road", sub: "Neutral — it is five more miles, and you have come this far.", type: "neutral", addMiles: 5, next: "pc_a2" }
     ],
     outcomes: {
@@ -949,29 +956,332 @@ const PACIFIC_COAST = {
   },
 
   // ═════════════════════════════════════════════════════════════════════════
-  // 14 — PLACEHOLDER TERMINUS, BANDON. Everything south of here is unwritten:
-  // the Rogue, Gold Beach, Brookings, the California line, Crescent City,
-  // Eureka, Shelter Cove, the Avenue, Leggett. See the design spec.
+  // LEG 4 — BANDON TO CRESCENT CITY. The evening, the state line, the night.
+  // Oregon gives away its best twelve miles in the last of the light, and then
+  // California starts charging: you pump your own, it costs more, and the
+  // inspection station is only open while it is light.
   // ═════════════════════════════════════════════════════════════════════════
+
+  // 14 — BANDON. Evening. Rocks on a beach like furniture left behind.
   pc_014: {
-    location: "Bandon, OR — Old Town",
+    location: "Bandon, OR — Old Town, evening",
     tags: ["travel"],
     mile: 256,
     paywall: false,
-    isVictory: true,
-    ending: 'daylight',
-    arrival: "Bandon, OR — end of the written road",
     textFn: (s) => {
       const base = [];
       if (s.flags.took_arago)
-        base.push("Fourteen miles back past Sunset Bay and Charleston and the crab pot steaming by the road, and over the long bridge again in the other direction, and then twenty-four on 101. The cape cost you twenty-eight miles. Nobody sent a bill for it, which is how you know it was the expensive kind.");
+        base.push("Fourteen miles back past Sunset Bay and Charleston and the crab pot steaming by the road, and over the long bridge again the other way, and then twenty-four on 101. The cape cost you twenty-eight miles. The green sign said so the whole time you were out there, going up instead of down, and you went to the end anyway.");
       if (s.flags.counted_seals)
         base.push("So somebody knows, if it changes. You have been thinking about it since the cape.");
       base.push(
-        "Bandon is cranberry bogs on the way in and an Old Town by a harbour, and below the bluff a beach full of rocks standing up out of the sand like the furniture of a house that has been taken away.",
-        "One of them has a face, people say. You look at it for a while and you can see why they say it.",
+        "Bandon is cranberry bogs on the way in, flat and red-green and flooded in squares, and then an Old Town by a harbour with the light going long and gold across it.",
+        "Below the bluff, the beach is full of rocks standing up out of the sand like the furniture of a house that has been taken away. One of them has a face, people say. In this light you can see why they say it.",
+        "It is half past seven. The day has been very long and very good and nothing at all has gone wrong in it, and there are three hundred miles of the day still on the sign."
+      );
+      return base;
+    },
+    choices: [
+      { text: "Fill up while the light holds", sub: (s) => pumpSub(s, { rate: 0.29 }, "Somebody pumps it for you. Port Orford is twenty-seven miles."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.29 }, next: "pc_015" },
+      { text: "Go down to the beach and look at the face", sub: "Free. The steps down are steep and the light will not wait.", type: "neutral", next: "pc_015", outcome: "face", flags: { saw_face: true } },
+      { text: "South", sub: "Safe — the light is going and there is a long way to go in it.", type: "safe", next: "pc_015" }
+    ],
+    outcomes: {
+      face: [
+        "Down on the sand the rocks are bigger than they looked from the top, and wetter, and each one has its own small weather of birds.",
+        "The face is a rock lying on its back in the surf with its chin up, looking at the sky, and once you have seen it there is no way to stop seeing it. The story on the sign at the top says she was a girl who looked at the moon and was turned to stone for it.",
+        "You climb back up the steps with your legs burning and turn round at the top. She is still looking up. The moon is not out yet."
+      ]
+    }
+  },
+
+  // 15 — PORT ORFORD. No harbour, so a crane lifts every boat out of the sea at
+  // the end of the day and sets it on the dock. Pacific City's dories, again,
+  // in a different shape: places on this coast that the sea will not keep a
+  // boat for overnight.
+  pc_015: {
+    location: "Port Orford, OR — the dock",
+    tags: ["quiet"],
+    mile: 283,
+    paywall: false,
+    textFn: (s) => {
+      const base = [
+        "Port Orford is a town on a headland with the ocean on two sides, and it has a sign that says it is the westernmost town in the lower forty-eight. It is a small town to have to carry a fact that size.",
+        "There is no harbour. There is a dock, built out from the rocks into open water, and at the end of the dock there is a crane.",
+        "At the end of the day the boats come in and nose up under the crane one at a time, and a man in the cab swings the hook out, and they lift the whole boat out of the sea — dripping, crew and all — and set it down on a trailer on the dock for the night. There is nowhere in the water to leave it. The sea will not keep a boat here overnight."
+      ];
+      if (s.flags.saw_face)
+        base.push("Twenty-seven miles back there is a stone face on a beach, chin up, looking at a sky that does not have the moon in it yet. You are still carrying her a little.");
+      if (s.flags.asked_dory)
+        base.push("Coming in you've got no choice left, the man at Pacific City said. Here they don't even come in. They get lifted.");
+      base.push("Past the town, Humbug Mountain comes right down to the road, steep and dark with trees, and the highway goes round the bottom of it like it is being careful.");
+      return base;
+    },
+    choices: [
+      { text: "Fill up at the edge of town", sub: (s) => pumpSub(s, { rate: 0.30 }, "Small-town prices. Gold Beach is twenty-seven miles."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.30 }, next: "pc_016" },
+      { text: "Watch them lift a boat out", sub: "Free. There is one coming in now.", type: "neutral", next: "pc_016", outcome: "crane" },
+      { text: "South round Humbug Mountain", sub: "Safe — the light is going orange.", type: "safe", next: "pc_016" }
+    ],
+    outcomes: {
+      crane: [
+        "The boat comes in sideways under the hook with the swell lifting it and dropping it four feet at a time, and a man on the deck catches the cable on the second try and clips it on.",
+        "Then the whole boat goes up. Thirty feet of it, out of the sea, water pouring off the keel, the man still standing on the deck with one hand on the cable, swinging slowly round over the dock like something being put back on a shelf.",
+        "It comes down on the trailer as gently as a cup on a saucer. The man steps off it onto the dock and goes to get a coffee. Nobody watching applauds, because nobody watching is anybody but you."
+      ]
+    }
+  },
+
+  // 16 — GOLD BEACH. The mouth of the Rogue. A jet boat up the river to where the
+  // mail boat used to go, for more money than most people have in the car.
+  pc_016: {
+    location: "Gold Beach, OR — the mouth of the Rogue",
+    tags: ["money","quiet"],
+    mile: 310,
+    paywall: false,
+    text: [
+      "The Rogue comes down out of the mountains and meets the sea at Gold Beach, under another of the long arched bridges, wide and green and moving fast.",
+      "On the north bank there is a dock with jet boats tied along it, flat and open with rows of bench seats, and a board. RIVER RUN · 64 MILES · UP TO AGNESS AND BACK · $55. They have carried the mail up this river by boat for over a hundred years, the board says, because for most of that time there was no road. There is one now. They still carry the mail.",
+      "The last boat of the day is already out. The board says the first one tomorrow is at eight.",
+      "The sun is low and red and flat on the water, and the town is lighting up behind you a window at a time."
+    ],
+    choices: [
+      { text: "Buy a seat on tomorrow's eight o'clock", sub: "Requires $55 — and a night in Gold Beach, and a day of the road you do not have.", type: "neutral", requires: { walletMin: 55 }, next: "pc_017", deltas: { wallet: -55 }, outcome: "ticket", flags: { bought_jetboat: true } },
+      { text: "Fill up at the river", sub: (s) => pumpSub(s, { rate: 0.31 }, "Brookings is twenty-nine miles. After that, California."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.31 }, next: "pc_017" },
+      { text: "Walk out on the jetty while the sun goes", sub: "Free. It is going whether you watch it or not.", type: "neutral", next: "pc_017", outcome: "jetty" },
+      { text: "South while there is light", sub: "Safe — the best of the Oregon coast is the next twelve miles and it is getting dark.", type: "safe", next: "pc_017" }
+    ],
+    outcomes: {
+      ticket: [
+        "The woman at the window takes your fifty-five dollars and writes you a ticket by hand and says eight sharp, they don't wait.",
+        "You walk back to the car holding it. A ticket for tomorrow, for a boat up a river, from a town you will not be in tomorrow, because you are driving to California tonight.",
+        "You knew that when you bought it. You put it in the visor with the other things you have kept today, and you start the car."
+      ],
+      jetty: [
+        "The jetty is a long arm of black boulders reaching out into the river mouth, and you walk out along the top of it until the town is behind you and there is only the river going out and the sea coming in, meeting in a line of standing waves.",
+        "The sun goes down into the sea without any fuss, the way it does here, all at once at the end, and the line of standing waves turns grey.",
+        "When you get back to the car the streetlights are on."
+      ]
+    }
+  },
+
+  // 17 — THE BOARDMAN CORRIDOR. The twelve best miles of the Oregon coast, free,
+  // in the last of the light. Oregon gives it away on the way out.
+  pc_017: {
+    location: "US-101 — the Boardman corridor",
+    tags: ["quiet"],
+    mile: 325,
+    paywall: false,
+    textFn: (s) => {
+      const base = [];
+      if (s.flags.bought_jetboat)
+        base.push("The jet boat ticket is in the visor. Eight sharp. They don't wait.");
+      base.push(
+        "South of Gold Beach the road climbs onto the cliffs and stays up there, and for twelve miles there is a turnout every half mile, each one with a little sign and a path into the trees and the last of the light coming through them sideways.",
+        "Arch Rock. Natural Bridges. Secret Beach. Whaleshead. The names are on brown signs, one after another, and every one of them is free.",
+        "Halfway along, the road crosses a gorge on a bridge so high that the trees at the bottom of it look like moss. A sign at the end says it is the tallest bridge in Oregon. There is nowhere to stop on it. You are over it before you have finished reading.",
+        "Oregon is giving away its best twelve miles on the way out of the door, and it is nearly too dark to see them."
+      );
+      return base;
+    },
+    choices: [
+      { text: "Stop at Natural Bridges", sub: "Free. A short path. The light is nearly gone.", type: "neutral", next: "pc_018", outcome: "bridges", flags: { saw_bridges: true } },
+      { text: "Pull over and walk back to look at the tall bridge", sub: "Nerve check — there is a trail down the side, steep, in the near-dark.", type: "neutral", check: { stat: "nerve", difficulty: 5 },
+        success: { next: "pc_018", outcome: "tall", deltas: { nerve: +1, gut: +1 } },
+        failure: { next: "pc_018", outcome: "tall_bad", deltas: { nerve: -1 } } },
+      { text: "Drive it without stopping", sub: "Safe — you can see it from the car, mostly.", type: "safe", next: "pc_018" }
+    ],
+    outcomes: {
+      bridges: [
+        "The path goes through salal and spruce to a platform on the edge of the cliff, and below the platform the sea has eaten through the rock in two places, so that the headland stands out in the water on legs, in arches, with the ocean going in and out underneath it.",
+        "There is just enough light to see it and then there isn't. You stand there through the last of it. A couple at the other end of the platform are doing the same thing and nobody says anything until it is dark, and then the woman says 'well,' and they go."
+      ],
+      tall: [
+        "The trail goes down the side of the gorge in switchbacks, steep and soft with needles, and at the bottom of the first stretch you can look up and see the bridge from underneath.",
+        "It goes across the sky. That is the only way to say it. Three hundred feet up, a line of steel against the last pale bit of the evening, and a car going across it with its lights on, very small, making no sound at all from down here.",
+        "You climb back up in the dark and your legs are not happy and you do not care."
+      ],
+      tall_bad: [
+        "You go a little way down the trail and the light goes before you get to where you could see anything, and the path goes from steep to steep and wet, and you stop.",
+        "You stand in the dark in the trees for a minute listening to a car go over the bridge somewhere above you, and then you climb back up to the road by feel."
+      ]
+    }
+  },
+
+  // 18 — BROOKINGS. The last Oregon pump. Somebody fills it for you one more
+  // time and tells you, unasked, what is about to happen to the price.
+  pc_018: {
+    location: "Brookings, OR — the last Oregon pump",
+    tags: ["money","night"],
+    time: "night",
+    mile: 339,
+    paywall: false,
+    textFn: (s) => [
+      ...(s.flags.saw_bridges ? ["The headland on its legs, with the sea going in and out underneath it, is behind you in the dark now. You are glad you stopped. You are aware of having been glad of every stop today, and of every one of them being somewhere behind you."] : []),
+      "Brookings is lit up along the highway, motels and a burger place and a station with a canopy that is the brightest thing for miles.",
+      "A girl in a reflective vest comes out to the window before you have the engine off. She looks at your plates.",
+      "'California?' You say yes. 'Fill it here,' she says. 'It's about a third more over the line, and you pump it yourself.' She says it like she has said it four hundred times, because she has.",
+      "Six miles south there is a state line. After that there is nobody to come to the window."
+    ],
+    choices: [
+      { text: "Let her fill it, one last time", sub: (s) => pumpSub(s, { rate: 0.30 }, "The last Oregon price. The last time anybody does this for you."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.30 }, next: "pc_019", outcome: "filled" },
+      { text: "Thank her and go", sub: "Safe — you have what you have. California has gas too.", type: "safe", next: "pc_019" }
+    ],
+    outcomes: {
+      filled: [
+        "She fills it and washes the windscreen without being asked and the windscreen is still wet with it when you pull out.",
+        "'Drive safe,' she says. Everybody in this state has said it to you today, one way or another. You do not know it yet but nobody is going to say it again."
+      ]
+    }
+  },
+
+  // 19 — THE CALIFORNIA LINE. A daylight-only inspection station shutting for the
+  // night as you arrive, lily fields in the dark, and the first California
+  // pump: self-serve, and a third more.
+  pc_019: {
+    location: "Smith River, CA — the state line",
+    tags: ["money","night"],
+    time: "night",
+    mile: 345,
+    paywall: false,
+    textFn: (s) => {
+      const base = [
+        "WELCOME TO CALIFORNIA, the sign says, lit by your own headlights and nothing else.",
+        "A quarter mile past it there is an inspection station across all the lanes, a long low roof with booths under it, the kind they have at the border of a country. The state checks what you are carrying in, for bugs, for fruit, for things that should not be here.",
+        "It is open in daylight only. As you come up to it the last booth has its light on and a woman in a state uniform is standing in it with her jacket on. She looks at your car, and at the dark, and lifts one hand, and waves you through.",
+        "Behind you the light in her booth goes off."
+      ];
+      if (s.flags.took_stone)
+        base.push("There is a stone from a beach in Oregon in your cupholder. Nobody asked.");
+      base.push(
+        "The fields on both sides of the road are flat and dark and planted in rows. In the daytime you would see that they are lilies, nearly all the Easter lilies in the country, grown here for a reason the soil knows and nobody else is sure of. At night they are just rows.",
+        "In the little town of Smith River there is a gas station with its canopy lit. Nobody comes to the window. There is a sign on the pump that says so, and a price per gallon that is not the price you have been paying all day."
+      );
+      return base;
+    },
+    choices: [
+      { text: "Pump your own, at California prices", sub: (s) => pumpSub(s, { rate: 0.38 }, "A third more, like the girl said. Crescent City is twenty miles."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.38 }, next: "pc_020", outcome: "self" },
+      { text: "On to Crescent City", sub: "Safe — twenty miles. There will be gas there too, at the same price.", type: "safe", next: "pc_020" }
+    ],
+    outcomes: {
+      self: [
+        "You get out and stand at the pump and do it yourself, and it is the first time all day, and it feels like the first time ever.",
+        "The numbers go round faster than they did in Oregon. Or they go round at the same speed and mean more. You watch them either way."
+      ]
+    }
+  },
+
+  // 20 — CRESCENT CITY, NIGHT. Where to sleep. A motel at California prices,
+  // the car at the harbour under a sign about overnight parking, or the
+  // redwoods in the dark, where the elk are on the road.
+  pc_020: {
+    location: "Crescent City, CA — the harbour, night",
+    tags: ["money","night","danger"],
+    time: "night",
+    mile: 365,
+    paywall: false,
+    textFn: (s) => {
+      const base = [
+        "Crescent City is a harbour and a long curve of beach and a town that has been knocked down by the sea twice in living memory and put itself back up both times. There are blue signs on the lamp posts that say ENTERING TSUNAMI HAZARD ZONE and, a little further on, LEAVING TSUNAMI HAZARD ZONE, and the town is between them.",
+        "It is ten o'clock. You have been driving since seven this morning. There are three hundred and fifty-six miles left on the sign."
+      ];
+      if (s.flags.took_tidetable)
+        base.push("The tide table from Pacific City says low water here is at five-forty tomorrow morning. There is a lighthouse on an island off the point that you can only walk out to at low water. You did not plan this. The tide table did.");
+      base.push(
+        "There is a motel on the main road with a VACANCY sign and a price on a board under it, California prices.",
+        "Down at the harbour there is a car park facing the water, with sea lions barking out on the breakwater and a sign at the entrance about overnight parking that is too far away to read in the dark.",
+        "South of town the highway goes into the redwoods. It is fifty miles of trees from here to anywhere, and the road through them is two lanes and dark, and there are elk."
+      );
+      return base;
+    },
+    choices: [
+      { text: "Take a room", sub: "Requires $40 — a bed, a shower, and a door that locks. California prices.", type: "safe", requires: { walletMin: 40 }, next: "pc_021", deltas: { wallet: -40, gut: +2, nerve: +2 }, outcome: "room", flags: { slept_room: true } },
+      { text: "Sleep in the car at the harbour", sub: "Gut check — the sign at the entrance said something about overnight. You did not read it.", type: "neutral", check: { stat: "gut", difficulty: 5 },
+        success: { next: "pc_021", outcome: "harbour", deltas: { nerve: +1 }, flags: { slept_harbour: true } },
+        failure: { next: "pc_021", outcome: "ticket", take: 25, deltas: { nerve: -1 }, flags: { slept_harbour: true, got_ticket: true } } },
+      { text: "Drive on into the redwoods tonight", sub: "Gut check — fifty miles of dark two-lane, and the signs about elk are not decorative.", type: "neutral", check: { stat: "gut", difficulty: 6 },
+        success: { next: "pc_021b", outcome: "elk_night", deltas: { gut: +3, nerve: -1 }, flags: { saw_elk_night: true } },
+        failure: { next: "pc_021b", outcome: "elk_bad", deltas: { nerve: -3, gut: -1, tank: -6 }, flags: { elk_scare: true } } }
+    ],
+    outcomes: {
+      room: [
+        "The room is clean and small and smells of the cleaning, and the heater under the window comes on with a noise like a cough and stays on.",
+        "You stand in the shower until the hot water starts to think about it. You lie on top of the covers meaning to get under them, and you do not get under them."
+      ],
+      harbour: [
+        "You park facing the water at the far end, away from the lights, and put the seat back.",
+        "The sea lions bark out on the breakwater all night, in shifts. A foghorn somewhere does what foghorns do, once every half minute, and by the second hour you have stopped hearing it, and then you are asleep.",
+        "Nobody comes. Whatever the sign said, it did not say it to you."
+      ],
+      // Parking ticket, capped at what you have. Says what happened to it.
+      ticket: (s) => [
+        "You park facing the water and put the seat back and the sea lions bark all night and the foghorn goes every half minute and you sleep, eventually, badly, in pieces.",
+        "In the morning there is an envelope under the wiper. HARBOR DISTRICT — NO OVERNIGHT PARKING — $25.",
+        (s.taken || 0) >= 25
+          ? "There is a slot in a post at the entrance for paying it. You put twenty-five dollars in the envelope and the envelope in the slot, because the alternative is a letter to whoever this car is registered to, and you would rather not think about that letter."
+          : (s.taken || 0) > 0
+            ? "There is a slot in a post at the entrance for paying it. You do not have twenty-five dollars. You put in what you have, and write a line on the envelope saying so, and post it, and feel stupid, and feel slightly better."
+            : "There is a slot in a post at the entrance for paying it. You have nothing to put in the envelope. You put it on the dash, where it is going to ride with you, and you try not to look at it."
+      ],
+      elk_night: [
+        "The trees close in over the road a mile out of town and then there is no sky. Just the headlights on the trunks, enormous, going by one after another like the legs of something.",
+        "Twenty miles in there is a shape at the edge of the lights and you are already braking before you know what it is.",
+        "She walks out into the road in front of you as if you were not there. An elk cow, as tall at the shoulder as the roof of the car, pale-rumped, unhurried. Then a calf. Then four more, one at a time, while you sit with your foot on the brake and the engine running and do not breathe.",
+        "When they are gone you drive the rest of it at thirty, and you pull off at the first wide place under the trees and turn the engine off and sit there in the dark with your heart going until it stops going, and then you sleep."
+      ],
+      elk_bad: [
+        "The trees close in over the road a mile out of town and then there is no sky, just the headlights on the trunks going by.",
+        "You see her late. You are on the brakes and the back of the car comes round and you are on the shoulder at an angle, stopped, with the headlights pointing into the forest, and she is standing in the road behind you looking at you over her shoulder.",
+        "She walks off into the trees. You sit with the engine running for a long time, longer than you would like to say, because you cannot make your hands do anything about it.",
+        "When you can, you drive the rest of the way at twenty, and pull off at the first place there is, and do not sleep for a long time."
+      ]
+    }
+  },
+
+  // ═════════════════════════════════════════════════════════════════════════
+  // 21 / 21b — PLACEHOLDER TERMINI, MORNING. Everything south of here is
+  // unwritten: the redwoods, Klamath, Orick, Trinidad, Eureka, Shelter Cove,
+  // the Avenue, Leggett. Two stubs because driving on at night puts you
+  // twenty miles further down the road than sleeping in town does.
+  // ═════════════════════════════════════════════════════════════════════════
+  pc_021: {
+    location: "Crescent City, CA — morning",
+    tags: ["travel"],
+    mile: 366,
+    paywall: false,
+    isVictory: true,
+    ending: 'daylight',
+    arrival: "Crescent City, CA — end of the written road",
+    textFn: (s) => {
+      const base = [];
+      if (s.flags.slept_room) base.push("You wake in the motel with the heater still coughing and the light coming grey round the curtain, and for a second you do not know which state you are in.");
+      else if (s.flags.got_ticket) base.push("You wake in the car with your neck at an angle and an envelope from the harbour district somewhere in the car with you.");
+      else if (s.flags.slept_harbour) base.push("You wake in the car at the harbour with the windows fogged solid and the sea lions still at it.");
+      base.push(
+        "Morning in Crescent City is fog. All of it, everywhere, the harbour and the beach and the town and the road out of it, white and close and dripping.",
         "This is as far as the road is built.",
-        "Four hundred and sixty more miles of it exist on paper: the Rogue River, the California line, the redwoods, a hundred miles of coast with no road on it at all, a dead-end town called Shelter Cove, and two different ways into San Francisco.",
+        "Three hundred and fifty-five more miles of it exist on paper: the redwoods, a hundred miles of coast with no road on it at all, a dead-end town called Shelter Cove, and two different ways into San Francisco.",
+        "Thank you for driving this far."
+      );
+      return base;
+    },
+    choices: []
+  },
+
+  pc_021b: {
+    location: "US-101 — in the redwoods, morning",
+    tags: ["travel"],
+    mile: 386,
+    paywall: false,
+    isVictory: true,
+    ending: 'daylight',
+    arrival: "Del Norte Coast Redwoods, CA — end of the written road",
+    textFn: (s) => {
+      const base = [];
+      if (s.flags.saw_elk_night) base.push("You wake with the seat back under trees so tall the morning has not reached the ground yet. You keep seeing them in the headlights. One at a time, unhurried, as if you were not there.");
+      else if (s.flags.elk_scare) base.push("You wake with the seat back under the trees, stiff, with your hands still remembering the wheel. In daylight the shoulder you stopped on is wider than it felt.");
+      base.push(
+        "This is as far as the road is built.",
+        "Three hundred and thirty-five more miles of it exist on paper: the rest of the redwoods, a hundred miles of coast with no road on it at all, a dead-end town called Shelter Cove, and two different ways into San Francisco.",
         "Thank you for driving this far."
       );
       return base;
@@ -1043,8 +1353,39 @@ const PACIFIC_COAST = {
 // dig failing costs fuel and nothing else — the man with the strap will not
 // watch you do that all afternoon. Nobody on this route leaves you there.
 //
-// pc_014 IS A STUB, flagged `isVictory` only so the graph terminates and the
-// harness can walk it. Delete it when leg 4 lands.
+// LEG 4 IS THE TURN. Evening into night. Oregon gives away its best twelve
+// miles (the Boardman corridor) free, in the last of the light, on the way out.
+// Then California: the inspection station at Smith River is open in daylight
+// only (CDFA, verified) and waves you through as it shuts; nobody comes to the
+// window any more; fuel jumps from ~0.30 to 0.38. The coastal pricing ladder
+// was always meant to climb going south, and this is where it does.
+//
+// THE NIGHT. Crescent City, mile 365, is the route's one night: Astoria to San
+// Francisco is two days. A motel at $58 (out of reach for most), the car at the
+// harbour (Gut check; failing is a $25 ticket as a `take`), or the redwoods in
+// the dark, where the elk are on the road (Gut 6; failing costs fuel and nerve,
+// not money -- a scare, not a bill). Two morning stubs, because driving on puts
+// you twenty miles further than sleeping in town does.
+//
+// A PROMISE THE PROSE MAKES. At Brookings: "'Drive safe,' she says. Everybody in
+// this state has said it to you today... nobody is going to say it again."
+// Nobody in California may say "drive safe" to the player. Ever. Check every
+// California scene for it.
+//
+// A SEED FOR THE BRIDGE. The harbour ticket mentions "a letter to whoever this
+// car is registered to." That is the Golden Gate invoice, four hundred miles
+// early. Keep the wording; never explain it.
+//
+// FREE LOOKS CHANGE NOTHING. Every free stop used to give +1 or +2 Gut, and this
+// route is mostly free stops, so a player who looked at things maxed Gut by
+// mid-Oregon 92-100% of the time -- and a maxed Gut cannot fail a difficulty-5
+// check, which switched off the sand trap and the harbour ticket for exactly the
+// player the route is written for. It also contradicted leg 2's own thesis. Now:
+// looking is free and returns nothing; only what costs money, miles or risk
+// changes you. The prose of every free stop is unchanged.
+//
+// pc_021 AND pc_021b ARE STUBS, flagged `isVictory` only so the graph
+// terminates. Merge them into one morning when leg 5 lands.
 // ═══════════════════════════════════════════════════════════════════════════
 
 if (typeof module !== 'undefined') module.exports = PACIFIC_COAST;
