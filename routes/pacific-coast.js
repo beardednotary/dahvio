@@ -1511,27 +1511,317 @@ const PACIFIC_COAST = {
   },
 
   // ═════════════════════════════════════════════════════════════════════════
-  // 26 — PLACEHOLDER TERMINUS, EUREKA. Everything south of here is unwritten:
-  // Fortuna, Garberville, Shelter Cove, the Avenue, Leggett, both arms below.
+  // LEG 6 — EUREKA TO LEGGETT, BY THE AVENUE AND SHELTER COVE. The signature.
+  // The Avenue of the Giants is the parallel that costs almost nothing in
+  // distance; Shelter Cove is the dead end that costs forty-two miles and has
+  // Cord at the bottom of it, on foot, with no car anywhere.
   // ═════════════════════════════════════════════════════════════════════════
+
+  // 26 — EUREKA. A town built to show what redwood could do.
   pc_026: {
     location: "Eureka, CA — Old Town",
-    tags: ["travel"],
+    tags: ["travel","money"],
     mile: 449,
     paywall: false,
-    isVictory: true,
-    ending: 'daylight',
-    arrival: "Eureka, CA — end of the written road",
     textFn: (s) => {
       const base = [
         "Eureka is a working town on a big grey bay, with an Old Town of painted Victorian houses at one end of it that were built by men who had cut down a great many trees and wanted everybody to know.",
-        "One of the houses is green and has more turrets and scrollwork on it than a house strictly needs. It is the most elaborate building you have seen on this trip. Somebody built it out of redwood to show what redwood could do, and it is standing there showing you."
+        "One of the houses is green and has more turrets and scrollwork on it than a house strictly needs. Somebody built it out of redwood to show what redwood could do, and a hundred and forty years later it is still standing there showing you."
       ];
       if (s.flags.wet_battery) base.push("Your jeans have finally dried, stiff with salt, in a tide line across both thighs. You think about the lighthouse keeper with the tide table on the kitchen wall, who would have read it the same way you did and then gone home on time.");
       else if (s.flags.walked_battery) base.push("Your shoes are dry. You walked to a lighthouse at low water this morning and you were back in time, and you think about the lighthouse keeper with the tide table on the kitchen wall, and the groceries.");
+      base.push("South of town the highway leaves the coast. It has to. Look at the map and you can see why: below Cape Mendocino the shore goes up into mountains that come straight down into the sea, and the road goes inland round the back of them, and does not see the ocean again for a hundred miles.");
+      return base;
+    },
+    choices: [
+      { text: "Pump your own in town", sub: (s) => pumpSub(s, { rate: 0.37 }, "City prices — the cheapest you will see for a while."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.37 }, next: "pc_027" },
+      { text: "Drive past the green house slowly", sub: "Free. Everybody does.", type: "neutral", next: "pc_027", outcome: "house" },
+      { text: "South, inland", sub: "Safe — the coast is going away for a while. The trees are not.", type: "safe", next: "pc_027" }
+    ],
+    outcomes: {
+      house: [
+        "It is a private club now and there is a sign saying so, and a gate, and a man raking the gravel inside the gate who does not look up.",
+        "Every surface of it is carved. Spindles, brackets, fish scales, a tower with a pointed roof, another tower, a porch with a porch on top of it. It is the most anybody has ever said with a house, and what it is saying, as far as you can tell, is: there were a lot of trees."
+      ]
+    }
+  },
+
+  // 27 — THE AVENUE TURN. A brown sign before the freeway goes round the oldest
+  // trees in the world: the old highway through the middle of them.
+  pc_027: {
+    location: "US-101 — the Avenue of the Giants exit",
+    tags: ["fork","quiet"],
+    mile: 479,
+    paywall: false,
+    text: [
+      "Thirty miles south of Eureka the freeway comes into the river valley, and there is an exit with a brown sign over it that has been photographed more than most people.",
+      "AVENUE OF THE GIANTS.",
+      "It is the old highway. When they built the freeway in the sixties they put it beside the river and left the old road where it was, two lanes, winding, running through the middle of the biggest stand of old redwood left on earth for thirty-one miles before it comes back to 101 near Phillipsville.",
+      "The freeway does the same distance in twenty-nine, and in about half the time, and from the freeway you can see the trees. From the Avenue you are underneath them."
+    ],
+    choices: [
+      { text: "Take the Avenue", sub: "Thirty-one miles of two-lane through the old trees. Two longer than the freeway, and about twice as long to drive.", type: "neutral", addMiles: 1, next: "pc_027a", flags: { took_avenue: true } },
+      { text: "Stay on the freeway", sub: "Safe — the trees are right there on both sides at sixty-five.", type: "safe", next: "pc_028" }
+    ]
+  },
+
+  // 27a — THE AVENUE. A tree you pay to drive through, a grove you walk into
+  // for nothing, and a light that comes down from three hundred feet.
+  pc_027a: {
+    location: "Avenue of the Giants — Humboldt Redwoods",
+    tags: ["money","quiet"],
+    mile: 494,
+    paywall: false,
+    text: [
+      "The road goes in under the trees and the light changes completely, as if somebody had shut a door.",
+      "It is not dark. It is green. The trunks go up on both sides of the road at a width that does not make sense, and the road goes between them in curves that were not designed so much as found, and every car on it is doing twenty-five because nobody can make themselves go faster.",
+      "At Myers Flat there is a sign: DRIVE-THRU TREE. A living redwood with a tunnel cut through the base of it, big enough for a car. You pay at a kiosk. There is a queue of four.",
+      "A few miles on there is a grove with a car park and a loop trail and a sign about a man who saved it. It is free. The tallest trees anybody has ever measured are in here somewhere, and the sign does not say exactly where, on purpose."
+    ],
+    choices: [
+      { text: "Pay and drive through the tree", sub: "Requires $10 — through the middle of a living redwood, in second gear, folding the mirrors in.", type: "neutral", requires: { walletMin: 10 }, addMiles: 2, next: "pc_028", deltas: { wallet: -10, gut: +1 }, outcome: "thru", flags: { drove_thru_tree: true } },
+      { text: "Walk the grove", sub: "Free. The loop is half a mile and takes forty minutes, because of the stopping.", type: "neutral", addMiles: 2, next: "pc_028", outcome: "grove" },
+      { text: "Drive the rest of it without stopping", sub: "Safe — at twenty-five, under the trees, which is its own thing.", type: "safe", addMiles: 2, next: "pc_028" }
+    ],
+    outcomes: {
+      thru: [
+        "The man at the kiosk takes your ten dollars and tells you to fold your mirrors, and you fold your mirrors.",
+        "The tunnel is a black rectangle cut into the foot of a tree whose trunk is wider than your car is long. You go in at walking pace and for a moment there is wood on both sides of you, close enough to touch, raw and red, smelling of pencil shavings, and then you are out the other side in the light.",
+        "Behind you somebody's child is shouting 'again, again.' It costs ten dollars again."
+      ],
+      grove: [
+        "The trail is soft and quiet and the trees are so big that you stop looking up after a while because your neck will not do it any more, and start looking at the bark instead, which is furrowed like a ploughed field stood on end.",
+        "There is a fallen one along the trail. On its side it is a wall, taller than you, going on into the ferns further than you can see. There is a sign saying how old it was when it fell. You read the number twice.",
+        "Nobody on the loop is talking above a whisper. Nobody told them to."
+      ]
+    }
+  },
+
+  // 28 — GARBERVILLE AND REDWAY. Where the Lost Coast road turns off. A brown
+  // sign with one name and one number on it, and nothing about the way back.
+  pc_028: {
+    location: "Garberville, CA — US-101",
+    tags: ["money","fork"],
+    mile: 513,
+    paywall: false,
+    textFn: (s) => {
+      const base = [];
+      if (s.flags.drove_thru_tree) base.push("There is still a smell of cut redwood in the car from the tunnel, or you think there is.");
+      else if (s.flags.took_avenue) base.push("The Avenue comes back out onto the freeway at Phillipsville, and the light opens up again as if a door had been opened, and you blink.");
       base.push(
+        "Garberville and Redway are two small towns a mile apart on the river, with a main street of hardware and health food and a lot of people who look as if they came here for a weekend some decades ago.",
+        "West of Redway, a county road turns off the highway and climbs into the mountains. The sign at the turn has one word and one number on it.",
+        "SHELTER COVE 21",
+        "Twenty-one miles over the King Range, down the other side, to the only town on the whole of the Lost Coast — the hundred miles of shoreline the highway gave up on. The road goes there and stops. It does not go anywhere else. The sign does not mention the way back, because the way back is the way there."
+      );
+      if (s.flags.asked_card) base.push("Nothing on the beach roads, a woman wrote on a card in Cloverdale, five hundred miles ago, and then wrote it again.");
+      base.push("There is a gas station at the turn. Leggett, where the coast road begins again, is twenty-six miles south on 101.");
+      return base;
+    },
+    choices: [
+      { text: "Pump your own at the turn", sub: (s) => pumpSub(s, { rate: 0.40 }, "Small-town California prices. Shelter Cove is twenty-one miles and Leggett twenty-six."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.40 }, next: "pc_028" },
+      { text: "Take the road to Shelter Cove", sub: "Twenty-one miles over the mountains to the sea, and twenty-one back. The brown sign mentions one of those.", type: "neutral", addMiles: 21, next: "pc_sc", flags: { took_cove: true } },
+      { text: "South to Leggett", sub: "Safe — twenty-six miles, and the coast comes back.", type: "safe", next: "pc_029" }
+    ]
+  },
+
+  // SC — SHELTER COVE. The bottom of the road. A black beach, a lighthouse that
+  // was carried here by helicopter from a cliff that was falling into the sea,
+  // an airstrip, a store with a pump. And on the bench by the lighthouse, a man
+  // with no car.
+  pc_sc: {
+    location: "Shelter Cove, CA — end of the road",
+    tags: ["quiet","money"],
+    mile: 513,
+    owed: 21,     // the whole way back up. The sign has been climbing since Redway.
+    paywall: false,
+    textFn: (s) => {
+      const base = [
+        "The road goes up for a long time, through forest and then out over bare grassy ridges with the wind on them, and then it tips over the top and goes down in switchbacks so steep you can smell the brakes, and the sea comes up at you through the windscreen all at once, grey, enormous, close.",
+        "Shelter Cove is a few hundred houses on a slope above a black sand beach. There is an inn, a store, a boat launch where a tractor pushes boats into the surf on a trailer, and a small airstrip running across the top of the town with a golf course round it and one little plane tied down at the end.",
+        "On the point there is a lighthouse. Not a tall one. A small iron tower with a lantern on top, painted white, standing in a mown park as if it had been set down there. It was. It stood on a cliff at Cape Mendocino for a hundred years until the cliff began falling into the sea, and they lifted it off with a helicopter and brought it here.",
+        "There is a bench beside it. There is a man sitting on the bench."
+      ];
+      base.push("You look at the car park before you know you are doing it. Three pickups and a van and your car. That is all. You look at the airstrip. One small plane, tied down, with a cover over the cockpit. You look back at the bench.");
+      return base;
+    },
+    choices: [
+      { text: "Walk over to the lighthouse", sub: "He has not looked round. He will not.", type: "neutral", next: "pc_scl" },
+      { text: "Go into the store", sub: "There is a pump out front with a price on it that someone has had to drive down twenty-one miles of switchbacks to set.", type: "neutral", next: "pc_scs" },
+      { text: "Back up the hill", sub: "Safe — twenty-one miles to Redway. The sign has been going up the whole way down.", type: "safe", addMiles: 21, next: "pc_028b" }
+    ]
+  },
+
+  // SCL — THE BENCH. Cord, by the rules: he never initiates, never explains, always
+  // knows where you are going, never comments on where you have been. He gives
+  // one piece of useful information, and here it is about fuel, and it is right.
+  pc_scl: {
+    location: "Shelter Cove, CA — the lighthouse",
+    tags: ["character","quiet"],
+    mile: 513,
+    owed: 21,
+    paywall: false,
+    text: [
+      "He is sitting at one end of the bench with his arms crossed, looking at nothing in particular out over the water. Not old, not young. A face that has been outside a great deal. Boots with the dust of somewhere else on them.",
+      "He does not look round when you come up. He does not look surprised when you sit down at the other end, either. He looks, if anything, like you sitting down was one of several possibilities he had already thought about.",
+      "Out past the point the sea is doing what it does to a coast nobody could build a road along, slowly and without stopping."
+    ],
+    choices: [
+      // 21 miles up the hill costs at most ~6 points even on a bad day with a leaky
+      // cap, so 8 is the honest line between "you'll make it" and "you won't".
+      { text: "Ask him if there's gas down here", sub: "He will answer. That is not the same as explaining.", type: "neutral", showIf: (s) => (s.stats.tank || 0) >= 8, next: "pc_scx", outcome: "gas_redway", flags: { met_cord_cove: true, cord_said_redway: true } },
+      { text: "Ask him if there's gas down here", sub: "He will answer. That is not the same as explaining.", type: "neutral", showIf: (s) => (s.stats.tank || 0) < 8, next: "pc_scx", outcome: "gas_here", flags: { met_cord_cove: true, cord_said_here: true } },
+      { text: "Ask him how he got here", sub: "Nerve check — there is no car, and you are going to say so.", type: "neutral", check: { stat: "nerve", difficulty: 5 }, road: +1,
+        success: { next: "pc_scx", outcome: "how", deltas: { nerve: +1 }, flags: { met_cord_cove: true } },
+        failure: { next: "pc_scx", outcome: "how_bad", flags: { met_cord_cove: true } } },
+      { text: "Sit with him and say nothing", sub: "Free. He does not seem to mind either way.", type: "neutral", next: "pc_scx", outcome: "sit", flags: { met_cord_cove: true } }
+    ],
+    outcomes: {
+      // He knows where you are going and reads a gauge he cannot see. Always right.
+      gas_redway: [
+        "He listens to the whole question before he answers it, which is longer than it takes to ask.",
+        "'Redway,' he says. 'Not here.'",
+        "You start to ask whether you will make it, and he is already nodding, still looking at the water. 'You'll make it.'",
+        "He says it the way the woman at Cloverdale wrote the card. Not reassurance. Information."
+      ],
+      gas_here: [
+        "He listens to the whole question before he answers it, which is longer than it takes to ask.",
+        "'Here,' he says. 'You won't make the top.'",
+        "He says it without looking at your car. You have not told him what is in your tank. You get the distinct feeling you did not need to.",
+        "It is not reassurance. It is information, and it is the kind that costs money."
+      ],
+      how: [
+        "'Good question,' he says.",
+        "He does not answer it. The silence goes on long enough for you to understand that he is not going to, and that he is not being unkind about it, and that the question was always going to be yours to keep.",
+        "Down on the airstrip the little plane sits under its cover. In the car park there are three pickups and a van and your car. Behind you there are twenty-one miles of switchbacks. You add those three things up and they do not come to anything."
+      ],
+      how_bad: [
+        "You turn to ask it and it does not come out. Whatever the question is, it sounds stupid before you have said it, and you hear it sounding stupid, and you do not say it.",
+        "He does not ask what you were going to say. He looks at the water. After a while you look at it too."
+      ],
+      sit: [
+        "You sit. He sits. The sea comes in and goes out.",
+        "A long time later — a minute, maybe two — he uncrosses his arms and puts his hands on his knees, and you think he is about to say something, and he does not. It is a perfectly comfortable silence. You do not have many of those with strangers and you notice this one.",
+        "When you get up to go he nods, once, at the water, which may or may not be meant for you."
+      ]
+    }
+  },
+
+  // SCS — THE STORE. The woman behind the counter, who will say his name if you
+  // ask who he is. That is how a player who never learned it on Route 1 hears it:
+  // from a stranger, as the original design always said they would.
+  pc_scs: {
+    location: "Shelter Cove, CA — the store",
+    tags: ["character","money"],
+    mile: 513,
+    owed: 21,
+    paywall: false,
+    text: [
+      "The store is a general store in the old sense: bait, milk, firewood, a rack of postcards of the beach outside, a shelf of things you would only need if you were going to be here a long time.",
+      "The woman behind the counter is doing a crossword and has the radio on very quietly. It is the same station. You have stopped being surprised by this somewhere in Oregon.",
+      "Through the window you can see the point, and the lighthouse, and the bench."
+    ],
+    choices: [
+      { text: "Ask her who the man on the bench is", sub: "She will know. Everybody here knows everybody here.", type: "neutral", next: "pc_scx", outcome: "name", flags: { knows_cord_name: true, heard_cord_name: true } },
+      { text: "Buy a postcard of the beach", sub: "Requires $1 — a black beach and a white lighthouse, on card.", type: "neutral", requires: { walletMin: 1 }, next: "pc_scx", deltas: { wallet: -1 }, outcome: "postcard", flags: { bought_postcard: true } },
+      { text: "Just look at the pump price and go back out", sub: "Free.", type: "neutral", next: "pc_scx" }
+    ],
+    outcomes: {
+      name: [
+        "She looks up from the crossword and out of the window at the bench, and back at you.",
+        "'That's Cord,' she says.",
+        "You ask whether he lives here. She thinks about it, which is more than you expected. 'He's here sometimes.' She fills in a word. 'Never seen what he drives.'",
+        "She says it like it is the least interesting thing about him, and goes back to the crossword."
+      ],
+      postcard: [
+        "She takes your dollar without looking up from the crossword. The postcard has the lighthouse on it, on its old cliff at Cape Mendocino, before they moved it. The caption is about the cliff.",
+        "Turned over, it says nothing at all. It is the only thing you have bought today that you can write on."
+      ]
+    }
+  },
+
+  // SCX — LEAVING THE COVE. The pump out front, at the price of having been
+  // brought down twenty-one miles of mountain. If Cord said Redway and you buy
+  // here anyway, that is the weighing, and the weighing is what costs you.
+  pc_scx: {
+    location: "Shelter Cove, CA — the pump",
+    tags: ["money"],
+    mile: 513,
+    owed: 21,
+    paywall: false,
+    textFn: (s) => {
+      const base = [];
+      if (s.flags.cord_said_redway) base.push("Redway, he said. Not here. You'll make it.");
+      else if (s.flags.cord_said_here) base.push("Here, he said. You won't make the top.");
+      else if (s.flags.heard_cord_name) base.push("Cord. Never seen what he drives.");
+      base.push(
+        "There is one pump in front of the store, on its own, with a price per gallon on it that someone has had to bring down twenty-one miles of switchbacks in a tanker to justify.",
+        "Behind you the road goes back up into the mountains. Twenty-one miles to Redway, where the pumps are where pumps usually are and cost what pumps usually cost.",
+        "On the bench by the lighthouse he is still sitting. He has not moved. You are not sure he will."
+      );
+      return base;
+    },
+    choices: [
+      { text: "Fill up here, at the bottom", sub: (s) => pumpSub(s, { rate: 0.52 }, "The most you have paid all trip, by a distance."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.52 }, addMiles: 21, next: "pc_028b", outcome: "filled", flags: { filled_cove: true } },
+      { text: "Back up the hill on what you have", sub: "Twenty-one miles of climbing to Redway.", type: "neutral", addMiles: 21, next: "pc_028b" }
+    ],
+    outcomes: {
+      filled: (s) => [
+        "The numbers go round on the old pump faster than any you have watched all day.",
+        s.flags.cord_said_redway
+          ? "He said Redway. You heard him say it. You are filling it here anyway, and you are aware of exactly what that is costing you, and of why."
+          : "When you look up from the pump he has gone from the bench. You did not see him go. The bench is just a bench, by a lighthouse, in a park."
+      ]
+    }
+  },
+
+  // 28b — REDWAY, AGAIN. The top of the hill and the same pump at the turn. The
+  // cove cost forty-two miles; the sign showed it the whole time.
+  pc_028b: {
+    location: "Redway, CA — back at the turn",
+    tags: ["money"],
+    mile: 513,
+    paywall: false,
+    textFn: (s) => {
+      const base = [
+        "The road climbs out of the cove in switchbacks and goes over the ridges and back down through the forest, and twenty-one miles later it puts you back at the stop sign in Redway exactly where it took you from, an hour and a half ago.",
+        "The brown sign is facing the other way now, for the people about to go down. SHELTER COVE 21. It still does not mention the way back."
+      ];
+      if (s.flags.met_cord_cove)
+        base.push((s.flags.knows_cord_name ? "You look at the turn for a while. Cord, the woman in the store said. There was a man on a bench at the bottom of it with no car" : "You look at the turn for a while. There was a man on a bench at the bottom of it with no car") + ", at the end of the only road, and you drove back up without him, and as far as you know he is still sitting there.");
+      else if (s.flags.knows_cord_name)
+        base.push("Cord, she said. Never seen what he drives. You did not walk over to the bench, and you are thinking now that you might have.");
+      base.push(s.flags.filled_cove
+        ? "The gas station at the turn has the same price it had an hour and a half ago, which is a good deal less than the one at the bottom. You do the arithmetic once and then make yourself stop."
+        : "The gas station at the turn has the same price it had an hour and a half ago.");
+      return base;
+    },
+    choices: [
+      { text: "Pump your own at the turn", sub: (s) => pumpSub(s, { rate: 0.40 }, "The Redway price. Leggett is twenty-six miles."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.40 }, next: "pc_029" },
+      { text: "South to Leggett", sub: "Safe — twenty-six miles, and the coast comes back.", type: "safe", next: "pc_029" }
+    ]
+  },
+
+  // ═════════════════════════════════════════════════════════════════════════
+  // 29 — PLACEHOLDER TERMINUS, LEGGETT. The fork. Everything south of here is
+  // unwritten: CA-1 down the coast, or 101 inland, and both into the city.
+  // ═════════════════════════════════════════════════════════════════════════
+  pc_029: {
+    location: "Leggett, CA — where CA-1 begins",
+    tags: ["travel","fork"],
+    mile: 539,
+    paywall: false,
+    isVictory: true,
+    ending: 'daylight',
+    arrival: "Leggett, CA — end of the written road",
+    textFn: (s) => {
+      const base = [];
+      if (s.flags.took_cove) base.push("Shelter Cove cost you forty-two miles. The sign told you so the whole time you were going down, climbing when it should have been falling, and you went to the bottom anyway, and there was somebody there.");
+      if (s.flags.bought_postcard) base.push("The postcard is on the dash with the blank side up. A lighthouse on a cliff that is not there any more, on the front. Nothing on the back yet.");
+      base.push(
+        "At Leggett a two-lane road turns off the highway to the west, climbs into the trees, and does not say where it is going except by number. CA-1. It goes over the hill to the coast, and then all the way down the coast to San Francisco, slowly, along the edge of everything.",
+        "101 goes on south, inland, faster, through Willits and Ukiah and Santa Rosa, and gets to the same city a great deal sooner.",
         "This is as far as the road is built.",
-        "Two hundred and seventy-two more miles of it exist on paper: the Avenue of the Giants, a hundred miles of coast with no road on it at all, a dead-end town called Shelter Cove at the bottom of twenty-one miles of switchbacks, and two different ways into San Francisco.",
         "Thank you for driving this far."
       );
       return base;
@@ -1646,8 +1936,30 @@ const PACIFIC_COAST = {
 // through the park, a parallel that costs almost no distance (+2). It holds the
 // elk meadow, so the parallel is where the danger is, not the bypass.
 //
-// pc_026 IS A STUB, flagged `isVictory` only so the graph terminates. Delete it
-// when leg 6 -- Eureka to Leggett, by Shelter Cove -- lands.
+// LEG 6 IS THE SIGNATURE. The Avenue of the Giants: thirty-one miles of old
+// highway under the oldest trees against twenty-nine of freeway beside them.
+// Shelter Cove: 21 miles over the King Range to the only town on the Lost Coast,
+// `owed: 21` so the sign climbs the whole way down, and 21 back.
+//
+// CORD IS AT THE BOTTOM, AND THERE IS NO EL CAMINO. Decided with Ray 2026-10-20.
+// The player looks at the car park before they know they are doing it, and the
+// car is not there; the absence asks what the car would have answered. Never
+// impossible, only improbable: there is an airstrip with a plane tied down on
+// it, and the game never says whose. By Route 1's rules he never initiates,
+// never explains, gives one piece of useful information -- here, about fuel, and
+// it is RIGHT: "Redway. Not here. You'll make it" with 8+ in the tank, "Here. You
+// won't make the top" below it. The pump at the bottom is 0.52. A player who
+// learned on Route 1 to doubt him and fills up anyway pays for the doubt.
+//
+// THE NAME. The woman in the store says it if asked ("That's Cord... never seen
+// what he drives"), setting knows_cord_name -- the stranger the Route 1 spec
+// always said would hand the name to players who never earned it.
+//
+// UNVERIFIED: whether Shelter Cove sells car fuel. A state parks listing shows
+// fuel sales at the boat launch; fuel directories put the nearest stations at
+// Redway. The scene works either way, but the pump is an assumption.
+//
+// pc_029 IS A STUB at Leggett, the fork. Leg 7 builds the fork itself.
 // ═══════════════════════════════════════════════════════════════════════════
 
 if (typeof module !== 'undefined') module.exports = PACIFIC_COAST;
