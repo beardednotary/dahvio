@@ -20,6 +20,13 @@
 // Three Capes fork. The rest of the spine is in the design spec.
 // ═══════════════════════════════════════════════════════════════════════════
 
+// Whether the stairs at Point Reyes are open on this run. The wind is a seeded slot
+// (pc_k10), so it is decided when the run starts -- which is how Cord, at Fort Ross,
+// can know it the evening before. Defaults to open if the engine is not loaded.
+function pcWindOpen() {
+  return typeof resolveSlot !== 'function' || resolveSlot('pc_k10') !== 'pc_k10w';
+}
+
 const PACIFIC_COAST = {
   id: 'coast',
   label: 'Route 3',
@@ -32,13 +39,13 @@ const PACIFIC_COAST = {
   // ── What you came away holding. ─────────────────────────────────────────
   // Coastal objects: free, heavy, useless. Nothing here was bought.
   keepsakeFor: (s) => {
+    if (s.flags.got_shell) return {
+      id: 'shell', tag: 'SHELL', label: 'An abalone shell off a porch rail in Bodega Bay',
+      line: "The abalone shell rides on the passenger seat, inside up. Every colour that oil makes on water. A man took it off his porch rail and gave it to you because there is no more coming, and you are going to put it on a sill somewhere, and it is going to outlast the sill."
+    };
     if (s.flags.took_stone) return {
       id: 'stone', tag: 'STONE', label: 'A stone off a beach in Oregon',
       line: "The stone has been in the cupholder since Oregon. It was wet when you picked it up and it has not looked like that since, and you knew it wouldn't, and you kept it anyway."
-    };
-    if (s.flags.pressed_penny) return {
-      id: 'penny', tag: 'PENNY', label: 'A penny flattened at the Column',
-      line: "The flattened penny is in the ashtray with the sand. You can still read part of the river on it if you hold it at the right angle, which you have done twice now at traffic lights."
     };
     if (s.flags.took_tidetable) return {
       id: 'tides', tag: 'TIDES', label: 'A tide table for a month you will not be here',
@@ -73,6 +80,19 @@ const PACIFIC_COAST = {
       "The temperatures along the coast. Brookings, eighty-one. Port Orford, fifty-eight. Forty miles apart. He reads them both in the same voice and does not try to explain it.",
       "A road work notice for 101 south of the state line. One lane, flaggers, delays of up to twenty minutes. He gives the dates, and then gives them again, as though somebody had asked.",
       "A man on a call-in is selling a boat. He describes it for longer than a boat needs. He says it has never let him down. He says it a third time, and then he starts to say why he is selling it, and the line goes quiet."
+    ]},
+    { from: 450, to: 600, lines: [
+      "A road report for CA-1 south of Leggett. Open, he says, all the way down. Then he says it again, as if that were news, because some years it is.",
+      "A fire weather watch for the hills east of 101. Low humidity, wind from the north. He reads it the way he reads the tides, and somewhere a great many people turn their radios up.",
+      "The scholarship winners at a high school in a town of nine hundred people. Every name, first and last, and what each of them is going to study, and where. It takes a long time. He does not hurry any of it.",
+      "A man has found a dog on the Avenue and would like the owner to call. He describes the dog. Then he describes the dog's expression, which he seems to have thought about."
+    ]},
+    { from: 600, to: 800, lines: [
+      "Fog on the coast by evening, he says, clearing by mid-morning. He says it as if the fog had told him personally and he were passing it on.",
+      "A notice about the bridge at Albion. Repairs to the timbers. One lane at night. He gives the dates, and says the word timbers twice, as if he liked it.",
+      "The abalone closure, extended. He reads the year it now ends, and stops, and reads it again, and you can hear him not saying anything about it.",
+      "Small craft advisory from Point Arena to Point Reyes. Then the tide at the Golden Gate. Then a song, already playing, that you know, and that you are going to remember hearing on this road.",
+      "Somebody on the coast has a carved wooden sign for sale that says ABALONE in letters a foot high, off the front of a shop that does not sell abalone any more. Best offer. He gives the number twice."
     ]}
   ],
 
@@ -1803,26 +1823,617 @@ const PACIFIC_COAST = {
   },
 
   // ═════════════════════════════════════════════════════════════════════════
-  // 29 — PLACEHOLDER TERMINUS, LEGGETT. The fork. Everything south of here is
-  // unwritten: CA-1 down the coast, or 101 inland, and both into the city.
+  // LEG 7 — LEGGETT TO SAN FRANCISCO. The fork, both arms, the second ask, the
+  // lighthouse, the reveal, the bridge. Three endings, earned by which roads you
+  // took and when you got there, not by how you behaved:
+  //   daylight -- 101 inland, the road of towns, arriving in the evening light
+  //   dark     -- the coast, driven straight through, arriving after dark
+  //   morning  -- the coast, a night at Point Reyes Station, the lighthouse, and
+  //               the city the next morning
+  // The coast is the older layer showing through; the towns on it are the newest
+  // thing in every scene (Ray, 2026-10-20). Inland is the towns.
   // ═════════════════════════════════════════════════════════════════════════
+
+  // 29 — LEGGETT. The fork. CA-1 begins here and goes over the hill to the coast.
   pc_029: {
     location: "Leggett, CA — where CA-1 begins",
     tags: ["travel","fork"],
     mile: 539,
     paywall: false,
-    isVictory: true,
-    ending: 'daylight',
-    arrival: "Leggett, CA — end of the written road",
     textFn: (s) => {
       const base = [];
       if (s.flags.took_cove) base.push("Shelter Cove cost you forty-two miles. The sign told you so the whole time you were going down, climbing when it should have been falling, and you went to the bottom anyway, and there was somebody there.");
       if (s.flags.bought_postcard) base.push("The postcard is on the dash with the blank side up. A lighthouse on a cliff that is not there any more, on the front. Nothing on the back yet.");
       base.push(
         "At Leggett a two-lane road turns off the highway to the west, climbs into the trees, and does not say where it is going except by number. CA-1. It goes over the hill to the coast, and then all the way down the coast to San Francisco, slowly, along the edge of everything.",
-        "101 goes on south, inland, faster, through Willits and Ukiah and Santa Rosa, and gets to the same city a great deal sooner.",
-        "This is as far as the road is built.",
-        "Thank you for driving this far."
+        "You have not been able to see the ocean from the road since Eureka. It has been twenty miles to your right the whole time, behind mountains nobody could build a road along. This is where they managed it.",
+        "101 goes on south, inland, faster, through Willits and Ukiah and Santa Rosa, and gets to the same city a great deal sooner. Both of them end at the same bridge.",
+        "It is three in the afternoon."
+      );
+      return base;
+    },
+    choices: [
+      { text: "CA-1, over the hill to the coast", sub: "Two hundred and twenty-one miles to the city, along the water. Six hours, the map says, and the map is being kind.", type: "neutral", next: "pc_k01" },
+      { text: "Stay on 101", sub: "Safe — a hundred and eighty-two miles inland. You will be over the bridge before dark.", type: "safe", next: "pc_i01" }
+    ]
+  },
+
+  // ─── INLAND: THE ROAD OF TOWNS ───────────────────────────────────────────
+
+  // I1 — WILLITS. A town the highway goes round now, and an arch from Reno.
+  pc_i01: {
+    location: "Willits, CA — US-101",
+    tags: ["travel","money"],
+    mile: 585,
+    paywall: false,
+    text: [
+      "101 south of Leggett is four lanes in places and two in others, and it goes along river valleys with the forest on both sides, and at sixty the trees stop being things you look at and become the walls of a corridor.",
+      "At Willits the highway goes round the town on a new road, high and fast, built a few years ago so that nobody has to go through Willits any more.",
+      "If you take the exit, there is an arch over the main street that says WILLITS on it, GATEWAY TO THE REDWOODS. It used to stand over the main street in Reno and say THE BIGGEST LITTLE CITY IN THE WORLD. Reno got a new one and gave this one away, and somebody here reworked the letters and put it up over a town the highway was about to stop going through.",
+      "There is gas at the exit. The ocean is thirty miles west, over the mountains, and you would not know it."
+    ],
+    choices: [
+      { text: "Pump your own at Willits", sub: (s) => pumpSub(s, { rate: 0.41 }, "Inland prices. Ukiah is twenty-two miles."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.41 }, next: "pc_i02" },
+      { text: "Take the exit and drive under the arch", sub: "Free. A mile of main street and back onto the bypass.", type: "neutral", addMiles: 1, next: "pc_i02", outcome: "arch", flags: { saw_arch: true } },
+      { text: "Stay on the bypass", sub: "Safe — that is what it is for.", type: "safe", next: "pc_i02" }
+    ],
+    outcomes: {
+      arch: [
+        "The main street is a hardware store and a theatre and a saloon and a museum and a great many places that sell coffee, and the arch goes over all of it in steel and lights, too big for the street by about a size.",
+        "You drive under it at twenty. A man on the corner is waiting to cross and does not look up at it. He has seen it every day for years. It is just where the road goes."
+      ]
+    }
+  },
+
+  // I2 — UKIAH. Vineyards. The newest layer, and the most cared-for.
+  pc_i02: {
+    location: "Ukiah, CA — US-101",
+    tags: ["travel","money"],
+    mile: 607,
+    paywall: false,
+    textFn: (s) => {
+      const base = [];
+      if (s.flags.saw_arch) base.push("A second-hand arch from Reno, over a town the highway goes round. You keep coming back to it, for some reason, the way you keep touching a sore tooth.");
+      base.push(
+        "South of Willits the valley opens and the forest gives way to vineyards, in rows so straight they look ruled, going up the slopes on both sides of the road with roses planted at the ends of the rows.",
+        "Ukiah is a county seat with a courthouse and a hospital and a great many places to buy tyres. There is nothing wrong with it. There is nothing wrong with any of it. The road is doing exactly what it said it would, and you are making very good time.",
+        "The light is getting long and gold and coming in low across the vines."
+      );
+      return base;
+    },
+    choices: [
+      { text: "Pump your own in Ukiah", sub: (s) => pumpSub(s, { rate: 0.40 }, "Valley prices. Santa Rosa is sixty-three miles."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.40 }, next: "pc_i03" },
+      { text: "South through the vineyards", sub: "Safe — Cloverdale, Healdsburg, Santa Rosa, all of it at sixty-five.", type: "safe", next: "pc_i03" }
+    ]
+  },
+
+  // I3 — SANTA ROSA. Traffic. The coast hills to the west, with the other road behind them.
+  pc_i03: {
+    location: "Santa Rosa, CA — US-101",
+    tags: ["travel"],
+    mile: 670,
+    paywall: false,
+    text: [
+      "By Santa Rosa the highway is six lanes and there are other people on it, a great many of them, going home from things. Car dealers. A shopping centre with a cinema in it. Signs for San Francisco now, by name, with a number under it that is smaller than any number you have seen on a sign in two days.",
+      "Off to the right, to the west, there is a line of low hills going gold in the evening. The coast is on the other side of them. Somewhere over there CA-1 is going along the edge of the cliffs in the last of the light, with whoever took it.",
+      "You do not think about it for long. The traffic needs you."
+    ],
+    choices: [
+      { text: "Pump your own before the city", sub: (s) => pumpSub(s, { rate: 0.39 }, "City prices. Fifty-one miles to the bridge."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.39 }, next: "pc_gg_day" },
+      { text: "On to the bridge", sub: "Safe — Petaluma, Novato, the hills of Marin, and then the water.", type: "safe", next: "pc_gg_day" }
+    ]
+  },
+
+  // ─── THE COAST: THE OLDER LAYER ──────────────────────────────────────────
+
+  // K1 — WESTPORT. Twenty-eight miles of switchbacks over the hill, and then the sea,
+  // which the player has not seen from the road in a hundred and forty miles.
+  pc_k01: {
+    location: "CA-1 — Westport",
+    tags: ["travel","quiet"],
+    mile: 567,
+    miles: 760,
+    shield: "CA 1 SOUTH",
+    paywall: false,
+    text: [
+      "CA-1 goes up out of Leggett into the forest in curves so tight there are signs at every one of them telling you the speed for it — 20, 15, 20, 10 — and the signs are not exaggerating. For twenty-eight miles the road climbs and turns and climbs, and the trees go by close enough to touch, and nothing about it suggests the sea.",
+      "Then it tips over the last ridge and comes down out of the trees, and there it is.",
+      "All of it. The whole Pacific, from right below the road to the edge of the world, grey and blue and moving, with the sun on it and headlands going away south one after another, paler and paler, each one a little further out than the last.",
+      "Westport is a few houses and a store on the edge of a bluff. You do not stop. You find you have pulled over anyway, at a wide place in the gravel, with the engine running, and you sit there for a minute because you have been driving beside this for two days and this is the first time it has been given back to you."
+    ],
+    choices: [
+      { text: "South along the edge of it", sub: "Fort Bragg is sixteen miles. There is gas there.", type: "safe", next: "pc_k02" }
+    ]
+  },
+
+  // K2 — FORT BRAGG. A mill town with no mill, and a beach made of its own rubbish,
+  // worn smooth by the sea and nearly gone because people keep taking it home.
+  pc_k02: {
+    location: "Fort Bragg, CA — Glass Beach",
+    tags: ["money","quiet"],
+    mile: 583,
+    paywall: false,
+    text: [
+      "Fort Bragg is a mill town whose mill closed, and the place where the mill was is a long empty stretch of land between the town and the sea with a fence round it.",
+      "North of it there is a beach made of glass.",
+      "For twenty years, until 1967, the town threw its rubbish off the cliff here — bottles, jars, the windscreens of cars, the cars — and then they stopped, and cleaned up what they could, and the sea did the rest. Fifty years of surf turned the glass into pebbles. Green and brown and white and, once in a while, blue. The whole of a little cove is made of them. They click when the water goes back out.",
+      "It is a state park now. A sign at the top of the path asks you to leave the glass on the beach. Under the sign somebody has written: THERE IS LESS EVERY YEAR.",
+      "A family is crouched at the waterline. The child has a hand full of green. Her mother is telling her to put it back. She is not putting it back."
+    ],
+    choices: [
+      { text: "Pump your own in town", sub: (s) => pumpSub(s, { rate: 0.43 }, "Coast prices. Point Arena is fifty miles, and the pumps get further apart."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.43 }, next: "pc_k03" },
+      { text: "Pocket a piece of glass", sub: "The sign asked. It is very small. Nobody would know.", type: "neutral", road: -1, next: "pc_k03", outcome: "pocket", flags: { took_glass: true } },
+      { text: "Walk down and leave it where it is", sub: "Free. You can hold it. You just cannot keep it.", type: "neutral", road: +1, next: "pc_k03", outcome: "leave" },
+      { text: "South", sub: "Safe — it is a beach. You have seen a great many beaches.", type: "safe", next: "pc_k03" }
+    ],
+    outcomes: {
+      pocket: [
+        "You go down the path and crouch at the waterline like everybody else, and turn the glass over with one finger, and find a piece the size of a thumbnail that is not green or brown but a pale clear blue, like the inside of a wave.",
+        "It goes in your pocket. It takes no time at all.",
+        "On the way back up the path you pass the sign. It has not changed. It is still asking."
+      ],
+      leave: [
+        "You go down and crouch at the waterline and pick some up. It is warm from the sun, and smooth, and each piece has been something once — the shoulder of a bottle, the base of a jar, a corner with a letter in the glass that you cannot read.",
+        "There is a blue one. You hold it for a long time.",
+        "Then you put it back where it was, exactly, which is a stupid thing to be careful about, and you are careful about it. The child with the handful of green is watching you do it. You do not know what she makes of it."
+      ]
+    }
+  },
+
+  // K3 — JUG HANDLE. The headland rises in steps and every step is a hundred
+  // thousand years older than the one below it. Half a million years in an hour.
+  pc_k03: {
+    location: "Jug Handle — the ecological staircase",
+    tags: ["quiet"],
+    mile: 586,
+    paywall: false,
+    textFn: (s) => {
+      const base = [];
+      if (s.flags.took_glass) base.push("The glass is in your pocket. You can feel it when you sit down. It is very small.");
+      base.push(
+        "Three miles south of the town there is a car park above a cove, and a path, and a board at the start of the path that explains what you are about to walk up.",
+        "The land here rises from the sea in steps. Each step was a beach once, cut flat by the waves, and then the ground came up out of the water and the sea cut a new beach below it, and then the ground came up again. Each step up is about a hundred thousand years older than the one below it.",
+        "On the first one there is grass and wind. On the second there are redwoods. On the third the soil has been there so long it has nothing left in it, and there is a forest of cypresses and pines a hundred years old that come up to your waist.",
+        "The town of Fort Bragg is a hundred and fifty years old. It is three miles away. It is the newest thing you can see from here."
+      );
+      return base;
+    },
+    choices: [
+      { text: "Walk up the staircase", sub: "Free. An hour, there and back. Half a million years, the board says.", type: "neutral", next: "pc_k04", outcome: "climb", flags: { walked_staircase: true } },
+      { text: "Read the board and go", sub: "Safe — the board is very clear.", type: "safe", next: "pc_k04" }
+    ],
+    outcomes: {
+      climb: [
+        "The first step is a meadow at the top of the cliff, with the wind going through the grass and the sea right there below it. A hundred thousand years.",
+        "The path goes inland and up a slope, and at the top of the slope you are on the second step, and it is a forest — spruce and fir and a few redwoods, dark and damp and full of ferns. Two hundred thousand.",
+        "Up again, and the trees get smaller. And smaller. On the third step the forest is up to your waist: cypresses and pines with trunks as thick as your wrist, twisted and grey, some of them older than anybody you know, stunted by soil so old there is nothing left in it to grow on. You stand in it like a giant. It is very quiet. Three hundred thousand, the post says.",
+        "From up here you can see back down the steps to the sea, and up the coast to Fort Bragg, where a town has been for a hundred and fifty years, which from here is roughly the length of a breath."
+      ]
+    }
+  },
+
+  // K4 — MENDOCINO AND ALBION. A New England town on a headland, and the last
+  // wooden bridge on Highway 1, built in wartime from whatever was left over.
+  pc_k04: {
+    location: "Mendocino and Albion, CA",
+    tags: ["travel","quiet"],
+    mile: 600,
+    paywall: false,
+    textFn: (s) => {
+      const base = [];
+      if (s.flags.walked_staircase) base.push("Your legs remember the staircase. Grass, then trees, then the old forest that comes up to your waist. Three steps, half a million years, an hour, and the car exactly where you left it.");
+      base.push(
+        "Mendocino sits out on a headland by itself, white wooden houses with steep roofs and water towers, built by men from Maine who came round the Horn to cut the trees and built the town to look like where they came from. It looks exactly like a postcard of New England, three thousand miles from New England.",
+        "A few miles south, the road crosses the Albion River on a bridge made of wood. Timber trestles, tall and grey and criss-crossed, going down into the river valley in a lattice that looks like it could not possibly hold a road up. It has held one up since the war.",
+        "They built it out of wood because there was a war on and the steel and concrete were wanted somewhere else. It is the last wooden bridge left on this highway. There is a sign saying they are going to replace it. Your tyres go over the joints, one after another, a sound like somebody counting."
+      );
+      return base;
+    },
+    choices: [
+      { text: "South, towards the evening", sub: "Point Arena is thirty-three miles. The light is getting long.", type: "safe", next: "pc_k05" }
+    ]
+  },
+
+  // K5 — POINT ARENA. The light going. A pump, the last for a long way.
+  pc_k05: {
+    location: "Point Arena, CA — CA-1",
+    tags: ["travel","money"],
+    mile: 633,
+    paywall: false,
+    text: [
+      "The road goes along the tops of the bluffs for thirty miles with the sea on the right the whole way, and it does not hurry, and you cannot make it.",
+      "Point Arena is one street of old buildings with a cinema on it, and a pier, and out on the point to the north a tall white lighthouse you can see from miles off that you are not going to have time to go and look at.",
+      "It is seven o'clock. The sun is a hand's width above the sea and has turned it to metal. Point Reyes is ninety miles.",
+      "There is a gas station at the edge of town with one pump working and a hand-written sign on the other one."
+    ],
+    choices: [
+      { text: "Pump your own at Point Arena", sub: (s) => pumpSub(s, { rate: 0.46 }, "Small-town coast prices. The next pump is Bodega Bay, sixty-four miles."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.46 }, next: "pc_k06" },
+      { text: "South while the sun lasts", sub: "Safe — Gualala, the Sea Ranch, Fort Ross, Jenner.", type: "safe", next: "pc_k06" }
+    ]
+  },
+
+  // K6 — FORT ROSS. Dusk. A stockade the Russians built in 1812 on land that was
+  // already called Metini. And if he was not met at the cove, Cord, standing
+  // at the fence looking at the sea -- who knows tomorrow's wind.
+  pc_k06: {
+    location: "Fort Ross — the bluff, at dusk",
+    tags: ["quiet","character"],
+    mile: 675,
+    paywall: false,
+    textFn: (s) => {
+      const base = [
+        "The road climbs and twists above the sea in the last of the light, and then on a terrace above a cove there is a fort.",
+        "A wooden stockade, square, with a blockhouse at two of its corners and a little chapel with a dome on it inside the walls. Russians built it in 1812 to hunt otters and grow wheat for Alaska, before there was a California for them to be in. They built it out of redwood.",
+        "A sign at the gate gives the hours, and they are over. Another sign gives the name of the place before the fort: Metini. The Kashaya Pomo had been here a very long time when the Russians came, and they are still here, and it was their name first. The name on your map is the newest one.",
+        "The sun goes into the sea while you are reading the sign."
+      ];
+      if (!s.flags.met_cord_cove)
+        base.push("There is one other person there, outside the fence, standing at the edge of the bluff with his arms crossed, looking at the water as if it had told him something earlier and he were waiting to see if it would say it again. There are two cars in the pull-out across the road. Neither of them is anything in particular. Neither of them, you somehow know, is his.");
+      return base;
+    },
+    choices: [
+      // Cord's second sighting -- only if he was missed at the cove. He knows where you
+      // are going, and he knows the wind at Point Reyes tomorrow morning, because the
+      // run seed has already decided it. He is right either way.
+      { text: "Go and stand next to him", sub: "He will not start it. He never does.", type: "neutral", showIf: (s) => !s.flags.met_cord_cove && pcWindOpen(), next: "pc_k07", outcome: "cord_open", flags: { cord_said_stay: true } },
+      { text: "Go and stand next to him", sub: "He will not start it. He never does.", type: "neutral", showIf: (s) => !s.flags.met_cord_cove && !pcWindOpen(), next: "pc_k07", outcome: "cord_wind", flags: { cord_said_wind: true } },
+      { text: "Walk down to the cove in the dusk", sub: "Free. The fort is shut. The cove is not.", type: "neutral", next: "pc_k07", outcome: "cove" },
+      { text: "On towards Jenner in the dark", sub: "Safe — the road along here does not get any straighter for being dark.", type: "safe", next: "pc_k07" }
+    ],
+    outcomes: {
+      cord_open: [
+        "You stand a few feet away from him at the edge of the bluff. He does not look round. He does not look surprised.",
+        "You ask him, eventually, if he knows the lighthouse at Point Reyes, because it is the only thing you can think of to say.",
+        "He listens to the whole of it before he answers.",
+        "'Stay the night,' he says. 'Go down in the morning.' He is looking at the water. 'It'll be calm.'",
+        "You ask how he knows that. 'Good question,' he says."
+      ],
+      cord_wind: [
+        "You stand a few feet away from him at the edge of the bluff. He does not look round. He does not look surprised.",
+        "You ask him, eventually, if he knows the lighthouse at Point Reyes, because it is the only thing you can think of to say.",
+        "He listens to the whole of it before he answers.",
+        "'Not tomorrow,' he says. 'Wind.' The air on the bluff is perfectly still. 'If you want the light, it won't be tomorrow.'",
+        "You ask how he knows that. 'Good question,' he says."
+      ],
+      cove: [
+        "The path goes down off the terrace to a little beach below the fort, grey sand and driftwood and a slipway where the Russians built ships once, out of the same redwood.",
+        "There is nobody on it. The water comes in over the stones and goes back, and comes in, and it was doing exactly this when the fort was built, and when the name was Metini, and for a very long time before anybody named it anything.",
+        "You climb back up in the near-dark and the fort is a black square against a sky that is still faintly green in the west."
+      ]
+    }
+  },
+
+  // K7 — BODEGA BAY. Night. A cove under the headland, a house with abalone shells
+  // along its porch rail, and a man who will give you one. The fishery has been
+  // shut since 2017 and will be shut until 2036. There is no more coming.
+  pc_k07: {
+    location: "Bodega Bay, CA — night",
+    tags: ["character","money","night"],
+    time: "night",
+    mile: 697,
+    paywall: false,
+    textFn: (s) => {
+      const base = [];
+      if (s.flags.cord_said_stay) base.push("Stay the night. Go down in the morning. It'll be calm. The air on the bluff had been perfectly still, and you had no reason at all to believe him, and you do.");
+      else if (s.flags.cord_said_wind) base.push("Not tomorrow, he said. Wind. The air on the bluff had been perfectly still. You have no reason at all to believe him, and you do.");
+      base.push(
+        "Jenner is a few lights where a river comes out of the hills into the sea, and then the road goes along the coast in the dark for ten miles with the surf white on the right, and then Bodega Bay, which is a harbour and some motels and a gas station still lit, and a dark headland across the water.",
+        "Under the headland there is a little cove with a road down to it and a few houses along the road. One of them has its porch light on. All along the top of its porch rail, side by side, there are shells.",
+        "Abalone. Big ones, the size of a dinner plate, rough and grey-pink on the outside and turned up so you can see the inside, which in the porch light is every colour that oil makes on water.",
+        "A man is sitting on the porch steps under the light with a mug, looking at the cove."
+      );
+      return base;
+    },
+    choices: [
+      { text: "Ask him about the shells", sub: "Nerve check — it is his porch, and it is ten at night.", type: "neutral", check: { stat: "nerve", difficulty: 4 }, road: +1,
+        success: { next: "pc_k08", outcome: "shell", deltas: { nerve: +1 }, flags: { got_shell: true } },
+        failure: { next: "pc_k08", outcome: "shell_bad", flags: { passed_shells: true } } },
+      { text: "Pump your own at the harbour", sub: (s) => pumpSub(s, { rate: 0.45 }, "The last pump before the city, as far as you can tell. Point Reyes Station is twenty-five miles."), type: "neutral", requires: (s) => pumpOpen(s), lockText: (s) => pumpClosed(s), pump: { rate: 0.45 }, next: "pc_k08" },
+      { text: "On to Point Reyes Station", sub: "Safe — twenty-five miles of dark farmland and then a town.", type: "safe", next: "pc_k08" }
+    ],
+    outcomes: {
+      shell: [
+        "He looks at you for a while, and then at the shells, and then he says 'Ab,' the way people here say it, short.",
+        "He used to dive for them. Everybody did. You went down off the rocks in a wetsuit with an iron and came up with your limit and had them on the barbecue the same night, and the shells went on the rail, and every house on this coast has a rail like this one.",
+        "'Kelp went,' he says. 'Twenty fourteen. The water got warm and the kelp went, and the urchins ate what was left, and the abs starved.' He drinks from the mug. 'They shut it. Then they shut it again. Now it's shut till twenty thirty-six.' He says the year like it is a place nobody has been.",
+        "He gets up and takes one off the end of the rail and holds it out to you. You start to say you can't. 'Take it,' he says. 'There's no more coming.'"
+      ],
+      shell_bad: [
+        "You stand at the bottom of the road looking at the porch for longer than is polite, and he looks back at you, and whatever you were going to say does not come.",
+        "He lifts his mug a little, which is either hello or goodbye, and you lift a hand back, and you go back to the car, and the shells shine in the porch light in your mirror until the road turns."
+      ]
+    }
+  },
+
+  // K8 — POINT REYES STATION, NIGHT. The decision: keep going tonight, or stay,
+  // and go out to the lighthouse in the morning.
+  pc_k08: {
+    location: "Point Reyes Station, CA — night",
+    tags: ["money","night","fork"],
+    time: "night",
+    mile: 722,
+    paywall: false,
+    textFn: (s) => {
+      const base = [];
+      if (s.flags.got_shell) base.push("The shell is on the passenger seat. In the dashboard light the inside of it is green and blue and the colour the sea was at Westport.");
+      else if (s.flags.passed_shells) base.push("You keep seeing the porch rail. All those shells, side by side, and the light on them.");
+      base.push(
+        "Point Reyes Station is one street with a bakery and a feed barn and an old saloon with its lights on and a few people outside it, at the head of a long narrow bay that is the San Andreas Fault with the sea let into it.",
+        "Everything west of the bay is on the other side of the fault. The peninsula out there, the beaches, the lighthouse at the end of it, is on a different plate of the earth from the town you are standing in, and it is moving north. In 1906 it moved twenty-four feet in an afternoon.",
+        "It is ten o'clock. San Francisco is thirty-eight miles. Twenty miles out to the west, at the end of a road past the old dairy ranches, there is a lighthouse at the bottom of three hundred steps that is closed at night, and open in the morning, if the wind allows.",
+        "There are rooms above the saloon. There is a quiet place to park by the green."
+      );
+      if (s.flags.cord_said_stay) base.push("Stay the night, he said. Go down in the morning.");
+      else if (s.flags.cord_said_wind) base.push("Not tomorrow, he said.");
+      return base;
+    },
+    choices: [
+      { text: "Take a room above the saloon", sub: "Requires $45 — a bed, a window over the street, the jukebox until midnight.", type: "safe", requires: { walletMin: 45 }, next: "pc_k09", deltas: { wallet: -45, gut: +1, nerve: +2 }, outcome: "room", flags: { stayed_prs_room: true } },
+      { text: "Sleep in the car by the green", sub: "Free. It is a quiet town. It is very quiet.", type: "neutral", next: "pc_k09", outcome: "car" },
+      { text: "Go on tonight, by Stinson and Muir", sub: "Nerve check — the cliff road in the dark, in the fog, with no pumps on it. One more mile than the other way.", type: "neutral", addMiles: 1, check: { stat: "nerve", difficulty: 6 },
+        success: { next: "pc_kn_shore", outcome: "shore_go", flags: { took_shore: true } },
+        failure: { next: "pc_kn_shore", outcome: "shore_go", deltas: { nerve: -3 }, flags: { took_shore: true, fog_scare: true } } },
+      { text: "Go on tonight, inland to 101", sub: "Safe — Sir Francis Drake through the hills, then the freeway, then the bridge.", type: "safe", next: "pc_gg_dark" }
+    ],
+    outcomes: {
+      room: [
+        "The room is up a narrow stair over the saloon, with a sloping ceiling and a window over the street, and the jukebox comes up through the floor until midnight and then stops all at once, as though somebody had pulled it out of the wall.",
+        "After that it is so quiet you can hear the cattle out on the ranches across the bay."
+      ],
+      car: [
+        "You park by the green with the seat back and the windows cracked, and the town turns its lights off one at a time until there is only the one over the saloon door.",
+        "Very late, a long way off, a foghorn starts, out on the point, at the end of the road you will drive in the morning. It goes on all night. You do not mind it. It is the last one."
+      ],
+      shore_go: (s) => s.flags.fog_scare ? [
+        "You go south on CA-1 out of the town in the dark, and past Olema the fog comes in off the sea all at once, and the road goes up onto the side of the mountain above the ocean, one lane each way, no shoulder, no rail on the long stretches, and the white line goes in and out of the headlights and then just goes out.",
+        "You stop. You do not decide to. Your foot does it. You sit in the middle of your lane on the side of a mountain in a cloud with the hazards going, and you cannot see the edge, and you can hear the sea a very long way below.",
+        "It is twenty minutes before the fog thins enough to see the line again. You do the rest of it at fifteen."
+      ] : [
+        "You go south on CA-1 out of the town in the dark, and past Olema the fog comes in off the sea, and the road goes up onto the side of the mountain above the ocean, one lane each way, no shoulder.",
+        "You drive it at twenty with both hands, following the white line from reflector to reflector, and the sea is down there in the dark on the right the whole way, enormous, breathing, invisible.",
+        "Somewhere below you, Stinson Beach is a scatter of porch lights. You do not see Muir Beach at all. You know you have passed it when the road starts to come down."
+      ]
+    }
+  },
+
+  // K9 — POINT REYES STATION, MORNING. Coffee from the bakery, and the drive out.
+  pc_k09: {
+    location: "Point Reyes Station, CA — morning",
+    tags: ["travel","fork"],
+    mile: 722,
+    paywall: false,
+    textFn: (s) => {
+      const base = [];
+      if (s.flags.stayed_prs_room) base.push("You wake in the room over the saloon to the smell of the bakery across the street, which is a better way to wake up than any you have had in three days.");
+      else base.push("You wake in the car by the green with your neck stiff and the windows white, and across the street the bakery is opening, and there is already a queue.");
+      base.push(
+        "The fog is lying in the bottom of the valley and the tops of the hills are in sun. Out to the west, twenty miles past the ranches, the lighthouse is open from ten, if the wind allows.",
+        "The city is thirty-eight miles. You could be over the bridge by ten. Or you could go out to the end of the land first."
+      );
+      return base;
+    },
+    choices: [
+      { text: "Out to the lighthouse", sub: "Twenty miles out past the ranches to the end of the road, and twenty back. Three hundred steps down, if they are open.", type: "neutral", addMiles: 20, next: "pc_k10" },
+      { text: "South by Stinson and Muir", sub: "The cliff road, in daylight this time. One more mile than the other way.", type: "neutral", addMiles: 1, next: "pc_kd_shore", flags: { took_shore: true } },
+      { text: "Inland to 101 and the bridge", sub: "Safe — thirty-eight miles. You could be in the city by ten.", type: "safe", next: "pc_gg_morning" }
+    ]
+  },
+
+  // K10 — THE LIGHTHOUSE, A SLOT. The wind is drawn from the run seed: two runs in
+  // three the stairs are open and one in three they are not. Cord, at Fort Ross,
+  // already knew which.
+  pc_k10: {
+    mile: 722,
+    oneOf: ['pc_k10o', 'pc_k10o', 'pc_k10w']
+  },
+
+  // K10o — THE STAIRS ARE OPEN. Three hundred and eight steps down to the light,
+  // a visitors' book, and a pen on a string. This is the reveal.
+  pc_k10o: {
+    location: "Point Reyes Lighthouse — the bottom of the steps",
+    tags: ["quiet"],
+    mile: 722,
+    owed: 20,
+    paywall: false,
+    textFn: (s) => {
+      const driven = 722 + (s.extra || 0);
+      const base = [
+        "The road goes out across the peninsula through cattle country, past ranches with letters instead of names — the B Ranch, the C Ranch, the E — and gets narrower and higher and windier, and then stops at a car park on a ridge with the sea on three sides and nothing beyond it.",
+        "From the car park you walk out along the ridge, and then the land ends, and there are steps.",
+        "Three hundred and eight of them, down the face of the cliff in flights, with rails, and a landing every so often with a bench for people to sit on when their legs stop, and at the bottom, on a shelf of rock above the sea, the lighthouse.",
+        "It is small. All of them have been small. A short iron tower with a great glass lens inside it, cut in rings like the inside of a shell, that has been turning since 1870.",
+        "Inside the door there is a visitors' book on a stand, with a pen on a string. Name. Where from. People have written Ohio and Japan and Sacramento and Fresno and just HERE AGAIN.",
+        "You write your name, and Astoria, Oregon. There is a column at the end for miles. You do not need to climb back up to the car to look. You know it.",
+        driven + ".",
+        "Astoria to San Francisco is seven hundred and twenty-one miles. It said so on the first sign, yesterday morning, at the bottom of the hill in the fog. You read the number you have written. It does not say seven hundred and twenty-one.",
+        "On the wall by the door there is a board about the rock you are standing on. It came from a long way south, a very long time ago, and it is still moving north, a couple of inches a year, on the other side of the fault from everything else. It has been making this trip for millions of years, the board says. It is not there yet either."
+      ];
+      if (s.flags.cord_said_stay) base.push("It is perfectly calm. He said it would be.");
+      return base;
+    },
+    choices: [
+      { text: "Back up the steps, and south by Stinson and Muir", sub: "Three hundred and eight steps up. Then the cliff road, in daylight.", type: "neutral", addMiles: 21, next: "pc_kd_shore", flags: { wrote_log: true, took_shore: true } },
+      { text: "Back up the steps, and inland to the bridge", sub: "Safe — three hundred and eight steps, then the quick way.", type: "safe", addMiles: 20, next: "pc_gg_morning", flags: { wrote_log: true } }
+    ]
+  },
+
+  // K10w — THE STAIRS ARE CLOSED. Wind over forty, the gate shut. A ranger with a
+  // clipboard at the top asks where you drove from, and the number is said
+  // out loud by somebody else. The reveal, in another voice.
+  pc_k10w: {
+    location: "Point Reyes Lighthouse — the closed gate",
+    tags: ["quiet","character"],
+    mile: 722,
+    owed: 20,
+    paywall: false,
+    textFn: (s) => {
+      const driven = 722 + (s.extra || 0);
+      const base = [
+        "The road goes out across the peninsula through cattle country, past ranches with letters instead of names — the B Ranch, the C Ranch, the E — and the wind gets up as you go, until at the car park on the ridge at the end of it the car rocks on its springs when you open the door.",
+        "You walk out along the ridge leaning into it. At the top of the steps there is a gate, shut. STAIRS CLOSED — HIGH WINDS. Three hundred feet down, at the bottom of the cliff, you can see the lighthouse on its shelf of rock with the spray going over it. That is as close as anybody is getting today.",
+        "A ranger is standing by the gate in a jacket that is trying to leave without her, with a clipboard and a counter, counting the people who came all this way to be turned back.",
+        "'Where'd you drive in from?' she says, over the wind.",
+        "Astoria, you tell her. Oregon.",
+        "She writes it down. 'How far's that?'",
+        "You know it without looking. " + driven + ". You say it, and she writes it down, and then she reads it back to you, out loud, because of the wind, to check she has heard it right.",
+        "Astoria to San Francisco is seven hundred and twenty-one miles. It said so on the first sign. She is reading back a different number.",
+        "'Long way round,' she says, not unkindly, and clicks the counter, and turns to the next car."
+      ];
+      if (s.flags.cord_said_wind) base.push("Not tomorrow, he said. Wind. He was right.");
+      return base;
+    },
+    choices: [
+      { text: "South by Stinson and Muir", sub: "The cliff road, in daylight. One more mile than the other way.", type: "neutral", addMiles: 21, next: "pc_kd_shore", flags: { closed_gate: true, took_shore: true } },
+      { text: "Inland to the bridge", sub: "Safe — the quick way, with the wind behind you.", type: "safe", addMiles: 20, next: "pc_gg_morning", flags: { closed_gate: true } }
+    ]
+  },
+
+  // KD — STINSON AND MUIR, BY DAY. The second ask, taken. The last long way.
+  pc_kd_shore: {
+    location: "CA-1 — Stinson Beach and Muir Beach",
+    tags: ["quiet"],
+    mile: 738,
+    paywall: false,
+    text: [
+      "South of Olema the road goes along the edge of a lagoon and then up onto the side of the mountain above the ocean, one lane each way, no shoulder, and in daylight you can see what you would have been driving beside in the dark: the whole coast falling away below you to the sea, and the sea going out to the edge of everything, and the city nowhere.",
+      "Stinson Beach is a long white beach with a village at the end of it and people in the water who have not noticed the water is cold. Muir Beach is a cove at the bottom of a valley with horses in a field behind it.",
+      "There are no pumps. There has not been a pump since Bodega Bay. The road does not care.",
+      "It is the last long way. After this the road comes down through the eucalyptus to the freeway, and the freeway goes to the bridge, and there are no more choices about how to get anywhere."
+    ],
+    choices: [
+      { text: "Down through the trees to the bridge", sub: "Safe — the freeway, the tunnel, and then the water.", type: "safe", next: "pc_gg_morning" }
+    ]
+  },
+
+  // KN — STINSON AND MUIR, AT NIGHT. Driven already, in the choice's outcome.
+  pc_kn_shore: {
+    location: "CA-1 — above Muir Beach, night",
+    tags: ["night"],
+    time: "night",
+    mile: 738,
+    paywall: false,
+    textFn: (s) => [
+      s.flags.fog_scare
+        ? "Your hands have not stopped shaking yet. They will by the bridge, probably."
+        : "Your hands are stiff from the wheel and your eyes ache from following the white line from reflector to reflector for twenty miles.",
+      "The road comes down off the mountain through eucalyptus trees in the dark, smelling of medicine, and there is a junction, and a sign, and the freeway, wide and lit and full of cars going the same way you are, and it is like coming out of the sea onto a beach.",
+      "The bridge is four miles."
+    ],
+    choices: [
+      { text: "To the bridge", sub: "Safe — the tunnel, and then the water.", type: "safe", next: "pc_gg_dark" }
+    ]
+  },
+
+  // ─── THE BRIDGE. THREE ENDINGS. ──────────────────────────────────────────
+  // Every arrival crosses the Golden Gate southbound, where the toll is charged:
+  // no booth, no cash, a camera, and a bill to whoever the car is registered to.
+  // The game's whole economy has been a wallet with cash in it, and the last
+  // gate on the road will not take the money. Do not make it a choice.
+
+  // GG-DAY — INLAND, THE EVENING LIGHT.
+  pc_gg_day: {
+    location: "The Golden Gate Bridge — evening",
+    tags: ["victory"],
+    mile: 721,
+    shield: "US 101 SOUTH",
+    paywall: false,
+    isVictory: true,
+    ending: 'daylight',
+    arrival: "San Francisco, CA",
+    textFn: (s) => {
+      const driven = 721 + (s.extra || 0);
+      const base = [
+        "Past Novato the hills close in, gold grass and dark oaks, and the freeway climbs between them to a tunnel with a rainbow painted round the mouth of it, and you go in at sixty, and you come out the other side, and there it is.",
+        "The bridge. Red, enormous, standing in the water with its towers in the last of the sun and its cables going down to the road in curves, and beyond it the city, white, on its hills, every window on the western side of it on fire with the evening.",
+        "You drive onto it. There is no booth. There is a gantry over the road with cameras on it, and a sign: TOLL — NO CASH. Your car goes under it at forty-five. Somewhere a camera has taken a photograph of your plate, and in a few weeks an envelope will go to whoever this car is registered to.",
+        "You have counted every dollar since Astoria. The last gate on the road did not want any of them."
+      ];
+      if (s.flags.got_ticket) base.push("The envelope from the harbour at Crescent City is still on the dash. It will have company.");
+      base.push("The first sign in Astoria said seven hundred and twenty-one miles. The odometer says " + driven + ".");
+      base.push((s.extra || 0) <= 10
+        ? "You went where you were going. You did not go anywhere you were not going. It is a perfectly good way to drive to San Francisco, and you are here, in the light, and the bridge is the colour it is in the postcards."
+        : "You went where you were going, and round a few things on the way, and you came the fast way at the end, and you are here, in the light, which is more than the coast road would have given you.");
+      const kept = (typeof keepsakeFor === 'function') ? keepsakeFor(s) : null;
+      if (kept) base.push(kept.line);
+      if (s.flags.pressed_penny) base.push("There is a penny in the ashtray, flattened in Astoria, with the river on it. You touch it at the far end of the bridge, for no reason.");
+      base.push(
+        "On the other side the road goes down into the city, into traffic, among people who have driven nowhere today, and the sun goes into the sea behind you.",
+        "You made it.",
+        "That's the whole thing."
+      );
+      return base;
+    },
+    choices: []
+  },
+
+  // GG-DARK — THE COAST, STRAIGHT THROUGH. After dark.
+  pc_gg_dark: {
+    location: "The Golden Gate Bridge — night",
+    tags: ["victory","night"],
+    time: "night",
+    mile: 760,
+    shield: "US 101 SOUTH",
+    paywall: false,
+    isVictory: true,
+    ending: 'dark',
+    arrival: "San Francisco, CA",
+    textFn: (s) => {
+      const driven = 760 + (s.extra || 0);
+      const base = [
+        "The freeway climbs through the dark hills to a tunnel with a rainbow painted round the mouth of it, and you go in, and you come out the other side, and the bridge is there, lit.",
+        "Red even at night, in floodlight, the towers going up into the fog until the tops of them are gone, and the cables going up after them and disappearing, so that the bridge seems to be hanging from nothing. Beyond it the city is a pile of lights on its hills, very close, very quiet.",
+        "There is no booth. A gantry over the road, cameras, a sign: TOLL — NO CASH. Somewhere a camera has photographed your plate in the dark, and in a few weeks an envelope will go to whoever this car is registered to.",
+        "You have counted every dollar since Astoria. The last gate on the road did not want any of them."
+      ];
+      if (s.flags.got_ticket) base.push("The envelope from the harbour at Crescent City is still on the dash. It will have company.");
+      if (s.flags.took_shore) base.push(s.flags.fog_scare ? "Your hands have stopped shaking. You are not sure when." : "You came down off the cliff road an hour ago and you can still feel the drop on your right side, where the sea was.");
+      base.push("The first sign in Astoria said seven hundred and twenty-one miles. The odometer says " + driven + ". You do not need to do the subtraction. You drove every one of them, and most of the extra ones you chose.");
+      if (s.flags.took_glass) base.push("There is a piece of blue glass in your pocket that a sign in Fort Bragg asked you to leave. You put your hand on it on the bridge, the way you would check for a wallet.");
+      const kept = (typeof keepsakeFor === 'function') ? keepsakeFor(s) : null;
+      if (kept) base.push(kept.line);
+      if (s.flags.pressed_penny) base.push("There is a penny in the ashtray, flattened in Astoria, with the river on it.");
+      base.push(
+        "You saw the coast. All of it, or as much as there was a road along. You came in after dark, and the city does not know you have arrived, and it does not need to.",
+        "You made it.",
+        "That's the whole thing."
+      );
+      return base;
+    },
+    choices: []
+  },
+
+  // GG-MORNING — THE COAST, AND A NIGHT AT POINT REYES. The next morning.
+  pc_gg_morning: {
+    location: "The Golden Gate Bridge — morning",
+    tags: ["victory"],
+    mile: 760,
+    shield: "US 101 SOUTH",
+    paywall: false,
+    isVictory: true,
+    ending: 'morning',
+    arrival: "San Francisco, CA",
+    textFn: (s) => {
+      const driven = 760 + (s.extra || 0);
+      const base = [
+        "The freeway comes up through the hills of Marin in the morning, gold grass, the fog lying in the valleys below like milk in a saucer, and climbs to a tunnel with a rainbow painted round the mouth of it, and you go in, and you come out the other side.",
+        "The bridge is standing in the fog. Only the tops of the towers are out of it, red, in the sun, two of them, with the cables coming down out of the blue and going into the white and disappearing, and the road goes into the white after them.",
+        "There is no booth. A gantry, cameras, a sign: TOLL — NO CASH. Somewhere in the fog a camera has photographed your plate, and in a few weeks an envelope will go to whoever this car is registered to.",
+        "You have counted every dollar since Astoria. The last gate on the road did not want any of them."
+      ];
+      if (s.flags.got_ticket) base.push("The envelope from the harbour at Crescent City is still on the dash. It will have company.");
+      if (s.flags.wrote_log) base.push("You wrote the number in a book at the bottom of three hundred and eight steps this morning, with a pen on a string, under Ohio and Japan and HERE AGAIN. " + driven + ", now, with the drive in. It is in a book at the end of the land, in your handwriting, and it is going to stay there.");
+      else if (s.flags.closed_gate) base.push("A ranger at a closed gate wrote the number on a clipboard this morning and read it back to you out loud over the wind. " + driven + ", now, with the drive in. Long way round, she said.");
+      else base.push("The first sign in Astoria said seven hundred and twenty-one miles. The odometer says " + driven + ".");
+      if (s.flags.took_shore) base.push("You came by Stinson and Muir, in daylight, the last long way, because it was there.");
+      if (s.flags.took_glass) base.push("There is a piece of blue glass in your pocket that a sign in Fort Bragg asked you to leave. You put your hand on it on the bridge, the way you would check for a wallet.");
+      const kept = (typeof keepsakeFor === 'function') ? keepsakeFor(s) : null;
+      if (kept) base.push(kept.line);
+      if (s.flags.pressed_penny) base.push("There is a penny in the ashtray, flattened in Astoria, with the river on it.");
+      base.push(
+        "Halfway across, the car comes out of the fog all at once into the sun, and the city is right there, white, on its hills, as if it had been waiting with the lights off.",
+        "It took you three days. It was supposed to take two. You would not give any of it back.",
+        "You made it.",
+        "That's the whole thing."
       );
       return base;
     },
@@ -1959,7 +2570,28 @@ const PACIFIC_COAST = {
 // fuel sales at the boat launch; fuel directories put the nearest stations at
 // Redway. The scene works either way, but the pump is an assumption.
 //
-// pc_029 IS A STUB at Leggett, the fork. Leg 7 builds the fork itself.
+// LEG 7 IS THE ENDING. The fork at Leggett; 101 inland through the towns (the
+// newest layer, Ray's note) or CA-1 down the coast, where the older layer shows
+// through: Glass Beach (the town's rubbish, nearly gone, collecting prohibited --
+// the inverse of the Cannon Beach stone, and a conduct choice), the Jug Handle
+// staircase (each terrace ~100,000 years older than the one below), the Albion
+// bridge (last wooden bridge on CA-1, 1944, to be replaced), Fort Ross (1812, on
+// Kashaya land called Metini), Bodega Bay (abalone fishery shut 2017-2036; the
+// shell is GIVEN, and replaces the penny as a keepsake), Point Reyes Station.
+//
+// A second night, coast only, and three endings that are actually different:
+// daylight (inland), dark (coast straight through), morning (coast, a night at
+// Point Reyes Station, the lighthouse). The lighthouse stairs are a seeded slot,
+// open two runs in three; Cord at Fort Ross (second sighting, only if missed at
+// the cove) knows which, the evening before, and is right.
+//
+// THE REVEAL: at the bottom of 308 steps, the visitors' book, a column for miles,
+// and the player writes the odometer. If the wind has shut the stairs, a ranger
+// at the gate asks how far and reads the number back out loud. Inland and night
+// arrivals get it on the bridge. Every ending says 721 against what you drove.
+//
+// THE BRIDGE: no booth, no cash, a camera, a bill to whoever the car is
+// registered to. Not a choice, not a check. It happens once, and the route ends.
 // ═══════════════════════════════════════════════════════════════════════════
 
 if (typeof module !== 'undefined') module.exports = PACIFIC_COAST;

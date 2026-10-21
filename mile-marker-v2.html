@@ -2773,7 +2773,7 @@ function motionReduced() {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
 }
 // Bump this on every build that goes to testers, so "which one did you play?" has an answer.
-const BUILD = '2026-10-20.7';
+const BUILD = '2026-10-20.9';
 
 function startRadioTicker(block, tries) {
   if (block.dataset.started) return;
@@ -3085,7 +3085,7 @@ function showVictory(node) {
   document.getElementById('main-screen').innerHTML = `
     <div id="victory-screen">
       <div class="victory-header">
-        <div class="victory-mile">Mile ${node.mile || state.currentMile} — ${node.arrival || R().to}</div>
+        <div class="victory-mile">Mile ${node.mile != null ? node.mile + (state.extra || 0) : state.currentMile} — ${node.arrival || R().to}</div>
         <div class="victory-title">You made it.</div>
         <div class="victory-sub">${state.playerName} — ${state.choices} choices</div>
         ${kept ? `<div class="victory-kept">Kept · ${kept.label}</div>` : ''}
