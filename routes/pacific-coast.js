@@ -20,6 +20,44 @@
 // Three Capes fork. The rest of the spine is in the design spec.
 // ═══════════════════════════════════════════════════════════════════════════
 
+// ── Drawn signs ──────────────────────────────────────────────────────────
+// Where the prose sets a sign on a line of its own, that line can be the sign itself.
+// The narration around it never changes. Road signs use the engine's .sign, so they
+// age and glow like the rest; the card, the board and the book are objects and do not.
+// Lines with class `hand` are lettered by the engine so no two letters match.
+//
+// Arrows point RIGHT on this route: driving south on 101, the coast -- and every turn
+// toward it -- is on the right.
+const PC_ARROW_RIGHT = "<svg class='rs-arrow' viewBox='0 0 34 25' aria-hidden='true'><path d='M34 12.5 L21 0 L21 7.5 L0 7.5 L0 17.5 L21 17.5 L21 25 Z'/></svg>";
+const pcEsc = (t) => String(t == null ? '' : t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const PC_SIGN = {
+  // A brown recreation sign: an optional heading, rows of [name, miles], an arrow.
+  brown: (rows, head) => "<div class='rs-wrap'><div class='rs sign rs-brown" + (rows.length === 1 && !head ? ' rs-one' : '') + "'>" +
+    (head ? "<div class='rs-head'>" + head + "</div>" : '') +
+    "<div class='rs-body'><div class='rs-rows'>" +
+    rows.map(r => "<div class='rs-row'><span class='rs-name'>" + r[0] + "</span>" + (r[1] != null ? "<span class='rs-num'>" + r[1] + "</span>" : '') + "</div>").join('') +
+    "</div>" + PC_ARROW_RIGHT + "</div></div></div>",
+  // An index card taped inside a door: lines in one marker, and a last line in another pen.
+  card: (lines, later) => "<div class='rs-wrap'><div class='rs-glass'><div class='rs-card'>" +
+    lines.map(l => "<span class='m1 hand'>" + l + "</span>").join('') +
+    (later ? "<span class='m2 hand'>" + later + "</span>" : '') + "</div></div></div>",
+  // A chalkboard: a heading, some lines, a price.
+  chalk: (head, lines, price) => "<div class='rs-wrap'><div class='rs-chalk'><span class='c1 hand'>" + head + "</span>" +
+    lines.map(l => "<span class='c2 hand'>" + l + "</span>").join('') +
+    (price ? "<span class='c3 hand'>" + price + "</span>" : '') + "</div></div>",
+  // The toll gantry: a beam, three cameras, TOLL over NO CASH.
+  gantry: () => "<div class='rs-wrap'><div class='rs-gantry'><div class='rs-beam'></div><div class='rs-cams'><span></span><span></span><span></span></div><div class='sign rs-toll'>TOLL</div><div class='sign rs-nocash'>NO CASH</div></div></div>",
+  // The visitors' book at Point Reyes, with the player's line last, in their own hand.
+  // The name is typed by the player, so it is escaped before it goes anywhere near HTML.
+  book: (name, driven) => "<div class='rs-wrap'><div class='rs-book'><div class='bh'><span>NAME</span><span>FROM</span><span>MILES</span></div>" +
+    "<div class='br'><span class='h1 hand'>Deb + Lou</span><span class='h1 hand'>Ohio</span><span class='h1 hand'>2,450</span></div>" +
+    "<div class='br'><span class='h3 hand'>Kenji W.</span><span class='h3 hand'>Japan</span><span></span></div>" +
+    "<div class='br'><span class='h2 hand'>Marisol</span><span class='h2 hand'>Sacramento</span><span class='h2 hand'>104</span></div>" +
+    "<div class='br'><span class='h4 hand'>HERE AGAIN</span><span></span><span></span></div>" +
+    "<div class='br'><span class='h2 hand'>the Pruitts</span><span class='h2 hand'>Fresno</span><span class='h2 hand'>230</span></div>" +
+    "<div class='br you'><span class='hand'>" + pcEsc(name || 'you') + "</span><span class='hand'>Astoria, Oregon</span><span class='n hand'>" + driven + "</span></div></div></div>"
+};
+
 // Whether the stairs at Point Reyes are open on this run. The wind is a seeded slot
 // (pc_k10), so it is decided when the run starts -- which is how Cord, at Fort Ross,
 // can know it the evening before. Defaults to open if the engine is not loaded.
@@ -230,7 +268,7 @@ const PACIFIC_COAST = {
         "Tillamook is cows. Not as scenery — as the economy. The valley is flat and green and wet and there are more of them in it than there are people in the county, and the whole town smells faintly and permanently of the arrangement.",
         "The cheese factory on the north end has a car park the size of a supermarket's and a viewing window where you can watch blocks of it go past on a belt. There is a queue for ice cream at nine in the morning and the queue is not short.",
         "South of town the road offers you a decision in the form of a brown sign.",
-        "THREE CAPES SCENIC LOOP — CAPE MEARES · CAPE LOOKOUT · CAPE KIWANDA",
+        PC_SIGN.brown([['Cape Meares'], ['Cape Lookout'], ['Cape Kiwanda']], 'Three Capes Scenic Loop'),
         "Brown means recreation. It is the colour they use for the things you are not required to do.",
         "The other way is 101, which goes inland through the trees and comes out at Cloverdale in about twenty minutes, and which no sign feels any need to advertise."
       ];
@@ -413,7 +451,7 @@ const PACIFIC_COAST = {
       }
       base.push(
         "Cloverdale is a feed store, a church, a tavern that opens at eleven, and a gas station with two pumps and a hand-lettered card taped inside the window of the door.",
-        "NEXT GAS LINCOLN CITY 22 MI — NOTHING ON THE BEACH ROADS — WE ARE NOT KIDDING",
+        PC_SIGN.card(['NEXT GAS<br>LINCOLN CITY 22 MI', 'NOTHING ON THE<br>BEACH ROADS'], 'WE ARE NOT KIDDING'),
         "Somebody wrote the last line later. The pen is different."
       );
       if (s.flags.read_closure_sign)
@@ -492,7 +530,7 @@ const PACIFIC_COAST = {
       "The harbour is behind the highway bridge, and the way in is a gap in the rock about fifty feet wide with the open Pacific on the other side of it. Boats come through it under power, and while they are coming through it nobody on the wall says anything at all.",
       "Along the wall, when the swell lines up, the ocean comes up through holes in the rock and goes thirty feet into the air. A man in a raincoat is standing exactly where the sign says not to stand, and he is getting exactly what the sign said he would.",
       "Across 101 there is a booth with a chalkboard.",
-      "WHALES — GRAYS ALL SUMMER — 1 HR — NEXT BOAT 11:30 — $25 CASH"
+      PC_SIGN.chalk('WHALES', ['grays all summer', '1 hr &nbsp;·&nbsp; next boat 11:30'], '$25 cash')
     ],
     choices: [
       { text: "Buy a seat on the 11:30", sub: "Requires $25 — an hour on a small boat, and no promises written on the board.", type: "neutral", requires: { walletMin: 25 }, check: { stat: "gut", difficulty: 5 },
@@ -888,7 +926,7 @@ const PACIFIC_COAST = {
       if (s.flags.saw_elk) base.push("You saw sixty elk for nothing an hour ago. This town has never once been free for anybody.");
       base.push(
         "At the south end of town there is a brown sign pointing west, out towards the coast you have not been able to see since the dunes.",
-        "CHARLESTON 9 · SHORE ACRES 13 · CAPE ARAGO 14",
+        PC_SIGN.brown([['Charleston', 9], ['Shore Acres', 13], ['Cape Arago', 14]]),
         "There is nothing written under CAPE ARAGO. There does not need to be. The road ends there. You can tell from the way the sign is laid out that there is nowhere else on it to go."
       );
       return base;
@@ -1631,7 +1669,7 @@ const PACIFIC_COAST = {
       base.push(
         "Garberville and Redway are two small towns a mile apart on the river, with a main street of hardware and health food and a lot of people who look as if they came here for a weekend some decades ago.",
         "West of Redway, a county road turns off the highway and climbs into the mountains. The sign at the turn has one word and one number on it.",
-        "SHELTER COVE 21",
+        PC_SIGN.brown([['Shelter Cove', 21]]),
         "Twenty-one miles over the King Range, down the other side, to the only town on the whole of the Lost Coast — the hundred miles of shoreline the highway gave up on. The road goes there and stops. It does not go anywhere else. The sign does not mention the way back, because the way back is the way there."
       );
       if (s.flags.asked_card) base.push("Nothing on the beach roads, a woman wrote on a card in Cloverdale, five hundred miles ago, and then wrote it again.");
@@ -2244,7 +2282,7 @@ const PACIFIC_COAST = {
         "It is small. All of them have been small. A short iron tower with a great glass lens inside it, cut in rings like the inside of a shell, that has been turning since 1870.",
         "Inside the door there is a visitors' book on a stand, with a pen on a string. Name. Where from. People have written Ohio and Japan and Sacramento and Fresno and just HERE AGAIN.",
         "You write your name, and Astoria, Oregon. There is a column at the end for miles. You do not need to climb back up to the car to look. You know it.",
-        driven + ".",
+        PC_SIGN.book(s.playerName, driven),
         "Astoria to San Francisco is seven hundred and twenty-one miles. It said so on the first sign, yesterday morning, at the bottom of the hill in the fog. You read the number you have written. It does not say seven hundred and twenty-one.",
         "On the wall by the door there is a board about the rock you are standing on. It came from a long way south, a very long time ago, and it is still moving north, a couple of inches a year, on the other side of the fault from everything else. It has been making this trip for millions of years, the board says. It is not there yet either."
       ];
@@ -2345,7 +2383,9 @@ const PACIFIC_COAST = {
       const base = [
         "Past Novato the hills close in, gold grass and dark oaks, and the freeway climbs between them to a tunnel with a rainbow painted round the mouth of it, and you go in at sixty, and you come out the other side, and there it is.",
         "The bridge. Red, enormous, standing in the water with its towers in the last of the sun and its cables going down to the road in curves, and beyond it the city, white, on its hills, every window on the western side of it on fire with the evening.",
-        "You drive onto it. There is no booth. There is a gantry over the road with cameras on it, and a sign: TOLL — NO CASH. Your car goes under it at forty-five. Somewhere a camera has taken a photograph of your plate, and in a few weeks an envelope will go to whoever this car is registered to.",
+        "You drive onto it. There is no booth. There is a gantry over the road with cameras on it, and a sign.",
+        PC_SIGN.gantry(),
+        "Your car goes under it at forty-five. Somewhere a camera has taken a photograph of your plate, and in a few weeks an envelope will go to whoever this car is registered to.",
         "You have counted every dollar since Astoria. The last gate on the road did not want any of them."
       ];
       if (s.flags.got_ticket) base.push("The envelope from the harbour at Crescent City is still on the dash. It will have company.");
@@ -2382,7 +2422,9 @@ const PACIFIC_COAST = {
       const base = [
         "The freeway climbs through the dark hills to a tunnel with a rainbow painted round the mouth of it, and you go in, and you come out the other side, and the bridge is there, lit.",
         "Red even at night, in floodlight, the towers going up into the fog until the tops of them are gone, and the cables going up after them and disappearing, so that the bridge seems to be hanging from nothing. Beyond it the city is a pile of lights on its hills, very close, very quiet.",
-        "There is no booth. A gantry over the road, cameras, a sign: TOLL — NO CASH. Somewhere a camera has photographed your plate in the dark, and in a few weeks an envelope will go to whoever this car is registered to.",
+        "There is no booth. A gantry over the road, cameras, a sign.",
+        PC_SIGN.gantry(),
+        "Somewhere a camera has photographed your plate in the dark, and in a few weeks an envelope will go to whoever this car is registered to.",
         "You have counted every dollar since Astoria. The last gate on the road did not want any of them."
       ];
       if (s.flags.got_ticket) base.push("The envelope from the harbour at Crescent City is still on the dash. It will have company.");
@@ -2417,7 +2459,9 @@ const PACIFIC_COAST = {
       const base = [
         "The freeway comes up through the hills of Marin in the morning, gold grass, the fog lying in the valleys below like milk in a saucer, and climbs to a tunnel with a rainbow painted round the mouth of it, and you go in, and you come out the other side.",
         "The bridge is standing in the fog. Only the tops of the towers are out of it, red, in the sun, two of them, with the cables coming down out of the blue and going into the white and disappearing, and the road goes into the white after them.",
-        "There is no booth. A gantry, cameras, a sign: TOLL — NO CASH. Somewhere in the fog a camera has photographed your plate, and in a few weeks an envelope will go to whoever this car is registered to.",
+        "There is no booth. A gantry, cameras, a sign.",
+        PC_SIGN.gantry(),
+        "Somewhere in the fog a camera has photographed your plate, and in a few weeks an envelope will go to whoever this car is registered to.",
         "You have counted every dollar since Astoria. The last gate on the road did not want any of them."
       ];
       if (s.flags.got_ticket) base.push("The envelope from the harbour at Crescent City is still on the dash. It will have company.");
