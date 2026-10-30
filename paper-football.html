@@ -355,7 +355,7 @@ body{
     <details class="how">
       <summary>How to play</summary>
       <ul>
-        <li>Swipe to flick. Tap just behind it to nudge.</li>
+        <li>Swipe to flick. Tap the ball to nudge it forward a little.</li>
         <li>Stop it hanging off the far edge: touchdown, 6.</li>
         <li>Slide it off the table: turnover.</li>
         <li>Four flicks per drive.</li>
@@ -878,7 +878,7 @@ cv.addEventListener('pointerup', e => {
   const p = lp(e); sw.pts.push(p);
   const s = sw; sw = null;
   const disp = Math.hypot(p.x - s.start.x, p.y - s.start.y), dur = p.t - s.start.t;
-  const tap = disp < 10 && dur < 350;
+  const tap = disp < 10 && dur < 500;
   const end = s.pts[s.pts.length - 1];
   let j = s.pts.length - 1;
   while (j > 0 && end.t - s.pts[j - 1].t <= 90) j--;
@@ -894,9 +894,13 @@ function onSwipe(vx, vy, tap, p) {
     const b = G.ball;
     if (tap) {
       const wx = (p.x - cam.ax) / cam.z + cam.fx, wy = (p.y - cam.ay) / cam.z + cam.fy;
-      const dx = L.cx + b.x - wx, dy = b.y - wy, d = Math.hypot(dx, dy);
-      if (d < 1 || d > R * 3.2) return;
-      launch(dx / d * NUDGE, dy / d * NUDGE, true);
+      const dx = L.cx + b.x - wx, dy = b.y - wy;
+      if (Math.hypot(dx, dy) > R * 3.2) return;
+      // A tap on or near the ball always nudges it up the table, toward the scoring edge. Pushing away
+      // from the tap point sent it backward whenever someone tapped the ball's front half.
+      // Tapping off to one side still steers it a little the other way.
+      const side = Math.max(-0.5, Math.min(0.5, dx / (R * 2))), n = Math.hypot(side, 1);
+      launch(side / n * NUDGE, -NUDGE / n, true);
     } else {
       let sx = vx / cam.z * cfg.flick, sy = vy / cam.z * cfg.flick; const sp = Math.hypot(sx, sy);
       if (sp < 40) return;
@@ -984,7 +988,7 @@ function prompt() {
   if (G.mode === 'tut') return tip('');
   const who = G.mode === 'pass' ? G.names[G.poss] + ': ' : '';
   if (G.scene === 'slide' && G.state === 'aim') {
-    if (human()) tip(who + (G.down === 1 ? 'Swipe toward the far edge to flick' : 'Swipe to flick · tap behind it to nudge'));
+    if (human()) tip(who + (G.down === 1 ? 'Swipe toward the far edge to flick' : 'Swipe to flick · tap the ball to nudge it'));
     else { tip('CPU is lining up…'); cpuSlide(); }
   } else if (G.scene === 'kick' && G.state === 'kaim') {
     if (human()) tip(who + (G.kick.fan ? 'Swipe up through the fingers · time the fan' : 'Swipe up through the fingers'));
@@ -2385,7 +2389,7 @@ const needsTutorial = () => !tutDone && !winsAll() && !stats.tds && !best && !st
 const COACH = {
   flick: 'Swipe up on the football to flick it down the table.',
   hang: 'Stop it hanging off the far edge for a touchdown. A softer swipe goes shorter.',
-  nudge: 'So close! Tap just behind the ball to nudge it forward a little.',
+  nudge: 'So close! Tap the ball to nudge it forward a little.',
   fell: 'Too hard, it slid off. Try a softer swipe.',
   kick: 'Touchdown! Now the extra point: swipe up through the fingers.',
   miss: 'Almost. Aim between the fingers and swipe a little harder.',
@@ -2457,7 +2461,7 @@ function drawHint() {
   else { const p = proj(0, 0, 0); sx = p[0]; sy = p[1] - BR * p[2] * 0.5; }
   const p = (t % 1.9) / 1.9;
   if (kind === 'tap') {
-    const ty = sy + R * 1.7 * cam.z, press = p < 0.25 ? 1 : 0, ring = Math.max(0, (p - 0.2) / 0.5);
+    const ty = sy + R * 0.45 * cam.z, press = p < 0.25 ? 1 : 0, ring = Math.max(0, (p - 0.2) / 0.5);
     if (ring > 0 && ring < 1) { ctx.save(); ctx.strokeStyle = `rgba(255,255,255,${0.8 * (1 - ring)})`; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(sx, ty, 14 + ring * 34, 0, 7); ctx.stroke(); ctx.restore(); }
     finger(sx, ty, p < 0.75 ? 1 : 1 - (p - 0.75) / 0.25, press);
     return;
