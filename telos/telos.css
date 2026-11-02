@@ -1,19 +1,20 @@
 /* ============================================================
-   Telos marketing page: Night Watch.
-   Colours and type follow lib/theme/telos_theme.dart in the app,
-   which is why this page doesn't use dahvio.css.
+   Telos marketing page: Night Watch, by lantern light.
+   Type follows lib/theme/telos_theme.dart in the app, which is why
+   this page doesn't use dahvio.css. The neutrals lean warm, toward
+   the ink and paper of the camp illustration.
    Brass marks what's the player's: the road's stakes, the choice.
    ============================================================ */
 
 :root {
-    --ground: #1E252B;
-    --card: #272F35;
-    --band: #12181D;
-    --line: #4D5E67;
-    --boundary: #677A83;
-    --dim: #ACBBC1;
-    --text: #E6EAEB;
+    --ground: #14110E;
+    --card: #211C16;
+    --line: #40372B;
+    --boundary: #6B5E4B;
+    --dim: #BDB2A0;
+    --text: #EDE6D6;
     --brass: #D3B779;
+    --ember: 240 169 75;
 
     --display: 'IBM Plex Sans Condensed', 'Arial Narrow', sans-serif;
     --body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -58,59 +59,81 @@ svg path { fill: none; stroke: currentColor; stroke-linecap: square; stroke-line
 .title-screen {
     flex: 1 0 auto;
     width: 100%;
-    max-width: 1240px;
+    max-width: 1180px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 28px;
+    gap: 20px;
 }
 
+/* The painting has no frame. It falls off into the dark around the lantern. */
 .plate {
     position: relative;
     margin: 0;
-    border: 1px solid var(--boundary);
     overflow: hidden;
 }
 .plate img { width: 100%; }
 
-/* Sits on the lantern in camp.webp and breathes, the page's one movement. */
+/* Turns the paper-coloured daylight of camp.webp to dusk, in CSS, so the same
+   file still serves the app and the share image. Centred on the lantern. */
+.dusk {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(to top, rgb(20 17 14 / 1) 0, rgb(20 17 14 / 0) 16%),
+        linear-gradient(to right, rgb(20 17 14 / 1) 0, rgb(20 17 14 / 0) 10%),
+        linear-gradient(to left, rgb(20 17 14 / 1) 0, rgb(20 17 14 / 0) 10%),
+        radial-gradient(ellipse 62% 72% at 52.7% 73%,
+            rgb(20 17 14 / 0) 18%,
+            rgb(20 17 14 / .42) 52%,
+            rgb(20 17 14 / .82) 78%,
+            rgb(20 17 14 / 1) 100%);
+}
+
+/* Sits on the lantern and breathes, the page's one movement. */
 .lantern-glow {
     position: absolute;
     left: 52.7%;
     top: 73%;
-    width: 22%;
+    width: 46%;
     aspect-ratio: 1;
     transform: translate(-50%, -50%);
     border-radius: 50%;
-    background: radial-gradient(closest-side, rgb(255 190 90 / .5), rgb(255 190 90 / 0));
-    mix-blend-mode: soft-light;
+    background: radial-gradient(closest-side, rgb(var(--ember) / .5), rgb(var(--ember) / .14) 45%, rgb(var(--ember) / 0));
+    mix-blend-mode: screen;
     animation: lantern 5.5s ease-in-out infinite;
 }
 @keyframes lantern {
-    0%, 100% { opacity: .55; }
+    0%, 100% { opacity: .62; }
     42% { opacity: 1; }
-    58% { opacity: .75; }
+    58% { opacity: .78; }
     70% { opacity: .95; }
 }
 
-.title-side { display: flex; flex-direction: column; gap: 20px; }
+/* On a phone the name comes first, then the picture, then the rest. */
+.title-side { display: contents; }
+.marquee { order: -1; }
 
 h1 {
     display: flex;
     align-items: center;
-    gap: 14px;
-    font-size: clamp(3.5rem, 8vw, 5.5rem);
+    gap: 16px;
+    font-size: clamp(3.5rem, 7vw, 5.5rem);
     letter-spacing: -0.005em;
     line-height: 1;
 }
-.mark { width: .82em; height: .82em; flex: none; color: var(--brass); }
-.mark path { stroke-width: 1.6; }
+.mark {
+    width: auto;
+    height: 1em;
+    flex: none;
+    filter: drop-shadow(0 0 18px rgb(var(--ember) / .55));
+}
 
 .tagline {
-    margin-top: 16px;
+    margin-top: 14px;
     font-family: var(--display);
     font-weight: 600;
-    font-size: clamp(1.375rem, 2.4vw, 1.75rem);
+    font-size: clamp(1.375rem, 2.2vw, 1.75rem);
     line-height: 1.25;
 }
 .about { color: var(--dim); max-width: 46ch; }
@@ -122,12 +145,13 @@ h1 {
     min-height: 50px;
     padding: 12px 22px;
     background: var(--brass);
-    color: var(--band);
+    color: var(--ground);
     font: 500 1rem/1.2 var(--body);
     text-decoration: none;
+    box-shadow: 0 0 32px rgb(var(--ember) / .22);
     transition: background-color .15s ease;
 }
-.cta:hover { background: var(--text); color: var(--band); }
+.cta:hover { background: var(--text); color: var(--ground); }
 .cta-note { color: var(--dim); font: 400 .8125rem/1.45 var(--mono); }
 
 .more-link {
@@ -148,10 +172,10 @@ h1 {
     .title-screen {
         flex-direction: row;
         align-items: center;
-        gap: clamp(32px, 4vw, 64px);
+        gap: clamp(24px, 3vw, 48px);
     }
-    .plate { flex: 1.45 1 0; }
-    .title-side { flex: 1 1 0; }
+    .plate { flex: 1.5 1 0; }
+    .title-side { display: flex; flex: 1 1 0; flex-direction: column; gap: 20px; }
 }
 
 /* ── The road ───────────────────────────────────────────── */
@@ -161,7 +185,7 @@ h1 {
     padding: 0 var(--gutter);
 }
 
-/* One rail down the left, drawn by the grid. Each stop plants a stake on it. */
+/* One rail down the left, drawn by the grid. Each stop plants a lit stake on it. */
 .stop {
     display: grid;
     grid-template-columns: 20px minmax(0, 1fr);
@@ -189,138 +213,91 @@ h1 {
     height: 26px;
     margin-top: 5px;
     background: var(--brass);
+    box-shadow: 0 0 12px rgb(var(--ember) / .6);
 }
 
 .stop-body { grid-column: 2; grid-row: 1; min-width: 0; }
 .stop-body > * + * { margin-top: 18px; }
 .stop-body > p { color: var(--dim); max-width: 62ch; }
-.stop-body > h3 { margin-top: 32px; }
-.stop-body > .source-note { color: var(--dim); font: 400 .75rem/1.5 var(--mono); }
+.stop-body > .sub { margin-top: 36px; }
 
-h2 { font-size: clamp(1.625rem, 3.6vw, 2.25rem); }
+h2 { font-size: clamp(1.625rem, 3.2vw, 2.125rem); }
 h3 { font-size: 1.25rem; }
-h4 { font: 600 1.125rem/1.2 var(--display); margin: 0; }
 
-/* ── The places ─────────────────────────────────────────── */
+/* ── Screens: a row that swipes, with arrows for a mouse ── */
+.row-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.row-arrows { display: flex; flex: none; gap: 6px; }
+.row-arrows[hidden] { display: none; }
+.row-arrows button {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--boundary);
+    color: var(--brass);
+    cursor: pointer;
+}
+.row-arrows button:hover:not(:disabled) { border-color: var(--brass); }
+.row-arrows button:disabled { border-color: var(--line); color: var(--boundary); cursor: default; }
+.row-arrows svg { width: 12px; height: 12px; }
+.row-arrows path { stroke-width: 1.5; }
+
+.screens {
+    list-style: none;
+    display: flex;
+    gap: 18px;
+    padding: 0 0 12px;
+    margin-bottom: 0;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
+}
+.screens li { flex: 0 0 190px; scroll-snap-align: start; }
+.screens li.wide { flex-basis: 290px; }
+/* Every picture gets the phone's height, so the captions line up across the row. */
+.slot { display: flex; align-items: center; height: 412px; }
+.phone { width: 100%; border: 1px solid var(--boundary); border-radius: 18px; background: #12181D; }
+.lock { width: 100%; border: 1px solid var(--boundary); border-radius: 4.85% / 15.8%; }
+.share { width: 100%; border: 1px solid var(--boundary); }
+.screens p { margin-top: 12px; color: var(--dim); font-size: .875rem; line-height: 1.45; }
+
+@media (max-width: 720px) {
+    .screens { margin-right: calc(-1 * var(--gutter)); padding-right: var(--gutter); }
+}
+
+/* ── The places: a strip on wide screens, a swipe on phones ─ */
 .places {
     list-style: none;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
     margin-bottom: 0;
 }
-.places li { background: var(--card); border: 1px solid var(--line); }
-.places img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
-.place-text {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: baseline;
-    gap: 6px 12px;
-    padding: 14px 16px 16px;
+.places img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border: 1px solid var(--line);
+    filter: brightness(.84);
 }
-.place-text p { grid-column: 1 / -1; color: var(--dim); font-size: .9375rem; line-height: 1.45; }
-.minutes { color: var(--sector); font: 400 .8125rem/1 var(--mono); white-space: nowrap; }
+/* The sector's colour runs under its picture, as it does in the app. */
+.places h3 {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--sector);
+    font-size: 1.0625rem;
+    color: var(--sector);
+}
+.minutes { display: block; margin-top: 4px; color: var(--dim); font: 400 .8125rem/1 var(--mono); }
 .stop-body > .aside { color: var(--dim); font-style: italic; }
 
-/* ── The squad: radios and CSS, so choosing needs no script ─ */
-.inspect > input {
-    position: absolute;
-    opacity: 0;
-    width: 1px;
-    height: 1px;
-}
-.roster {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    border: 1px solid var(--line);
-    background: var(--card);
-}
-.roster label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    padding: 16px 2px 12px;
-    color: var(--dim);
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: color .15s ease;
-    min-width: 0;
-}
-.roster label + label { border-left: 1px solid var(--line); }
-.roster label:hover { color: var(--text); }
-.roster svg { width: 34px; height: 34px; }
-.roster path { stroke-width: .055; }
-.roster span {
-    font: 400 .6875rem/1.2 var(--mono);
-    letter-spacing: .02em;
-    max-width: 100%;
-    overflow-wrap: anywhere;
-    text-align: center;
-}
-@media (max-width: 480px) {
-    .roster span { display: none; }
-}
-
-.dossier {
-    border: 1px solid var(--line);
-    border-top: 0;
-    padding: 18px 20px 20px;
-    min-height: 136px;
-}
-.dossier article { display: none; }
-.dossier p { color: var(--dim); margin: 6px 0 12px; }
-.window { color: var(--brass); font: 400 .8125rem/1.3 var(--mono); }
-
-#who-recon:checked ~ .dossier .who-recon,
-#who-vanguard:checked ~ .dossier .who-vanguard,
-#who-archivist:checked ~ .dossier .who-archivist,
-#who-artificer:checked ~ .dossier .who-artificer,
-#who-quartermaster:checked ~ .dossier .who-quartermaster { display: block; }
-
-#who-recon:checked ~ .roster [for="who-recon"],
-#who-vanguard:checked ~ .roster [for="who-vanguard"],
-#who-archivist:checked ~ .roster [for="who-archivist"],
-#who-artificer:checked ~ .roster [for="who-artificer"],
-#who-quartermaster:checked ~ .roster [for="who-quartermaster"] {
-    color: var(--brass);
-    border-bottom-color: var(--brass);
-}
-
-#who-recon:focus-visible ~ .roster [for="who-recon"],
-#who-vanguard:focus-visible ~ .roster [for="who-vanguard"],
-#who-archivist:focus-visible ~ .roster [for="who-archivist"],
-#who-artificer:focus-visible ~ .roster [for="who-artificer"],
-#who-quartermaster:focus-visible ~ .roster [for="who-quartermaster"] {
-    outline: 2px solid var(--brass);
-    outline-offset: -4px;
-}
-
-/* ── Real screens: a row on wide screens, a swipe on phones ─ */
-.phones {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
-    margin-bottom: 0;
-}
-.phones-two { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 540px; align-items: start; }
-.screen {
-    width: 100%;
-    border: 1px solid var(--boundary);
-    border-radius: 24px;
-    background: var(--band);
-}
-.card-art { width: 100%; border: 1px solid var(--boundary); }
-.phones h3 { margin-top: 16px; }
-.phones p { color: var(--dim); font-size: .9375rem; line-height: 1.5; margin-top: 6px; }
-
-@media (max-width: 640px) {
-    .phones, .phones-two {
+@media (max-width: 720px) {
+    .places {
         display: flex;
-        max-width: none;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         margin-right: calc(-1 * var(--gutter));
@@ -328,154 +305,100 @@ h4 { font: 600 1.125rem/1.2 var(--display); margin: 0; }
         scrollbar-width: thin;
         scrollbar-color: var(--line) transparent;
     }
-    .phones li { flex: 0 0 76%; scroll-snap-align: start; }
-    .phones-two li { flex-basis: 62%; }
+    .places li { flex: 0 0 68%; scroll-snap-align: start; }
 }
 
-/* ── Integrity, to try ──────────────────────────────────── */
-.meter { background: var(--card); border: 1px solid var(--boundary); padding: 20px; }
-.meter[hidden] { display: none; }
-.meter-read { display: grid; gap: 20px; }
-.meter-label { display: block; color: var(--dim); font: 400 .75rem/1.3 var(--mono); letter-spacing: .03em; }
-.meter-value {
-    display: block;
-    margin-top: 4px;
-    color: var(--brass);
-    font: 300 clamp(3rem, 9vw, 4.25rem)/1 var(--mono);
-    font-variant-numeric: tabular-nums;
+/* ── Squad and gear: radios and CSS, so choosing needs no script ─ */
+.pickers { display: grid; gap: 24px; }
+.inspect { position: relative; min-width: 0; }
+.inspect > input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
 }
-.meter-bars { display: grid; gap: 14px; align-content: center; }
-.bar { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; align-items: baseline; }
-.bar-value { font: 400 .875rem/1.3 var(--mono); font-variant-numeric: tabular-nums; }
-.bar-track { grid-column: 1 / -1; height: 6px; background: var(--ground); border: 1px solid var(--line); }
-.bar-fill { display: block; height: 100%; width: 100%; background: var(--brass); transition: width .2s ease; }
-.meter-actions { display: grid; gap: 8px; margin-top: 20px; }
-.meter button { font: 500 .9375rem/1.3 var(--body); color: var(--text); cursor: pointer; }
-.meter-actions button {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    min-height: 46px;
-    padding: 10px 14px;
-    background: transparent;
-    border: 1px solid var(--boundary);
-    text-align: left;
-}
-.meter-actions button:hover { border-color: var(--brass); }
-.meter-actions span { flex: none; color: var(--dim); font: 400 .8125rem/1 var(--mono); }
-.meter-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; margin-top: 14px; }
-.meter-foot p { color: var(--dim); font-size: .875rem; }
-.meter button.meter-reset {
-    padding: 0;
-    background: none;
-    border: 0;
-    color: var(--brass);
-    font: 400 .875rem/1.5 var(--body);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-}
-@media (min-width: 640px) {
-    .meter-read { grid-template-columns: auto 1fr; gap: 40px; }
-    .meter-actions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .meter-actions button { flex-direction: column; align-items: flex-start; justify-content: space-between; }
-}
-
-/* ── Gear, as the report shows it ───────────────────────── */
-.shelf {
-    list-style: none;
-    padding: 0;
+.choices { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.choices label {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
-    gap: 12px;
-    margin-bottom: 0;
-}
-.shelf li {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 12px;
+    place-items: center;
+    aspect-ratio: 1;
+    padding: 2px;
     background: var(--card);
     border: 1px solid var(--line);
+    color: var(--dim);
+    cursor: pointer;
+    transition: border-color .15s ease, color .15s ease;
 }
-.shelf img { width: 88px; flex: none; }
-.find-label { color: var(--brass); font: 400 .6875rem/1.3 var(--mono); letter-spacing: .04em; }
-.shelf h4 { margin-top: 4px; }
-.flavor { color: var(--dim); font-style: italic; font-size: .9375rem; line-height: 1.35; margin-top: 2px; }
-.stats { font-size: .8125rem; line-height: 1.4; margin-top: 6px; }
-@media (max-width: 640px) {
-    .shelf li:nth-child(n+5) { display: none; }
+.choices label:hover { border-color: var(--boundary); color: var(--text); }
+.choices svg { width: 58%; height: 58%; }
+.choices path { stroke-width: .055; }
+.choices img { filter: brightness(.9); }
+
+.dossier { margin-top: 14px; }
+.dossier article { display: none; gap: 14px; grid-template-columns: 112px minmax(0, 1fr); align-items: start; }
+.dossier article:not(:has(> img)) { grid-template-columns: minmax(0, 1fr); }
+.dossier article > img { width: 100%; border: 1px solid var(--line); filter: brightness(.9); }
+.label { color: var(--brass); font: 400 .75rem/1.3 var(--mono); letter-spacing: .04em; }
+.dossier h3 { margin-top: 6px; font-size: 1.5rem; }
+.flavor { color: var(--dim); font-style: italic; font-size: .9375rem; line-height: 1.45; margin-top: 4px; }
+.stats { font-size: .875rem; line-height: 1.45; margin-top: 8px; }
+
+@media (min-width: 760px) {
+    .pickers { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
 }
 
-/* ── A record line ──────────────────────────────────────── */
-.record { margin-inline: 0; margin-bottom: 0; padding: 20px; background: var(--band); border: 1px solid var(--line); }
-.record figcaption { color: var(--brass); font: 400 .75rem/1.3 var(--mono); letter-spacing: .05em; margin-bottom: 8px; }
-.record blockquote { margin: 0; padding: 12px 0; font: 400 .9375rem/1.55 var(--mono); }
-.record blockquote + blockquote { border-top: 1px solid var(--line); }
-.record blockquote:last-child { padding-bottom: 0; }
+#who-recon:checked ~ .dossier .who-recon,
+#who-vanguard:checked ~ .dossier .who-vanguard,
+#who-archivist:checked ~ .dossier .who-archivist,
+#who-artificer:checked ~ .dossier .who-artificer,
+#who-quartermaster:checked ~ .dossier .who-quartermaster,
+#find-rig:checked ~ .dossier .find-rig,
+#find-lamp:checked ~ .dossier .find-lamp,
+#find-charm:checked ~ .dossier .find-charm,
+#find-optic:checked ~ .dossier .find-optic,
+#find-cord:checked ~ .dossier .find-cord { display: grid; }
 
-/* ── The caravan's three moments ────────────────────────── */
-.timeline {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-    margin-bottom: 0;
+#who-recon:checked ~ .choices [for="who-recon"],
+#who-vanguard:checked ~ .choices [for="who-vanguard"],
+#who-archivist:checked ~ .choices [for="who-archivist"],
+#who-artificer:checked ~ .choices [for="who-artificer"],
+#who-quartermaster:checked ~ .choices [for="who-quartermaster"],
+#find-rig:checked ~ .choices [for="find-rig"],
+#find-lamp:checked ~ .choices [for="find-lamp"],
+#find-charm:checked ~ .choices [for="find-charm"],
+#find-optic:checked ~ .choices [for="find-optic"],
+#find-cord:checked ~ .choices [for="find-cord"] { border-color: var(--brass); color: var(--brass); }
+
+#who-recon:focus-visible ~ .choices [for="who-recon"],
+#who-vanguard:focus-visible ~ .choices [for="who-vanguard"],
+#who-archivist:focus-visible ~ .choices [for="who-archivist"],
+#who-artificer:focus-visible ~ .choices [for="who-artificer"],
+#who-quartermaster:focus-visible ~ .choices [for="who-quartermaster"],
+#find-rig:focus-visible ~ .choices [for="find-rig"],
+#find-lamp:focus-visible ~ .choices [for="find-lamp"],
+#find-charm:focus-visible ~ .choices [for="find-charm"],
+#find-optic:focus-visible ~ .choices [for="find-optic"],
+#find-cord:focus-visible ~ .choices [for="find-cord"] {
+    outline: 2px solid var(--brass);
+    outline-offset: 2px;
 }
-.timeline li { padding: 16px; background: var(--ground); }
-.when { color: var(--brass); font: 400 .8125rem/1.3 var(--mono); }
-.timeline p { color: var(--dim); font-size: .9375rem; line-height: 1.5; margin-top: 8px; }
 
-/* ── Ways in ────────────────────────────────────────────── */
-.ways {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-    gap: 12px;
-    margin-bottom: 0;
-}
-.ways div { padding: 16px; background: var(--card); border: 1px solid var(--line); }
-.ways dt { font: 600 1.125rem/1.2 var(--display); }
-.ways dd { margin: 6px 0 0; color: var(--dim); font-size: .9375rem; line-height: 1.5; }
-.countdown { margin-inline: 0; margin-bottom: 0; max-width: 520px; }
-/* The card matches the page ground, so its edge has to be drawn. The radius
-   follows the corners cut into countdown.webp. */
-.countdown img { width: 100%; border: 1px solid var(--boundary); border-radius: 4.85% / 15.8%; }
-.countdown figcaption { margin-top: 10px; color: var(--dim); font-size: .9375rem; line-height: 1.5; }
+/* ── Also in Telos ──────────────────────────────────────── */
+.also { display: grid; gap: 0; margin-bottom: 0; max-width: 62ch; }
+.also div { padding: 12px 0; border-top: 1px solid var(--line); }
+.also div:last-child { border-bottom: 1px solid var(--line); }
+.also dt { font-weight: 500; }
+.also dd { margin: 2px 0 0; color: var(--dim); }
 
-/* ── What it won't do ───────────────────────────────────── */
+/* ── No accounts, no ads, no streaks ────────────────────── */
 .facts { list-style: none; padding: 0; max-width: 62ch; margin-bottom: 0; }
 .facts li { padding: 12px 0; border-top: 1px solid var(--line); color: var(--dim); }
 .facts li:last-child { border-bottom: 1px solid var(--line); }
 
-/* ── Questions ──────────────────────────────────────────── */
-.faq { max-width: 62ch; border-bottom: 1px solid var(--line); }
-.faq details { border-top: 1px solid var(--line); }
-.faq summary {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 14px 0;
-    cursor: pointer;
-    list-style: none;
-    font-weight: 500;
-}
-.faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: '+'; flex: none; color: var(--brass); font-family: var(--mono); }
-.faq details[open] summary::after { content: '\2212'; }
-.faq details p { padding-bottom: 16px; color: var(--dim); }
-
-/* ── The closing call ───────────────────────────────────── */
-.last-call { margin-top: 24px; padding: 56px var(--gutter); background: var(--band); }
-.last-inner { max-width: 62ch; margin: 0 auto; display: grid; gap: 24px; }
-.maker { color: var(--dim); }
-
 /* ── Footer ─────────────────────────────────────────────── */
 .colophon {
+    margin-top: 48px;
     padding: 24px var(--gutter) max(24px, env(safe-area-inset-bottom));
-    background: var(--band);
     border-top: 1px solid var(--line);
     color: var(--dim);
     font: 400 .75rem/1.6 var(--mono);
@@ -490,6 +413,6 @@ h4 { font: 600 1.125rem/1.2 var(--display); margin: 0; }
 
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .lantern-glow { animation: none; opacity: .8; }
-    .roster label, .cta, .bar-fill { transition: none; }
+    .lantern-glow { animation: none; opacity: .85; }
+    .choices label, .cta { transition: none; }
 }
