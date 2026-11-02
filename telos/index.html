@@ -8,7 +8,7 @@
     <link rel="canonical" href="https://dahvio.com/telos">
     <title>Telos - Focus Timer RPG | DahVio Studios</title>
     <meta name="description" content="The focus timer that rewards you for leaving it alone. Your guild heads out for exactly as long as you work. In beta on iPhone.">
-    <meta name="theme-color" content="#1E252B">
+    <meta name="theme-color" content="#14110E">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="DahVio Studios">
     <meta property="og:title" content="Telos">
@@ -23,21 +23,22 @@
     <link rel="apple-touch-icon" href="/telos/assets/icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/telos/telos.css">
 </head>
 <body>
     <div class="fold">
         <div class="title-screen">
             <figure class="plate">
-                <img src="/telos/assets/camp.webp" alt="Two members of the guild at camp, a lit lantern on a crate between them and an old tower on the far ridge" width="1290" height="860">
+                <img src="/telos/assets/camp.webp" alt="Two members of the guild at camp at dusk, a lit lantern on a crate between them and an old tower on the far ridge" width="1290" height="860">
+                <span class="dusk" aria-hidden="true"></span>
                 <span class="lantern-glow" aria-hidden="true"></span>
             </figure>
 
             <div class="title-side">
                 <header class="marquee">
                     <h1>
-                        <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M12 10V7C12 2 20 2 20 7V10M9 13L12 10H20L23 13L21 16H11ZM11 16L9 27H23L21 16M9 27H23"/></svg>
+                        <img class="mark" src="/telos/assets/lantern.webp" alt="" width="330" height="480">
                         Telos
                     </h1>
                     <p class="tagline">The focus timer that rewards you for leaving it alone.</p>
@@ -48,7 +49,7 @@
                 <!-- Swap for Apple's official badge, unaltered, once there's an App Store link. -->
                 <div class="get">
                     <a class="cta" href="https://testflight.apple.com/join/ujpSg2zW">Join the beta on TestFlight</a>
-                    <p class="cta-note">Free, on iPhone with iOS 15 or newer.</p>
+                    <p class="cta-note">Free, on iPhone.</p>
                 </div>
             </div>
         </div>
@@ -60,380 +61,181 @@
         <section class="stop" id="run" aria-labelledby="run-h">
             <span class="stake" aria-hidden="true"></span>
             <div class="stop-body">
-                <h2 id="run-h">One run, start to finish</h2>
-                <p>Telos is a focus timer first. Ignore the game completely and you still have a quiet timer and a record of what you worked on. Your first run comes already filled in, so it's one tap.</p>
-
-                <ol class="phones" tabindex="0" aria-label="The three stages of a run">
-                    <li>
-                        <img class="screen" src="/telos/assets/screens/plan.webp" alt="The planning screen. A box asks what you're working on, with buttons from 15 to 120 minutes and one that suggests a plan for 25 minutes." width="780" height="1688" loading="lazy">
-                        <h3>Plan it</h3>
-                        <p>Say what you're working on, if you like, and how long you've got. Not sure where to send them? Ask it to suggest a plan for that much time.</p>
-                    </li>
-                    <li>
-                        <img class="screen" src="/telos/assets/screens/timer.webp" alt="The timer screen, nearly empty. It reads 25:00, Write the methods chapter, back at 10:06 AM, Integrity 100%." width="780" height="1688" loading="lazy">
-                        <h3>Leave it</h3>
-                        <p>The timer is the whole screen. Nothing moves, nothing pays out, and there's nothing to do here. Lock your phone.</p>
-                    </li>
-                    <li>
-                        <img class="screen" src="/telos/assets/screens/report.webp" alt="The report after a run. Back from Blackstone Hollow, 25 minutes at 100% Integrity, with an epic find: the Ore-sense Rig." width="780" height="1688" loading="lazy">
-                        <h3>Come back</h3>
-                        <p>You get one notification when the run's done. Then you see what they found, with the full report a tap away.</p>
-                    </li>
-                </ol>
-                <p class="source-note">Real screens from the app, with sample data.</p>
-            </div>
-        </section>
-
-        <section class="stop" id="return" aria-labelledby="return-h">
-            <span class="stake" aria-hidden="true"></span>
-            <div class="stop-body">
-                <h2 id="return-h">Opening the app doesn't help them</h2>
-                <p>Nothing piles up while you watch the timer. There's nothing to tap and nothing to collect. Every run starts at 100% Integrity, and you get 30 seconds to put the phone down. After that, every 30 seconds on the timer screen costs 1%, and every time you reopen Telos costs 4%. Locking your phone costs nothing, and neither does glancing at the Lock Screen countdown.</p>
-                <p>Losing Integrity trims what they bring home a little and your odds of finding gear a lot. It stops at 25%, and a run never fails.</p>
-
-                <div class="meter" id="meter" hidden>
-                    <div class="meter-read">
-                        <div>
-                            <span class="meter-label">Integrity</span>
-                            <output class="meter-value" id="meter-value" for="meter-actions">100%</output>
-                        </div>
-                        <div class="meter-bars">
-                            <div class="bar">
-                                <span class="meter-label">What they bring home</span>
-                                <span class="bar-value" id="haul-value">100%</span>
-                                <span class="bar-track"><span class="bar-fill" id="haul-fill"></span></span>
-                            </div>
-                            <div class="bar">
-                                <span class="meter-label">Odds of finding gear</span>
-                                <span class="bar-value" id="gear-value">100%</span>
-                                <span class="bar-track"><span class="bar-fill" id="gear-fill"></span></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="meter-actions" id="meter-actions">
-                        <button type="button" data-cost="4">Reopen Telos <span>-4%</span></button>
-                        <button type="button" data-cost="1">Watch the timer for 30 seconds <span>-1%</span></button>
-                        <button type="button" data-cost="0">Lock your phone <span>no cost</span></button>
-                    </div>
-                    <div class="meter-foot">
-                        <p id="meter-note" aria-live="polite">Try it. Both bars are compared with a clean run.</p>
-                        <button type="button" class="meter-reset" id="meter-reset">Start over</button>
+                <div class="row-head">
+                    <h2 id="run-h">What a run looks like</h2>
+                    <div class="row-arrows" id="row-arrows" hidden>
+                        <button type="button" id="row-back" aria-label="Show earlier screens"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M8 2L4 6L8 10"/></svg></button>
+                        <button type="button" id="row-next" aria-label="Show later screens"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2L8 6L4 10"/></svg></button>
                     </div>
                 </div>
 
-                <h3>What it can't see</h3>
-                <p>Telos only knows about its own screen. It can't tell whether you went back to work or over to another app, and it doesn't block anything. That part is on the honor system. There are no leaderboards and no prizes, so there's nobody to cheat but yourself.</p>
+                <ol class="screens" id="screens" tabindex="0" aria-label="Screens from a run, in order">
+                    <li>
+                        <div class="slot"><img class="phone" src="/telos/assets/screens/plan.webp" alt="The planning screen, asking what you're working on, with buttons from 15 to 120 minutes." width="780" height="1688" loading="lazy"></div>
+                        <p>Say what you're working on and for how long.</p>
+                    </li>
+                    <li>
+                        <div class="slot"><img class="phone" src="/telos/assets/screens/timer.webp" alt="The timer screen, nearly empty, reading 25:00 and Write the methods chapter." width="780" height="1688" loading="lazy"></div>
+                        <p>Then lock your phone.</p>
+                    </li>
+                    <li class="wide">
+                        <div class="slot"><img class="lock" src="/telos/assets/screens/countdown.webp" alt="The Lock Screen countdown, showing Blackstone Hollow and 24:39 left." width="1196" height="367" loading="lazy"></div>
+                        <p>The Lock Screen shows the time left. Looking at it costs nothing.</p>
+                    </li>
+                    <li>
+                        <div class="slot"><img class="phone" src="/telos/assets/screens/report.webp" alt="The report after a run, with an epic find: the Ore-sense Rig." width="780" height="1688" loading="lazy"></div>
+                        <p>One notification when it's done. Then see what they found.</p>
+                    </li>
+                    <li>
+                        <div class="slot"><img class="phone" src="/telos/assets/screens/log.webp" alt="The field log, with total focus time above a list of past sessions." width="780" height="1688" loading="lazy"></div>
+                        <p>Every session goes in your field log.</p>
+                    </li>
+                    <li class="wide">
+                        <div class="slot"><img class="share" src="/telos/assets/screens/card.webp" alt="A share card reading 52 minutes of focus, not checked once, with an epic find." width="864" height="1080" loading="lazy"></div>
+                        <p>Share a card if you like. It never shows your task or notes.</p>
+                    </li>
+                </ol>
             </div>
         </section>
 
         <section class="stop" id="places" aria-labelledby="places-h">
             <span class="stake" aria-hidden="true"></span>
             <div class="stop-body">
-                <h2 id="places-h">Where they go depends on how long you've got</h2>
-                <p>Every place has a minimum. Come back before it and the squad brings home scraps. So one 90 minute block really is different from three 30s, but nothing in the game tells you which one you should be working. New places open as your guild grows and brings home intel.</p>
+                <h2 id="places-h">Five places to send your guild</h2>
+                <p>Each place has a minimum run length. Come back before it and the squad brings home scraps. Work in whatever blocks suit you.</p>
 
-                <ol class="places">
-                    <li>
-                        <img src="/telos/assets/mosswood.webp" alt="A collapsed relay mast in an overgrown forest" width="1290" height="726" loading="lazy">
-                        <div class="place-text">
-                            <h3>Mosswood Verge</h3>
-                            <span class="minutes" style="--sector: #8FD694">10 min</span>
-                            <p>Overgrown perimeter. Low risk, quick returns.</p>
-                        </div>
+                <ol class="places" tabindex="0" aria-label="Places your guild can go">
+                    <li style="--sector: #8FD694">
+                        <img style="object-position: 62% 50%" src="/telos/assets/mosswood.webp" alt="A collapsed relay mast in an overgrown forest" width="1290" height="726" loading="lazy">
+                        <h3>Mosswood Verge</h3>
+                        <span class="minutes">10 min</span>
                     </li>
-                    <li>
-                        <img src="/telos/assets/blackstone.webp" alt="A leaning wooden mine headframe above a shaft, with an ore cart on rails" width="1290" height="726" loading="lazy">
-                        <div class="place-text">
-                            <h3>Blackstone Hollow</h3>
-                            <span class="minutes" style="--sector: #FF8A3D">25 min</span>
-                            <p>Collapsed extraction works. Alloy-rich, slow going.</p>
-                        </div>
+                    <li style="--sector: #FF8A3D">
+                        <img style="object-position: 48% 50%" src="/telos/assets/blackstone.webp" alt="A leaning wooden mine headframe above a shaft, with an ore cart on rails" width="1290" height="726" loading="lazy">
+                        <h3>Blackstone Hollow</h3>
+                        <span class="minutes">25 min</span>
                     </li>
-                    <li>
-                        <img src="/telos/assets/cinder.webp" alt="The burned ruins of a great library" width="1290" height="726" loading="lazy">
-                        <div class="place-text">
-                            <h3>The Cinder Archive</h3>
-                            <span class="minutes" style="--sector: #EDE4D3">40 min</span>
-                            <p>A burned library that never finished burning.</p>
-                        </div>
+                    <li style="--sector: #EDE4D3">
+                        <img style="object-position: 68% 50%" src="/telos/assets/cinder.webp" alt="The burned ruins of a great library" width="1290" height="726" loading="lazy">
+                        <h3>The Cinder Archive</h3>
+                        <span class="minutes">40 min</span>
                     </li>
-                    <li>
-                        <img src="/telos/assets/riftline.webp" alt="Rock ledges stepping down into a deep split in the ground" width="1290" height="726" loading="lazy">
-                        <div class="place-text">
-                            <h3>Riftline Descent</h3>
-                            <span class="minutes" style="--sector: #A78BFA">60 min</span>
-                            <p>Past the last marked map. Only a long run gets anywhere.</p>
-                        </div>
+                    <li style="--sector: #A78BFA">
+                        <img style="object-position: 50% 50%" src="/telos/assets/riftline.webp" alt="Rock ledges stepping down into a deep split in the ground" width="1290" height="726" loading="lazy">
+                        <h3>Riftline Descent</h3>
+                        <span class="minutes">60 min</span>
                     </li>
                 </ol>
                 <p class="aside">There's one more past those. You'll have to get there yourself.</p>
-                <p>If you only ever do 25s, that's fine. You'll stay in the first two places, and you'll keep finding gear, building your camp and reading what's there. The deeper places stay out of reach, and the app won't nag you about it.</p>
+
+                <h3 class="sub">Integrity</h3>
+                <p>Every run starts at 100%. Watching the timer lowers it a little, reopening the app lowers it more, and locking your phone doesn't lower it at all. The higher it stays, the better your odds of finding gear. Telos can't see your other apps, so the rest is on the honor system.</p>
             </div>
         </section>
 
         <section class="stop" id="squad" aria-labelledby="squad-h">
             <span class="stake" aria-hidden="true"></span>
             <div class="stop-body">
-                <h2 id="squad-h">Who goes depends on how you work</h2>
-                <p>Nobody's strictly better. Each class suits a different length of session, so the way you already work picks your squad. You start with a Vanguard and a Recon, and recruit the rest.</p>
+                <h2 id="squad-h">Your squad and their gear</h2>
+                <p>Each class suits a different length of run, so the way you already work picks your squad. Gear changes what they bring home.</p>
 
-                <div class="inspect">
-                    <input type="radio" name="who" id="who-recon" aria-label="Recon" checked>
-                    <input type="radio" name="who" id="who-vanguard" aria-label="Vanguard">
-                    <input type="radio" name="who" id="who-archivist" aria-label="Archivist">
-                    <input type="radio" name="who" id="who-artificer" aria-label="Artificer">
-                    <input type="radio" name="who" id="who-quartermaster" aria-label="Quartermaster">
+                <div class="pickers">
+                    <div class="inspect">
+                        <input type="radio" name="who" id="who-recon" aria-label="Recon" checked>
+                        <input type="radio" name="who" id="who-vanguard" aria-label="Vanguard">
+                        <input type="radio" name="who" id="who-archivist" aria-label="Archivist">
+                        <input type="radio" name="who" id="who-artificer" aria-label="Artificer">
+                        <input type="radio" name="who" id="who-quartermaster" aria-label="Quartermaster">
 
-                    <div class="roster" aria-hidden="true">
-                        <label for="who-recon"><svg viewBox="0 0 1 1"><path d="M.18 .78L.82 .22M.52 .22L.82 .22L.82 .52M.14 .44L.36 .44M.14 .60L.28 .60"/></svg><span>Recon</span></label>
-                        <label for="who-vanguard"><svg viewBox="0 0 1 1"><path d="M.12 .26L.88 .26M.2 .26L.5 .86L.8 .26M.32 .5L.68 .5"/></svg><span>Vanguard</span></label>
-                        <label for="who-archivist"><svg viewBox="0 0 1 1"><path d="M.5 .24L.5 .84M.5 .24L.14 .34L.14 .80L.5 .84M.5 .24L.86 .34L.86 .80L.5 .84"/></svg><span>Archivist</span></label>
-                        <label for="who-artificer"><svg viewBox="0 0 1 1"><path d="M.16 .16L.40 .40M.84 .16L.60 .40M.16 .84L.40 .60M.84 .84L.60 .60M.40 .40L.60 .40L.60 .60L.40 .60Z"/></svg><span>Artificer</span></label>
-                        <label for="who-quartermaster"><svg viewBox="0 0 1 1"><path d="M.5 .10L.86 .5L.5 .90L.14 .5ZM.2 .5L.8 .5"/></svg><span>Quartermaster</span></label>
+                        <div class="choices" aria-hidden="true">
+                            <label for="who-recon" title="Recon"><svg viewBox="0 0 1 1"><path d="M.18 .78L.82 .22M.52 .22L.82 .22L.82 .52M.14 .44L.36 .44M.14 .60L.28 .60"/></svg></label>
+                            <label for="who-vanguard" title="Vanguard"><svg viewBox="0 0 1 1"><path d="M.12 .26L.88 .26M.2 .26L.5 .86L.8 .26M.32 .5L.68 .5"/></svg></label>
+                            <label for="who-archivist" title="Archivist"><svg viewBox="0 0 1 1"><path d="M.5 .24L.5 .84M.5 .24L.14 .34L.14 .80L.5 .84M.5 .24L.86 .34L.86 .80L.5 .84"/></svg></label>
+                            <label for="who-artificer" title="Artificer"><svg viewBox="0 0 1 1"><path d="M.16 .16L.40 .40M.84 .16L.60 .40M.16 .84L.40 .60M.84 .84L.60 .60M.40 .40L.60 .40L.60 .60L.40 .60Z"/></svg></label>
+                            <label for="who-quartermaster" title="Quartermaster"><svg viewBox="0 0 1 1"><path d="M.5 .10L.86 .5L.5 .90L.14 .5ZM.2 .5L.8 .5"/></svg></label>
+                        </div>
+
+                        <div class="dossier">
+                            <article class="who-recon"><div><span class="label">10-30 min</span><h3>Recon</h3><p class="flavor">Fast, light, in and out. Built for short bursts of work.</p></div></article>
+                            <article class="who-vanguard"><div><span class="label">60 min and up</span><h3>Vanguard</h3><p class="flavor">Heavy, patient, hard to stop. Built for long hauls.</p></div></article>
+                            <article class="who-archivist"><div><span class="label">45 min and up</span><h3>Archivist</h3><p class="flavor">Reads the ruins instead of looting them. Produces intel.</p></div></article>
+                            <article class="who-artificer"><div><span class="label">25-75 min</span><h3>Artificer</h3><p class="flavor">Strips salvage for parts. Finds gear others walk past.</p></div></article>
+                            <article class="who-quartermaster"><div><span class="label">Any length</span><h3>Quartermaster</h3><p class="flavor">No specialism, no bad days. Steady on any length of run.</p></div></article>
+                        </div>
                     </div>
 
-                    <div class="dossier">
-                        <article class="who-recon"><h3>Recon</h3><p>Fast, light, in and out. Built for short bursts of work.</p><span class="window">Excels on runs of 10-30 min</span></article>
-                        <article class="who-vanguard"><h3>Vanguard</h3><p>Heavy, patient, hard to stop. Built for long hauls.</p><span class="window">Excels on runs of 60 min and up</span></article>
-                        <article class="who-archivist"><h3>Archivist</h3><p>Reads the ruins instead of looting them. Produces intel.</p><span class="window">Excels on runs of 45 min and up</span></article>
-                        <article class="who-artificer"><h3>Artificer</h3><p>Strips salvage for parts. Finds gear others walk past.</p><span class="window">Excels on runs of 25-75 min</span></article>
-                        <article class="who-quartermaster"><h3>Quartermaster</h3><p>No specialism, no bad days. Steady on any length of run.</p><span class="window">Steady on any run length</span></article>
+                    <div class="inspect">
+                        <input type="radio" name="find" id="find-rig" aria-label="Ore-sense Rig" checked>
+                        <input type="radio" name="find" id="find-lamp" aria-label="Deep Lamp">
+                        <input type="radio" name="find" id="find-charm" aria-label="Verge Charm">
+                        <input type="radio" name="find" id="find-optic" aria-label="Field Optic">
+                        <input type="radio" name="find" id="find-cord" aria-label="Scavenger Cord">
+
+                        <div class="choices" aria-hidden="true">
+                            <label for="find-rig"><img src="/telos/assets/gear/ore_sense.webp" alt="" width="640" height="640" loading="lazy"></label>
+                            <label for="find-lamp"><img src="/telos/assets/gear/deep_lamp.webp" alt="" width="640" height="640" loading="lazy"></label>
+                            <label for="find-charm"><img src="/telos/assets/gear/verge_charm.webp" alt="" width="640" height="640" loading="lazy"></label>
+                            <label for="find-optic"><img src="/telos/assets/gear/field_optic.webp" alt="" width="640" height="640" loading="lazy"></label>
+                            <label for="find-cord"><img src="/telos/assets/gear/scav_cord.webp" alt="" width="640" height="640" loading="lazy"></label>
+                        </div>
+
+                        <div class="dossier">
+                            <article class="find-rig">
+                                <img src="/telos/assets/gear/ore_sense.webp" alt="A worn leather harness fitted with a brass gauge" width="640" height="640" loading="lazy">
+                                <div><span class="label">Epic</span><h3>Ore-sense Rig</h3><p class="flavor">It hums before you see the seam.</p><p class="stats">+25% alloy &middot; +6% gear-find modifier</p></div>
+                            </article>
+                            <article class="find-lamp">
+                                <img src="/telos/assets/gear/deep_lamp.webp" alt="A tall miner's lamp with a caged glass" width="640" height="640" loading="lazy">
+                                <div><span class="label">Rare</span><h3>Deep Lamp</h3><p class="flavor">Burns on something that is not oil.</p><p class="stats">+16% alloy &middot; +4% gear-find modifier</p></div>
+                            </article>
+                            <article class="find-charm">
+                                <img src="/telos/assets/gear/verge_charm.webp" alt="A carved stone disc on a cord" width="640" height="640" loading="lazy">
+                                <div><span class="label">Rare</span><h3>Verge Charm</h3><p class="flavor">Nobody remembers who carved it.</p><p class="stats">+14% credits &middot; +10% squad XP</p></div>
+                            </article>
+                            <article class="find-optic">
+                                <img src="/telos/assets/gear/field_optic.webp" alt="A small, worn brass field optic" width="640" height="640" loading="lazy">
+                                <div><span class="label">Uncommon</span><h3>Field Optic</h3><p class="flavor">One cracked lens, still true.</p><p class="stats">+10% credits &middot; +2% gear-find modifier</p></div>
+                            </article>
+                            <article class="find-cord">
+                                <img src="/telos/assets/gear/scav_cord.webp" alt="A coil of frayed cord" width="640" height="640" loading="lazy">
+                                <div><span class="label">Common</span><h3>Scavenger Cord</h3><p class="flavor">Frayed, but it holds.</p><p class="stats">+5% credits</p></div>
+                            </article>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="stop" id="camp" aria-labelledby="camp-h">
+        <section class="stop" id="also" aria-labelledby="also-h">
             <span class="stake" aria-hidden="true"></span>
             <div class="stop-body">
-                <h2 id="camp-h">Between runs, camp is yours</h2>
-                <p>This is where the game is, if you want one. Spend what they brought home on gear, recruits and upgrades to the Forge, the Archive and the Barracks. Take on contracts. See exactly what a piece of gear changes before you swap it. Name your guild and pick its sigil.</p>
-                <p>None of it earns anything by itself. Only the next run does. So there's a point where you're done, and when you just want to work, the same plan is one tap away.</p>
-
-                <ul class="phones phones-two" tabindex="0" aria-label="Camp screens">
-                    <li>
-                        <img class="screen" src="/telos/assets/screens/camp.webp" alt="The camp screen for a guild called The Silver Lantern, with a Forge upgrade ready and buttons to plan an expedition or repeat the last one." width="780" height="1688" loading="lazy">
-                    </li>
-                    <li>
-                        <img class="screen" src="/telos/assets/screens/kit.webp" alt="An equipment comparison. Swapping a Mossglass Shard for a Field Optic shows credits going from 0 to plus 10 percent and alloy from plus 6 percent to 0." width="780" height="1688" loading="lazy">
-                    </li>
-                </ul>
-
-                <h3>25 pieces of gear to find</h3>
-                <ul class="shelf">
-                    <li>
-                        <img src="/telos/assets/gear/ore_sense.webp" alt="A worn leather harness fitted with a brass gauge" width="640" height="640" loading="lazy">
-                        <div>
-                            <span class="find-label">Epic &middot; Blackstone Hollow</span>
-                            <h4>Ore-sense Rig</h4>
-                            <p class="flavor">It hums before you see the seam.</p>
-                            <p class="stats">+25% alloy &middot; +6% gear-find modifier</p>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="/telos/assets/gear/deep_lamp.webp" alt="A tall miner's lamp with a caged glass" width="640" height="640" loading="lazy">
-                        <div>
-                            <span class="find-label">Rare &middot; Blackstone Hollow</span>
-                            <h4>Deep Lamp</h4>
-                            <p class="flavor">Burns on something that is not oil.</p>
-                            <p class="stats">+16% alloy &middot; +4% gear-find modifier</p>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="/telos/assets/gear/verge_charm.webp" alt="A carved stone disc on a cord" width="640" height="640" loading="lazy">
-                        <div>
-                            <span class="find-label">Rare &middot; Mosswood Verge</span>
-                            <h4>Verge Charm</h4>
-                            <p class="flavor">Nobody remembers who carved it.</p>
-                            <p class="stats">+14% credits &middot; +10% squad XP</p>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="/telos/assets/gear/field_optic.webp" alt="A small, worn brass field optic" width="640" height="640" loading="lazy">
-                        <div>
-                            <span class="find-label">Uncommon &middot; Mosswood Verge</span>
-                            <h4>Field Optic</h4>
-                            <p class="flavor">One cracked lens, still true.</p>
-                            <p class="stats">+10% credits &middot; +2% gear-find modifier</p>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="/telos/assets/gear/ash_ledger.webp" alt="A scorched ledger, its pages burned at the edges" width="640" height="640" loading="lazy">
-                        <div>
-                            <span class="find-label">Common &middot; The Cinder Archive</span>
-                            <h4>Ash Ledger</h4>
-                            <p class="flavor">Half the pages are still readable.</p>
-                            <p class="stats">+8% intel</p>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="/telos/assets/gear/scav_cord.webp" alt="A coil of frayed cord" width="640" height="640" loading="lazy">
-                        <div>
-                            <span class="find-label">Common &middot; Mosswood Verge</span>
-                            <h4>Scavenger Cord</h4>
-                            <p class="flavor">Frayed, but it holds.</p>
-                            <p class="stats">+5% credits</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="stop" id="story" aria-labelledby="story-h">
-            <span class="stake" aria-hidden="true"></span>
-            <div class="stop-body">
-                <h2 id="story-h">There's a story, if you want it</h2>
-                <p>Your guild isn't the first to work this ground. A run's report can carry one line from what the others left behind. It's shown once, in order, and you can skip every word without losing a thing. There's nothing to collect and nothing keeps count. A short run still gets its line.</p>
-
-                <figure class="record">
-                    <figcaption>Sector 01 &middot; Mosswood Verge</figcaption>
-                    <blockquote>Survey markers along the service road, cut into the posts. Not ours.</blockquote>
-                    <blockquote>The markers carry sector numbers. Ours are written the same way.</blockquote>
-                    <blockquote>Tins in the cache are dated. Eleven years, give or take a season.</blockquote>
-                </figure>
-
-                <p>Nothing in Telos fights anything. Your guild is a company of surveyors, paid to find out what things are and come back. No enemies, no casualties, and no run comes home a defeat, because you were working.</p>
-            </div>
-        </section>
-
-        <section class="stop" id="caravan" aria-labelledby="caravan-h">
-            <span class="stake" aria-hidden="true"></span>
-            <div class="stop-body">
-                <h2 id="caravan-h">For when the hard part is starting</h2>
-                <p>A timer does nothing for the person who meant to start at 9 and sat down at 11. So you can name the time you mean to start, and on those days a supply caravan comes through.</p>
-
-                <figure class="plate">
-                    <img src="/telos/assets/caravan.webp" alt="Three covered wagons on a muddy road, waiting at a timber gate in the early mist" width="1290" height="726" loading="lazy">
-                </figure>
-
-                <ol class="timeline">
-                    <li>
-                        <span class="when">15 min before</span>
-                        <p>It's at the gate. Send a squad now and they leave with it.</p>
-                    </li>
-                    <li>
-                        <span class="when">On the minute</span>
-                        <p>It goes. If you missed it, you get a notice that there's still work to be done.</p>
-                    </li>
-                    <li>
-                        <span class="when">Up to an hour after</span>
-                        <p>Its tracks are fresh. A squad can still follow, and what it can bring back fades by the minute.</p>
-                    </li>
-                </ol>
-
-                <p>It carries six pieces of gear you can't get anywhere else, and a record of its own. A 15 minute run counts the same as a 90, because it rewards starting, not working longer. Missing it costs nothing you already have, a missed day leaves no mark on the next, and it stays off unless you turn it on.</p>
-            </div>
-        </section>
-
-        <section class="stop" id="shortcuts" aria-labelledby="shortcuts-h">
-            <span class="stake" aria-hidden="true"></span>
-            <div class="stop-body">
-                <h2 id="shortcuts-h">Less phone between you and the work</h2>
-                <p>Starting a run shouldn't mean digging through an app. A widget, Siri or your work Focus can open Telos with a recent plan already on its way.</p>
-
-                <dl class="ways">
-                    <div>
-                        <dt>Home Screen and Lock Screen widget</dt>
-                        <dd>Tap a recent plan and the squad goes.</dd>
-                    </div>
-                    <div>
-                        <dt>Lock Screen countdown</dt>
-                        <dd>See the time left without opening the app, at no cost to Integrity.</dd>
-                    </div>
-                    <div>
-                        <dt>Siri</dt>
-                        <dd>Say &ldquo;Dispatch in Telos.&rdquo;</dd>
-                    </div>
-                    <div>
-                        <dt>Your work Focus</dt>
-                        <dd>Add a Shortcuts automation, and turning on Focus sends the squad out.</dd>
-                    </div>
+                <h2 id="also-h">Also in Telos</h2>
+                <dl class="also">
+                    <div><dt>The caravan</dt><dd>Name the time you mean to start work. Send a squad out with the caravan and it can bring back gear nothing else carries. It's off until you turn it on.</dd></div>
+                    <div><dt>Widget, Siri and Focus</dt><dd>Send a recent plan again from your Home Screen or Lock Screen, by asking Siri, or when your work Focus turns on.</dd></div>
+                    <div><dt>A story</dt><dd>Reports can carry a line of it. Skip every word and you lose nothing.</dd></div>
+                    <div><dt>Your camp</dt><dd>Spend what they find on recruits and upgrades, and name your guild.</dd></div>
                 </dl>
-                <figure class="countdown">
-                    <img src="/telos/assets/screens/countdown.webp" alt="The Lock Screen countdown during a run. Sector 02, in transit, Blackstone Hollow, 24:39 left, with a thin progress bar." width="1196" height="367" loading="lazy">
-                    <figcaption>The countdown on a real Lock Screen. Looking at it costs nothing.</figcaption>
-                </figure>
-                <p class="source-note">Siri needs iOS 16. The widget and the countdown need iOS 16.2.</p>
-            </div>
-        </section>
-
-        <section class="stop" id="log" aria-labelledby="log-h">
-            <span class="stake" aria-hidden="true"></span>
-            <div class="stop-body">
-                <h2 id="log-h">Every session, kept</h2>
-                <p>The field log keeps what you said you'd work on, for how long, and how it went. It counts days worked, not days in a row, so a month off leaves the number where it was.</p>
-                <p>If you ever want to show someone, there's a card for a post or a Story. It has your guild's name and your numbers on it, and never your task or your notes.</p>
-
-                <ul class="phones phones-two" tabindex="0" aria-label="The field log and a share card">
-                    <li>
-                        <img class="screen" src="/telos/assets/screens/log.webp" alt="The field log. 7 hours 10 minutes of focus time over 6 days worked and 12 expeditions, above a list of sessions like Fix the billing bug." width="780" height="1688" loading="lazy">
-                    </li>
-                    <li>
-                        <img class="card-art" src="/telos/assets/screens/card.webp" alt="A share card for Blackstone Hollow reading 52 minutes of focus, not checked once, with an epic find." width="864" height="1080" loading="lazy">
-                    </li>
-                </ul>
             </div>
         </section>
 
         <section class="stop" id="kept" aria-labelledby="kept-h">
             <span class="stake" aria-hidden="true"></span>
             <div class="stop-body">
-                <h2 id="kept-h">What it won't do</h2>
+                <h2 id="kept-h">No accounts, no ads, no streaks</h2>
                 <ul class="facts">
-                    <li>No account, no ads, no analytics. Telos makes no network connections of its own, and it works offline.</li>
-                    <li>What you write stays on your phone unless you choose to send it somewhere. Share cards never include your task or reflection notes.</li>
-                    <li>No streaks and no reminders you didn't set up yourself. Take a month off and nothing's lost.</li>
-                    <li>You'll never be able to buy progress. No boosts, no skipping a session, no energy. Focus is the only thing that moves the game.</li>
-                    <li>The beta is free. If paid content comes later, it'll be more places to go, not a faster way to get there.</li>
-                    <li>You can export your whole save to a file any time. Deleting the app deletes everything it keeps on your phone.</li>
+                    <li>Telos has no analytics and works offline. What you write stays on your phone unless you choose to send it somewhere.</li>
+                    <li>It won't remind you about anything you didn't set up yourself. Take a month off and nothing's lost.</li>
+                    <li>You'll never be able to buy progress. Focus is the only thing that moves the game.</li>
                 </ul>
                 <p><a href="/telos/privacy">Read the privacy policy</a></p>
             </div>
         </section>
-
-        <section class="stop" id="questions" aria-labelledby="questions-h">
-            <span class="stake" aria-hidden="true"></span>
-            <div class="stop-body">
-                <h2 id="questions-h">Questions</h2>
-                <div class="faq">
-                    <details>
-                        <summary>I've never played an RPG. Is this for me?</summary>
-                        <p>Yes. It's a timer before it's a game. You can tap through the first run with the plan it fills in for you, and camp is there if you get curious. There's nothing to learn before you can start working.</p>
-                    </details>
-                    <details>
-                        <summary>Will it block my other apps?</summary>
-                        <p>No. Telos can't block other apps or see them. It only knows how long you spent on its own screen and how many times you came back to it.</p>
-                    </details>
-                    <details>
-                        <summary>What if I have to stop early?</summary>
-                        <p>Recall the squad. They bring home what the time earned, or scraps if you stopped before that place's minimum. For the first 30 seconds you can cancel outright.</p>
-                    </details>
-                    <details>
-                        <summary>What if the app closes or my phone restarts?</summary>
-                        <p>The run keeps time anyway, because it's worked out from when you started. What they found is settled once, so force-quitting won't get you a different result.</p>
-                    </details>
-                    <details>
-                        <summary>Is it on Android?</summary>
-                        <p>iPhone only for now.</p>
-                    </details>
-                </div>
-            </div>
-        </section>
     </main>
-
-    <section class="last-call" aria-labelledby="last-h">
-        <div class="last-inner">
-            <h2 id="last-h">Try it on your next block of work</h2>
-            <div class="get">
-                <a class="cta" href="https://testflight.apple.com/join/ujpSg2zW">Join the beta on TestFlight</a>
-                <p class="cta-note">Free, on iPhone with iOS 15 or newer. You'll also need Apple's free TestFlight app.</p>
-            </div>
-            <p class="maker">Telos is made by one person, Ray Rothwell, at DahVio Studios. It's still a beta, and the question I most want answered isn't whether it's fun. It's whether it changed how you actually worked. Tell me at <a href="mailto:telos@dahvio.com">telos@dahvio.com</a>.</p>
-        </div>
-    </section>
 
     <footer class="colophon">
         <nav>
+            <a href="https://testflight.apple.com/join/ujpSg2zW">Join the beta</a>
             <a href="/telos/support">Support</a>
             <a href="/telos/privacy">Privacy</a>
             <a href="mailto:telos@dahvio.com">telos@dahvio.com</a>
@@ -442,49 +244,29 @@
     </footer>
 
     <script>
-        // The Integrity panel uses the app's own formulas: ActiveRun.integrity
-        // for the score, ExpeditionEngine for the haul and the gear odds.
+        // A mouse has no swipe, so the row of screens gets arrows where script runs.
         (function () {
-            var meter = document.getElementById('meter');
-            var floor = 25;
-            var score = 100;
+            var row = document.getElementById('screens');
+            var back = document.getElementById('row-back');
+            var next = document.getElementById('row-next');
+            var arrows = document.getElementById('row-arrows');
 
-            function set(name, value) {
-                document.getElementById(name + '-value').textContent = value + '%';
-                document.getElementById(name + '-fill').style.width = value + '%';
+            function update() {
+                var end = row.scrollWidth - row.clientWidth;
+                arrows.hidden = end <= 1;
+                back.disabled = row.scrollLeft <= 1;
+                next.disabled = row.scrollLeft >= end - 1;
             }
-            function note(text) {
-                document.getElementById('meter-note').textContent = text;
-            }
-            function draw() {
-                var i = score / 100;
-                document.getElementById('meter-value').textContent = score + '%';
-                set('haul', Math.round((0.55 + 0.45 * i) * 100));
-                set('gear', Math.round(Math.pow(i, 1.6) * 100));
+            function move(direction) {
+                row.scrollBy({ left: direction * row.clientWidth * 0.7, behavior: 'smooth' });
             }
 
-            meter.hidden = false;
-            draw();
-
-            document.getElementById('meter-actions').addEventListener('click', function (event) {
-                var button = event.target.closest('button');
-                if (!button) return;
-                var cost = Number(button.dataset.cost);
-                score = Math.max(floor, score - cost);
-                draw();
-                if (cost === 0) {
-                    note('Nothing changes. That\'s the idea.');
-                } else if (score === floor) {
-                    note('It stops here. They still come home with something.');
-                } else {
-                    note('Both bars are compared with a clean run.');
-                }
-            });
-            document.getElementById('meter-reset').addEventListener('click', function () {
-                score = 100;
-                draw();
-                note('Try it. Both bars are compared with a clean run.');
-            });
+            back.addEventListener('click', function () { move(-1); });
+            next.addEventListener('click', function () { move(1); });
+            row.addEventListener('scroll', update, { passive: true });
+            window.addEventListener('resize', update);
+            window.addEventListener('load', update);
+            update();
         })();
     </script>
 </body>
