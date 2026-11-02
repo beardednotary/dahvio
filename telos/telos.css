@@ -1,0 +1,331 @@
+/* ============================================================
+   Telos marketing page: Night Watch.
+   Colours and type follow lib/theme/telos_theme.dart in the app,
+   which is why this page doesn't use dahvio.css.
+   Brass marks what's the player's: the road's stakes, the choice.
+   ============================================================ */
+
+:root {
+    --ground: #1E252B;
+    --card: #272F35;
+    --band: #12181D;
+    --line: #4D5E67;
+    --boundary: #677A83;
+    --dim: #ACBBC1;
+    --text: #E6EAEB;
+    --brass: #D3B779;
+
+    --display: 'IBM Plex Sans Condensed', 'Arial Narrow', sans-serif;
+    --body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+
+    --gutter: clamp(16px, 4vw, 40px);
+    color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; background: var(--ground); }
+
+body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--text);
+    font: 400 1.0625rem/1.6 var(--body);
+    -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+
+a { color: var(--brass); text-underline-offset: 3px; }
+a:hover { color: var(--text); }
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+
+h1, h2, h3 { font-family: var(--display); font-weight: 600; margin: 0; line-height: 1.15; }
+p { margin: 0; }
+
+svg path { fill: none; stroke: currentColor; stroke-linecap: square; stroke-linejoin: miter; }
+
+/* ── The title screen ───────────────────────────────────── */
+.fold {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: max(24px, env(safe-area-inset-top)) var(--gutter) 16px;
+}
+
+.title-screen {
+    flex: 1 0 auto;
+    width: 100%;
+    max-width: 1240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 28px;
+}
+
+.plate {
+    position: relative;
+    margin: 0;
+    border: 1px solid var(--boundary);
+    overflow: hidden;
+}
+.plate img { width: 100%; }
+
+/* Sits on the lantern in camp.webp and breathes, the page's one movement. */
+.lantern-glow {
+    position: absolute;
+    left: 52.7%;
+    top: 73%;
+    width: 22%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(255 190 90 / .5), rgb(255 190 90 / 0));
+    mix-blend-mode: soft-light;
+    animation: lantern 5.5s ease-in-out infinite;
+}
+@keyframes lantern {
+    0%, 100% { opacity: .55; }
+    42% { opacity: 1; }
+    58% { opacity: .75; }
+    70% { opacity: .95; }
+}
+
+.title-side { display: flex; flex-direction: column; gap: 20px; }
+
+h1 {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: clamp(3.5rem, 8vw, 5.5rem);
+    letter-spacing: -0.005em;
+    line-height: 1;
+}
+.mark { width: .82em; height: .82em; flex: none; color: var(--brass); }
+.mark path { stroke-width: 1.6; }
+
+.tagline {
+    margin-top: 16px;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(1.375rem, 2.4vw, 1.75rem);
+    line-height: 1.25;
+}
+.about { color: var(--dim); max-width: 46ch; }
+
+.coming {
+    align-self: flex-start;
+    padding: 12px 18px;
+    border: 1px solid var(--brass);
+    color: var(--brass);
+    font: 400 .875rem/1 var(--mono);
+    letter-spacing: .04em;
+}
+
+.more-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 8px 4px;
+    color: var(--dim);
+    text-decoration: none;
+    font: 400 .8125rem/1 var(--mono);
+    letter-spacing: .04em;
+}
+.more-link svg { width: 12px; height: 12px; color: var(--brass); }
+.more-link path { stroke-width: 1.5; }
+
+@media (min-width: 960px) {
+    .title-screen {
+        flex-direction: row;
+        align-items: center;
+        gap: clamp(32px, 4vw, 64px);
+    }
+    .plate { flex: 1.45 1 0; }
+    .title-side { flex: 1 1 0; }
+}
+
+/* ── The road ───────────────────────────────────────────── */
+.road {
+    max-width: 880px;
+    margin: 32px auto 0;
+    padding: 0 var(--gutter);
+}
+
+/* One rail down the left, drawn by the grid. Each stop plants a stake on it. */
+.stop {
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr);
+    column-gap: clamp(14px, 3vw, 32px);
+    position: relative;
+    padding-bottom: 72px;
+}
+.stop::before {
+    content: '';
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+    width: 1px;
+    background: var(--line);
+    margin-bottom: -72px;
+}
+.stop:last-child { padding-bottom: 24px; }
+.stop:last-child::before { margin-bottom: -24px; }
+
+.stake {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+    width: 3px;
+    height: 26px;
+    margin-top: 5px;
+    background: var(--brass);
+}
+
+.stop-body { grid-column: 2; grid-row: 1; min-width: 0; }
+.stop-body > * + * { margin-top: 18px; }
+.stop-body > p { color: var(--dim); max-width: 62ch; }
+
+h2 { font-size: clamp(1.625rem, 3.6vw, 2.25rem); }
+h3 { font-size: 1.25rem; }
+
+/* ── The places ─────────────────────────────────────────── */
+.places {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 16px;
+    margin-bottom: 0;
+}
+.places li { background: var(--card); border: 1px solid var(--line); }
+.places img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.place-text {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 6px 12px;
+    padding: 14px 16px 16px;
+}
+.place-text p { grid-column: 1 / -1; color: var(--dim); font-size: .9375rem; line-height: 1.45; }
+.minutes { color: var(--sector); font: 400 .8125rem/1 var(--mono); white-space: nowrap; }
+.stop-body > .aside { color: var(--dim); font-style: italic; }
+
+/* ── The squad: radios and CSS, so choosing needs no script ─ */
+.inspect > input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+}
+.roster {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    border: 1px solid var(--line);
+    background: var(--card);
+}
+.roster label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 2px 12px;
+    color: var(--dim);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color .15s ease;
+    min-width: 0;
+}
+.roster label + label { border-left: 1px solid var(--line); }
+.roster label:hover { color: var(--text); }
+.roster svg { width: 34px; height: 34px; }
+.roster path { stroke-width: .055; }
+.roster span {
+    font: 400 .6875rem/1.2 var(--mono);
+    letter-spacing: .02em;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    text-align: center;
+}
+@media (max-width: 480px) {
+    .roster span { display: none; }
+}
+
+.dossier {
+    border: 1px solid var(--line);
+    border-top: 0;
+    padding: 18px 20px 20px;
+    min-height: 136px;
+}
+.dossier article { display: none; }
+.dossier p { color: var(--dim); margin: 6px 0 12px; }
+.window { color: var(--brass); font: 400 .8125rem/1.3 var(--mono); }
+
+#who-recon:checked ~ .dossier .who-recon,
+#who-vanguard:checked ~ .dossier .who-vanguard,
+#who-archivist:checked ~ .dossier .who-archivist,
+#who-artificer:checked ~ .dossier .who-artificer,
+#who-quartermaster:checked ~ .dossier .who-quartermaster { display: block; }
+
+#who-recon:checked ~ .roster [for="who-recon"],
+#who-vanguard:checked ~ .roster [for="who-vanguard"],
+#who-archivist:checked ~ .roster [for="who-archivist"],
+#who-artificer:checked ~ .roster [for="who-artificer"],
+#who-quartermaster:checked ~ .roster [for="who-quartermaster"] {
+    color: var(--brass);
+    border-bottom-color: var(--brass);
+}
+
+#who-recon:focus-visible ~ .roster [for="who-recon"],
+#who-vanguard:focus-visible ~ .roster [for="who-vanguard"],
+#who-archivist:focus-visible ~ .roster [for="who-archivist"],
+#who-artificer:focus-visible ~ .roster [for="who-artificer"],
+#who-quartermaster:focus-visible ~ .roster [for="who-quartermaster"] {
+    outline: 2px solid var(--brass);
+    outline-offset: -4px;
+}
+
+/* ── A find, as the report shows one ────────────────────── */
+.find {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px;
+    background: var(--card);
+    border: 1px solid var(--boundary);
+}
+.find img { width: clamp(96px, 24vw, 148px); flex: none; }
+.find-label { color: var(--brass); font: 400 .75rem/1.3 var(--mono); letter-spacing: .05em; }
+.find h3 { font-size: clamp(1.375rem, 3vw, 1.75rem); margin-top: 6px; }
+.flavor { color: var(--dim); font-style: italic; margin-top: 4px; }
+.stats { font-size: .9375rem; margin-top: 10px; }
+
+/* ── What it won't do ───────────────────────────────────── */
+.facts { list-style: none; padding: 0; max-width: 62ch; margin-bottom: 0; }
+.facts li { padding: 12px 0; border-top: 1px solid var(--line); color: var(--dim); }
+.facts li:last-child { border-bottom: 1px solid var(--line); }
+
+/* ── Footer ─────────────────────────────────────────────── */
+.colophon {
+    margin-top: 40px;
+    padding: 24px var(--gutter) max(24px, env(safe-area-inset-bottom));
+    background: var(--band);
+    color: var(--dim);
+    font: 400 .75rem/1.6 var(--mono);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 32px;
+}
+.colophon nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 20px; }
+.colophon a { color: inherit; }
+.colophon a:hover { color: var(--brass); }
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .lantern-glow { animation: none; opacity: .8; }
+    .roster label { transition: none; }
+}

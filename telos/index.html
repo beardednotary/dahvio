@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <!-- Remove noindex and add to sitemap.xml once the App Store listing is live. -->
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://dahvio.com/telos">
+    <title>Telos - Focus Timer RPG | DahVio Studios</title>
+    <meta name="description" content="A focus timer that only pays off when you put your phone down. Your guild heads out for exactly as long as you work. Coming to iPhone.">
+    <meta name="theme-color" content="#1E252B">
+    <meta property="og:title" content="Telos">
+    <meta property="og:description" content="A focus timer that only pays off when you put your phone down.">
+    <meta property="og:image" content="https://dahvio.com/telos/assets/camp.webp">
+    <meta property="og:url" content="https://dahvio.com/telos">
+    <link rel="icon" type="image/png" href="/telos/assets/icon.png">
+    <link rel="apple-touch-icon" href="/telos/assets/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/telos/telos.css">
+</head>
+<body>
+    <div class="fold">
+        <div class="title-screen">
+            <figure class="plate">
+                <img src="/telos/assets/camp.webp" alt="Two members of the guild at camp, a lit lantern on a crate between them and an old tower on the far ridge" width="1290" height="860">
+                <span class="lantern-glow" aria-hidden="true"></span>
+            </figure>
+
+            <div class="title-side">
+                <header class="marquee">
+                    <h1>
+                        <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M12 10V7C12 2 20 2 20 7V10M9 13L12 10H20L23 13L21 16H11ZM11 16L9 27H23L21 16M9 27H23"/></svg>
+                        Telos
+                    </h1>
+                    <p class="tagline">A focus timer that only pays off when you put your phone down.</p>
+                </header>
+
+                <p class="about">Pick a block of time. A small guild heads out for exactly that long, and you get on with your actual work. When you're back, you find out what they brought home.</p>
+
+                <!-- Swap for Apple's official badge, unaltered, once there's an App Store link. -->
+                <p class="coming">Coming to iPhone</p>
+            </div>
+        </div>
+
+        <a class="more-link" href="#places">More about it <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4L6 8L10 4"/></svg></a>
+    </div>
+
+    <main class="road">
+        <section class="stop" id="places" aria-labelledby="places-h">
+            <span class="stake" aria-hidden="true"></span>
+            <div class="stop-body">
+                <h2 id="places-h">Where they go depends on how long you've got</h2>
+                <p>Every place has a minimum. Come back before it and the squad brings home scraps. So one 90 minute block really is different from three 30s, but nothing in the game tells you which one you should be working. If you only ever do 25s, that's fine.</p>
+
+                <ol class="places">
+                    <li>
+                        <img src="/telos/assets/mosswood.webp" alt="A collapsed relay mast in an overgrown forest" width="1290" height="726" loading="lazy">
+                        <div class="place-text">
+                            <h3>Mosswood Verge</h3>
+                            <span class="minutes" style="--sector: #8FD694">10 min</span>
+                            <p>Overgrown perimeter. Low risk, quick returns.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="/telos/assets/blackstone.webp" alt="A leaning wooden mine headframe above a shaft, with an ore cart on rails" width="1290" height="726" loading="lazy">
+                        <div class="place-text">
+                            <h3>Blackstone Hollow</h3>
+                            <span class="minutes" style="--sector: #FF8A3D">25 min</span>
+                            <p>Collapsed extraction works. Alloy-rich, slow going.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="/telos/assets/cinder.webp" alt="The burned ruins of a great library" width="1290" height="726" loading="lazy">
+                        <div class="place-text">
+                            <h3>The Cinder Archive</h3>
+                            <span class="minutes" style="--sector: #EDE4D3">40 min</span>
+                            <p>A burned library that never finished burning.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="/telos/assets/riftline.webp" alt="Rock ledges stepping down into a deep split in the ground" width="1290" height="726" loading="lazy">
+                        <div class="place-text">
+                            <h3>Riftline Descent</h3>
+                            <span class="minutes" style="--sector: #A78BFA">60 min</span>
+                            <p>Past the last marked map. Only a long run gets anywhere.</p>
+                        </div>
+                    </li>
+                </ol>
+                <p class="aside">There's one more past those. You'll have to get there yourself.</p>
+            </div>
+        </section>
+
+        <section class="stop" id="squad" aria-labelledby="squad-h">
+            <span class="stake" aria-hidden="true"></span>
+            <div class="stop-body">
+                <h2 id="squad-h">Who goes depends on how you work</h2>
+                <p>Nobody's strictly better. Each class suits a different length of session, so the way you already work picks your squad.</p>
+
+                <div class="inspect">
+                    <input type="radio" name="who" id="who-recon" aria-label="Recon" checked>
+                    <input type="radio" name="who" id="who-vanguard" aria-label="Vanguard">
+                    <input type="radio" name="who" id="who-archivist" aria-label="Archivist">
+                    <input type="radio" name="who" id="who-artificer" aria-label="Artificer">
+                    <input type="radio" name="who" id="who-quartermaster" aria-label="Quartermaster">
+
+                    <div class="roster" aria-hidden="true">
+                        <label for="who-recon"><svg viewBox="0 0 1 1"><path d="M.18 .78L.82 .22M.52 .22L.82 .22L.82 .52M.14 .44L.36 .44M.14 .60L.28 .60"/></svg><span>Recon</span></label>
+                        <label for="who-vanguard"><svg viewBox="0 0 1 1"><path d="M.12 .26L.88 .26M.2 .26L.5 .86L.8 .26M.32 .5L.68 .5"/></svg><span>Vanguard</span></label>
+                        <label for="who-archivist"><svg viewBox="0 0 1 1"><path d="M.5 .24L.5 .84M.5 .24L.14 .34L.14 .80L.5 .84M.5 .24L.86 .34L.86 .80L.5 .84"/></svg><span>Archivist</span></label>
+                        <label for="who-artificer"><svg viewBox="0 0 1 1"><path d="M.16 .16L.40 .40M.84 .16L.60 .40M.16 .84L.40 .60M.84 .84L.60 .60M.40 .40L.60 .40L.60 .60L.40 .60Z"/></svg><span>Artificer</span></label>
+                        <label for="who-quartermaster"><svg viewBox="0 0 1 1"><path d="M.5 .10L.86 .5L.5 .90L.14 .5ZM.2 .5L.8 .5"/></svg><span>Quartermaster</span></label>
+                    </div>
+
+                    <div class="dossier">
+                        <article class="who-recon"><h3>Recon</h3><p>Fast, light, in and out. Built for short bursts of work.</p><span class="window">Excels on runs of 10-30 min</span></article>
+                        <article class="who-vanguard"><h3>Vanguard</h3><p>Heavy, patient, hard to stop. Built for long hauls.</p><span class="window">Excels on runs of 60 min and up</span></article>
+                        <article class="who-archivist"><h3>Archivist</h3><p>Reads the ruins instead of looting them. Produces intel.</p><span class="window">Excels on runs of 45 min and up</span></article>
+                        <article class="who-artificer"><h3>Artificer</h3><p>Strips salvage for parts. Finds gear others walk past.</p><span class="window">Excels on runs of 25-75 min</span></article>
+                        <article class="who-quartermaster"><h3>Quartermaster</h3><p>No specialism, no bad days. Steady on any length of run.</p><span class="window">Steady on any run length</span></article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="stop" id="return" aria-labelledby="return-h">
+            <span class="stake" aria-hidden="true"></span>
+            <div class="stop-body">
+                <h2 id="return-h">Opening the app doesn't help them</h2>
+                <p>Nothing piles up while you watch the timer. There's nothing to tap and nothing to collect. Every run starts at 100% Integrity. Staring at the timer costs a bit, opening the app mid-run costs more, and locking your phone costs nothing. Integrity barely touches the resources you earn, but it matters a lot for rare finds.</p>
+                <p>You get one notification, when the run's done. Then you read the report and decide what to spend it on: gear, recruits, the forge, your camp.</p>
+
+                <div class="find">
+                    <img src="/telos/assets/ore_sense.webp" alt="A worn leather harness fitted with a brass gauge" width="640" height="640" loading="lazy">
+                    <div>
+                        <span class="find-label">Epic find &middot; Blackstone Hollow</span>
+                        <h3>Ore-sense Rig</h3>
+                        <p class="flavor">It hums before you see the seam.</p>
+                        <p class="stats">+25% alloy &middot; +6% gear-find modifier</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="stop" id="kept" aria-labelledby="kept-h">
+            <span class="stake" aria-hidden="true"></span>
+            <div class="stop-body">
+                <h2 id="kept-h">What it won't do</h2>
+                <ul class="facts">
+                    <li>No account, no ads, no analytics. Telos makes no network connections of its own, and it works offline.</li>
+                    <li>What you write stays on your phone unless you choose to send it somewhere. Share cards never include your task or reflection notes.</li>
+                    <li>No streaks and no reminders you didn't set up yourself. Take a month off and nothing's lost.</li>
+                    <li>You'll never be able to buy progress. No boosts, no skipping a session, no energy. Focus is the only thing that moves the game.</li>
+                    <li>You can export your whole save to a file any time. Deleting the app deletes everything it keeps on your phone.</li>
+                </ul>
+                <p><a href="/telos/privacy">Read the privacy policy</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="colophon">
+        <nav>
+            <a href="/telos/support">Support</a>
+            <a href="/telos/privacy">Privacy</a>
+            <a href="mailto:telos@dahvio.com">telos@dahvio.com</a>
+        </nav>
+        <p>&copy; 2026 <a href="/">DahVio Studios</a> &middot; Long Beach, California</p>
+    </footer>
+</body>
+</html>
