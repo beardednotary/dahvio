@@ -276,6 +276,17 @@ body{
   border:3px solid var(--gold);border-radius:18px;box-shadow:0 5px 0 var(--outline);pointer-events:none;
 }
 #coach p{margin:0;font:800 15.5px/1.35 var(--body)}
+/* After a game: a slim bar over the table so the next try is one tap away */
+#endBar{
+  position:fixed;z-index:6;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);
+  width:min(calc(100% - 32px),380px);display:grid;gap:8px;justify-items:center;animation:rise .3s cubic-bezier(.2,1.4,.4,1);
+}
+#endMsg{margin:0;max-width:100%;background:rgba(10,24,30,.88);border-radius:999px;padding:5px 14px 6px;font:800 14px/1.3 var(--body);text-align:center;-webkit-user-select:text;user-select:text}
+#endMsg:empty{display:none}
+.endRow{width:100%;display:flex;gap:8px}
+.endRow .cbtn{flex:1;justify-content:center;text-align:center;padding:11px 8px 12px;font-size:20px}
+.endRow #endAgain{flex:1.5;font-size:24px}
+@keyframes rise{from{transform:translate(-50%,40px);opacity:0}}
 #coach button{pointer-events:auto;cursor:pointer;border:3px solid var(--outline);border-radius:12px;background:rgba(255,255,255,.1);color:#fff;padding:7px 12px 8px;font:400 15px/1 var(--display);letter-spacing:.03em}
 #coach button:focus-visible{outline:3px solid #fff;outline-offset:2px}
 #skinsOpen em{margin-left:8px;font:400 12px/1 var(--display);font-style:normal;letter-spacing:.04em;color:var(--outline);background:var(--gold);border:2px solid var(--outline);border-radius:999px;padding:3px 7px;align-self:center}
@@ -296,7 +307,7 @@ body{
 #skinsDone{justify-content:center}
 .skin:disabled b{color:var(--muted)}
 .skin:focus-visible{outline:3px solid #fff;outline-offset:2px}
-@media (prefers-reduced-motion:reduce){#banner,.pop{animation:none}}
+@media (prefers-reduced-motion:reduce){#banner,.pop,#endBar{animation:none}}
 </style>
 </head>
 <body>
@@ -318,6 +329,14 @@ body{
 </header>
 <div id="tip"></div>
 <div id="coach" hidden><p id="coachT"></p><button type="button" id="coachSkip">Skip</button></div>
+<div id="endBar" hidden>
+  <p id="endMsg" role="status"></p>
+  <div class="endRow">
+    <button class="cbtn plain" type="button" id="endMenu">Menu</button>
+    <button class="cbtn teal" type="button" id="endChal" hidden>Challenge</button>
+    <button class="cbtn gold" type="button" id="endAgain">Again</button>
+  </div>
+</div>
 <div id="banner" hidden><h2 id="bT"></h2><p id="bS"></p></div>
 
 <section id="menu" class="sheet">
@@ -333,9 +352,10 @@ body{
       <div><small>PAPER</small><strong>FOOTBALL</strong></div>
     </div>
     <p class="blurb" id="status">Flick it. Hang it off the edge. Kick it through the fingers.</p>
-    <button class="cbtn go" type="button" id="chalBtn" hidden>Challenge a friend <small id="chalSm"></small></button>
-    <p class="say" id="chalSay" role="status"></p>
     <button class="cbtn go" type="button" data-act="resume" id="resume" hidden>Resume <small>Back to the game</small></button>
+    <button class="cbtn go" type="button" id="again" hidden>Play again <small id="againSm"></small></button>
+    <button class="cbtn teal" type="button" id="chalBtn" hidden>Challenge a friend <small id="chalSm"></small></button>
+    <p class="say" id="chalSay" role="status"></p>
     <button class="cbtn daily" type="button" id="dailyBtn">Daily Kick <small id="dailySm">5 kicks</small></button>
     <button class="cbtn gold" type="button" data-act="cpu">Play vs CPU <small>First to 21</small></button>
     <div class="level" role="radiogroup" aria-label="Computer difficulty">
@@ -599,10 +619,12 @@ const gauss = () => Math.sqrt(-2 * Math.log(1 - Math.random())) * Math.cos(2 * M
 
 // seed: makes every fan in a kicking run repeatable, so a friend can replay the same run from a challenge link
 function newGame(mode, seed, chal) {
+  quitCheck();
   G = { gen: (G ? G.gen : 0) + 1, mode, names: mode === 'pass' ? ['Blue', 'Red'] : ['You', 'CPU'],
         score: [0, 0], poss: 0, target: 21, scene: 'slide', state: 'idle', over: false,
-        seed: seed || 1 + Math.floor(Math.random() * 2147483646), chal: chal || null };
-  Q = []; trail = []; parts = []; lastRun = null; coachHide();
+        seed: seed || 1 + Math.floor(Math.random() * 2147483646), chal: chal || null, t0: performance.now() };
+  Q = []; trail = []; parts = []; lastRun = null; coachHide(); hideEnd();
+  trackStart();
   if (mode === 'challenge') { G.ch = { i: 0, made: 0 }; startKick('ch'); banner('Fan Challenge', 'Ten kicks. Time the fan.', 1500, true); }
   else if (mode === 'streak') { G.st = { n: 0 }; startKick('st'); banner('Kick Streak', 'Keep it going. One miss ends it.', 1500, true); }
   else if (mode === 'bomb') { G.bm = { made: 0, strikes: 0, longest: 0 }; startKick('bm'); banner('Long Bomb', 'No fan. Three misses and you\'re out.', 1500, true); }
@@ -688,11 +710,13 @@ function resolveFall(kind) {
 function checkWin() {
   for (let p = 0; p < 2; p++) if (G.score[p] >= G.target) {
     G.over = true; G.state = 'over';
+    trackEnd({ won: G.mode === 'cpu' ? p === 0 : undefined, winner: G.mode === 'pass' ? G.names[p].toLowerCase() : undefined, score: G.score[0], against: G.score[1] });
+    later(1500, showEnd);
     if (G.mode === 'cpu' && p === 0) { stats.wins[CPU[cfg.level] ? cfg.level : 'normal']++; checkUnlocks(); }
     const n = G.names[p], line = `${G.score[0]} to ${G.score[1]}`;
     later(1200, () => { banner(n === 'You' ? 'You win!' : n + ' wins!', line, 2400); rain(120); });
     $('status').textContent = (n === 'You' ? 'You won ' : n + ' won ') + line + '. Go again?';
-    later(3800, () => G.mode === 'cpu' && p === 0 ? offerPost('win_' + (CPU[cfg.level] ? cfg.level : 'normal'), 1) : openMenu());
+    later(3800, () => G.mode === 'cpu' && p === 0 ? offerPost('win_' + (CPU[cfg.level] ? cfg.level : 'normal'), 1) : endOrMenu());
     return true;
   }
   return false;
@@ -763,7 +787,7 @@ function kickResult() {
     const d = G.dk; d.res.push(good ? 1 : 0); saveDaily(); hud();
     banner(title, good ? `${dailyMade(d)} of ${d.res.length}` : why, 1200, !good);
     if (d.res.length < DAILY_KICKS) { later(1300, () => startKick('dk')); return; }
-    G.over = true; G.state = 'over'; finishDaily(d);
+    G.over = true; G.state = 'over'; finishDaily(d); trackEnd({ score: dailyMade(d) });
     later(1300, () => { banner(`${dailyMade(d)} of ${DAILY_KICKS}`, `Daily Kick #${d.n}`, 2200); if (dailyMade(d) >= 4) rain(110); });
     $('status').textContent = `Daily Kick #${d.n}: ${dailyMade(d)} of ${DAILY_KICKS}.`;
     later(3600, showDaily);
@@ -789,7 +813,7 @@ function kickResult() {
     if (isBest) { streakBest = st.n; try { localStorage.setItem('pf-streak', streakBest); } catch (e) {} }
     later(1300, () => { banner(`Streak: ${st.n}`, isBest ? 'New best!' : `Your best: ${streakBest}`, 2400); if (isBest) rain(120); });
     $('status').textContent = `Kick Streak: ${st.n} in a row.`;
-    later(3800, () => endRun('streak', st.n));
+    finishRun('streak', st.n);
   } else if (k.kind === 'bm') {
     const m = G.bm, inches = Math.round(k.Zp / PXIN);
     if (good) {
@@ -810,7 +834,7 @@ function kickResult() {
     if (isBest) { bombBest = m.longest; try { localStorage.setItem('pf-bomb', bombBest); } catch (e) {} }
     later(1300, () => { banner(`Longest: ${m.longest} in`, isBest ? 'New best!' : `Your best: ${bombBest} in`, 2400); if (isBest) rain(120); });
     $('status').textContent = m.longest ? `Long Bomb: ${m.longest} in.` : 'Long Bomb: no makes this time.';
-    later(3800, () => endRun('bomb', m.longest));
+    finishRun('bomb', m.longest);
   } else {
     const c = G.ch; if (good) c.made++; c.i++;
     hud();
@@ -821,7 +845,7 @@ function kickResult() {
       if (isBest) { best = c.made; try { localStorage.setItem('pf-best', best); } catch (e) {} }
       later(1300, () => { banner(`${c.made} of 10`, isBest ? 'New best!' : `Your best: ${best} of 10`, 2400); if (isBest) rain(120); });
       $('status').textContent = `Fan Challenge: ${c.made} of 10.`;
-      later(3800, () => endRun('fan', c.made));
+      finishRun('fan', c.made);
     } else later(1300, () => startKick('ch'));
   }
 }
@@ -998,10 +1022,13 @@ function prompt() {
 function openMenu() {
   paused = true;
   $('resume').hidden = !(G && !G.over);
+  hideEnd();
+  $('again').hidden = !canAgain();
+  if (canAgain()) $('againSm').textContent = AGAIN[G.mode].label;
   $('best').textContent = best ? `Best ${best}/10` : '10 kicks';
   $('sbest').textContent = streakBest ? `Best ${streakBest}` : 'Till you miss';
   $('bbest').textContent = bombBest ? `Best ${bombBest} in` : '3 strikes';
-  const canChal = LB_ON && lastRun && (!G || G.over);
+  const canChal = LB_ON && lastRun && lastRun.value > 0 && (!G || G.over);
   $('chalBtn').hidden = !canChal;
   if (canChal) $('chalSm').textContent = lastRun.code ? 'Send the link' : `Beat my ${BOARDS[lastRun.mode].unit(lastRun.value)}`;
   if (freshSkins.length) $('status').textContent = `Unlocked: ${freshSkins.join(', ')}. Open Skins to use ${freshSkins.length > 1 ? 'them' : 'it'}.`;
@@ -1172,7 +1199,8 @@ function rankRow(rank, nick, me, val) {
   const vl = document.createElement('span'); vl.className = 'vl'; vl.textContent = val;
   li.append(rk, nk, vl); return li;
 }
-$('lbOpen').addEventListener('click', () => openBoards());
+let lbFrom = 'menu';
+$('lbOpen').addEventListener('click', () => { lbFrom = 'menu'; track('leaderboard_open'); openBoards(); });
 document.querySelectorAll('#lb [data-b]').forEach(t => t.addEventListener('click', () => {
   lbBoard = t.dataset.b === 'win' ? 'win_' + (CPU[cfg.level] ? cfg.level : 'normal') : t.dataset.b; showBoard();
 }));
@@ -1183,20 +1211,20 @@ $('lbSave').addEventListener('click', () => {
   lb.nick = c.nick; saveLb(); $('lbNick').value = c.nick;
   $('lbSay').textContent = 'Saved. It shows up the next time you post a score.';
 });
-$('lbDone').addEventListener('click', () => { $('lb').hidden = true; openMenu(); });
+$('lbDone').addEventListener('click', () => { $('lb').hidden = true; if (lbFrom === 'post') endOrMenu(); else openMenu(); });
 
 // After a game: offer to post new personal bests; CPU wins post on their own once you have a name
 let pending = null;
 function offerPost(board, value) {
-  if (!LB_ON || value < 1) return openMenu();
+  if (!LB_ON || value < 1) return endOrMenu();
   const win = board.startsWith('win_');
   const lvl = board.slice(4).replace(/^./, c => c.toUpperCase());
   if (win && lb.nick) {
-    openMenu();
-    postScore(board, 1).then(() => { $('status').textContent += ` Posted to the ${lvl} wins board.`; }).catch(() => {});
+    endOrMenu();
+    postScore(board, 1).then(() => { $('status').textContent += ` Posted to the ${lvl} wins board.`; $('endMsg').textContent = `Posted to the ${lvl} wins board.`; track('score_post', { board, auto: true }); }).catch(() => {});
     return;
   }
-  if (!win && value <= Math.max(lb.posted[board] || 0, lb.offered[board] || 0)) return openMenu();
+  if (!win && value <= Math.max(lb.posted[board] || 0, lb.offered[board] || 0)) return endOrMenu();
   pending = { kind: 'post', board, value };
   paused = true; $('menu').hidden = true;
   $('postT').textContent = win ? 'You won!' : 'New best!';
@@ -1209,7 +1237,7 @@ function offerPost(board, value) {
 }
 $('postSkip').addEventListener('click', () => {
   if (pending && pending.kind === 'post' && !pending.board.startsWith('win_')) { lb.offered[pending.board] = Math.max(lb.offered[pending.board] || 0, pending.value); saveLb(); }
-  pending = null; $('post').hidden = true; openMenu();
+  pending = null; $('post').hidden = true; endOrMenu();
 });
 $('postForm').addEventListener('submit', async e => {
   e.preventDefault();
@@ -1217,12 +1245,13 @@ $('postForm').addEventListener('submit', async e => {
   const c = checkNick($('postNick').value);
   if (c.err) { $('postSay').textContent = c.err; return; }
   lb.nick = c.nick; saveLb();
-  if (pending.kind === 'name') { const then = pending.then; pending = null; $('post').hidden = true; openMenu(); then(); return; }
+  if (pending.kind === 'name') { const then = pending.then; pending = null; $('post').hidden = true; endOrMenu(); then(); return; }
   const btn = $('postSend'); btn.disabled = true; btn.textContent = 'Posting…'; $('postSay').textContent = '';
   try {
     await postScore(pending.board, pending.value);
     const board = pending.board; pending = null;
-    openBoards(board);
+    track('score_post', { board, value: lastRun ? lastRun.value : undefined });
+    lbFrom = 'post'; openBoards(board);
     $('lbSay').textContent = 'Posted!';
   } catch (err) { $('postSay').textContent = postErr(err); }
   finally { btn.disabled = false; btn.textContent = 'Post it'; }
@@ -1236,19 +1265,19 @@ const MODE_OF = { fan: 'challenge', streak: 'streak', bomb: 'bomb' };
 const MODE_LABEL = { fan: 'Fan Challenge', streak: 'Kick Streak', bomb: 'Long Bomb' };
 const STATUS0 = $('status').textContent;
 let lastRun = null, viewing = null;
-const chalSay = t => { $('chalSay').textContent = t; };
+const chalSay = t => { $('chalSay').textContent = t; $('endMsg').textContent = t; };
 const chalText = (mode, v) => mode === 'fan' ? `I made ${v} of 10 in the Paper Football Fan Challenge. Same fan, one shot. Can you beat it?`
   : mode === 'streak' ? `I kicked ${v} in a row in Paper Football. Same fan, one shot. Can you beat it?`
   : `I hit a ${v}-inch Long Bomb in Paper Football. One shot. Can you beat it?`;
-const chalUrl = code => `${location.origin}${location.pathname}?c=${code}`;
+const chalUrl = code => `${SITE_URL}?c=${code}`;
 
 function endRun(mode, value) {
   checkUnlocks();
-  lastRun = { mode, seed: G.seed, value };
+  if (!lastRun || lastRun.seed !== G.seed) lastRun = { mode, seed: G.seed, value };
   if (!G.chal || !LB_ON) return offerPost(mode, value);
   paused = true;
   sb('pf_challenge_answer', { p_code: G.chal.code, p_player: lb.player, p_nickname: lb.nick, p_value: value })
-    .then(c => showDuel(c, c.mine_answer ?? value))
+    .then(c => { const me = c.mine_answer ?? value; track('challenge_result', { mode, outcome: me > c.value ? 'win' : me < c.value ? 'lose' : 'tie' }); showDuel(c, me); })
     .catch(e => { $('status').textContent = /own challenge/.test(e.message) ? 'That was your own challenge.' : postErr(e); offerPost(mode, value); });
 }
 
@@ -1267,19 +1296,20 @@ async function shareRun() {
   if (!r.code) {
     if (!lb.nick) return askName(shareRun);
     const btn = $('chalBtn'); btn.disabled = true; $('chalSm').textContent = 'Making link…'; chalSay('');
-    try { r.code = await sb('pf_challenge_create', { p_player: lb.player, p_nickname: lb.nick, p_mode: r.mode, p_seed: r.seed, p_value: r.value }); }
+    $('endChal').disabled = true;
+    try { r.code = await sb('pf_challenge_create', { p_player: lb.player, p_nickname: lb.nick, p_mode: r.mode, p_seed: r.seed, p_value: r.value }); track('challenge_create', { mode: r.mode }); }
     catch (e) { chalSay(postErr(e)); return; }
-    finally { btn.disabled = false; openMenu(); }
+    finally { btn.disabled = false; $('endChal').disabled = false; if ($('endBar').hidden) openMenu(); else showEnd(); }
   }
   const url = chalUrl(r.code), text = chalText(r.mode, r.value);
   if (navigator.share) {
-    try { await navigator.share({ title: 'Paper Football challenge', text, url }); chalSay('Sent! Open the link again any time to see who took it.'); return; }
+    try { await navigator.share({ title: 'Paper Football challenge', text, url }); track('challenge_share', { mode: r.mode, method: 'share' }); chalSay('Sent! Open the link again any time to see who took it.'); return; }
     catch (e) {
       if (e.name === 'AbortError') return;
       if (e.name === 'NotAllowedError') { chalSay('Link ready. Tap Send the link.'); return; }
     }
   }
-  try { await navigator.clipboard.writeText(`${text} ${url}`); chalSay('Link copied. Paste it to a friend.'); }
+  try { await navigator.clipboard.writeText(`${text} ${url}`); track('challenge_share', { mode: r.mode, method: 'copy' }); chalSay('Link copied. Paste it to a friend.'); }
   catch (e) { chalSay(url); }
 }
 $('chalBtn').addEventListener('click', shareRun);
@@ -1292,8 +1322,9 @@ async function openChallengeLink() {
   let c;
   try { c = await sb('pf_challenge_get', { p_code: code, p_me: lb.player }); }
   catch (e) { $('status').textContent = "Couldn't load that challenge. Check your connection and open the link again."; return; }
-  if (!c) { $('status').textContent = "That challenge link doesn't work anymore."; return; }
+  if (!c) { track('challenge_open', { state: 'missing' }); $('status').textContent = "That challenge link doesn't work anymore."; return; }
   $('status').textContent = STATUS0;
+  track('challenge_open', { mode: c.mode, state: c.mine ? 'mine' : c.mine_answer != null ? 'answered' : 'new' });
   if (c.mine || c.mine_answer != null) return showDuel(c, c.mine_answer);
   viewing = c; paused = true; $('menu').hidden = true;
   $('cName').textContent = c.nickname; $('cVal').textContent = BOARDS[c.mode].unit(c.value);
@@ -1307,6 +1338,7 @@ $('chalForm').addEventListener('submit', e => {
   if (n.err) { $('cSay').textContent = n.err; return; }
   lb.nick = n.nick; saveLb(); audioInit();
   const c = viewing; viewing = null; closeSheets();
+  track('challenge_play', { mode: c.mode });
   newGame(MODE_OF[c.mode], c.seed, c);
   banner('Challenge!', `Beat ${c.nickname}: ${BOARDS[c.mode].unit(c.value)}`, 1600, true);
 });
@@ -1345,6 +1377,66 @@ $('hDone').addEventListener('click', () => {
   viewing = null; $('h2h').hidden = true;
   if (G && G.over && G.chal && lastRun) offerPost(lastRun.mode, lastRun.value); else openMenu();
 });
+
+// ---------- links and analytics ----------
+// Shared links always point at dahvio.com, so they still work when the game runs inside another
+// site's frame (itch.io, game portals). Local testing keeps local links.
+const LOCAL = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+const SITE_URL = LOCAL ? location.origin + location.pathname : 'https://dahvio.com/paper-football';
+// Game events go to the Google Analytics tag already on the page, only from dahvio.com so testing
+// and other hosts don't skew the numbers. window.__events keeps a local copy for checking.
+const IS_LIVE = /(^|\.)dahvio\.com$/.test(location.hostname);
+window.__events = [];
+function track(name, params = {}) {
+  const p = {};
+  for (const k in params) if (params[k] !== undefined) p[k] = params[k];
+  window.__events.push([name, p]);
+  if (IS_LIVE && typeof gtag === 'function') try { gtag('event', name, p); } catch (e) {}
+}
+let sessionGames = 0;
+const gameSecs = () => Math.round((performance.now() - G.t0) / 1000);
+function trackStart() {
+  track('game_start', { mode: G.mode, level: G.mode === 'cpu' ? cfg.level : undefined, challenge: G.chal ? 1 : undefined, session_game: ++sessionGames });
+}
+function trackEnd(extra) {
+  track('game_end', { mode: G.mode, level: G.mode === 'cpu' ? cfg.level : undefined, challenge: G.chal ? 1 : undefined, seconds: gameSecs(), ...extra });
+}
+// Starting something new while a game is still going counts as quitting it
+const quitCheck = () => { if (G && !G.over && G.mode !== 'tut') track('game_quit', { mode: G.mode, seconds: gameSecs() }); };
+
+// ---------- end of game ----------
+// Repeatable games end on a bar with Again / Challenge / Menu instead of dropping back to the menu.
+// Daily Kick and challenge replays are one shot, so they keep their own result sheets.
+const AGAIN = {
+  cpu: { btn: 'Rematch', label: 'vs CPU' }, pass: { btn: 'Rematch', label: 'Pass & Play' },
+  challenge: { btn: 'Again', label: 'Fan Challenge' }, streak: { btn: 'Again', label: 'Kick Streak' }, bomb: { btn: 'Again', label: 'Long Bomb' },
+};
+const canAgain = () => !!(G && G.over && !G.chal && AGAIN[G.mode]);
+// Kicking runs: the result banner plays, the bar slides up, then any new-best prompt
+function finishRun(mode, value) {
+  trackEnd({ score: value });
+  if (!G.chal) { lastRun = { mode, seed: G.seed, value }; later(1500, showEnd); }
+  later(3800, () => endRun(mode, value));
+}
+function showEnd() {
+  if (!canAgain() || document.querySelector('.sheet:not([hidden])')) return;
+  paused = false; tip('');
+  $('endAgain').textContent = AGAIN[G.mode].btn;
+  $('endChal').hidden = !(LB_ON && lastRun && lastRun.value > 0);
+  $('endBar').hidden = false;
+}
+function hideEnd() { $('endBar').hidden = true; $('endMsg').textContent = ''; }
+const endOrMenu = () => canAgain() ? showEnd() : openMenu();
+function playAgain(from) {
+  const mode = G.mode;
+  track('play_again', { mode, from });
+  closeSheets(); hideEnd(); audioInit();
+  newGame(mode);
+}
+$('endAgain').addEventListener('click', () => playAgain('end_bar'));
+$('again').addEventListener('click', () => playAgain('menu'));
+$('endMenu').addEventListener('click', () => { hideEnd(); openMenu(); });
+$('endChal').addEventListener('click', shareRun);
 
 // ---------- sound ----------
 let AC = null;
@@ -2337,7 +2429,7 @@ function untilTomorrow() {
   return m >= 60 ? `${Math.floor(m / 60)}h ${m % 60}m` : `${m}m`;
 }
 const dailyShare = d => `🏈 Paper Football Daily #${d.n}: ${dailyMade(d)}/${DAILY_KICKS}\n${d.res.map(x => x ? '🟩' : '🟥').join('')}`
-  + (dayStreak() > 1 ? `\n${dayStreak()}-day streak` : '') + `\n${location.origin}${location.pathname}`;
+  + (dayStreak() > 1 ? `\n${dayStreak()}-day streak` : '') + `\n${SITE_URL}`;
 function dailyLabel() {
   const d = todayDaily();
   $('dailySm').textContent = d.res.length >= DAILY_KICKS ? `#${d.n} · ${dailyMade(d)}/${DAILY_KICKS} · next in ${untilTomorrow()}`
@@ -2367,10 +2459,10 @@ $('dDone').addEventListener('click', () => { $('daily').hidden = true; openMenu(
 $('dShare').addEventListener('click', async () => {
   const text = dailyShare(todayDaily());
   if (navigator.share) {
-    try { await navigator.share({ text }); $('dSay').textContent = 'Shared!'; return; }
+    try { await navigator.share({ text }); track('daily_share', { method: 'share' }); $('dSay').textContent = 'Shared!'; return; }
     catch (e) { if (e.name === 'AbortError') return; }
   }
-  try { await navigator.clipboard.writeText(text); $('dSay').textContent = 'Copied. Paste it in a group chat.'; }
+  try { await navigator.clipboard.writeText(text); track('daily_share', { method: 'copy' }); $('dSay').textContent = 'Copied. Paste it in a group chat.'; }
   catch (e) { $('dSay').textContent = text; }
 });
 function startDaily() {
@@ -2419,12 +2511,12 @@ function tutFell() {
 }
 function tutKicked(good) {
   if (!good) { later(1100, () => { startKick('tut'); coach('miss'); }); return; }
-  G.over = true; G.state = 'over'; markTut(); coachHide();
+  G.over = true; G.state = 'over'; markTut(); coachHide(); track('tutorial_complete');
   later(1200, () => { banner("You're ready!", "That's the whole game", 2000); rain(110); });
   later(3300, () => { const m = tutThen; tutThen = null; if (m) newGame(m); else openMenu(); });
 }
 $('coachSkip').addEventListener('click', () => {
-  markTut(); coachHide();
+  markTut(); coachHide(); track('tutorial_skip');
   const m = tutThen; tutThen = null;
   if (m) newGame(m); else openMenu();
 });
