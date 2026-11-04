@@ -229,7 +229,7 @@ body{
 .credit a{color:var(--gold);text-decoration:none;border-bottom:1px solid currentColor}
 /* Main menu: a spiral notebook page, like the one we kept lunch-table scores in.
    Ruled paper with a red margin, binder rings down the left, three index tabs on top. */
-#menu .nb{width:min(100%,380px);margin:0 auto auto;display:grid}
+#menu .nb,#book .nb{width:min(100%,380px);margin:0 auto auto;display:grid}
 .nbTitle{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 8px;transform:rotate(-1.5deg)}
 .nbTitle svg{width:40px;height:36px;flex:none;transform:rotate(-14deg);filter:drop-shadow(0 3px 0 var(--outline))}
 .nbTitle span{font:400 33px/1 var(--hand);color:var(--gold);text-shadow:0 3px 0 var(--outline);letter-spacing:.01em}
@@ -240,6 +240,7 @@ body{
 .nbTabs [data-tab=extras]{background:#8fb6ea}
 .nbTabs button[aria-selected=true]{background:var(--sheet);padding-bottom:15px}
 .nbTabs button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.nbTabLbl{display:block;margin-bottom:-3px;padding:9px 0 15px;border:3px solid var(--outline);border-bottom:0;border-radius:14px 14px 0 0;background:var(--sheet);color:var(--outline);font:400 19px/1 var(--display);text-align:center}
 .page{
   position:relative;box-sizing:border-box;display:grid;gap:12px;align-content:start;min-height:min(600px,calc(100dvh - 150px));
   padding:20px 16px 18px 60px;color:var(--outline);
@@ -253,10 +254,10 @@ body{
 .hand{margin:2px 0 -4px;font:400 21px/1.2 var(--hand);color:var(--p1);transform:rotate(-1.5deg);transform-origin:left}
 #menu .note{margin:0;text-align:left;font:400 17px/1.35 var(--hand);color:var(--p1);text-wrap:pretty}
 #menu .say{color:#c0392b}
-#menu .cbtn{flex-direction:column;align-items:flex-start;gap:3px;padding:12px 14px 12px}
+#menu .cbtn,#book .cbtn{flex-direction:column;align-items:flex-start;gap:3px;padding:12px 14px 12px}
 #menu .cbtn small{text-align:left;font-size:12.5px}
 #menu .cbtn.big{font-size:30px;padding:15px 14px 14px}
-#menu .cbtn.plain{flex-direction:row;align-items:center;justify-content:center;gap:10px;font-size:21px}
+#menu .cbtn.plain,#book .cbtn.plain,#book .row .cbtn{flex-direction:row;align-items:center;justify-content:center;gap:10px;font-size:21px}
 #menu .cbtn:focus-visible,#menu .switch input:focus-visible + .track{outline-color:var(--p1)}
 #menu .level{margin:-2px 0 0}
 #menu .level > span{font:400 17px/1 var(--hand);color:var(--outline);text-transform:none;letter-spacing:0}
@@ -271,6 +272,26 @@ body{
 #menu .how ul{color:#3b2a1f}
 #menu .credit{color:#5b6b70;text-align:left}
 #menu .credit a{color:var(--p1)}
+/* Scorebook: season record in tally marks, then a game log written on the ruled lines */
+.nbTabs.one{grid-template-columns:minmax(0,150px)}
+#book .page{gap:10px}
+.rec{display:grid;gap:4px;margin:0;padding:0;list-style:none}
+.rec li{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;min-height:31px;font:400 15px/1.2 var(--hand);color:var(--outline)}
+.rec li > span:last-child{display:flex;align-items:center;gap:8px;font:800 13px/1 var(--body)}
+.tally{display:inline-flex;flex-wrap:wrap;gap:5px;align-items:center;max-width:150px}
+.tally svg{width:22px;height:20px;flex:none}
+.tally.lost svg{opacity:.55}
+.rec .lbl{font:800 11px/1 var(--body);color:#5b6b70;text-transform:uppercase;letter-spacing:.05em}
+.log{margin:0;padding:0 2px 0 0;list-style:none;max-height:min(300px,40dvh);overflow:auto;
+  background-image:repeating-linear-gradient(180deg,transparent 0 33px,#c9dcf5 33px 35px);background-attachment:local}
+.log li{display:grid;grid-template-columns:40px minmax(0,1fr) auto 24px;align-items:center;gap:6px;height:35px;font:400 14.5px/1 var(--hand);color:var(--outline)}
+.log time{font:800 12px/1 var(--body);color:var(--p1)}
+.log .wh{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.log .rs{color:#c0392b;white-space:nowrap}
+.mark{display:grid;place-items:center;width:22px;height:22px;box-sizing:border-box;border:2.5px solid currentColor;border-radius:50%;font:400 12px/1 var(--hand)}
+.mark.w{color:#1e8a4c} .mark.l{color:#c0392b} .mark.t{color:#5b6b70}
+.log .empty{display:block;height:auto;padding:10px 0;font:400 17px/1.4 var(--hand);color:var(--p2);transform:rotate(-1.2deg)}
+#bookClear.armed{background:var(--p2);color:#fff}
 .scrawl{margin:2px 0 0;font:400 16px/1.35 var(--hand);color:var(--p2);transform:rotate(-1.2deg);transform-origin:left}
 
 .card h2{margin:0;text-align:center;font:400 32px/1.1 var(--display);color:var(--gold);-webkit-text-stroke:5px var(--outline);paint-order:stroke fill;text-shadow:0 3px 0 var(--outline)}
@@ -435,6 +456,7 @@ body{
         <h2 class="hand">Extras</h2>
         <button class="cbtn plain" type="button" id="lbOpen" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v6a5 5 0 0 1-10 0z M7 5H3.5a3.5 3.5 0 0 0 4 4.4 M17 5h3.5a3.5 3.5 0 0 1-4 4.4 M12 14v4 M8 21h8 M9.5 18h5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Leaderboards</button>
         <button class="cbtn plain" type="button" id="skinsOpen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 21 19H3z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M7.5 14h9M9.6 10.3h4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Skins<em id="skinsNew" hidden>NEW</em></button>
+        <button class="cbtn plain" type="button" id="bookOpen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h12a2 2 0 0 1 2 2v16H7a2 2 0 0 1-2-2z M5 19a2 2 0 0 1 2-2h12 M9 7h6 M9 11h6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Scorebook</button>
         <button class="cbtn plain" type="button" id="fbOpen" hidden>Send feedback</button>
         <details class="how">
       <summary>How to play</summary>
@@ -582,6 +604,20 @@ body{
     <button class="cbtn go" type="button" id="dShare" hidden>Share result</button>
     <p class="fine dnext" id="dNext" hidden></p>
     <button class="cbtn plain" type="button" id="dDone">Back</button>
+  </div>
+</section>
+
+<section id="book" class="sheet" hidden>
+  <div class="nb">
+    <div class="nbTabs one"><span class="nbTabLbl">Scorebook</span></div>
+    <div class="page">
+      <div class="rings" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <h2 class="hand">Season record</h2>
+      <ul class="rec" id="bookRec"></ul>
+      <h2 class="hand">Game log</h2>
+      <ol class="log" id="bookLog" aria-label="Recent games, newest first"></ol>
+      <div class="row"><button class="cbtn plain" type="button" id="bookClear">Erase</button><button class="cbtn gold" type="button" id="bookDone">Done</button></div>
+    </div>
   </div>
 </section>
 
@@ -774,6 +810,8 @@ function checkWin() {
   for (let p = 0; p < 2; p++) if (G.score[p] >= G.target) {
     G.over = true; G.state = 'over';
     trackEnd({ won: G.mode === 'cpu' ? p === 0 : undefined, winner: G.mode === 'pass' ? G.names[p].toLowerCase() : undefined, score: G.score[0], against: G.score[1] });
+    if (G.mode === 'cpu') logGame({ m: 'cpu', lvl: CPU[cfg.level] ? cfg.level : 'normal', s: [...G.score], w: p === 0 ? 1 : 0 });
+    else if (G.mode === 'pass') logGame({ m: 'pass', s: [...G.score], w: p });
     later(1500, showEnd);
     if (G.mode === 'cpu' && p === 0) { stats.wins[CPU[cfg.level] ? cfg.level : 'normal']++; checkUnlocks(); }
     const n = G.names[p], line = `${G.score[0]} to ${G.score[1]}`;
@@ -850,7 +888,7 @@ function kickResult() {
     const d = G.dk; d.res.push(good ? 1 : 0); saveDaily(); hud();
     banner(title, good ? `${dailyMade(d)} of ${d.res.length}` : why, 1200, !good);
     if (d.res.length < DAILY_KICKS) { later(1300, () => startKick('dk')); return; }
-    G.over = true; G.state = 'over'; finishDaily(d); trackEnd({ score: dailyMade(d) });
+    G.over = true; G.state = 'over'; finishDaily(d); trackEnd({ score: dailyMade(d) }); logGame({ m: 'daily', n: d.n, v: dailyMade(d) });
     later(1300, () => { banner(`${dailyMade(d)} of ${DAILY_KICKS}`, `Daily Kick #${d.n}`, 2200); if (dailyMade(d) >= 4) rain(110); });
     $('status').textContent = `Daily Kick #${d.n}: ${dailyMade(d)} of ${DAILY_KICKS}.`;
     later(3600, showDaily);
@@ -1104,7 +1142,7 @@ function openMenu() {
   document.querySelectorAll('input[name=level]').forEach(r => { r.checked = r.value === (CPU[cfg.level] ? cfg.level : 'normal'); });
   $('menu').hidden = false;
 }
-function closeSheets() { ['menu', 'tune', 'lb', 'post', 'chal', 'h2h', 'skins', 'daily'].forEach(id => { $(id).hidden = true; }); paused = false; }
+function closeSheets() { ['menu', 'tune', 'lb', 'post', 'chal', 'h2h', 'skins', 'daily', 'book'].forEach(id => { $(id).hidden = true; }); paused = false; }
 $('menu').addEventListener('click', e => {
   const b = e.target.closest('[data-act]'); if (!b) return;
   audioInit();
@@ -1344,7 +1382,12 @@ function endRun(mode, value) {
   if (!G.chal || !LB_ON) return offerPost(mode, value);
   paused = true;
   sb('pf_challenge_answer', { p_code: G.chal.code, p_player: lb.player, p_nickname: lb.nick, p_value: value })
-    .then(c => { const me = c.mine_answer ?? value; track('challenge_result', { mode, outcome: me > c.value ? 'win' : me < c.value ? 'lose' : 'tie' }); showDuel(c, me); })
+    .then(c => {
+      const me = c.mine_answer ?? value;
+      track('challenge_result', { mode, outcome: me > c.value ? 'win' : me < c.value ? 'lose' : 'tie' });
+      logGame({ m: 'chal', mode, v: me, ov: c.value, opp: c.nickname, w: me > c.value ? 1 : me < c.value ? 0 : 2 });
+      showDuel(c, me);
+    })
     .catch(e => { $('status').textContent = /own challenge/.test(e.message) ? 'That was your own challenge.' : postErr(e); offerPost(mode, value); });
 }
 
@@ -1482,6 +1525,7 @@ const canAgain = () => !!(G && G.over && !G.chal && AGAIN[G.mode]);
 // Kicking runs: the result banner plays, the bar slides up, then any new-best prompt
 function finishRun(mode, value) {
   trackEnd({ score: value });
+  if (!G.chal) logGame({ m: mode, v: value });
   if (!G.chal) { lastRun = { mode, seed: G.seed, value }; later(1500, showEnd); }
   later(3800, () => endRun(mode, value));
 }
@@ -1524,6 +1568,112 @@ $('menu').querySelector('.nbTabs').addEventListener('keydown', e => {
   const n = e.key === 'ArrowRight' ? (i + 1) % 3 : e.key === 'ArrowLeft' ? (i + 2) % 3 : e.key === 'Home' ? 0 : e.key === 'End' ? 2 : -1;
   if (n < 0) return;
   e.preventDefault(); setTab(order[n], true);
+});
+
+// ---------- scorebook ----------
+// Every finished game gets written down, like the notebook we kept lunch-table scores in.
+// Stays on this device (pf-book), newest first, last 100 games.
+let scoreBook = [];
+try { const b = JSON.parse(localStorage.getItem('pf-book') || '[]'); if (Array.isArray(b)) scoreBook = b; } catch (e) {}
+const saveBook = () => { try { localStorage.setItem('pf-book', JSON.stringify(scoreBook)); } catch (e) {} };
+function logGame(e) {
+  scoreBook.unshift({ t: Date.now(), ...e });
+  if (scoreBook.length > 100) scoreBook.length = 100;
+  saveBook();
+}
+const LVL = { easy: 'Easy', normal: 'Normal', hard: 'Hard' };
+const SHORT = { fan: 'Fan 10', streak: 'Streak', bomb: 'Bomb' };
+const SVGNS = 'http://www.w3.org/2000/svg';
+// Tally marks in fives, the fifth slashed across; past 25 it just adds "+n"
+function tally(n, cls) {
+  const wrap = document.createElement('span'); wrap.className = 'tally' + (cls ? ' ' + cls : '');
+  const shown = Math.min(n, 25);
+  for (let g = 0; g < shown; g += 5) {
+    const k = Math.min(5, shown - g);
+    let d = '';
+    for (let i = 0; i < Math.min(k, 4); i++) { const x = 3 + i * 5; d += `M${x} 2.5 L${x + (i % 2 ? 0.7 : -0.5)} 17.5 `; }
+    if (k === 5) d += 'M1 15 L21 5';
+    const svg = document.createElementNS(SVGNS, 'svg'), path = document.createElementNS(SVGNS, 'path');
+    svg.setAttribute('viewBox', '0 0 22 20'); svg.setAttribute('aria-hidden', 'true');
+    path.setAttribute('d', d); path.setAttribute('fill', 'none'); path.setAttribute('stroke', '#2a170b');
+    path.setAttribute('stroke-width', '2.2'); path.setAttribute('stroke-linecap', 'round');
+    svg.append(path); wrap.append(svg);
+  }
+  if (n > 25) wrap.append(`+${n - 25}`);
+  return wrap;
+}
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+function recRow(label, ...right) {
+  const li = el('li'), r = el('span');
+  li.append(el('span', '', label)); r.append(...right); li.append(r);
+  return li;
+}
+function renderBook() {
+  const g = scoreBook, rec = [];
+  for (const lvl of ['easy', 'normal', 'hard']) {
+    const games = g.filter(e => e.m === 'cpu' && e.lvl === lvl);
+    if (!games.length) continue;
+    const w = games.filter(e => e.w).length, l = games.length - w;
+    const row = recRow(`vs CPU · ${LVL[lvl]}`, tally(w), `${w}–${l}`);
+    row.setAttribute('aria-label', `vs CPU ${LVL[lvl]}: ${w} wins, ${l} losses`); rec.push(row);
+  }
+  const pass = g.filter(e => e.m === 'pass');
+  if (pass.length) {
+    const blue = pass.filter(e => e.w === 0).length;
+    rec.push(recRow('Pass & Play', `Blue ${blue} · Red ${pass.length - blue}`));
+  }
+  const ch = g.filter(e => e.m === 'chal');
+  if (ch.length) {
+    const w = ch.filter(e => e.w === 1).length, l = ch.filter(e => e.w === 0).length, t = ch.length - w - l;
+    rec.push(recRow('Challenges', tally(w), `${w}–${l}${t ? `–${t}` : ''}`));
+  }
+  if (best) rec.push(recRow('Fan 10 best', `${best}/10`));
+  if (streakBest) rec.push(recRow('Streak best', `${streakBest} in a row`));
+  if (bombBest) rec.push(recRow('Long Bomb best', `${bombBest} in`));
+  if (stats.dPlayed) rec.push(recRow('Daily Kicks', `${stats.dPlayed} played${dayStreak() > 1 ? ` · ${dayStreak()}-day streak` : ''}`));
+  if (!rec.length) rec.push(recRow('Nothing yet', ''));
+  $('bookRec').replaceChildren(...rec);
+
+  const rows = g.map(e => {
+    const d = new Date(e.t), li = el('li');
+    let what, res, mark = '';
+    if (e.m === 'cpu') { what = `vs CPU (${LVL[e.lvl] || 'Normal'})`; res = `${e.s[0]}–${e.s[1]}`; mark = e.w ? 'w' : 'l'; }
+    else if (e.m === 'pass') { what = 'Pass & Play'; res = `${e.w === 0 ? 'Blue' : 'Red'} ${Math.max(...e.s)}–${Math.min(...e.s)}`; }
+    else if (e.m === 'fan') { what = 'Fan 10'; res = `${e.v}/10`; }
+    else if (e.m === 'streak') { what = 'Kick Streak'; res = `${e.v} in a row`; }
+    else if (e.m === 'bomb') { what = 'Long Bomb'; res = `${e.v} in`; }
+    else if (e.m === 'daily') { what = `Daily #${e.n}`; res = `${e.v}/${DAILY_KICKS}`; }
+    else if (e.m === 'chal') { what = `vs ${e.opp} · ${SHORT[e.mode] || ''}`; res = `${e.v}–${e.ov}`; mark = e.w === 1 ? 'w' : e.w === 0 ? 'l' : 't'; }
+    else return null;
+    const time = el('time', '', `${d.getMonth() + 1}/${d.getDate()}`); time.dateTime = d.toISOString().slice(0, 10);
+    const m = el('span', mark ? 'mark ' + mark : '', mark ? { w: 'W', l: 'L', t: 'T' }[mark] : '');
+    if (mark) m.setAttribute('aria-label', { w: 'win', l: 'loss', t: 'tie' }[mark]);
+    li.append(time, el('span', 'wh', what), el('span', 'rs', res), m);
+    return li;
+  }).filter(Boolean);
+  $('bookLog').replaceChildren(...(rows.length ? rows : [el('li', 'empty', 'No games yet. Go play one!')]));
+  $('bookLog').scrollTop = 0;
+  disarmErase();
+}
+function openBook() {
+  paused = true; $('menu').hidden = true;
+  renderBook();
+  $('book').hidden = false;
+  track('scorebook_open', { games: scoreBook.length });
+}
+let eraseTimer = 0;
+function disarmErase() { clearTimeout(eraseTimer); $('bookClear').classList.remove('armed'); $('bookClear').textContent = 'Erase'; }
+$('bookOpen').addEventListener('click', openBook);
+$('bookDone').addEventListener('click', () => { $('book').hidden = true; openMenu(); });
+// Erasing takes two taps, so a stray tap can't wipe the season
+$('bookClear').addEventListener('click', () => {
+  const b = $('bookClear');
+  if (!b.classList.contains('armed')) {
+    b.classList.add('armed'); b.textContent = 'Tap to erase';
+    eraseTimer = setTimeout(disarmErase, 3000);
+    return;
+  }
+  scoreBook = []; saveBook(); renderBook();
 });
 
 // ---------- sound ----------
