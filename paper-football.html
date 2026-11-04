@@ -51,7 +51,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@700;800;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@700;800;900&family=Permanent+Marker&display=swap">
 <style>
 /* Layout: full-bleed canvas game world; chunky cartoon HUD floats on top; menus are candy-button cards over a blurred table */
 :root{
@@ -65,6 +65,7 @@
   --wall:#f7e2b8; --wall2:#ebc48a; --tile:#2b8a8e;
   --panel:#132b35; --panel2:#1c4351; --muted:#a9c6cf; --plum:#8f63ea;
   --display:"Lilita One","Arial Black",sans-serif;
+  --hand:"Permanent Marker","Comic Sans MS",cursive; --sheet:#fffdf3;
   --body:"Nunito",system-ui,-apple-system,sans-serif;
   color-scheme:dark;
 }
@@ -226,6 +227,52 @@ body{
 #fbStatus:empty{display:none}
 .credit{margin:2px 0 0;text-align:center;color:var(--muted);font:700 13px/1.4 var(--body)}
 .credit a{color:var(--gold);text-decoration:none;border-bottom:1px solid currentColor}
+/* Main menu: a spiral notebook page, like the one we kept lunch-table scores in.
+   Ruled paper with a red margin, binder rings down the left, three index tabs on top. */
+#menu .nb{width:min(100%,380px);margin:0 auto auto;display:grid}
+.nbTitle{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 8px;transform:rotate(-1.5deg)}
+.nbTitle svg{width:40px;height:36px;flex:none;transform:rotate(-14deg);filter:drop-shadow(0 3px 0 var(--outline))}
+.nbTitle span{font:400 33px/1 var(--hand);color:var(--gold);text-shadow:0 3px 0 var(--outline);letter-spacing:.01em}
+.nbTabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:0 18px 0 48px;position:relative;z-index:1;align-items:end}
+.nbTabs button{cursor:pointer;margin-bottom:-3px;padding:9px 0 11px;border:3px solid var(--outline);border-bottom:0;border-radius:14px 14px 0 0;color:var(--outline);font:400 19px/1 var(--display);letter-spacing:.02em}
+.nbTabs [data-tab=play]{background:var(--gold)}
+.nbTabs [data-tab=kick]{background:#ff8a3d}
+.nbTabs [data-tab=extras]{background:#8fb6ea}
+.nbTabs button[aria-selected=true]{background:var(--sheet);padding-bottom:15px}
+.nbTabs button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.page{
+  position:relative;box-sizing:border-box;display:grid;gap:12px;align-content:start;min-height:min(600px,calc(100dvh - 150px));
+  padding:20px 16px 18px 60px;color:var(--outline);
+  border:3px solid var(--outline);border-radius:10px 10px 22px 22px;box-shadow:0 8px 0 var(--outline),0 26px 60px rgba(0,0,0,.5);
+  background-color:var(--sheet);
+  background-image:linear-gradient(90deg,transparent 44px,var(--margin) 44px,var(--margin) 46px,transparent 46px),repeating-linear-gradient(180deg,transparent 0 33px,#c9dcf5 33px 35px);
+}
+.rings{position:absolute;left:12px;top:16px;bottom:16px;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none}
+.rings i{display:block;width:16px;height:22px;box-sizing:border-box;border-radius:8px;background:var(--panel);border:3px solid var(--outline)}
+.panel{display:grid;gap:12px}
+.hand{margin:2px 0 -4px;font:400 21px/1.2 var(--hand);color:var(--p1);transform:rotate(-1.5deg);transform-origin:left}
+#menu .note{margin:0;text-align:left;font:400 17px/1.35 var(--hand);color:var(--p1);text-wrap:pretty}
+#menu .say{color:#c0392b}
+#menu .cbtn{flex-direction:column;align-items:flex-start;gap:3px;padding:12px 14px 12px}
+#menu .cbtn small{text-align:left;font-size:12.5px}
+#menu .cbtn.big{font-size:30px;padding:15px 14px 14px}
+#menu .cbtn.plain{flex-direction:row;align-items:center;justify-content:center;gap:10px;font-size:21px}
+#menu .cbtn:focus-visible,#menu .switch input:focus-visible + .track{outline-color:var(--p1)}
+#menu .level{margin:-2px 0 0}
+#menu .level > span{font:400 17px/1 var(--hand);color:var(--outline);text-transform:none;letter-spacing:0}
+#menu .level label span{background:#fff;color:var(--outline);padding:7px 9px 8px}
+#menu .level input:checked + span{background:var(--outline);color:var(--gold);box-shadow:none}
+#menu .level input:focus-visible + span{outline-color:var(--p1)}
+#menu .switch{font:800 14.5px/1.3 var(--body)}
+#menu .switch .track{background:rgba(42,23,11,.14)}
+#menu .switch input:checked + .track{background:var(--p2)}
+#menu .switch em{color:#fff}
+#menu .how{background:rgba(255,255,255,.7);border:3px solid var(--outline);border-radius:14px}
+#menu .how ul{color:#3b2a1f}
+#menu .credit{color:#5b6b70;text-align:left}
+#menu .credit a{color:var(--p1)}
+.scrawl{margin:2px 0 0;font:400 16px/1.35 var(--hand);color:var(--p2);transform:rotate(-1.2deg);transform-origin:left}
+
 .card h2{margin:0;text-align:center;font:400 32px/1.1 var(--display);color:var(--gold);-webkit-text-stroke:5px var(--outline);paint-order:stroke fill;text-shadow:0 3px 0 var(--outline)}
 .slider{display:grid;gap:4px}
 .slider label{display:flex;justify-content:space-between;font:800 15px/1.3 var(--body)}
@@ -340,39 +387,56 @@ body{
 <div id="banner" hidden><h2 id="bT"></h2><p id="bS"></p></div>
 
 <section id="menu" class="sheet">
-  <div class="card">
-    <div class="logo">
-      <svg viewBox="0 0 64 58" aria-hidden="true">
+  <div class="nb">
+    <h1 class="nbTitle"><svg viewBox="0 0 64 58" aria-hidden="true">
         <polygon points="32,8 59,52 5,52" style="fill:var(--paper2);stroke:var(--outline)" stroke-width="4" stroke-linejoin="round" transform="translate(0 4)"/>
         <polygon points="32,6 59,50 5,50" style="fill:var(--paper);stroke:var(--outline)" stroke-width="4" stroke-linejoin="round"/>
         <line x1="14" y1="38" x2="50" y2="38" style="stroke:var(--rule)" stroke-width="2"/>
         <line x1="21" y1="27" x2="43" y2="27" style="stroke:var(--rule)" stroke-width="2"/>
         <polyline points="18.5,28 45.5,28" style="stroke:var(--outline)" stroke-width="2" opacity=".45"/>
-      </svg>
-      <div><small>PAPER</small><strong>FOOTBALL</strong></div>
+      </svg><span>Paper Football</span></h1>
+    <div class="nbTabs" role="tablist" aria-label="Menu">
+      <button type="button" role="tab" id="tabPlay" aria-controls="pgPlay" aria-selected="true" data-tab="play">Play</button>
+      <button type="button" role="tab" id="tabKick" aria-controls="pgKick" aria-selected="false" data-tab="kick" tabindex="-1">Kick</button>
+      <button type="button" role="tab" id="tabExtras" aria-controls="pgExtras" aria-selected="false" data-tab="extras" tabindex="-1">Extras</button>
     </div>
-    <p class="blurb" id="status">Flick it. Hang it off the edge. Kick it through the fingers.</p>
-    <button class="cbtn go" type="button" data-act="resume" id="resume" hidden>Resume <small>Back to the game</small></button>
-    <button class="cbtn go" type="button" id="again" hidden>Play again <small id="againSm"></small></button>
-    <button class="cbtn teal" type="button" id="chalBtn" hidden>Challenge a friend <small id="chalSm"></small></button>
-    <p class="say" id="chalSay" role="status"></p>
-    <button class="cbtn daily" type="button" id="dailyBtn">Daily Kick <small id="dailySm">5 kicks</small></button>
-    <button class="cbtn gold" type="button" data-act="cpu">Play vs CPU <small>First to 21</small></button>
-    <div class="level" role="radiogroup" aria-label="Computer difficulty">
-      <span>Computer</span>
-      <label><input type="radio" name="level" value="easy"><span>Easy</span></label>
-      <label><input type="radio" name="level" value="normal"><span>Normal</span></label>
-      <label><input type="radio" name="level" value="hard"><span>Hard</span></label>
-    </div>
-    <button class="cbtn blue" type="button" data-act="pass">Pass &amp; Play <small>2 players, 1 phone</small></button>
-    <p class="sub">Kicking</p>
-    <div class="kicks">
-      <button class="cbtn teal" type="button" data-act="challenge">Fan 10 <small id="best">10 kicks</small></button>
-      <button class="cbtn red" type="button" data-act="streak">Streak <small id="sbest">Till you miss</small></button>
-      <button class="cbtn plum" type="button" data-act="bomb">Long Bomb <small id="bbest">3 strikes</small></button>
-    </div>
-    <label class="switch" for="fan"><input type="checkbox" id="fan"><span class="track"></span>Desk fan on extra points<em>HARD</em></label>
-    <details class="how">
+    <div class="page">
+      <div class="rings" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <p class="note" id="status">Flick it. Hang it off the edge. Kick it through the fingers.</p>
+      <button class="cbtn go" type="button" data-act="resume" id="resume" hidden>Resume <small>Back to the game</small></button>
+      <button class="cbtn go" type="button" id="again" hidden>Play again <small id="againSm"></small></button>
+      <button class="cbtn teal" type="button" id="chalBtn" hidden>Challenge a friend <small id="chalSm"></small></button>
+      <p class="say" id="chalSay" role="status"></p>
+
+      <div class="panel" id="pgPlay" role="tabpanel" aria-labelledby="tabPlay">
+        <h2 class="hand">Today</h2>
+        <button class="cbtn daily" type="button" id="dailyBtn">Daily Kick <small id="dailySm">5 kicks</small></button>
+        <h2 class="hand">Lunch table</h2>
+        <button class="cbtn gold big" type="button" data-act="cpu">Play vs CPU <small>First to 21</small></button>
+        <div class="level" role="radiogroup" aria-label="Computer difficulty">
+          <span>Level:</span>
+          <label><input type="radio" name="level" value="easy"><span>Easy</span></label>
+          <label><input type="radio" name="level" value="normal"><span>Normal</span></label>
+          <label><input type="radio" name="level" value="hard"><span>Hard</span></label>
+        </div>
+        <button class="cbtn blue" type="button" data-act="pass">Pass &amp; Play <small>2 players, 1 phone</small></button>
+        <label class="switch" for="fan"><input type="checkbox" id="fan"><span class="track"></span>Desk fan on extra points<em>HARD</em></label>
+      </div>
+
+      <div class="panel" id="pgKick" role="tabpanel" aria-labelledby="tabKick" hidden>
+        <h2 class="hand">Kicking</h2>
+        <button class="cbtn teal" type="button" data-act="challenge">Fan 10 <small id="best">10 kicks</small></button>
+        <button class="cbtn red" type="button" data-act="streak">Kick Streak <small id="sbest">Till you miss</small></button>
+        <button class="cbtn plum" type="button" data-act="bomb">Long Bomb <small id="bbest">3 strikes</small></button>
+        <p class="scrawl">Beat your best, then dare a friend to beat it.</p>
+      </div>
+
+      <div class="panel" id="pgExtras" role="tabpanel" aria-labelledby="tabExtras" hidden>
+        <h2 class="hand">Extras</h2>
+        <button class="cbtn plain" type="button" id="lbOpen" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v6a5 5 0 0 1-10 0z M7 5H3.5a3.5 3.5 0 0 0 4 4.4 M17 5h3.5a3.5 3.5 0 0 1-4 4.4 M12 14v4 M8 21h8 M9.5 18h5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Leaderboards</button>
+        <button class="cbtn plain" type="button" id="skinsOpen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 21 19H3z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M7.5 14h9M9.6 10.3h4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Skins<em id="skinsNew" hidden>NEW</em></button>
+        <button class="cbtn plain" type="button" id="fbOpen" hidden>Send feedback</button>
+        <details class="how">
       <summary>How to play</summary>
       <ul>
         <li>Swipe to flick. Tap the ball to nudge it forward a little.</li>
@@ -388,10 +452,9 @@ body{
       </ul>
       <button class="cbtn plain" type="button" id="tutBtn">Play the tutorial</button>
     </details>
-    <button class="cbtn plain" type="button" id="skinsOpen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 21 19H3z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M7.5 14h9M9.6 10.3h4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Skins<em id="skinsNew" hidden>NEW</em></button>
-    <button class="cbtn plain" type="button" id="lbOpen" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v6a5 5 0 0 1-10 0z M7 5H3.5a3.5 3.5 0 0 0 4 4.4 M17 5h3.5a3.5 3.5 0 0 1-4 4.4 M12 14v4 M8 21h8 M9.5 18h5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Leaderboards</button>
-    <button class="cbtn plain" type="button" id="fbOpen" hidden>Send feedback</button>
-    <p class="credit">A <a href="https://dahvio.com">DahVio Studios</a> game · iPhone app in the works · <a href="https://dahvio.com/paper-football-privacy">Privacy</a></p>
+        <p class="credit">A <a href="https://dahvio.com">DahVio Studios</a> game · iPhone app in the works · <a href="https://dahvio.com/paper-football-privacy">Privacy</a></p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1025,6 +1088,7 @@ function prompt() {
 function openMenu() {
   paused = true;
   $('resume').hidden = !(G && !G.over);
+  if (G && G.over) setTab(TAB_OF[G.mode] || (G.mode === 'cpu' || G.mode === 'pass' || G.mode === 'daily' ? 'play' : menuTab));
   hideEnd();
   $('again').hidden = !canAgain();
   if (canAgain()) $('againSm').textContent = AGAIN[G.mode].label;
@@ -1440,6 +1504,27 @@ $('endAgain').addEventListener('click', () => playAgain('end_bar'));
 $('again').addEventListener('click', () => playAgain('menu'));
 $('endMenu').addEventListener('click', () => { hideEnd(); openMenu(); });
 $('endChal').addEventListener('click', shareRun);
+
+// ---------- menu tabs ----------
+// Opens on the tab that fits what you just played; otherwise wherever you left it.
+let menuTab = 'play';
+const TAB_OF = { challenge: 'kick', streak: 'kick', bomb: 'kick' };
+function setTab(t, focus) {
+  menuTab = t;
+  document.querySelectorAll('.nbTabs [role=tab]').forEach(b => {
+    const on = b.dataset.tab === t;
+    b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1;
+    $(b.getAttribute('aria-controls')).hidden = !on;
+    if (on && focus) b.focus();
+  });
+}
+document.querySelectorAll('.nbTabs [role=tab]').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+$('menu').querySelector('.nbTabs').addEventListener('keydown', e => {
+  const order = ['play', 'kick', 'extras'], i = order.indexOf(menuTab);
+  const n = e.key === 'ArrowRight' ? (i + 1) % 3 : e.key === 'ArrowLeft' ? (i + 2) % 3 : e.key === 'Home' ? 0 : e.key === 'End' ? 2 : -1;
+  if (n < 0) return;
+  e.preventDefault(); setTab(order[n], true);
+});
 
 // ---------- sound ----------
 let AC = null;
