@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navy PRT Calculator 2026 – OPNAVINST 6110.1L Score &amp; Category</title>
     <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
-    <meta name="description" content="Free Navy PRT calculator using OPNAVINST 6110.1L standards. Enter push-ups, plank, and cardio for your event scores, overall average, and PRT category instantly.">
+    <meta name="description" content="Free Navy PRT calculator for OPNAVINST 6110.1L. Enter push-ups, forearm plank, and your 1.5-mile run, 2 km row, or swim time to get event scores, your PRT average, and category (Outstanding to Satisfactory).">
+    <meta name="apple-itunes-app" content="app-id=6761449605">
     <meta name="keywords" content="navy prt calculator, navy physical readiness test, OPNAVINST 6110.1L, navy fitness test calculator, navy prt score, navy prt scoring chart, navy prt score chart 2026, navy prt category">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://dahvio.com/navy-prt-calculator-2026">
@@ -288,6 +289,45 @@
             border-color: var(--accent);
             color: var(--accent);
         }
+
+        /* Web PRT calculator */
+        .prtc-card { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 0.75rem; padding: 1.5rem; margin-top: 1.5rem; }
+        .prtc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+        .prtc label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.85rem; color: var(--dim); }
+        .prtc label span { color: var(--dim); font-weight: 400; font-size: 0.8rem; }
+        .prtc select, .prtc input:not([type=checkbox]) { width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--border-light); border-radius: 0.4rem; padding: 0.7rem 0.8rem; font: inherit; font-size: 1rem; }
+        .prtc select:focus, .prtc input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+        .prtc-row { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) 6rem; gap: 0.75rem; align-items: end; padding: 0.75rem 0; border-top: 1px solid var(--border); }
+        .prtc-name { color: var(--text) !important; font-size: 0.95rem !important; }
+        .prtc-pts { font-family: var(--mono, monospace); font-size: 1.05rem; text-align: right; color: var(--dim); padding-bottom: 0.7rem; }
+        .prtc-pts.ok { color: var(--text); }
+        .prtc-pts.low { color: #e0794c; }
+        .prtc-pts.bad { color: #e0794c; font-size: 0.8rem; }
+        .prtc-check { flex-direction: row !important; align-items: center; gap: 0.5rem !important; padding-top: 0.5rem; border-top: 1px solid var(--border); }
+        .prtc-check input { width: 1.1rem; height: 1.1rem; accent-color: var(--accent); }
+        .prtc-result { margin-top: 1rem; padding-top: 1.25rem; border-top: 1px solid var(--border-light); }
+        .prtc-hint { color: var(--dim); font-size: 0.95rem; }
+        .prtc-total { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1.25rem; }
+        .prtc-total strong { font-size: 2.4rem; font-family: var(--mono, monospace); line-height: 1; }
+        .prtc-badge { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.85rem; padding: 0.35rem 0.75rem; border-radius: 0.35rem; }
+        .prtc-badge.good { background: rgba(75, 160, 90, 0.2); color: #9fd27f; border: 1px solid #3f7a46; }
+        .prtc-badge.bad { background: rgba(224, 121, 76, 0.15); color: #f0a07c; border: 1px solid #a5502c; }
+        .prtc-why { margin-top: 0.6rem; color: var(--dim); font-size: 0.95rem; }
+        .prtc-next { margin-top: 1rem; display: flex; gap: 1rem; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-radius: 0.6rem; background: rgba(47, 111, 208, 0.08); border: 1px solid rgba(47, 111, 208, 0.5); color: var(--dim); }
+        .prtc-next p { margin: 0; }
+        .prtc-next strong { color: var(--text); }
+        .prtc-next .btn-primary { white-space: nowrap; flex-shrink: 0; padding: 0.7rem 1.25rem; font-size: 0.95rem; }
+        .prtc-upsell { margin-top: 1.25rem; display: flex; gap: 1.25rem; align-items: center; justify-content: space-between; border: 1px solid var(--accent); border-radius: 0.75rem; padding: 1.25rem 1.5rem; background: rgba(47, 111, 208, 0.06); color: var(--dim); }
+        .prtc-upsell strong { color: var(--text); display: block; margin-bottom: 0.25rem; }
+        .prtc-upsell .btn-primary { white-space: nowrap; flex-shrink: 0; }
+        .prtc-note { margin-top: 1rem; font-size: 0.85rem; color: var(--dim); }
+        @media (max-width: 768px) {
+            .prtc-row { grid-template-columns: minmax(0, 1fr) 6rem; }
+            .prtc-row .prtc-name { grid-column: 1 / -1; }
+            .prtc-upsell, .prtc-next { flex-direction: column; align-items: stretch; }
+            .prtc-upsell .btn-primary, .prtc-next .btn-primary { justify-content: center; }
+        }
+
 
         .hero-stats {
             display: flex;
@@ -776,18 +816,20 @@
         <div class="container">
             <div class="hero-eyebrow">OPNAVINST 6110.1L · 2026 Standards</div>
             <h1>Navy PRT Calculator<br><span class="highlight">(2026 Standards)</span></h1>
-            <p class="hero-seo-hook">Looking for an accurate Navy PRT calculator based on OPNAVINST 6110.1L? This app calculates your exact score instantly for all events and age groups.</p>
+            <p class="hero-seo-hook">Score your Navy PRT right here: enter push-ups, plank, and your run, row, or swim time below for your event scores, average, and category. Want to save results and compare cardio options? Get the iOS app.</p>
             <p class="hero-subtitle">The Navy Physical Readiness Test (PRT) is a required fitness benchmark for every active duty and reserve Sailor. Know your exact score—without cross-referencing charts.</p>
             <div class="hero-cta-group">
-                <a href="https://apps.apple.com/us/app/navy-prt-score-calculator-2026/id6761449605" target="_blank" rel="noopener" class="btn-primary">
-                    Download on the App Store
+                <a href="#calculator" class="btn-primary">
+                    Calculate your score ↓
                 </a>
-                <a href="#faq" class="btn-secondary">Learn More</a>
+                <a href="https://apps.apple.com/us/app/navy-prt-score-calculator-2026/id6761449605" target="_blank" rel="noopener" class="btn-secondary">
+                    Get the iOS app
+                </a>
             </div>
             <div class="hero-stats">
                 <div class="stat">
-                    <span class="stat-value">300</span>
-                    <span class="stat-label">Max PRT Score</span>
+                    <span class="stat-value">100</span>
+                    <span class="stat-label">Max PRT Average</span>
                 </div>
                 <div class="stat">
                     <span class="stat-value">3</span>
@@ -798,6 +840,60 @@
                     <span class="stat-label">Charts Needed</span>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Web PRT calculator. Thresholds come from the iOS app's scorer export;
+         saving, what-if, cardio comparison and the BCA check stay in the app. -->
+    <section class="section prtc" id="calculator" aria-labelledby="prtc-title">
+        <div class="container">
+            <div class="section-label">Score Your PRT</div>
+            <h2 class="section-title" id="prtc-title">Navy PRT score calculator</h2>
+            <p class="section-intro">Enter your push-ups, forearm plank, and cardio time for your event scores, PRT average, and category. Uses the OPNAVINST 6110.1L scoring tables for your age group and sex.</p>
+
+            <div class="prtc-card">
+                <div class="prtc-grid">
+                    <label>Sex
+                        <select id="prtc-sex"><option value="M">Male</option><option value="F">Female</option></select>
+                    </label>
+                    <label>Age
+                        <input id="prtc-age" inputmode="numeric" placeholder="e.g. 26" autocomplete="off">
+                    </label>
+                </div>
+                <div class="prtc-rows">
+                    <div class="prtc-row">
+                        <label class="prtc-name" for="prtc-push">Push-ups <span>2 min, reps</span></label>
+                        <input id="prtc-push" inputmode="numeric" placeholder="reps" autocomplete="off">
+                        <output class="prtc-pts" id="prtc-pts-push"></output>
+                    </div>
+                    <div class="prtc-row">
+                        <label class="prtc-name" for="prtc-plank">Forearm plank <span>m:ss</span></label>
+                        <input id="prtc-plank" inputmode="numeric" placeholder="e.g. 2:45" autocomplete="off">
+                        <output class="prtc-pts" id="prtc-pts-plank"></output>
+                    </div>
+                    <div class="prtc-row">
+                        <label class="prtc-name">Cardio
+                            <select id="prtc-cardio"><option value="run">1.5-mile run</option><option value="row">2 km row</option><option value="swim500">500-yd swim</option><option value="swim450">450-m swim</option></select>
+                        </label>
+                        <input id="prtc-time" inputmode="numeric" placeholder="mm:ss" autocomplete="off" aria-label="Cardio time">
+                        <output class="prtc-pts" id="prtc-pts-cardio"></output>
+                    </div>
+                    <label class="prtc-check" id="prtc-alt-wrap"><input type="checkbox" id="prtc-alt"> Testing above 5,000 ft (high-altitude run table)</label>
+                </div>
+                <div class="prtc-result" id="prtc-result" aria-live="polite">
+                    <p class="prtc-hint">Enter all three events to see your PRT average and category.</p>
+                </div>
+            </div>
+
+            <div class="prtc-upsell">
+                <div>
+                    <strong>Save your PRT and find your best cardio event.</strong>
+                    This page scores one test. The Navy PRT Calculator app saves every result with trends, runs what-if scenarios,
+                    compares run, row, and swim side by side, and checks your BCA, including the high-performance exemption.
+                </div>
+                <a href="https://apps.apple.com/us/app/navy-prt-score-calculator-2026/id6761449605" target="_blank" rel="noopener" class="btn-primary" id="prtc-app-cta">Get the iOS app</a>
+            </div>
+            <p class="prtc-note">Scoring follows OPNAVINST 6110.1L Tables 4-1 and 4-2, the same tables as the iOS app. Each event scores 45 to 100; anything below the Probationary (45-point) standard fails the event and the PRT. The category comes from the average of the three events. Assumes you pass the Body Composition Assessment. Unofficial tool: your command's official results are the record.</p>
         </div>
     </section>
 
@@ -821,7 +917,7 @@
                 <div class="feature-card">
                     <div class="feature-icon">🏊</div>
                     <div class="feature-title">All Cardio Events Covered</div>
-                    <p class="feature-desc">Run, swim, bike, or row—all four cardio alternatives are supported with the correct scoring tables for each event.</p>
+                    <p class="feature-desc">1.5-mile run, 2 km row, 500-yd swim, or 450-m swim—each cardio option is scored with its own OPNAVINST 6110.1L table.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🎯</div>
@@ -864,7 +960,7 @@
                 <div class="event-card">
                     <div class="event-num">03</div>
                     <div class="event-name">Cardio</div>
-                    <div class="event-options">1.5-Mile Run, Swim, Bike, or Row</div>
+                    <div class="event-options">1.5-Mile Run, 2 km Row, or Swim</div>
                     <span class="event-max">100 pts max</span>
                 </div>
             </div>
@@ -948,7 +1044,7 @@
             <div class="faq-list">
                 <div class="faq-item">
                     <div class="faq-q">What is the Navy PRT?</div>
-                    <p class="faq-a">The Navy Physical Readiness Test (PRT) is a mandatory fitness assessment for all active duty and reserve Sailors. It consists of push-ups, a plank hold, and a cardio event (1.5-mile run, 500-yard swim, stationary bike, or 2,000-meter row). Each event is scored on a 100-point scale.</p>
+                    <p class="faq-a">The Navy Physical Readiness Test (PRT) is a mandatory fitness assessment for all active duty and reserve Sailors. It consists of push-ups, a forearm plank, and a cardio event (1.5-mile run, 2,000-meter row, 500-yard swim, or 450-meter swim). Each event is scored on a 100-point scale.</p>
                 </div>
                 <div class="faq-item">
                     <div class="faq-q">What is a good Navy PRT score?</div>
@@ -964,7 +1060,7 @@
                 </div>
                 <div class="faq-item">
                     <div class="faq-q">What cardio alternatives are available for the Navy PRT?</div>
-                    <p class="faq-a">Sailors may choose from four cardio events: the 1.5-mile run, 500-yard swim, 12-minute stationary bike, or 2,000-meter row. Each alternative has its own scoring table per OPNAVINST 6110.1L. The calculator handles all four options.</p>
+                    <p class="faq-a">The calculator scores four cardio options: the 1.5-mile run, 2,000-meter row, 500-yard swim, and 450-meter swim. Each has its own scoring table per OPNAVINST 6110.1L, and the run has a separate table for testing above 5,000 feet.</p>
                 </div>
                 <div class="faq-item">
                     <div class="faq-q">Is this calculator affiliated with the Navy?</div>
@@ -1070,6 +1166,104 @@
             <p>&copy; 2026 DahVio Studios. Built in Long Beach, California.</p>
         </div>
     </footer>
+
+
+    <script src="/js/navy-prt-scoring.js"></script>
+    <script>
+    (function () {
+        var APP = 'https://apps.apple.com/us/app/navy-prt-score-calculator-2026/id6761449605';
+        var $ = function (id) { return document.getElementById(id); };
+        var root = $('calculator');
+        if (!root || !window.NAVYPRT) return;
+        var el = { sex: $('prtc-sex'), age: $('prtc-age'), push: $('prtc-push'), plank: $('prtc-plank'), cardio: $('prtc-cardio'),
+            time: $('prtc-time'), alt: $('prtc-alt'), altWrap: $('prtc-alt-wrap'), result: $('prtc-result'), upsell: root.querySelector('.prtc-upsell') };
+        var data = null, completed = false;
+        var NAMES = { run: '1.5-mile run', row: '2 km row', swim500: '500-yd swim', swim450: '450-m swim' };
+        try {
+            var saved = JSON.parse(localStorage.getItem('prtc-who') || '{}');
+            if (saved.sex) el.sex.value = saved.sex;
+            if (saved.age) el.age.value = saved.age;
+            if (saved.cardio) el.cardio.value = saved.cardio;
+            if (saved.alt) el.alt.checked = true;
+        } catch (e) {}
+
+        function ga(name, params) { try { if (window.gtag) gtag('event', name, params || {}); } catch (e) {} }
+        function int(s) { s = s.trim(); if (!s) return null; return /^\d{1,3}$/.test(s) ? +s : NaN; }
+        function time(s) {
+            s = s.trim(); if (!s) return null;
+            var m = s.match(/^(\d{1,2})[:.](\d{1,2})$/);
+            if (m) return +m[2] > 59 ? NaN : +m[1] * 60 + +m[2];
+            if (/^\d{3,4}$/.test(s)) { var ss = +s.slice(-2); return ss > 59 ? NaN : +s.slice(0, -2) * 60 + ss; }
+            return NaN;
+        }
+        function show(out, v, pts) {
+            out.className = 'prtc-pts';
+            if (v === null) { out.textContent = ''; return; }
+            if (isNaN(v)) { out.textContent = 'check entry'; out.className += ' bad'; return; }
+            out.textContent = pts ? pts + ' pts' : 'below min';
+            out.className += pts ? ' ok' : ' low';
+        }
+
+        function render() {
+            var run = el.cardio.value === 'run';
+            el.altWrap.style.display = run ? '' : 'none';
+            try { localStorage.setItem('prtc-who', JSON.stringify({ sex: el.sex.value, age: el.age.value, cardio: el.cardio.value, alt: el.alt.checked })); } catch (e) {}
+            if (!data) return;
+            var age = int(el.age.value), ageOk = age !== null && !isNaN(age) && age >= 17 && age <= 80;
+            var push = int(el.push.value), plank = time(el.plank.value), secs = time(el.time.value);
+            var r = NAVYPRT.score(data, { sex: el.sex.value, age: ageOk ? age : 25, pushups: push || 0, plankSecs: plank || 0,
+                cardio: el.cardio.value, cardioSecs: secs || 99999, highAltitude: run && el.alt.checked });
+            show($('prtc-pts-push'), push, r.pushups);
+            show($('prtc-pts-plank'), plank, r.plank);
+            show($('prtc-pts-cardio'), secs, r.cardio);
+            el.upsell.style.display = '';
+
+            if ([push, plank, secs].some(function (v) { return v !== null && isNaN(v); }) || (age !== null && !ageOk)) {
+                el.result.innerHTML = '<p class="prtc-hint">Check the highlighted entry. Age 17–80; push-ups as reps; times as minutes:seconds (2:45, 11:30).</p>';
+                return;
+            }
+            var missing = [];
+            if (!ageOk) missing.push('age');
+            if (push === null) missing.push('push-ups');
+            if (plank === null) missing.push('plank');
+            if (secs === null) missing.push(NAMES[el.cardio.value]);
+            if (missing.length) {
+                el.result.innerHTML = '<p class="prtc-hint">Add your ' + missing.join(', ') + ' to see your PRT average and category.</p>';
+                return;
+            }
+
+            var pass = r.category !== 'Failure';
+            var avg = Math.round(r.average * 10) / 10;
+            var label = pass ? r.category + ' – ' + r.level : 'Failure';
+            var why = pass
+                ? 'Average of ' + r.pushups + ', ' + r.plank + ' and ' + r.cardio + '. ' + (r.category === 'Outstanding' ? 'Top category.' : 'The next category starts at ' + (Math.floor(r.average / 5) * 5 + 5) + '.')
+                : 'Below the Probationary standard on ' + r.failedEvents.join(', ') + '. Failing any one event fails the PRT, whatever the other scores.';
+            var weakest = [['push-ups', r.pushups], ['plank', r.plank], [NAMES[el.cardio.value], r.cardio]].sort(function (a, b) { return a[1] - b[1]; })[0][0];
+            var cta = pass
+                ? '<strong>Save this ' + label + ' and track it to your next PRT.</strong> The app keeps your history, its what-if view shows what more ' + weakest + ' is worth, and it compares run, row, and swim to find your best cardio event.'
+                : '<strong>See exactly what it takes to pass.</strong> The app\'s what-if view shows the reps or seconds you need on your ' + weakest + ', and it compares cardio options in case another event scores better for you.';
+            el.result.innerHTML =
+                '<div class="prtc-total"><strong>' + (pass ? avg : '–') + '</strong><span>' + (pass ? 'PRT average' : '') + '</span>' +
+                '<span class="prtc-badge ' + (pass ? 'good' : 'bad') + '">' + label + '</span></div>' +
+                '<p class="prtc-why">' + why + '</p>' +
+                '<div class="prtc-next"><p>' + cta + '</p><a href="' + APP + '" target="_blank" rel="noopener" class="btn-primary prtc-next-cta">Get the iOS app</a></div>';
+            el.upsell.style.display = 'none';
+            if (!completed) { completed = true; ga('prt_calc_complete', { category: r.category, cardio: el.cardio.value }); }
+        }
+
+        root.addEventListener('input', render);
+        root.addEventListener('change', render);
+        $('prtc-app-cta').addEventListener('click', function () { ga('prt_calc_app_click', { completed: completed, placement: 'box' }); });
+        el.result.addEventListener('click', function (e) {
+            if (e.target.closest && e.target.closest('.prtc-next-cta')) ga('prt_calc_app_click', { completed: true, placement: 'result' });
+        });
+        render();
+        fetch('/data/navy-prt-scoring-2026.json')
+            .then(function (r) { return r.json(); })
+            .then(function (d) { data = d; render(); })
+            .catch(function () { el.result.innerHTML = '<p class="prtc-hint">The calculator couldn\'t load its scoring tables. Refresh to try again, or use the iOS app.</p>'; });
+    })();
+    </script>
 
 </body>
 </html>
