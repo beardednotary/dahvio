@@ -316,6 +316,11 @@
         .aftc-badge.pass { background: rgba(75, 122, 46, 0.25); color: #9fd27f; border: 1px solid #4b7a2e; }
         .aftc-badge.fail { background: rgba(224, 121, 76, 0.15); color: #f0a07c; border: 1px solid #a5502c; }
         .aftc-why { margin-top: 0.6rem; color: var(--dim); font-size: 0.95rem; }
+        .aftc-next { margin-top: 1rem; display: flex; gap: 1rem; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-radius: 0.6rem; background: rgba(201, 162, 39, 0.08); border: 1px solid rgba(201, 162, 39, 0.45); color: var(--dim); }
+        .aftc-next p { margin: 0; }
+        .aftc-next strong { color: var(--text); }
+        .aftc-next .btn-primary { white-space: nowrap; flex-shrink: 0; padding: 0.7rem 1.25rem; font-size: 0.95rem; }
+        @media (max-width: 768px) { .aftc-next { flex-direction: column; align-items: stretch; } .aftc-next .btn-primary { justify-content: center; } }
         .aftc-upsell { margin-top: 1.25rem; display: flex; gap: 1.25rem; align-items: center; justify-content: space-between; border: 1px solid var(--accent); border-radius: 0.75rem; padding: 1.25rem 1.5rem; background: rgba(201, 162, 39, 0.06); color: var(--dim); }
         .aftc-upsell strong { color: var(--text); display: block; margin-bottom: 0.25rem; }
         .aftc-upsell .btn-primary { white-space: nowrap; flex-shrink: 0; }
@@ -1223,6 +1228,7 @@
         var data = null, completed = false;
         var $ = function (id) { return document.getElementById(id); };
         var sex = $('aftc-sex'), age = $('aftc-age'), track = $('aftc-track'), result = $('aftc-result');
+        var upsell = document.querySelector('#calculator .aftc-upsell');
         if (!sex) return;
 
         AGES.forEach(function (a) { var o = document.createElement('option'); o.value = a; o.textContent = a; age.appendChild(o); });
@@ -1257,6 +1263,7 @@
         function render() {
             try { localStorage.setItem('aftc-who', JSON.stringify({ sex: sex.value, age: age.value, track: track.value })); } catch (e) {}
             if (!data) return;
+            upsell.style.display = '';
             var combat = track.value === 'combat';
             var col = (combat ? 'M' : sex.value) + '_' + age.value;
             var pts = {}, filled = 0, invalid = 0;
@@ -1290,16 +1297,28 @@
             if (low.length) why.push('Below the 60-point minimum: ' + low.join(', ') + '.');
             if (total < need) why.push((need - total) + ' points short of the ' + need + ' total for the ' + (combat ? 'combat' : 'general') + ' standard.');
             if (pass) why.push(total - need + ' points above the ' + need + ' minimum. Your lowest event is ' + NAMES[weakest] + ' (' + pts[weakest] + ').');
+            // Post-score CTA, written around this result.
+            var cta = pass
+                ? '<strong>Save this ' + total + ' and track it to your next test.</strong> The app keeps your score history and progress charts, and its what-if view shows how many more ' +
+                  (data.events[weakest].unit === 'time' ? 'seconds' : (weakest === 'MDL' ? 'pounds' : 'reps')) + ' on your ' + NAMES[weakest].toLowerCase() + ' gets you the next 10 points.'
+                : '<strong>See exactly what it takes to pass.</strong> The app\'s what-if view shows how much more you need on your ' + NAMES[weakest].toLowerCase() +
+                  ' (' + pts[weakest] + ' pts) and every other event to clear ' + need + ', then tracks your progress test to test.';
             result.innerHTML =
                 '<div class="aftc-total"><strong>' + total + '</strong><span>of 500</span>' +
                 '<span class="aftc-badge ' + (pass ? 'pass' : 'fail') + '">' + (pass ? 'Pass' : 'Fail') + '</span></div>' +
-                '<p class="aftc-why">' + why.join(' ') + '</p>';
+                '<p class="aftc-why">' + why.join(' ') + '</p>' +
+                '<div class="aftc-next"><p>' + cta + '</p>' +
+                '<a href="https://apps.apple.com/us/app/army-aft-calculator-2026/id6761638851" target="_blank" rel="noopener" class="btn-primary aftc-next-cta">Get the iOS app</a></div>';
+            upsell.style.display = 'none'; // the post-score CTA replaces the generic box
             if (!completed) { completed = true; track_('aft_calc_complete', { pass: pass, track: track.value }); }
         }
 
         document.getElementById('calculator').addEventListener('input', render);
         document.getElementById('calculator').addEventListener('change', render);
-        $('aftc-app-cta').addEventListener('click', function () { track_('aft_calc_app_click', { completed: completed }); });
+        $('aftc-app-cta').addEventListener('click', function () { track_('aft_calc_app_click', { completed: completed, placement: 'box' }); });
+        result.addEventListener('click', function (e) {
+            if (e.target.closest && e.target.closest('.aftc-next-cta')) track_('aft_calc_app_click', { completed: true, placement: 'result' });
+        });
 
         fetch('/data/aft-scoring-2025.json')
             .then(function (r) { return r.json(); })
