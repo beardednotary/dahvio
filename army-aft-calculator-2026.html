@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Army AFT Calculator 2026 – FM 7-22 Score Chart &amp; Standards</title>
+    <title>Army AFT Calculator 2026 – Score All 5 Events (General &amp; Combat)</title>
+    <meta name="apple-itunes-app" content="app-id=6761638851">
     <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
-    <meta name="description" content="Free Army AFT calculator using FM 7-22 standards. Enter all 5 events — deadlift, push-ups, sprint-drag-carry, plank, and 2-mile run — for your event scores and total instantly.">
+    <meta name="description" content="Free Army AFT calculator for the June 2025 scoring scales. Enter your deadlift, push-ups, sprint-drag-carry, plank and 2-mile run to get event points, your total and pass/fail for the General (300) or Combat (350) standard.">
     <meta name="keywords" content="army aft calculator, army aft calculator 2026, army fitness test calculator, FM 7-22, army aft score chart 2026, army aft standards 2026, aft deadlift scoring, ACFT calculator">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://dahvio.com/army-aft-calculator-2026">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Army AFT Calculator 2026 – FM 7-22 Score Chart &amp; Standards">
+    <meta property="og:title" content="Army AFT Calculator 2026 – Score All 5 Events">
     <meta property="og:description" content="Free Army AFT calculator. Score all 5 events — deadlift, push-ups, sprint-drag-carry, plank, and 2-mile run — against the FM 7-22 standards.">
     <meta property="og:image" content="army-og-image.png">
     <meta property="og:type" content="website">
@@ -290,6 +291,46 @@
         .btn-secondary:hover {
             border-color: var(--accent);
             color: var(--accent);
+        }
+
+        /* Web AFT calculator */
+        .aftc-card { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 0.75rem; padding: 1.5rem; margin-top: 1.5rem; }
+        .aftc-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-bottom: 1.25rem; }
+        .aftc label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.85rem; color: var(--dim); }
+        .aftc label span { color: var(--dim); font-weight: 400; }
+        .aftc select, .aftc input { width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--border-light); border-radius: 0.4rem; padding: 0.7rem 0.8rem; font: inherit; font-size: 1rem; }
+        .aftc select:focus, .aftc input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+        .aftc-events { display: grid; gap: 0.75rem; }
+        .aftc-event { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) 6.5rem; gap: 0.75rem; align-items: center; padding: 0.6rem 0; border-top: 1px solid var(--border); }
+        .aftc-event label { color: var(--text); font-size: 0.95rem; flex-direction: row; gap: 0.4rem; align-items: baseline; flex-wrap: wrap; }
+        .aftc-event label span { font-size: 0.8rem; }
+        .aftc-pts { font-family: var(--mono, monospace); font-size: 1.05rem; text-align: right; color: var(--dim); }
+        .aftc-pts.ok { color: var(--text); }
+        .aftc-pts.low { color: #e0794c; }
+        .aftc-pts.bad { color: #e0794c; font-size: 0.8rem; }
+        .aftc-result { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border-light); }
+        .aftc-hint { color: var(--dim); font-size: 0.95rem; }
+        .aftc-total { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1.25rem; }
+        .aftc-total strong { font-size: 2.4rem; font-family: var(--mono, monospace); line-height: 1; }
+        .aftc-badge { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.85rem; padding: 0.35rem 0.75rem; border-radius: 0.35rem; }
+        .aftc-badge.pass { background: rgba(75, 122, 46, 0.25); color: #9fd27f; border: 1px solid #4b7a2e; }
+        .aftc-badge.fail { background: rgba(224, 121, 76, 0.15); color: #f0a07c; border: 1px solid #a5502c; }
+        .aftc-why { margin-top: 0.6rem; color: var(--dim); font-size: 0.95rem; }
+        .aftc-next { margin-top: 1rem; display: flex; gap: 1rem; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-radius: 0.6rem; background: rgba(201, 162, 39, 0.08); border: 1px solid rgba(201, 162, 39, 0.45); color: var(--dim); }
+        .aftc-next p { margin: 0; }
+        .aftc-next strong { color: var(--text); }
+        .aftc-next .btn-primary { white-space: nowrap; flex-shrink: 0; padding: 0.7rem 1.25rem; font-size: 0.95rem; }
+        @media (max-width: 768px) { .aftc-next { flex-direction: column; align-items: stretch; } .aftc-next .btn-primary { justify-content: center; } }
+        .aftc-upsell { margin-top: 1.25rem; display: flex; gap: 1.25rem; align-items: center; justify-content: space-between; border: 1px solid var(--accent); border-radius: 0.75rem; padding: 1.25rem 1.5rem; background: rgba(201, 162, 39, 0.06); color: var(--dim); }
+        .aftc-upsell strong { color: var(--text); display: block; margin-bottom: 0.25rem; }
+        .aftc-upsell .btn-primary { white-space: nowrap; flex-shrink: 0; }
+        .aftc-note { margin-top: 1rem; font-size: 0.85rem; color: var(--dim); }
+        @media (max-width: 768px) {
+            .aftc-row { grid-template-columns: 1fr; }
+            .aftc-event { grid-template-columns: minmax(0, 1fr) 6rem; }
+            .aftc-event label { grid-column: 1 / -1; }
+            .aftc-upsell { flex-direction: column; align-items: stretch; text-align: left; }
+            .aftc-upsell .btn-primary { justify-content: center; }
         }
 
         .hero-stats {
@@ -794,13 +835,15 @@
         <div class="container">
             <div class="hero-eyebrow">FM 7-22 · 2026 Standards</div>
             <h1>Army AFT Calculator<br><span class="highlight">(2026 Standards)</span></h1>
-            <p class="hero-seo-hook">Looking for an accurate Army AFT calculator based on FM 7-22? This app calculates your exact score across all five events instantly—for both General and Combat Fitness Track.</p>
+            <p class="hero-seo-hook">Score your Army AFT right here: enter all five events below for your exact points, total, and pass/fail on the General or Combat standard. Want to save scores and track progress? Get the iOS app.</p>
             <p class="hero-subtitle">The Army Fitness Test (AFT) is a comprehensive, five-event assessment that measures the functional fitness of every Soldier. Know your exact score—without cross-referencing scoring scales.</p>
             <div class="hero-cta-group">
-                <a href="https://apps.apple.com/us/app/army-aft-calculator-2026/id6761638851" target="_blank" rel="noopener" class="btn-primary">
-                    Download on the App Store
+                <a href="#calculator" class="btn-primary">
+                    Calculate your score ↓
                 </a>
-                <a href="#faq" class="btn-secondary">Learn More</a>
+                <a href="https://apps.apple.com/us/app/army-aft-calculator-2026/id6761638851" target="_blank" rel="noopener" class="btn-secondary">
+                    Get the iOS app
+                </a>
             </div>
             <div class="hero-stats">
                 <div class="stat">
@@ -816,6 +859,75 @@
                     <span class="stat-label">Charts Needed</span>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Web calculator: scores all 5 events in the browser. Saving, history,
+         what-if and the event stopwatch stay in the iOS app (upsell below). -->
+    <section class="section aftc" id="calculator" aria-labelledby="aftc-title">
+        <div class="container">
+            <div class="section-label">Score Your AFT</div>
+            <h2 class="section-title" id="aftc-title">Army AFT score calculator</h2>
+            <p class="section-intro">Enter any event to see its points, or all five for your total and pass/fail. Uses the June 2025 AFT scoring scales for your age group and sex.</p>
+
+            <div class="aftc-card">
+                <div class="aftc-row aftc-who">
+                    <label>Sex
+                        <select id="aftc-sex"><option value="M">Male</option><option value="F">Female</option></select>
+                    </label>
+                    <label>Age group
+                        <select id="aftc-age"></select>
+                    </label>
+                    <label>Standard
+                        <select id="aftc-track">
+                            <option value="general">General (300 total)</option>
+                            <option value="combat">Combat MOS (350 total, sex-neutral)</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="aftc-events">
+                    <div class="aftc-event" data-ev="MDL">
+                        <label for="aftc-MDL">3-Rep Max Deadlift <span>lb</span></label>
+                        <input id="aftc-MDL" inputmode="numeric" placeholder="e.g. 250" autocomplete="off">
+                        <output class="aftc-pts" aria-live="polite"></output>
+                    </div>
+                    <div class="aftc-event" data-ev="HRP">
+                        <label for="aftc-HRP">Hand-Release Push-Up <span>reps</span></label>
+                        <input id="aftc-HRP" inputmode="numeric" placeholder="e.g. 40" autocomplete="off">
+                        <output class="aftc-pts" aria-live="polite"></output>
+                    </div>
+                    <div class="aftc-event" data-ev="SDC">
+                        <label for="aftc-SDC">Sprint-Drag-Carry <span>m:ss</span></label>
+                        <input id="aftc-SDC" inputmode="numeric" placeholder="e.g. 1:55" autocomplete="off">
+                        <output class="aftc-pts" aria-live="polite"></output>
+                    </div>
+                    <div class="aftc-event" data-ev="PLK">
+                        <label for="aftc-PLK">Plank <span>m:ss</span></label>
+                        <input id="aftc-PLK" inputmode="numeric" placeholder="e.g. 2:30" autocomplete="off">
+                        <output class="aftc-pts" aria-live="polite"></output>
+                    </div>
+                    <div class="aftc-event" data-ev="2MR">
+                        <label for="aftc-2MR">2-Mile Run <span>mm:ss</span></label>
+                        <input id="aftc-2MR" inputmode="numeric" placeholder="e.g. 16:45" autocomplete="off">
+                        <output class="aftc-pts" aria-live="polite"></output>
+                    </div>
+                </div>
+
+                <div class="aftc-result" id="aftc-result" aria-live="polite">
+                    <p class="aftc-hint">Enter all five events to see your total and pass/fail.</p>
+                </div>
+            </div>
+
+            <div class="aftc-upsell">
+                <div>
+                    <strong>Save this score and see where to gain points.</strong>
+                    The free web calculator scores one test. The Army AFT Calculator app keeps your history and progress charts,
+                    runs what-if scenarios (how many more reps or seconds for the next 10 points), and times your events with a built-in stopwatch.
+                </div>
+                <a href="https://apps.apple.com/us/app/army-aft-calculator-2026/id6761638851" target="_blank" rel="noopener" class="btn-primary" id="aftc-app-cta">Get the iOS app</a>
+            </div>
+            <p class="aftc-note">Scores come from the U.S. Army AFT scoring scales (June 2025). Each event needs at least 60 points. The total needed to pass is 300 under the General standard, or 350 for designated combat MOSs, which are scored on a sex-neutral scale (the male table for your age group). Unofficial tool: your graded test of record is the official result.</p>
         </div>
     </section>
 
@@ -1103,6 +1215,117 @@
             <p>&copy; 2026 DahVio Studios. Built in Long Beach, California.</p>
         </div>
     </footer>
+
+    <script>
+    // Web AFT calculator. Scoring mirrors the iOS app: for each event, walk the
+    // official table from 100 points down and award the first level the result
+    // meets (>= for lb/reps/plank, <= for timed runs). Combat MOS = sex-neutral,
+    // scored on the male column for the age group.
+    (function () {
+        var AGES = ['17-21', '22-26', '27-31', '32-36', '37-41', '42-46', '47-51', '52-56', '57-61', '62+'];
+        var EVENTS = ['MDL', 'HRP', 'SDC', 'PLK', '2MR'];
+        var NAMES = { MDL: 'Deadlift', HRP: 'Push-ups', SDC: 'Sprint-drag-carry', PLK: 'Plank', '2MR': '2-mile run' };
+        var data = null, completed = false;
+        var $ = function (id) { return document.getElementById(id); };
+        var sex = $('aftc-sex'), age = $('aftc-age'), track = $('aftc-track'), result = $('aftc-result');
+        var upsell = document.querySelector('#calculator .aftc-upsell');
+        if (!sex) return;
+
+        AGES.forEach(function (a) { var o = document.createElement('option'); o.value = a; o.textContent = a; age.appendChild(o); });
+        age.value = '22-26';
+        try {
+            var saved = JSON.parse(localStorage.getItem('aftc-who') || '{}');
+            if (saved.sex) sex.value = saved.sex;
+            if (saved.age) age.value = saved.age;
+            if (saved.track) track.value = saved.track;
+        } catch (e) { /* storage unavailable: defaults are fine */ }
+
+        function track_(name, params) { try { if (window.gtag) gtag('event', name, params || {}); } catch (e) {} }
+
+        function parseTime(s) {
+            s = s.trim();
+            if (!s) return null;
+            var m = s.match(/^(\d{1,2})[:.](\d{1,2})$/);
+            if (m) return +m[2] > 59 ? NaN : +m[1] * 60 + +m[2];
+            if (/^\d{3,4}$/.test(s)) { var ss = +s.slice(-2); return ss > 59 ? NaN : +s.slice(0, -2) * 60 + ss; }
+            return NaN;
+        }
+        function parseNum(s) { s = s.trim(); if (!s) return null; return /^\d{1,4}$/.test(s) ? +s : NaN; }
+
+        function score(ev, col, v) {
+            var e = data.events[ev], rows = e.cols[col];
+            for (var i = 0; i < rows.length; i++) {
+                if (e.lowerIsBetter ? v <= rows[i][1] : v >= rows[i][1]) return rows[i][0];
+            }
+            return 0;
+        }
+
+        function render() {
+            try { localStorage.setItem('aftc-who', JSON.stringify({ sex: sex.value, age: age.value, track: track.value })); } catch (e) {}
+            if (!data) return;
+            upsell.style.display = '';
+            var combat = track.value === 'combat';
+            var col = (combat ? 'M' : sex.value) + '_' + age.value;
+            var pts = {}, filled = 0, invalid = 0;
+            EVENTS.forEach(function (ev) {
+                var input = $('aftc-' + ev), out = input.parentNode.querySelector('.aftc-pts');
+                var unit = data.events[ev].unit;
+                var v = unit === 'time' ? parseTime(input.value) : parseNum(input.value);
+                out.className = 'aftc-pts';
+                if (v === null) { out.textContent = ''; return; }
+                if (isNaN(v)) { out.textContent = unit === 'time' ? 'use m:ss' : 'number'; out.className += ' bad'; invalid++; return; }
+                var p = score(ev, col, v);
+                pts[ev] = p; filled++;
+                out.textContent = p + ' pts';
+                out.className += p < 60 ? ' low' : ' ok';
+            });
+
+            if (invalid) {
+                result.innerHTML = '<p class="aftc-hint">Check the highlighted entry. Times use minutes:seconds, like 1:55 or 16:45.</p>';
+                return;
+            }
+            if (filled < 5) {
+                result.innerHTML = '<p class="aftc-hint">' + (filled ?'Enter ' + (5 - filled) + ' more event' + (5 - filled === 1 ? '' : 's') + ' to see your total and pass/fail.' : 'Enter all five events to see your total and pass/fail.') + '</p>';
+                return;
+            }
+            var total = 0, low = [];
+            EVENTS.forEach(function (ev) { total += pts[ev]; if (pts[ev] < 60) low.push(NAMES[ev] + ' (' + pts[ev] + ')'); });
+            var need = combat ? 350 : 300;
+            var pass = !low.length && total >= need;
+            var weakest = EVENTS.slice().sort(function (a, b) { return pts[a] - pts[b]; })[0];
+            var why = [];
+            if (low.length) why.push('Below the 60-point minimum: ' + low.join(', ') + '.');
+            if (total < need) why.push((need - total) + ' points short of the ' + need + ' total for the ' + (combat ? 'combat' : 'general') + ' standard.');
+            if (pass) why.push(total - need + ' points above the ' + need + ' minimum. Your lowest event is ' + NAMES[weakest] + ' (' + pts[weakest] + ').');
+            // Post-score CTA, written around this result.
+            var cta = pass
+                ? '<strong>Save this ' + total + ' and track it to your next test.</strong> The app keeps your score history and progress charts, and its what-if view shows how many more ' +
+                  (data.events[weakest].unit === 'time' ? 'seconds' : (weakest === 'MDL' ? 'pounds' : 'reps')) + ' on your ' + NAMES[weakest].toLowerCase() + ' gets you the next 10 points.'
+                : '<strong>See exactly what it takes to pass.</strong> The app\'s what-if view shows how much more you need on your ' + NAMES[weakest].toLowerCase() +
+                  ' (' + pts[weakest] + ' pts) and every other event to clear ' + need + ', then tracks your progress test to test.';
+            result.innerHTML =
+                '<div class="aftc-total"><strong>' + total + '</strong><span>of 500</span>' +
+                '<span class="aftc-badge ' + (pass ? 'pass' : 'fail') + '">' + (pass ? 'Pass' : 'Fail') + '</span></div>' +
+                '<p class="aftc-why">' + why.join(' ') + '</p>' +
+                '<div class="aftc-next"><p>' + cta + '</p>' +
+                '<a href="https://apps.apple.com/us/app/army-aft-calculator-2026/id6761638851" target="_blank" rel="noopener" class="btn-primary aftc-next-cta">Get the iOS app</a></div>';
+            upsell.style.display = 'none'; // the post-score CTA replaces the generic box
+            if (!completed) { completed = true; track_('aft_calc_complete', { pass: pass, track: track.value }); }
+        }
+
+        document.getElementById('calculator').addEventListener('input', render);
+        document.getElementById('calculator').addEventListener('change', render);
+        $('aftc-app-cta').addEventListener('click', function () { track_('aft_calc_app_click', { completed: completed, placement: 'box' }); });
+        result.addEventListener('click', function (e) {
+            if (e.target.closest && e.target.closest('.aftc-next-cta')) track_('aft_calc_app_click', { completed: true, placement: 'result' });
+        });
+
+        fetch('/data/aft-scoring-2025.json')
+            .then(function (r) { return r.json(); })
+            .then(function (d) { data = d; render(); })
+            .catch(function () { result.innerHTML = '<p class="aftc-hint">The calculator couldn\'t load its scoring tables. Refresh to try again, or use the iOS app.</p>'; });
+    })();
+    </script>
 
 </body>
 </html>
