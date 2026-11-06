@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marine PFT Calculator 2026 – MCO 6100.13A Score &amp; PFT Class</title>
     <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
-    <meta name="description" content="Free Marine PFT calculator using MCO 6100.13A standards. Enter pull-ups or push-ups, plank, and 3-mile run for your exact score and PFT class instantly.">
+    <meta name="description" content="Free Marine PFT calculator on the official MCO 6100.13A tables. Enter pull-ups or push-ups, plank, and 3-mile run to get event points, your total, and PFT class (1st, 2nd, or 3rd).">
+    <meta name="apple-itunes-app" content="app-id=6761248887">
     <meta name="keywords" content="marine pft calculator, marine corps pft score, pft score chart marines, marine fitness test calculator, MCO 6100.13A, mco 6100.13a, pft class calculator">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://dahvio.com/marine-pft-calculator-2026">
@@ -288,6 +289,44 @@
             border-color: var(--accent);
             color: var(--accent);
         }
+        /* Web PFT calculator */
+        .pftc-card { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 0.75rem; padding: 1.5rem; margin-top: 1.5rem; }
+        .pftc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+        .pftc label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.85rem; color: var(--dim); }
+        .pftc label span { color: var(--dim); font-weight: 400; font-size: 0.8rem; }
+        .pftc select, .pftc input:not([type=checkbox]) { width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--border-light); border-radius: 0.4rem; padding: 0.7rem 0.8rem; font: inherit; font-size: 1rem; }
+        .pftc select:focus, .pftc input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+        .pftc-row { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) 6rem; gap: 0.75rem; align-items: end; padding: 0.75rem 0; border-top: 1px solid var(--border); }
+        .pftc-name { color: var(--text) !important; font-size: 0.95rem !important; }
+        .pftc-pts { font-family: var(--mono, monospace); font-size: 1.05rem; text-align: right; color: var(--dim); padding-bottom: 0.7rem; }
+        .pftc-pts.ok { color: var(--text); }
+        .pftc-pts.low { color: #e0794c; }
+        .pftc-pts.bad { color: #e0794c; font-size: 0.8rem; }
+        .pftc-check { flex-direction: row !important; align-items: center; gap: 0.5rem !important; padding-top: 0.5rem; border-top: 1px solid var(--border); }
+        .pftc-check input { width: 1.1rem; height: 1.1rem; accent-color: var(--accent); }
+        .pftc-result { margin-top: 1rem; padding-top: 1.25rem; border-top: 1px solid var(--border-light); }
+        .pftc-hint { color: var(--dim); font-size: 0.95rem; }
+        .pftc-total { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1.25rem; }
+        .pftc-total strong { font-size: 2.4rem; font-family: var(--mono, monospace); line-height: 1; }
+        .pftc-badge { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.85rem; padding: 0.35rem 0.75rem; border-radius: 0.35rem; }
+        .pftc-badge.good { background: rgba(75, 160, 90, 0.2); color: #9fd27f; border: 1px solid #3f7a46; }
+        .pftc-badge.bad { background: rgba(224, 121, 76, 0.15); color: #f0a07c; border: 1px solid #a5502c; }
+        .pftc-why { margin-top: 0.6rem; color: var(--dim); font-size: 0.95rem; }
+        .pftc-next { margin-top: 1rem; display: flex; gap: 1rem; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-radius: 0.6rem; background: rgba(196, 18, 48, 0.08); border: 1px solid rgba(196, 18, 48, 0.5); color: var(--dim); }
+        .pftc-next p { margin: 0; }
+        .pftc-next strong { color: var(--text); }
+        .pftc-next .btn-primary { white-space: nowrap; flex-shrink: 0; padding: 0.7rem 1.25rem; font-size: 0.95rem; }
+        .pftc-upsell { margin-top: 1.25rem; display: flex; gap: 1.25rem; align-items: center; justify-content: space-between; border: 1px solid var(--accent); border-radius: 0.75rem; padding: 1.25rem 1.5rem; background: rgba(196, 18, 48, 0.06); color: var(--dim); }
+        .pftc-upsell strong { color: var(--text); display: block; margin-bottom: 0.25rem; }
+        .pftc-upsell .btn-primary { white-space: nowrap; flex-shrink: 0; }
+        .pftc-note { margin-top: 1rem; font-size: 0.85rem; color: var(--dim); }
+        @media (max-width: 768px) {
+            .pftc-row { grid-template-columns: minmax(0, 1fr) 6rem; }
+            .pftc-row .pftc-name { grid-column: 1 / -1; }
+            .pftc-upsell, .pftc-next { flex-direction: column; align-items: stretch; }
+            .pftc-upsell .btn-primary, .pftc-next .btn-primary { justify-content: center; }
+        }
+
 
         .hero-stats {
             display: flex;
@@ -776,13 +815,15 @@
         <div class="container">
             <div class="hero-eyebrow">MCO 6100.13A · 2026 Standards</div>
             <h1>Marine PFT Calculator<br><span class="highlight">(2026 Standards)</span></h1>
-            <p class="hero-seo-hook">Looking for an accurate Marine PFT calculator based on MCO 6100.13A? This tool calculates your exact score instantly.</p>
+            <p class="hero-seo-hook">Score your Marine PFT right here: enter pull-ups or push-ups, plank, and 3-mile run below for your points and PFT class on the official MCO 6100.13A tables. Want to save scores and plan your next class? Get the iOS app.</p>
             <p class="hero-subtitle">The Marine Corps Physical Fitness Test (PFT) is a critical benchmark for every Marine. Know your exact score—without flipping through charts.</p>
             <div class="hero-cta-group">
-                <a href="https://apps.apple.com/us/app/marine-pft-calculator-2026/id6761248887" target="_blank" rel="noopener" class="btn-primary">
-                    Download on the App Store
+                <a href="#calculator" class="btn-primary">
+                    Calculate your score ↓
                 </a>
-                <a href="#faq" class="btn-secondary">Learn More</a>
+                <a href="https://apps.apple.com/us/app/marine-pft-calculator-2026/id6761248887" target="_blank" rel="noopener" class="btn-secondary">
+                    Get the iOS app
+                </a>
             </div>
             <div class="hero-stats">
                 <div class="stat">
@@ -798,6 +839,57 @@
                     <span class="stat-label">Charts Needed</span>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Web PFT calculator. Tables extracted from MCO 6100.13A w/ Admin CH-5
+         (same data as the iOS app); saving, what-if, BCA and stopwatch stay in the app. -->
+    <section class="section pftc" id="calculator" aria-labelledby="pftc-title">
+        <div class="container">
+            <div class="section-label">Score Your PFT</div>
+            <h2 class="section-title" id="pftc-title">Marine PFT score calculator</h2>
+            <p class="section-intro">Enter pull-ups or push-ups, plank, and 3-mile run for your event points, total, and PFT class, scored on the official MCO 6100.13A tables for your age group and sex.</p>
+
+            <div class="pftc-card">
+                <div class="pftc-grid">
+                    <label>Sex
+                        <select id="pftc-sex"><option value="M">Male</option><option value="F">Female</option></select>
+                    </label>
+                    <label>Age
+                        <input id="pftc-age" inputmode="numeric" placeholder="e.g. 23" autocomplete="off">
+                    </label>
+                </div>
+                <div class="pftc-row">
+                    <label class="pftc-name">Upper body
+                        <select id="pftc-strength"><option value="pullups">Pull-ups (max 100)</option><option value="pushups">Push-ups (max 70)</option></select>
+                    </label>
+                    <input id="pftc-reps" inputmode="numeric" placeholder="reps" autocomplete="off" aria-label="Pull-up or push-up reps">
+                    <output class="pftc-pts" id="pftc-pts-strength"></output>
+                </div>
+                <div class="pftc-row">
+                    <label class="pftc-name" for="pftc-plank">Plank <span>m:ss</span></label>
+                    <input id="pftc-plank" inputmode="numeric" placeholder="e.g. 2:30" autocomplete="off">
+                    <output class="pftc-pts" id="pftc-pts-plank"></output>
+                </div>
+                <div class="pftc-row">
+                    <label class="pftc-name" for="pftc-run">3-mile run <span>mm:ss</span></label>
+                    <input id="pftc-run" inputmode="numeric" placeholder="e.g. 22:30" autocomplete="off">
+                    <output class="pftc-pts" id="pftc-pts-run"></output>
+                </div>
+                <div class="pftc-result" id="pftc-result" aria-live="polite">
+                    <p class="pftc-hint">Enter all three events to see your total and PFT class.</p>
+                </div>
+            </div>
+
+            <div class="pftc-upsell">
+                <div>
+                    <strong>Save your PFT and see where your next points are.</strong>
+                    This page scores one test. The Marine PFT Calculator app saves your history, runs what-if scenarios
+                    (how many more pull-ups or seconds for the next class), checks your body composition, and times your events.
+                </div>
+                <a href="https://apps.apple.com/us/app/marine-pft-calculator-2026/id6761248887" target="_blank" rel="noopener" class="btn-primary" id="pftc-app-cta">Get the iOS app</a>
+            </div>
+            <p class="pftc-note">Scored on MCO 6100.13A with Admin Change 5: Table 2-2 (pull-ups, push-ups capped at 70), Table 2-4 (plank, 1:10 = 40 to 3:45 = 100, same for everyone), Table 2-5 (3-mile run). Classes per Table 2-1: 1st 235+, 2nd 200–234, 3rd 150–199. Any event below its minimum fails the PFT. Unofficial tool: your unit's official score is the record.</p>
         </div>
     </section>
 
@@ -848,7 +940,7 @@
                 <div class="event-card">
                     <div class="event-num">02</div>
                     <div class="event-name">Core Strength</div>
-                    <div class="event-options">Crunches or Plank</div>
+                    <div class="event-options">Forearm Plank</div>
                     <span class="event-max">100 pts max</span>
                 </div>
                 <div class="event-card">
@@ -937,7 +1029,7 @@
             <div class="faq-list">
                 <div class="faq-item">
                     <div class="faq-q">What is the Marine PFT?</div>
-                    <p class="faq-a">The Marine Corps Physical Fitness Test (PFT) measures overall physical readiness through pull-ups or push-ups, core strength (crunches or plank), and a 3-mile run. It is a mandatory assessment for all active duty and reserve Marines.</p>
+                    <p class="faq-a">The Marine Corps Physical Fitness Test (PFT) measures overall physical readiness through pull-ups or push-ups, core strength (the plank; crunches were discontinued at the end of 2022), and a 3-mile run. It is a mandatory assessment for all active duty and reserve Marines.</p>
                 </div>
                 <div class="faq-item">
                     <div class="faq-q">What is a good Marine PFT score?</div>
@@ -1058,6 +1150,104 @@
             <p>&copy; 2026 DahVio Studios. Built in Long Beach, California.</p>
         </div>
     </footer>
+
+
+    <script src="/js/usmc-pft-scoring.js"></script>
+    <script>
+    (function () {
+        var APP = 'https://apps.apple.com/us/app/marine-pft-calculator-2026/id6761248887';
+        var $ = function (id) { return document.getElementById(id); };
+        var root = $('calculator');
+        if (!root || !window.USMCPFT) return;
+        var el = { sex: $('pftc-sex'), age: $('pftc-age'), strength: $('pftc-strength'), reps: $('pftc-reps'), plank: $('pftc-plank'), run: $('pftc-run'),
+            result: $('pftc-result'), upsell: root.querySelector('.pftc-upsell') };
+        var data = null, completed = false;
+        try {
+            var saved = JSON.parse(localStorage.getItem('pftc-who') || '{}');
+            if (saved.sex) el.sex.value = saved.sex;
+            if (saved.age) el.age.value = saved.age;
+            if (saved.strength) el.strength.value = saved.strength;
+        } catch (e) {}
+
+        function ga(name, params) { try { if (window.gtag) gtag('event', name, params || {}); } catch (e) {} }
+        function int(s) { s = s.trim(); if (!s) return null; return /^\d{1,3}$/.test(s) ? +s : NaN; }
+        function time(s) {
+            s = s.trim(); if (!s) return null;
+            var m = s.match(/^(\d{1,2})[:.](\d{1,2})$/);
+            if (m) return +m[2] > 59 ? NaN : +m[1] * 60 + +m[2];
+            if (/^\d{3,4}$/.test(s)) { var ss = +s.slice(-2); return ss > 59 ? NaN : +s.slice(0, -2) * 60 + ss; }
+            return NaN;
+        }
+        function show(out, v, pts, max) {
+            out.className = 'pftc-pts';
+            if (v === null) { out.textContent = ''; return; }
+            if (isNaN(v)) { out.textContent = 'check entry'; out.className += ' bad'; return; }
+            out.textContent = pts ? pts + ' / ' + max : 'below min';
+            out.className += pts ? ' ok' : ' low';
+        }
+
+        function render() {
+            try { localStorage.setItem('pftc-who', JSON.stringify({ sex: el.sex.value, age: el.age.value, strength: el.strength.value })); } catch (e) {}
+            if (!data) return;
+            var age = int(el.age.value), ageOk = age !== null && !isNaN(age) && age >= 17 && age <= 80;
+            var reps = int(el.reps.value), plank = time(el.plank.value), run = time(el.run.value);
+            var r = USMCPFT.score(data, { sex: el.sex.value, age: ageOk ? age : 22, strength: el.strength.value,
+                reps: reps || 0, plankSecs: plank || 0, runSecs: run || 99999 });
+            show($('pftc-pts-strength'), reps, r.strength, r.strengthMax);
+            show($('pftc-pts-plank'), plank, r.plank, 100);
+            show($('pftc-pts-run'), run, r.run, 100);
+            el.upsell.style.display = '';
+
+            if ([reps, plank, run].some(function (v) { return v !== null && isNaN(v); }) || (age !== null && !ageOk)) {
+                el.result.innerHTML = '<p class="pftc-hint">Check the highlighted entry. Age 17–80; reps as a number; times as minutes:seconds (2:30, 22:30).</p>';
+                return;
+            }
+            var missing = [];
+            if (!ageOk) missing.push('age');
+            if (reps === null) missing.push(el.strength.value === 'pullups' ? 'pull-ups' : 'push-ups');
+            if (plank === null) missing.push('plank');
+            if (run === null) missing.push('3-mile run');
+            if (missing.length) {
+                el.result.innerHTML = '<p class="pftc-hint">Add your ' + missing.join(', ') + ' to see your total and PFT class.</p>';
+                return;
+            }
+
+            var pass = r.cls !== 'Failure';
+            var why;
+            if (r.failedEvents.length) why = 'Below the minimum on ' + r.failedEvents.join(', ') + '. Failing any one event fails the PFT, whatever the total.';
+            else if (r.total < 150) why = (150 - r.total) + ' points short of the 150 needed to pass. Event minimums alone add up to less than 150, so you need extra points somewhere.';
+            else if (r.total < 200) why = (200 - r.total) + ' points from 2nd Class.';
+            else if (r.total < 235) why = (235 - r.total) + ' points from 1st Class.';
+            else why = r.total === 300 ? 'A perfect 300.' : (r.total - 235) + ' points into 1st Class.';
+            var gaps = [[el.strength.value === 'pullups' ? 'pull-ups' : 'push-ups', r.strengthMax - r.strength], ['plank', 100 - r.plank], ['3-mile run', 100 - r.run]]
+                .sort(function (a, b) { return b[1] - a[1]; });
+            var cta = pass && gaps[0][1] === 0
+                ? '<strong>A maxed PFT. Save it.</strong> The app keeps your score history and progress charts so you can hold this test to test.'
+                : pass
+                ? '<strong>Save this ' + r.total + ' (' + r.cls + ') and track it to your next PFT.</strong> The app keeps your history, and its what-if view shows how much more ' + gaps[0][0] + ' (your biggest gap) gets you to the next class.'
+                : '<strong>See exactly what it takes to pass.</strong> The app\'s what-if view shows the reps or seconds you need on each event to clear 150 and every event minimum.';
+            el.result.innerHTML =
+                '<div class="pftc-total"><strong>' + r.total + '</strong><span>of ' + (r.strengthMax + 200) + '</span>' +
+                '<span class="pftc-badge ' + (pass ? 'good' : 'bad') + '">' + r.cls + '</span></div>' +
+                '<p class="pftc-why">' + why + '</p>' +
+                '<div class="pftc-next"><p>' + cta + '</p><a href="' + APP + '" target="_blank" rel="noopener" class="btn-primary pftc-next-cta">Get the iOS app</a></div>';
+            el.upsell.style.display = 'none';
+            if (!completed) { completed = true; ga('pft_calc_complete', { cls: r.cls, strength: el.strength.value }); }
+        }
+
+        root.addEventListener('input', render);
+        root.addEventListener('change', render);
+        $('pftc-app-cta').addEventListener('click', function () { ga('pft_calc_app_click', { completed: completed, placement: 'box' }); });
+        el.result.addEventListener('click', function (e) {
+            if (e.target.closest && e.target.closest('.pftc-next-cta')) ga('pft_calc_app_click', { completed: true, placement: 'result' });
+        });
+        render();
+        fetch('/data/usmc-pft-scoring-2026.json')
+            .then(function (r) { return r.json(); })
+            .then(function (d) { data = d; render(); })
+            .catch(function () { el.result.innerHTML = '<p class="pftc-hint">The calculator couldn\'t load its scoring tables. Refresh to try again, or use the iOS app.</p>'; });
+    })();
+    </script>
 
 </body>
 </html>
