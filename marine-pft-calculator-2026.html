@@ -82,7 +82,23 @@
               "name": "What is a good Marine PFT score?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "First class is 235 to 300, second class is 200 to 234, and third class is 150 to 199, depending on age and gender under MCO 6100.13A."
+                "text": "First class is 235 to 300, second class is 200 to 234, and third class is 150 to 199, depending on age and gender under MCO 6100.13A. Since January 1, 2026, Marines in combat arms PMOSs must also reach 210 on the male scoring tables."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the combat arms PFT standard for 2026?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Under MARADMIN 613/25, effective January 1, 2026, Marines with a combat arms PMOS (infantry, artillery, assault amphibian, combat engineer, and EOD specialties) are scored on the male, age-normed PFT tables and must reach at least 210 points. A combat arms Marine who passes but scores under 210 is placed on remedial physical training and may face PMOS reclassification or promotion restriction."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the Marine Corps waist-to-height ratio standard?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Since January 1, 2026, the Marine Corps screens body composition with a waist-to-height ratio of 0.52 or less for men and women (MARADMIN 066/26 and 073/26), replacing the height and weight check. Waist is measured at the navel and both measurements are rounded down to the nearest half inch. Marines over the limit get a body fat evaluation by tape test or bioelectrical impedance."
               }
             },
             {
@@ -320,6 +336,12 @@
         .pftc-upsell strong { color: var(--text); display: block; margin-bottom: 0.25rem; }
         .pftc-upsell .btn-primary { white-space: nowrap; flex-shrink: 0; }
         .pftc-note { margin-top: 1rem; font-size: 0.85rem; color: var(--dim); }
+        .pftc-check span { color: var(--dim); font-size: 0.8rem; }
+        .pftc-ca { margin-top: 0.6rem; font-size: 0.95rem; }
+        .pftc-ca.good { color: #9fd27f; }
+        .pftc-ca.warn { color: #e0b24c; }
+        .whtr-out { margin-top: 1rem; color: var(--dim); font-size: 0.95rem; }
+        .whtr-out strong { color: var(--text); }
         @media (max-width: 768px) {
             .pftc-row { grid-template-columns: minmax(0, 1fr) 6rem; }
             .pftc-row .pftc-name { grid-column: 1 / -1; }
@@ -848,7 +870,7 @@
         <div class="container">
             <div class="section-label">Score Your PFT</div>
             <h2 class="section-title" id="pftc-title">Marine PFT score calculator</h2>
-            <p class="section-intro">Enter pull-ups or push-ups, plank, and 3-mile run for your event points, total, and PFT class, scored on the official MCO 6100.13A tables for your age group and sex.</p>
+            <p class="section-intro">Enter pull-ups or push-ups, plank, and 3-mile run for your event points, total, and PFT class, scored on the official MCO 6100.13A tables for your age group and sex, or the male tables if you hold a combat arms PMOS.</p>
 
             <div class="pftc-card">
                 <div class="pftc-grid">
@@ -859,6 +881,7 @@
                         <input id="pftc-age" inputmode="numeric" placeholder="e.g. 23" autocomplete="off">
                     </label>
                 </div>
+                <label class="pftc-check" style="margin-bottom:1rem;"><input type="checkbox" id="pftc-combat"> Combat arms PMOS <span>(infantry, artillery, AAV/ACV, combat engineer, EOD): male tables, 210 standard</span></label>
                 <div class="pftc-row">
                     <label class="pftc-name">Upper body
                         <select id="pftc-strength"><option value="pullups">Pull-ups (max 100)</option><option value="pushups">Push-ups (max 70)</option></select>
@@ -889,7 +912,28 @@
                 </div>
                 <a href="https://apps.apple.com/us/app/marine-pft-calculator-2026/id6761248887" target="_blank" rel="noopener" class="btn-primary" id="pftc-app-cta">Get the iOS app</a>
             </div>
-            <p class="pftc-note">Scored on MCO 6100.13A with Admin Change 5: Table 2-2 (pull-ups, push-ups capped at 70), Table 2-4 (plank, 1:10 = 40 to 3:45 = 100, same for everyone), Table 2-5 (3-mile run). Classes per Table 2-1: 1st 235+, 2nd 200–234, 3rd 150–199. Any event below its minimum fails the PFT. Unofficial tool: your unit's official score is the record.</p>
+            <p class="pftc-note">Scored on MCO 6100.13A with Admin Change 5: Table 2-2 (pull-ups, push-ups capped at 70), Table 2-4 (plank, 1:10 = 40 to 3:45 = 100, same for everyone), Table 2-5 (3-mile run). Classes per Table 2-1: 1st 235+, 2nd 200–234, 3rd 150–199. Any event below its minimum fails the PFT. Combat arms PMOSs are scored on the male, age-normed tables and must reach 210 (MARADMIN 613/25, from 1 Jan 2026). Unofficial tool: your unit's official score is the record.</p>
+        </div>
+    </section>
+
+    <!-- WHtR body composition check -->
+    <section class="section pftc" id="whtr" aria-labelledby="whtr-title">
+        <div class="container">
+            <div class="section-label">Body Composition 2026</div>
+            <h2 class="section-title" id="whtr-title">Waist-to-height ratio check</h2>
+            <p class="section-intro">Since January 1, 2026 the Marine Corps screens body composition by waist-to-height ratio instead of height and weight: <strong>0.52 or less</strong>, the same for men and women (MARADMIN 066/26, as changed by 073/26). Enter your height and your waist measured at the navel.</p>
+            <div class="pftc-card">
+                <div class="pftc-grid" style="margin-bottom:0;">
+                    <label>Height <span>inches</span>
+                        <input id="whtr-height" inputmode="decimal" placeholder="e.g. 70" autocomplete="off">
+                    </label>
+                    <label>Waist <span>inches</span>
+                        <input id="whtr-waist" inputmode="decimal" placeholder="e.g. 34.5" autocomplete="off">
+                    </label>
+                </div>
+                <div class="whtr-out" id="whtr-out" aria-live="polite">Your maximum waist for your height appears here.</div>
+            </div>
+            <p class="pftc-note">Both measurements are rounded down to the nearest 1/2 inch, as the MARADMIN directs, and checked against its height and maximum waist table. Over the limit means a body fat evaluation (tape test or bioelectrical impedance) against the MCO 6110.3A body fat standards. Marines with 250+ on both the PFT and CFT get an extra 1%; 285+ on both allows up to 26% (male) or 36% (female). Unofficial tool: your unit's measurement is the record.</p>
         </div>
     </section>
 
@@ -1077,6 +1121,7 @@
                     </tbody>
                 </table>
             </div>
+            <p class="section-intro" style="margin-top:1.5rem;margin-bottom:0;"><strong>Combat arms (from January 1, 2026):</strong> under MARADMIN 613/25, Marines with a combat arms PMOS are scored on the male, age-normed tables whatever their sex, and must reach <strong>210</strong>. A combat arms Marine who passes with less than 210 keeps their class but goes on remedial PT and may face PMOS reclassification or promotion restriction.</p>
             <p class="section-intro" style="margin-top:1.5rem;margin-bottom:0;">Want the full breakdown of the order — events, age groups, minimums, and the CFT? Read <a href="/mco-6100-13a" style="color:var(--accent-gold);">MCO 6100.13A explained</a>.</p>
         </div>
     </section>
@@ -1159,7 +1204,7 @@
         var $ = function (id) { return document.getElementById(id); };
         var root = $('calculator');
         if (!root || !window.USMCPFT) return;
-        var el = { sex: $('pftc-sex'), age: $('pftc-age'), strength: $('pftc-strength'), reps: $('pftc-reps'), plank: $('pftc-plank'), run: $('pftc-run'),
+        var el = { sex: $('pftc-sex'), age: $('pftc-age'), strength: $('pftc-strength'), combat: $('pftc-combat'), reps: $('pftc-reps'), plank: $('pftc-plank'), run: $('pftc-run'),
             result: $('pftc-result'), upsell: root.querySelector('.pftc-upsell') };
         var data = null, completed = false;
         try {
@@ -1167,6 +1212,7 @@
             if (saved.sex) el.sex.value = saved.sex;
             if (saved.age) el.age.value = saved.age;
             if (saved.strength) el.strength.value = saved.strength;
+            if (saved.combat) el.combat.checked = true;
         } catch (e) {}
 
         function ga(name, params) { try { if (window.gtag) gtag('event', name, params || {}); } catch (e) {} }
@@ -1187,12 +1233,12 @@
         }
 
         function render() {
-            try { localStorage.setItem('pftc-who', JSON.stringify({ sex: el.sex.value, age: el.age.value, strength: el.strength.value })); } catch (e) {}
+            try { localStorage.setItem('pftc-who', JSON.stringify({ sex: el.sex.value, age: el.age.value, strength: el.strength.value, combat: el.combat.checked })); } catch (e) {}
             if (!data) return;
             var age = int(el.age.value), ageOk = age !== null && !isNaN(age) && age >= 17 && age <= 80;
             var reps = int(el.reps.value), plank = time(el.plank.value), run = time(el.run.value);
             var r = USMCPFT.score(data, { sex: el.sex.value, age: ageOk ? age : 22, strength: el.strength.value,
-                reps: reps || 0, plankSecs: plank || 0, runSecs: run || 99999 });
+                reps: reps || 0, plankSecs: plank || 0, runSecs: run || 99999, combatArms: el.combat.checked });
             show($('pftc-pts-strength'), reps, r.strength, r.strengthMax);
             show($('pftc-pts-plank'), plank, r.plank, 100);
             show($('pftc-pts-run'), run, r.run, 100);
@@ -1219,6 +1265,9 @@
             else if (r.total < 200) why = (200 - r.total) + ' points from 2nd Class.';
             else if (r.total < 235) why = (235 - r.total) + ' points from 1st Class.';
             else why = r.total === 300 ? 'A perfect 300.' : (r.total - 235) + ' points into 1st Class.';
+            var ca = '';
+            if (r.belowCombatStandard) ca = '<p class="pftc-ca warn">' + (USMCPFT.COMBAT_ARMS_STANDARD - r.total) + ' points short of the 210 combat arms standard. You still pass, but under 210 means remedial PT and possible PMOS reclassification or promotion restriction (MARADMIN 613/25).</p>';
+            else if (r.meetsCombatStandard) ca = '<p class="pftc-ca good">Meets the 210 combat arms standard, scored on the male tables.</p>';
             var gaps = [[el.strength.value === 'pullups' ? 'pull-ups' : 'push-ups', r.strengthMax - r.strength], ['plank', 100 - r.plank], ['3-mile run', 100 - r.run]]
                 .sort(function (a, b) { return b[1] - a[1]; });
             var cta = pass && gaps[0][1] === 0
@@ -1229,10 +1278,10 @@
             el.result.innerHTML =
                 '<div class="pftc-total"><strong>' + r.total + '</strong><span>of ' + (r.strengthMax + 200) + '</span>' +
                 '<span class="pftc-badge ' + (pass ? 'good' : 'bad') + '">' + r.cls + '</span></div>' +
-                '<p class="pftc-why">' + why + '</p>' +
+                '<p class="pftc-why">' + why + '</p>' + ca +
                 '<div class="pftc-next"><p>' + cta + '</p><a href="' + APP + '" target="_blank" rel="noopener" class="btn-primary pftc-next-cta">Get the iOS app</a></div>';
             el.upsell.style.display = 'none';
-            if (!completed) { completed = true; ga('pft_calc_complete', { cls: r.cls, strength: el.strength.value }); }
+            if (!completed) { completed = true; ga('pft_calc_complete', { cls: r.cls, strength: el.strength.value, combat_arms: el.combat.checked }); }
         }
 
         root.addEventListener('input', render);
@@ -1246,6 +1295,32 @@
             .then(function (r) { return r.json(); })
             .then(function (d) { data = d; render(); })
             .catch(function () { el.result.innerHTML = '<p class="pftc-hint">The calculator couldn\'t load its scoring tables. Refresh to try again, or use the iOS app.</p>'; });
+    })();
+
+    // WHtR check (MARADMIN 066/26 para 6 as changed by 073/26): round both
+    // measurements down to 1/2 inch; within standard when waist <= 0.52 x height.
+    (function () {
+        var h = document.getElementById('whtr-height'), w = document.getElementById('whtr-waist'), out = document.getElementById('whtr-out');
+        if (!h || !w || !out) return;
+        var done = false;
+        function num(s) { s = s.trim().replace(/["”]/g, ''); if (!s) return null; return /^\d{2}(\.\d+)?$/.test(s) ? +s : NaN; }
+        function half(v) { return Math.floor(v * 2) / 2; }
+        function fmt(v) { return v.toFixed(1) + '"'; }
+        function render() {
+            var hv = num(h.value), wv = num(w.value);
+            if (hv === null) { out.textContent = 'Your maximum waist for your height appears here.'; return; }
+            if (isNaN(hv) || hv < 53 || hv > 84) { out.textContent = 'Enter height in inches, 53 to 84 (e.g. 70 or 70.5).'; return; }
+            var h2 = Math.round(half(hv) * 2), maxW = Math.floor(h2 * 52 / 100) / 2;
+            var head = 'At ' + fmt(half(hv)) + ' your maximum waist is <strong>' + fmt(maxW) + '</strong>.';
+            if (wv === null) { out.innerHTML = head; return; }
+            if (isNaN(wv) || wv < 20 || wv > 70) { out.innerHTML = head + ' Enter waist in inches (e.g. 34.5).'; return; }
+            var w2 = Math.round(half(wv) * 2), ok = w2 * 100 <= h2 * 52, ratio = (w2 / h2).toFixed(3);
+            out.innerHTML = head + ' Your waist of ' + fmt(half(wv)) + ' gives a WHtR of <strong>' + ratio + '</strong>: ' +
+                (ok ? '<span class="pftc-ca good" style="display:inline">within the 0.52 standard.</span>'
+                    : '<span class="pftc-ca warn" style="display:inline">over 0.52, so a body fat evaluation follows.</span> The app works out your body fat limit, including the PFT/CFT allowances.');
+            if (!done) { done = true; try { if (window.gtag) gtag('event', 'whtr_check_complete', { within: ok }); } catch (e) {} }
+        }
+        h.addEventListener('input', render); w.addEventListener('input', render);
     })();
     </script>
 

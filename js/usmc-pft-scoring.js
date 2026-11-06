@@ -3,6 +3,9 @@
  * (Tables 2-1, 2-2, 2-4, 2-5) and are the same data the Marine PFT
  * Calculator app is generated from. A result earns the points of the best
  * row it meets; below an event's minimum scores 0 and fails the PFT.
+ * Combat arms PMOSs (MARADMIN 613/25, from 1 Jan 2026) score on the male
+ * tables and must reach 210; passing under 210 is still a pass but means
+ * remedial PT. Mirrors pft_scorer.dart / pft_result.dart in the app.
  */
 (function (root) {
     var AGES = ['17-20', '21-25', '26-30', '31-35', '36-40', '41-45', '46-50', '51+'];
@@ -25,13 +28,16 @@
         return 0;
     }
 
-    /* input: {sex:'M'|'F', age, strength:'pullups'|'pushups', reps, plankSecs, runSecs} */
+    var COMBAT_ARMS_STANDARD = 210;
+
+    /* input: {sex:'M'|'F', age, strength:'pullups'|'pushups', reps, plankSecs, runSecs, combatArms} */
     function score(data, input) {
         var g = ageGroup(input.age);
-        var strengthTable = data[input.strength][input.sex][g];
+        var sex = input.combatArms ? 'M' : input.sex; // sex-neutral = male tables
+        var strengthTable = data[input.strength][sex][g];
         var strength = higherIsBetter(strengthTable, input.reps);
         var plank = higherIsBetter(data.plank, input.plankSecs);
-        var runRows = data.run[input.sex][g];
+        var runRows = data.run[sex][g];
         var run = lowerIsBetter(runRows, input.runSecs);
         var failed = [];
         if (!strength) failed.push(input.strength === 'pullups' ? 'pull-ups' : 'push-ups');
@@ -43,13 +49,16 @@
             : total >= data.classes.second ? '2nd Class' : '3rd Class';
         return {
             strength: strength, plank: plank, run: run, total: total, cls: cls, failedEvents: failed,
-            strengthMax: input.strength === 'pullups' ? 100 : 70, ageGroup: g,
+            strengthMax: input.strength === 'pullups' ? 100 : 70, ageGroup: g, scoringSex: sex,
+            combatArms: !!input.combatArms,
+            belowCombatStandard: !!input.combatArms && cls !== 'Failure' && total < COMBAT_ARMS_STANDARD,
+            meetsCombatStandard: !!input.combatArms && cls !== 'Failure' && total >= COMBAT_ARMS_STANDARD,
             strengthMinReps: Math.min.apply(null, strengthTable.map(function (r) { return r[0]; })),
             runMinSecs: Math.max.apply(null, runRows.map(function (r) { return r[0]; }))
         };
     }
 
-    var api = { score: score, ageGroup: ageGroup };
+    var api = { score: score, ageGroup: ageGroup, COMBAT_ARMS_STANDARD: COMBAT_ARMS_STANDARD };
     if (typeof module !== 'undefined' && module.exports) module.exports = api;
     else root.USMCPFT = api;
 })(this);
