@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Air Force PT Calculator 2026 – Free USAF PFA Score (DAFMAN 36-2905)</title>
     <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
-    <meta name="description" content="Free Air Force PT calculator using DAFMAN 36-2905 standards. Enter your run or HAMR, push-ups, and core exercise for your composite PFA score and pass/fail instantly. Space Force supported.">
+    <meta name="description" content="Free Air Force PT calculator for the 2026 PFA (DAFMAN 36-2905). Enter waist and height, push-ups, core, and your 2-mile run or HAMR to get component points, your composite score, and Excellent/Satisfactory rating.">
+    <meta name="apple-itunes-app" content="app-id=6761141936">
     <meta name="keywords" content="air force pt calculator, air force pfa calculator, usaf pfa calculator, DAFMAN 36-2905, dafman 36-2905, air force fitness test calculator, pfa score calculator, space force pt calculator">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://dahvio.com/air-force-pt-calculator-2026">
@@ -273,6 +274,47 @@
         .btn-secondary:hover {
             border-color: var(--accent);
             color: var(--accent);
+        }
+
+        /* Web PFA calculator */
+        .pfac-card { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 0.75rem; padding: 1.5rem; margin-top: 1.5rem; }
+        .pfac-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+        .pfac label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.85rem; color: var(--dim); }
+        .pfac label span, .pfac-name span { color: var(--dim); font-weight: 400; font-size: 0.8rem; }
+        .pfac select, .pfac input { width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--border-light); border-radius: 0.4rem; padding: 0.7rem 0.8rem; font: inherit; font-size: 1rem; }
+        .pfac select:focus, .pfac input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+        .pfac-comp { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) 6.5rem; gap: 0.75rem; align-items: end; padding: 0.75rem 0; border-top: 1px solid var(--border); }
+        .pfac-name { color: var(--text) !important; font-size: 0.95rem !important; }
+        .pfac-name a { color: var(--accent); font-size: 0.8rem; }
+        .pfac-value { font-family: var(--mono, monospace); color: var(--dim); padding: 0.7rem 0; }
+        .pfac-alt { grid-template-columns: minmax(0, 1.5fr); }
+        .pfac-pts { font-family: var(--mono, monospace); font-size: 1.05rem; text-align: right; color: var(--dim); padding-bottom: 0.7rem; }
+        .pfac-pts.ok { color: var(--text); }
+        .pfac-pts.low { color: #e0794c; }
+        .pfac-pts.bad { color: #e0794c; font-size: 0.8rem; }
+        .pfac-result { margin-top: 1rem; padding-top: 1.25rem; border-top: 1px solid var(--border-light); }
+        .pfac-hint { color: var(--dim); font-size: 0.95rem; }
+        .pfac-total { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1.25rem; }
+        .pfac-total strong { font-size: 2.4rem; font-family: var(--mono, monospace); line-height: 1; }
+        .pfac-badge { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.85rem; padding: 0.35rem 0.75rem; border-radius: 0.35rem; }
+        .pfac-badge.good { background: rgba(75, 160, 90, 0.2); color: #9fd27f; border: 1px solid #3f7a46; }
+        .pfac-badge.bad { background: rgba(224, 121, 76, 0.15); color: #f0a07c; border: 1px solid #a5502c; }
+        .pfac-why { margin-top: 0.6rem; color: var(--dim); font-size: 0.95rem; }
+        .pfac-next { margin-top: 1rem; display: flex; gap: 1rem; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-radius: 0.6rem; background: rgba(26, 123, 207, 0.08); border: 1px solid rgba(26, 123, 207, 0.5); color: var(--dim); }
+        .pfac-next p { margin: 0; }
+        .pfac-next strong { color: var(--text); }
+        .pfac-next .btn-primary { white-space: nowrap; flex-shrink: 0; padding: 0.7rem 1.25rem; font-size: 0.95rem; }
+        .pfac-upsell { margin-top: 1.25rem; display: flex; gap: 1.25rem; align-items: center; justify-content: space-between; border: 1px solid var(--accent); border-radius: 0.75rem; padding: 1.25rem 1.5rem; background: rgba(26, 123, 207, 0.06); color: var(--dim); }
+        .pfac-upsell strong { color: var(--text); display: block; margin-bottom: 0.25rem; }
+        .pfac-upsell .btn-primary { white-space: nowrap; flex-shrink: 0; }
+        .pfac-note { margin-top: 1rem; font-size: 0.85rem; color: var(--dim); }
+        @media (max-width: 768px) {
+            .pfac-grid { grid-template-columns: 1fr 1fr; }
+            .pfac-comp { grid-template-columns: minmax(0, 1fr) 6rem; }
+            .pfac-comp .pfac-name { grid-column: 1 / -1; }
+            .pfac-alt { grid-template-columns: 1fr; }
+            .pfac-upsell, .pfac-next { flex-direction: column; align-items: stretch; }
+            .pfac-upsell .btn-primary, .pfac-next .btn-primary { justify-content: center; }
         }
 
         .hero-stats {
@@ -747,13 +789,15 @@
         <div class="container">
             <div class="hero-eyebrow">DAFMAN 36-2905 · 2026 Standards</div>
             <h1>Air Force PT Calculator<br><span class="highlight">(2026 Standards)</span></h1>
-            <p class="hero-seo-hook">Looking for an Air Force PT calculator, USAF PFA calculator, or a quick way to check DAFMAN 36-2905 scoring? This page is built for that.</p>
+            <p class="hero-seo-hook">Score your 2026 Air Force PFA right here: enter your waist and height, push-ups, core, and 2-mile run or HAMR below for your composite score and rating. Want to save scores and track progress? Get the iOS app.</p>
             <p class="hero-subtitle">Get your Air Force or Space Force PFA score faster, understand what counts as passing, and see where your next points are most likely to come from.</p>
             <div class="hero-cta-group">
-                <a href="https://apps.apple.com/us/app/air-force-pt-calculator-2026/id6761141936" target="_blank" rel="noopener" class="btn-primary">
-                    Download on the App Store
+                <a href="#calculator" class="btn-primary">
+                    Calculate your score ↓
                 </a>
-                <a href="#faq" class="btn-secondary">Learn More</a>
+                <a href="https://apps.apple.com/us/app/air-force-pt-calculator-2026/id6761141936" target="_blank" rel="noopener" class="btn-secondary">
+                    Get the iOS app
+                </a>
             </div>
             <div class="hero-stats">
                 <div class="stat">
@@ -769,6 +813,81 @@
                     <span class="stat-label">Satisfactory Starts Here</span>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Web PFA calculator (USAF). Scores come from the iOS app's engine export;
+         saving, what-if, exemptions, Space Force and the HAMR trainer stay in the app. -->
+    <section class="section pfac" id="calculator" aria-labelledby="pfac-title">
+        <div class="container">
+            <div class="section-label">Score Your PFA</div>
+            <h2 class="section-title" id="pfac-title">Air Force PFA score calculator</h2>
+            <p class="section-intro">Enter your results for the 2026 USAF PFA: waist-to-height ratio (20 pts), strength (15), core (15), and the 2-mile run or HAMR (50). Each component shows its points as you type.</p>
+
+            <div class="pfac-card">
+                <div class="pfac-grid">
+                    <label>Sex
+                        <select id="pfac-sex"><option value="M">Male</option><option value="F">Female</option></select>
+                    </label>
+                    <label>Age
+                        <input id="pfac-age" inputmode="numeric" placeholder="e.g. 28" autocomplete="off">
+                    </label>
+                    <label>Height <span>inches</span>
+                        <input id="pfac-height" inputmode="decimal" placeholder="e.g. 70" autocomplete="off">
+                    </label>
+                    <label>Waist <span>inches</span>
+                        <input id="pfac-waist" inputmode="decimal" placeholder="e.g. 34" autocomplete="off">
+                    </label>
+                </div>
+
+                <div class="pfac-rows">
+                    <div class="pfac-comp">
+                        <div class="pfac-name">Body composition <span>waist-to-height</span></div>
+                        <div class="pfac-value" id="pfac-ratio">–</div>
+                        <output class="pfac-pts" id="pfac-pts-body"></output>
+                    </div>
+                    <div class="pfac-comp">
+                        <label class="pfac-name">Strength
+                            <select id="pfac-strength"><option value="pushups">Push-ups (1 min)</option><option value="hr_pushups">Hand-release push-ups (2 min)</option></select>
+                        </label>
+                        <input id="pfac-strength-v" inputmode="numeric" placeholder="reps" autocomplete="off" aria-label="Strength reps">
+                        <output class="pfac-pts" id="pfac-pts-strength"></output>
+                    </div>
+                    <div class="pfac-comp">
+                        <label class="pfac-name">Core
+                            <select id="pfac-core"><option value="situps">Sit-ups (1 min)</option><option value="crunches">Cross-leg reverse crunch (2 min)</option><option value="plank">Forearm plank</option></select>
+                        </label>
+                        <input id="pfac-core-v" inputmode="numeric" placeholder="reps" autocomplete="off" aria-label="Core reps or plank time">
+                        <output class="pfac-pts" id="pfac-pts-core"></output>
+                    </div>
+                    <div class="pfac-comp">
+                        <label class="pfac-name">Cardio
+                            <select id="pfac-cardio"><option value="run">2-mile run</option><option value="shuttle">20m HAMR shuttle</option></select>
+                        </label>
+                        <input id="pfac-cardio-v" inputmode="numeric" placeholder="mm:ss" autocomplete="off" aria-label="Run time or HAMR laps">
+                        <output class="pfac-pts" id="pfac-pts-cardio"></output>
+                    </div>
+                    <div class="pfac-comp pfac-alt">
+                        <label class="pfac-name">Altitude group <a href="/air-force-altitude-adjustment-guide">what's this?</a>
+                            <select id="pfac-alt"><option value="0">0 – no adjustment</option><option value="1">Group 1</option><option value="2">Group 2</option><option value="3">Group 3</option><option value="4">Group 4</option></select>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="pfac-result" id="pfac-result" aria-live="polite">
+                    <p class="pfac-hint">Fill in all four components to see your composite score and rating.</p>
+                </div>
+            </div>
+
+            <div class="pfac-upsell">
+                <div>
+                    <strong>Save your scores and find your fastest points.</strong>
+                    This page scores one assessment. The Air Force PT Calculator app saves every score with trends and charts, runs what-if scenarios,
+                    finds your best event combination, handles exemptions and Space Force scoring, and includes a HAMR trainer and stopwatch.
+                </div>
+                <a href="https://apps.apple.com/us/app/air-force-pt-calculator-2026/id6761141936" target="_blank" rel="noopener" class="btn-primary" id="pfac-app-cta">Get the iOS app</a>
+            </div>
+            <p class="pfac-note">USAF scoring under DAFMAN 36-2905 for the 2026 PFA, the same scoring engine as the iOS app. Every assessed component must score above zero; a composite of 75 or higher is Satisfactory and 90 or higher is Excellent. Altitude groups apply to the 2-mile run at approved locations. Unofficial tool: your official PFA result is the score of record.</p>
         </div>
     </section>
 
@@ -827,7 +946,7 @@
                 <div class="event-card">
                     <div class="event-num">02</div>
                     <div class="event-name">Aerobic Fitness</div>
-                    <div class="event-options">1.5-Mile Run, HAMR Shuttle, or Walk</div>
+                    <div class="event-options">2-Mile Run or 20m HAMR Shuttle</div>
                     <span class="event-max">Highest-weight component</span>
                 </div>
                 <div class="event-card">
@@ -883,7 +1002,7 @@
             <h2 class="section-title">Most people gain points fastest through the aerobic event.</h2>
             <div class="example-box">
                 <div class="example-label">Training Insight</div>
-                <p>Because aerobic fitness carries the highest weight in the PFA composite score, trimming time off the 1.5-mile run often changes the total faster than small gains in other events.</p>
+                <p>Because aerobic fitness carries the highest weight in the PFA composite score, trimming time off the 2-mile run often changes the total faster than small gains in other events.</p>
                 <p>That does not make push-ups or core unimportant. It just helps explain why so many Airmen check the run first when they are trying to move from one rating band to another.</p>
             </div>
         </div>
@@ -923,7 +1042,7 @@
                 </div>
                 <div class="faq-item">
                     <div class="faq-q">How is the Air Force PT test scored?</div>
-                    <p class="faq-a">The PFA produces a composite score out of 100 points. Aerobic fitness carries the highest weight, followed by push-ups and core. Current rating bands are Excellent at 90 or above, Satisfactory at 75 or above, Marginal from 60 to 74, and Unsatisfactory below 60.</p>
+                    <p class="faq-a">The PFA produces a composite score out of 100 points: aerobic fitness (2-mile run or HAMR) 50, waist-to-height ratio 20, push-ups 15, and core 15. A composite of 90 or above is Excellent and 75 or above is Satisfactory; below 75, or zero points on any component, is Unsatisfactory.</p>
                 </div>
                 <div class="faq-item">
                     <div class="faq-q">What score do I need to pass the Air Force fitness test?</div>
@@ -1027,6 +1146,127 @@
             <p>&copy; 2026 DahVio Studios. Built in Long Beach, California.</p>
         </div>
     </footer>
+
+    <script src="/js/af-pfa-scoring.js"></script>
+    <script>
+    (function () {
+        var APP = 'https://apps.apple.com/us/app/air-force-pt-calculator-2026/id6761141936';
+        var $ = function (id) { return document.getElementById(id); };
+        var root = $('calculator');
+        if (!root || !window.AFPFA) return;
+        var el = {
+            sex: $('pfac-sex'), age: $('pfac-age'), height: $('pfac-height'), waist: $('pfac-waist'),
+            strength: $('pfac-strength'), strengthV: $('pfac-strength-v'),
+            core: $('pfac-core'), coreV: $('pfac-core-v'),
+            cardio: $('pfac-cardio'), cardioV: $('pfac-cardio-v'), alt: $('pfac-alt'),
+            ratio: $('pfac-ratio'), result: $('pfac-result'), upsell: root.querySelector('.pfac-upsell')
+        };
+        var data = null, completed = false;
+        var SAVE = ['sex', 'age', 'height', 'alt', 'strength', 'core', 'cardio'];
+        try {
+            var saved = JSON.parse(localStorage.getItem('pfac-who') || '{}');
+            SAVE.forEach(function (k) { if (saved[k] != null) el[k].value = saved[k]; });
+        } catch (e) { /* storage unavailable */ }
+
+        function ga(name, params) { try { if (window.gtag) gtag('event', name, params || {}); } catch (e) {} }
+        function int(s) { s = s.trim(); if (!s) return null; return /^\d{1,3}$/.test(s) ? +s : NaN; }
+        function dec(s) { s = s.trim(); if (!s) return null; return /^\d{1,3}(\.\d{1,2})?$/.test(s) ? +s : NaN; }
+        function time(s) {
+            s = s.trim(); if (!s) return null;
+            var m = s.match(/^(\d{1,2})[:.](\d{1,2})$/);
+            if (m) return +m[2] > 59 ? NaN : +m[1] * 60 + +m[2];
+            if (/^\d{3,4}$/.test(s)) { var ss = +s.slice(-2); return ss > 59 ? NaN : +s.slice(0, -2) * 60 + ss; }
+            return NaN;
+        }
+        function fmt(n) { return (Math.round(n * 10) / 10).toString(); }
+        function show(out, v, pts, max) {
+            out.className = 'pfac-pts';
+            if (v === null) { out.textContent = ''; return; }
+            if (isNaN(v)) { out.textContent = 'check entry'; out.className += ' bad'; return; }
+            out.textContent = fmt(pts) + ' / ' + max;
+            out.className += pts > 0 ? ' ok' : ' low';
+        }
+
+        function render() {
+            var plank = el.core.value === 'plank', shuttle = el.cardio.value === 'shuttle';
+            el.coreV.placeholder = plank ? 'm:ss' : 'reps';
+            el.cardioV.placeholder = shuttle ? 'laps' : 'mm:ss';
+            try { var s = {}; SAVE.forEach(function (k) { s[k] = el[k].value; }); localStorage.setItem('pfac-who', JSON.stringify(s)); } catch (e) {}
+            if (!data) return;
+
+            var age = int(el.age.value), height = dec(el.height.value), waist = dec(el.waist.value);
+            var sv = int(el.strengthV.value), cv = plank ? time(el.coreV.value) : int(el.coreV.value);
+            var rv = shuttle ? int(el.cardioV.value) : time(el.cardioV.value);
+            var ageOk = age !== null && !isNaN(age) && age >= 17 && age <= 80;
+            var vals = [sv, cv, rv, height, waist];
+            var bad = vals.some(function (v) { return v !== null && isNaN(v); }) || (age !== null && !ageOk);
+
+            var input = {
+                sex: el.sex.value, age: ageOk ? age : 25, height: height || 0, waist: waist || 0,
+                strength: el.strength.value, strengthReps: sv || 0,
+                core: el.core.value, coreReps: plank ? 0 : (cv || 0), coreSecs: plank ? (cv || 0) : 0,
+                cardio: el.cardio.value, runSecs: shuttle ? 0 : (rv || 0), laps: shuttle ? (rv || 0) : 0,
+                altitude: +el.alt.value
+            };
+            var r = AFPFA.score(data, input);
+            var bodyIn = height && waist && !isNaN(height) && !isNaN(waist);
+            el.ratio.textContent = bodyIn ? (waist / height).toFixed(2) : '–';
+            show($('pfac-pts-body'), bodyIn ? 1 : null, r.bodyComp, 20);
+            show($('pfac-pts-strength'), sv, r.strength, 15);
+            show($('pfac-pts-core'), cv, r.core, 15);
+            show($('pfac-pts-cardio'), rv, r.cardio, 50);
+            el.upsell.style.display = '';
+
+            if (bad) {
+                el.result.innerHTML = '<p class="pfac-hint">Check the highlighted entry. Age 17–80; height and waist in inches; times as minutes:seconds (16:30, 2:15).</p>';
+                return;
+            }
+            var missing = [];
+            if (!ageOk) missing.push('age');
+            if (!bodyIn) missing.push('height and waist');
+            if (sv === null) missing.push('strength');
+            if (cv === null) missing.push('core');
+            if (rv === null) missing.push('cardio');
+            if (missing.length) {
+                el.result.innerHTML = '<p class="pfac-hint">Add your ' + missing.join(', ') + ' to see your composite score and rating.</p>';
+                return;
+            }
+
+            var good = r.status !== 'unsatisfactory';
+            var label = r.status.charAt(0).toUpperCase() + r.status.slice(1);
+            var why = [];
+            if (r.failedComponents.length) why.push('Scored 0 on ' + r.failedComponents.join(', ') + ', below the component minimum, so the assessment is Unsatisfactory regardless of total.');
+            else if (r.total < 75) why.push(fmt(75 - r.total) + ' points short of the 75 needed for Satisfactory.');
+            else if (r.total < 90) why.push(fmt(r.total - 75) + ' points above Satisfactory, ' + fmt(90 - r.total) + ' from Excellent.');
+            else why.push('Excellent: ' + fmt(r.total - 90) + ' points above the 90 threshold.');
+
+            var gaps = [['cardio', 50 - r.cardio], ['strength', 15 - r.strength], ['core', 15 - r.core], ['body composition', 20 - r.bodyComp]]
+                .sort(function (a, b) { return b[1] - a[1]; });
+            var cta = good
+                ? '<strong>Save this ' + fmt(r.total) + ' and track it to your next PFA.</strong> The app keeps your score history and trends, and its what-if view shows exactly what more ' + gaps[0][0] + ' (your biggest gap: ' + fmt(gaps[0][1]) + ' pts) is worth.'
+                : '<strong>Find your fastest route to 75.</strong> The app\'s Best Score view compares event options (push-ups vs. hand-release, sit-ups vs. plank, run vs. HAMR) and what-if shows the exact reps or seconds you need.';
+            el.result.innerHTML =
+                '<div class="pfac-total"><strong>' + fmt(r.total) + '</strong><span>of 100</span>' +
+                '<span class="pfac-badge ' + (good ? 'good' : 'bad') + '">' + label + '</span></div>' +
+                '<p class="pfac-why">' + why.join(' ') + '</p>' +
+                '<div class="pfac-next"><p>' + cta + '</p><a href="' + APP + '" target="_blank" rel="noopener" class="btn-primary pfac-next-cta">Get the iOS app</a></div>';
+            el.upsell.style.display = 'none';
+            if (!completed) { completed = true; ga('pfa_calc_complete', { status: r.status, cardio: el.cardio.value }); }
+        }
+
+        root.addEventListener('input', render);
+        root.addEventListener('change', render);
+        $('pfac-app-cta').addEventListener('click', function () { ga('pfa_calc_app_click', { completed: completed, placement: 'box' }); });
+        el.result.addEventListener('click', function (e) {
+            if (e.target.closest && e.target.closest('.pfac-next-cta')) ga('pfa_calc_app_click', { completed: true, placement: 'result' });
+        });
+        render();
+        fetch('/data/af-pfa-scoring-2026.json')
+            .then(function (r) { return r.json(); })
+            .then(function (d) { data = d; render(); })
+            .catch(function () { el.result.innerHTML = '<p class="pfac-hint">The calculator couldn\'t load its scoring tables. Refresh to try again, or use the iOS app.</p>'; });
+    })();
+    </script>
 
 </body>
 </html>
