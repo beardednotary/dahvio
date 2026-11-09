@@ -2,6 +2,11 @@
   "cleanUrls": true,
   "redirects": [
     {
+      "source": "/air-force-pfa-standards-guide",
+      "destination": "/dafman-36-2905",
+      "permanent": true
+    },
+    {
       "source": "/privacy.html",
       "has": [{ "type": "host", "value": "(?:www\\.)?wordbridgeesl\\.com" }],
       "destination": "https://dahvio.com/wordbridge-privacy",
