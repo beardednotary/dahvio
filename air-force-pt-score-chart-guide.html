@@ -13,58 +13,17 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/dahvio.css">
 
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --bg: #0b0c0e;
-            --card: #101318;
-            --text: #e6e8ea;
-            --dim: #868e99;
-            --accent: #1a7bcf;
-            --accent-gold: #d4a017;
-            --border: #1c2026;
-        }
-        body {
-            font-family: var(--sans);
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.7;
-        }
-        .container { max-width: 980px; margin: 0 auto; padding: 0 1.25rem; }
-        header, .section { border-bottom: 1px solid rgba(28, 38, 56, 0.9); }
-        header { padding: 2rem 0; }
-        .header-inner { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
-        .logo, .back-link { text-decoration: none; }
-        .logo { color: var(--text); font-size: 1.5rem; font-weight: 600; }
-        .logo span, .back-link { color: var(--accent); }
-        .hero { padding: 5.5rem 0 4rem; }
-        .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.78rem; font-weight: 700; margin-bottom: 1.25rem; display: inline-block; }
-        h1 { font-size: 3rem; line-height: 1.04; letter-spacing: -0.03em; margin-bottom: 1rem; max-width: 760px; }
-        .hero p, .section-intro, .card p, .table-note, li { color: var(--dim); }
-        .section { padding: 4.5rem 0; }
-        h2 { font-size: 2rem; margin-bottom: 1rem; letter-spacing: -0.02em; }
-        .section-label { color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.85rem; }
-        .chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 0.9rem; padding: 1.4rem; }
-        .card h3 { margin-bottom: 0.45rem; font-size: 1rem; }
-        .score { font-size: 2rem; font-weight: 800; color: var(--accent-gold); margin-bottom: 0.35rem; }
-        .list-card { background: var(--card); border: 1px solid var(--border); border-radius: 0.9rem; padding: 1.5rem; margin-top: 1rem; }
-        .list-card ul { padding-left: 1.2rem; }
-        .list-card li + li { margin-top: 0.4rem; }
-        .cta { background:var(--raise); border: 1px solid rgba(26, 123, 207, 0.28); border-radius: 1rem; padding: 2rem; text-align: center; }
-        .cta p { max-width: 640px; margin: 0.8rem auto 1.3rem; }
-        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.9rem 1.25rem; border-radius: 0.7rem; background: var(--accent); color: #fff; text-decoration: none; font-weight: 700; }
-        footer { padding: 3rem 0; text-align: center; color: var(--dim); font-size: 0.9rem; }
-        footer a { color: var(--dim); text-decoration: none; margin: 0 0.7rem; }
-        @media (max-width: 768px) { h1 { font-size: 2.3rem; } h2 { font-size: 1.7rem; } .section { padding: 3.5rem 0; } }
-    </style>
+    <style>:root { --accent: #1a7bcf; }</style>
 </head>
-<body>
+<body class="guide">
     <header>
         <div class="container">
             <div class="header-inner">
-                <a href="/" class="logo">DahVio<span>.</span></a>
-                <a href="/air-force-pt-calculator-2026" class="back-link">Air Force PT Calculator</a>
+                <a href="/" class="logo">DahVio<em>.</em></a>
+                <nav class="header-nav mono">
+                    <a href="/">Work</a>
+                    <a href="/air-force-pt-calculator-2026">Calculator</a>
+                </nav>
             </div>
         </div>
     </header>
@@ -130,7 +89,7 @@
         </div>
     </section>
 
-    <section class="section" style="border-bottom: 0;">
+    <section class="section">
         <div class="container">
             <div class="cta">
                 <h2>Want to skip the chart and see the score directly?</h2>
@@ -142,11 +101,14 @@
 
     <footer>
         <div class="container">
-            <p>
-                <a href="/">DahVio Studios</a>
-                <a href="/air-force-pfa-standards-guide">DAFMAN Guide</a>
-                <a href="/air-force-pt-calculator-2026">Calculator</a>
-            </p>
+            <div class="footer-inner mono">
+                <div>
+                    <a href="/">Work</a>
+                    <a href="/air-force-pfa-standards-guide">DAFMAN Guide</a>
+                    <a href="/air-force-pt-calculator-2026">Calculator</a>
+                </div>
+                <div>&copy; 2026 DahVio Studios &middot; Long Beach, California</div>
+            </div>
         </div>
     </footer>
 </body>
