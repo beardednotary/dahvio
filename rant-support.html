@@ -13,225 +13,19 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/dahvio.css">
 
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        :root {
-            --bg: #111111;
-            --text: #F0EBE1;
-            --accent: #D4724A;
-            --dim: #B0A898;
-            --border: #2A2A2A;
-            --surface: #1A1A1A;
-            --surface-alt: #222222;
-            --gold: #E8B050;
-        }
-
-        body {
-            font-family: var(--sans);
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        header {
-            padding: 3rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            text-decoration: none;
-            color: var(--text);
-        }
-
-        .logo span { color: var(--accent); }
-
-        .hero {
-            padding: 6rem 0 4rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .breadcrumb {
-            font-size: 0.875rem;
-            color: var(--dim);
-            margin-bottom: 1.5rem;
-        }
-
-        .breadcrumb a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        .breadcrumb a:hover { text-decoration: underline; }
-
-        h1 {
-            font-family: Georgia, serif;
-            font-size: 3.25rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-        }
-
-        .hero-subtitle {
-            font-size: 1.125rem;
-            color: var(--dim);
-            max-width: 620px;
-        }
-
-        .section {
-            padding: 5rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .section-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 2rem;
-        }
-
-        .faq-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            max-width: 760px;
-        }
-
-        .faq-item {
-            background: var(--surface);
-            border-radius: 0.6rem;
-            border-left: 3px solid var(--accent);
-            padding: 1.5rem;
-        }
-
-        .faq-item h3 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .faq-item p {
-            color: var(--dim);
-            font-size: 0.9375rem;
-            line-height: 1.6;
-        }
-
-        .faq-item a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        .faq-item a:hover { text-decoration: underline; }
-
-        .contact-card {
-            background: var(--surface);
-            border-radius: 0.6rem;
-            padding: 2.5rem;
-            max-width: 520px;
-        }
-
-        .contact-card p {
-            color: var(--dim);
-            margin-bottom: 1.5rem;
-            font-size: 0.9375rem;
-            line-height: 1.65;
-        }
-
-        .contact-link {
-            font-size: 1.125rem;
-            color: var(--text);
-            text-decoration: none;
-            padding-bottom: 0.25rem;
-            border-bottom: 2px solid var(--accent);
-            transition: color 0.2s ease;
-        }
-
-        .contact-link:hover { color: var(--accent); }
-
-        .app-strip {
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
-            background: var(--surface);
-            border-radius: 0.6rem;
-            padding: 1.5rem 2rem;
-            margin-bottom: 3rem;
-            max-width: 620px;
-        }
-
-        .app-icon {
-            width: 72px;
-            height: 72px;
-            border-radius: 18px;
-            flex-shrink: 0;
-            object-fit: cover;
-            border: 1px solid rgba(212, 114, 74, 0.4);
-        }
-
-        .app-info h2 {
-            font-size: 1.125rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .app-info p {
-            color: var(--dim);
-            font-size: 0.9rem;
-        }
-
-        .tag {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: rgba(212, 114, 74, 0.12);
-            color: var(--accent);
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-top: 0.45rem;
-        }
-
-        footer {
-            padding: 3rem 0;
-            text-align: center;
-            color: var(--dim);
-            font-size: 0.875rem;
-        }
-
-        footer a {
-            color: var(--dim);
-            text-decoration: none;
-            margin: 0 0.75rem;
-        }
-
-        footer a:hover { color: var(--accent); }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 2.15rem; }
-            .hero { padding: 4rem 0 3rem; }
-            .section { padding: 3rem 0; }
-            .app-strip {
-                padding: 1.25rem;
-                align-items: flex-start;
-            }
-        }
-    </style>
+    <style>:root { --accent: #D4724A; }</style>
 </head>
-<body>
+<body class="doc">
 
     <header>
         <div class="container">
-            <a href="/" class="logo">DahVio<span>.</span></a>
+            <div class="header-inner">
+                <a href="/" class="logo">DahVio<em>.</em></a>
+                <nav class="header-nav mono">
+                    <a href="/">Work</a>
+                    <a href="/rant">Rant</a>
+                </nav>
+            </div>
         </div>
     </header>
 
@@ -329,7 +123,7 @@
         </div>
     </section>
 
-    <section class="section" style="border-bottom: 0;">
+    <section class="section">
         <div class="container">
             <h2 class="section-title">Contact</h2>
 
@@ -342,12 +136,15 @@
 
     <footer>
         <div class="container">
-            <p>
-                <a href="/">DahVio Studios</a>
-                <a href="/rant">Rant &amp; Private Burn Journal</a>
-                <a href="/rant-privacy">Privacy Policy</a>
-                <a href="/rant-support">Support</a>
-            </p>
+            <div class="footer-inner mono">
+                <div>
+                    <a href="/">Work</a>
+                    <a href="/rant">Rant</a>
+                    <a href="/rant-privacy">Privacy</a>
+                    <a href="/rant-support">Support</a>
+                </div>
+                <div>&copy; 2026 DahVio Studios &middot; Long Beach, California</div>
+            </div>
         </div>
     </footer>
 

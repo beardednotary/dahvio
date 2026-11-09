@@ -13,212 +13,19 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/dahvio.css">
 
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        :root {
-            --bg: #0b0c0e;
-            --text: #e6e8ea;
-            --accent: #6a7de0;
-            --dim: #868e99;
-            --border: #1c2026;
-            --surface: #101318;
-            --surface-alt: rgba(106, 125, 224, 0.08);
-        }
-
-        body {
-            font-family: var(--sans);
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        header {
-            padding: 3rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            text-decoration: none;
-            color: var(--text);
-        }
-
-        .logo span { color: var(--accent); }
-
-        .hero {
-            padding: 6rem 0 4rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .breadcrumb {
-            font-size: 0.875rem;
-            color: var(--dim);
-            margin-bottom: 1.5rem;
-        }
-
-        .breadcrumb a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        .breadcrumb a:hover { text-decoration: underline; }
-
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-        }
-
-        .hero-subtitle {
-            font-size: 1.125rem;
-            color: var(--dim);
-            max-width: 640px;
-        }
-
-        .effective-date {
-            display: inline-block;
-            margin-top: 1.25rem;
-            font-size: 0.875rem;
-            color: var(--dim);
-            padding: 0.375rem 0.875rem;
-            background: var(--surface);
-            border-radius: 2rem;
-        }
-
-        .content {
-            padding: 5rem 0;
-            max-width: 760px;
-        }
-
-        .policy-section {
-            margin-bottom: 3.5rem;
-        }
-
-        .policy-section h2 {
-            font-size: 1.375rem;
-            font-weight: 700;
-            letter-spacing: -0.01em;
-            margin-bottom: 1rem;
-            color: var(--text);
-        }
-
-        .policy-section p {
-            color: var(--dim);
-            font-size: 0.9375rem;
-            line-height: 1.7;
-            margin-bottom: 0.875rem;
-        }
-
-        .policy-section p:last-child {
-            margin-bottom: 0;
-        }
-
-        .policy-section ul {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin-bottom: 0.875rem;
-        }
-
-        .policy-section ul li {
-            color: var(--dim);
-            font-size: 0.9375rem;
-            line-height: 1.6;
-            padding-left: 1.25rem;
-            position: relative;
-        }
-
-        .policy-section ul li::before {
-            content: "-";
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-            font-weight: 700;
-        }
-
-        .policy-section a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        .policy-section a:hover { text-decoration: underline; }
-
-        .highlight-box,
-        .detail-box {
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .highlight-box {
-            background: var(--surface);
-            border-left: 3px solid var(--accent);
-        }
-
-        .detail-box {
-            background: var(--surface-alt);
-            border: 1px solid rgba(106, 125, 224, 0.2);
-        }
-
-        .highlight-box p,
-        .detail-box p {
-            color: var(--text) !important;
-            margin: 0 !important;
-            line-height: 1.65;
-        }
-
-        .contact-link {
-            font-size: 1.125rem;
-            color: var(--text);
-            text-decoration: none;
-            padding-bottom: 0.25rem;
-            border-bottom: 2px solid var(--accent);
-            transition: color 0.2s ease;
-        }
-
-        .contact-link:hover { color: var(--accent); }
-
-        footer {
-            padding: 3rem 0;
-            text-align: center;
-            color: var(--dim);
-            font-size: 0.875rem;
-            border-top: 1px solid var(--border);
-        }
-
-        footer a {
-            color: var(--dim);
-            text-decoration: none;
-            margin: 0 0.75rem;
-        }
-
-        footer a:hover { color: var(--accent); }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 2.25rem; }
-            .hero { padding: 4rem 0 3rem; }
-            .content { padding: 3rem 0; }
-        }
-    </style>
+    <style>:root { --accent: #6a7de0; }</style>
 </head>
-<body>
+<body class="doc">
 
     <header>
         <div class="container">
-            <a href="/" class="logo">DahVio<span>.</span></a>
+            <div class="header-inner">
+                <a href="/" class="logo">DahVio<em>.</em></a>
+                <nav class="header-nav mono">
+                    <a href="/">Work</a>
+                    <a href="/just-walk">Just Walk</a>
+                </nav>
+            </div>
         </div>
     </header>
 
@@ -249,7 +56,7 @@
 
             <div class="policy-section">
                 <h2>2. Data Stored on Your Device</h2>
-                <p>To make the app useful across sessions, Just Walk stores a small amount of app data locally on your device using the iOS and Flutter local storage system (<strong style="color: var(--text);">shared_preferences</strong>).</p>
+                <p>To make the app useful across sessions, Just Walk stores a small amount of app data locally on your device using the iOS and Flutter local storage system (<strong>shared_preferences</strong>).</p>
                 <p>This may include:</p>
                 <ul>
                     <li>Saved walk sessions with start time, end time, step count, and total distance</li>
@@ -325,12 +132,15 @@
 
     <footer>
         <div class="container">
-            <p>
-                <a href="/">DahVio Studios</a>
-                <a href="/just-walk">Just Walk</a>
-                <a href="/just-walk-privacy">Privacy Policy</a>
-                <a href="/just-walk-support">Support</a>
-            </p>
+            <div class="footer-inner mono">
+                <div>
+                    <a href="/">Work</a>
+                    <a href="/just-walk">Just Walk</a>
+                    <a href="/just-walk-privacy">Privacy</a>
+                    <a href="/just-walk-support">Support</a>
+                </div>
+                <div>&copy; 2026 DahVio Studios &middot; Long Beach, California</div>
+            </div>
         </div>
     </footer>
 

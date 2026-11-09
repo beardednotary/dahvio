@@ -592,6 +592,298 @@ footer {
     color: var(--accent);
 }
 
+/* ── Doc pages — privacy, support, terms ──────────────────
+   <body class="doc">. Same chrome as every page; the body is
+   set like an appendix: a short hero, then numbered policy
+   sections or a Q&A list, hairlines instead of cards.
+
+     Policy:  .hero (.breadcrumb, h1, .hero-subtitle, .effective-date)
+              .container > .content > .policy-section …
+     Support: .hero, then .section > .app-strip, .section-title,
+              .faq-list > .faq-item …, and a closing .contact-card
+
+   A page overrides only --accent, plus the surface tokens if it
+   is one of the deliberately light pages. */
+.doc .hero {
+    padding: 4.5rem 0 3.5rem;
+}
+
+.doc .hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.breadcrumb {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 1.5rem;
+}
+
+.breadcrumb a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.effective-date {
+    display: block;
+    margin-top: 1.75rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--faint);
+}
+
+.doc .content {
+    max-width: 44rem;
+    padding: 4.5rem 0 5rem;
+}
+
+.doc strong {
+    color: var(--text);
+    font-weight: 500;
+}
+
+.doc code {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    color: var(--text);
+}
+
+.doc .content a:not(.contact-link),
+.doc .section a:not(.contact-link) {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-line);
+    transition: border-color 0.15s ease;
+}
+
+.doc .content a:not(.contact-link):hover,
+.doc .section a:not(.contact-link):hover {
+    border-bottom-color: var(--accent);
+}
+
+.policy-section {
+    margin-bottom: 3rem;
+}
+
+.policy-section h2 {
+    font-size: 1.1875rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.875rem;
+}
+
+.policy-section h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 1.5rem 0 0.5rem;
+}
+
+.policy-section p,
+.policy-section li {
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+}
+
+.policy-section p {
+    margin-bottom: 0.875rem;
+}
+
+.policy-section p:last-child {
+    margin-bottom: 0;
+}
+
+.policy-section ul {
+    list-style: none;
+    margin-bottom: 0.875rem;
+}
+
+.policy-section li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.policy-section li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.85em;
+    width: 0.5rem;
+    height: 1px;
+    background: var(--accent);
+}
+
+/* The short version, crisis notes — same mark as .callout. */
+.highlight-box,
+.crisis-box {
+    border-left: 2px solid var(--accent);
+    background: var(--raise);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+}
+
+/* Storage details — quieter, a hairline frame. */
+.detail-box,
+.sensitive-box {
+    border: 1px solid var(--rule);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.highlight-box p,
+.detail-box p,
+.sensitive-box p {
+    color: var(--text) !important;
+    margin: 0 !important;
+}
+
+.crisis-box {
+    max-width: 44rem;
+    margin: 0 0 3rem;
+}
+
+.crisis-box p {
+    color: var(--dim);
+    font-size: 0.9375rem;
+}
+
+.doc .section {
+    padding: 4.5rem 0;
+}
+
+.doc .section:last-of-type {
+    border-bottom: 0;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin-bottom: 1.75rem;
+}
+
+/* Which app this page is for — icon, name, platform line. */
+.app-strip {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    max-width: 44rem;
+    padding-bottom: 2.5rem;
+    margin-bottom: 3.5rem;
+    border-bottom: 1px solid var(--rule);
+}
+
+.app-icon {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border: 1px solid var(--rule);
+    border-radius: 13px;
+    background: var(--raise);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    object-fit: cover;
+}
+
+.app-info h2 {
+    font-size: 1.0625rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+.app-info p {
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    margin-top: 0.2rem;
+}
+
+.app-info .tag {
+    display: block;
+    margin-top: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--faint);
+}
+
+.faq-list {
+    max-width: 44rem;
+    border-top: 1px solid var(--rule);
+}
+
+.faq-item {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+.faq-item h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+}
+
+.faq-item p,
+.faq-item li {
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+}
+
+.faq-item p + p,
+.faq-item p + ul,
+.faq-item ul + p {
+    margin-top: 0.75rem;
+}
+
+.faq-item ul {
+    padding-left: 1.1rem;
+}
+
+.faq-group-label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 2.75rem 0 0.875rem;
+}
+
+.faq-group-label + .faq-item {
+    border-top: 1px solid var(--rule);
+}
+
+.faq-group-label + .faq-list {
+    margin-top: 0;
+}
+
+.contact-card {
+    max-width: 44rem;
+}
+
+.contact-card p {
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+}
+
 /* ── Responsive ─────────────────────────────────────────── */
 @media (max-width: 800px) {
     .archive {
@@ -657,6 +949,26 @@ footer {
 
     .header-nav {
         gap: 1.1rem;
+    }
+
+    .doc .hero {
+        padding: 3.5rem 0 3rem;
+    }
+
+    .doc .hero h1 {
+        font-size: 2rem;
+    }
+
+    .doc .content {
+        padding: 3.5rem 0 4rem;
+    }
+
+    .doc .section {
+        padding: 3.5rem 0;
+    }
+
+    .app-strip {
+        align-items: flex-start;
     }
 }
 

@@ -13,243 +13,19 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/dahvio.css">
 
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        :root {
-            --bg: #0b0c0e;
-            --text: #e6e8ea;
-            --accent: #6a7de0;
-            --dim: #868e99;
-            --border: #1c2026;
-            --surface: #101318;
-            --surface-alt: #272a31;
-        }
-
-        body {
-            font-family: var(--sans);
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        header {
-            padding: 3rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            text-decoration: none;
-            color: var(--text);
-        }
-
-        .logo span { color: var(--accent); }
-
-        .hero {
-            padding: 6rem 0 4rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .breadcrumb {
-            font-size: 0.875rem;
-            color: var(--dim);
-            margin-bottom: 1.5rem;
-        }
-
-        .breadcrumb a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        .breadcrumb a:hover { text-decoration: underline; }
-
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-        }
-
-        .hero-subtitle {
-            font-size: 1.125rem;
-            color: var(--dim);
-            max-width: 620px;
-        }
-
-        .section {
-            padding: 5rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .section-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 2rem;
-        }
-
-        .faq-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            max-width: 760px;
-        }
-
-        .faq-item {
-            background: var(--surface);
-            border-radius: 0.6rem;
-            border-left: 3px solid var(--accent);
-            padding: 1.5rem;
-        }
-
-        .faq-item h3 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .faq-item p {
-            color: var(--dim);
-            font-size: 0.9375rem;
-            line-height: 1.6;
-        }
-
-        .faq-item a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        .faq-item a:hover { text-decoration: underline; }
-
-        .contact-card {
-            background: var(--surface);
-            border-radius: 0.6rem;
-            padding: 2.5rem;
-            max-width: 520px;
-        }
-
-        .contact-card p {
-            color: var(--dim);
-            margin-bottom: 1.5rem;
-            font-size: 0.9375rem;
-            line-height: 1.65;
-        }
-
-        .contact-link {
-            font-size: 1.125rem;
-            color: var(--text);
-            text-decoration: none;
-            padding-bottom: 0.25rem;
-            border-bottom: 2px solid var(--accent);
-            transition: color 0.2s ease;
-        }
-
-        .contact-link:hover { color: var(--accent); }
-
-        .app-strip {
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
-            background: var(--surface);
-            border-radius: 0.6rem;
-            padding: 1.5rem 2rem;
-            margin-bottom: 3rem;
-            max-width: 620px;
-        }
-
-        .app-icon {
-            width: 72px;
-            height: 72px;
-            border-radius: 18px;
-            background:var(--raise);
-            border: 1px solid rgba(106, 125, 224, 0.35);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            color: #f6f2ea;
-            flex-shrink: 0;
-            text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .app-icon::after {
-            content: "";
-            position: absolute;
-            left: 12px;
-            right: 12px;
-            bottom: 12px;
-            height: 14px;
-            background:none;
-        }
-
-        .app-info h2 {
-            font-size: 1.125rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .app-info p {
-            color: var(--dim);
-            font-size: 0.9rem;
-        }
-
-        .tag {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: rgba(106, 125, 224, 0.12);
-            color: var(--accent);
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-top: 0.45rem;
-        }
-
-        footer {
-            padding: 3rem 0;
-            text-align: center;
-            color: var(--dim);
-            font-size: 0.875rem;
-        }
-
-        footer a {
-            color: var(--dim);
-            text-decoration: none;
-            margin: 0 0.75rem;
-        }
-
-        footer a:hover { color: var(--accent); }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 2.25rem; }
-            .hero { padding: 4rem 0 3rem; }
-            .section { padding: 3rem 0; }
-            .app-strip {
-                padding: 1.25rem;
-                align-items: flex-start;
-            }
-        }
-    </style>
+    <style>:root { --accent: #6a7de0; }</style>
 </head>
-<body>
+<body class="doc">
 
     <header>
         <div class="container">
-            <a href="/" class="logo">DahVio<span>.</span></a>
+            <div class="header-inner">
+                <a href="/" class="logo">DahVio<em>.</em></a>
+                <nav class="header-nav mono">
+                    <a href="/">Work</a>
+                    <a href="/just-walk">Just Walk</a>
+                </nav>
+            </div>
         </div>
     </header>
 
@@ -267,7 +43,7 @@
         <div class="container">
 
             <div class="app-strip">
-                <div class="app-icon">JW</div>
+                <img src="just-walk-icon.png" alt="" class="app-icon">
                 <div class="app-info">
                     <h2>Just Walk</h2>
                     <p>Simple walking tracker with live stats, streaks, and a clean days-you-walked view.</p>
@@ -317,7 +93,7 @@
         </div>
     </section>
 
-    <section class="section" style="border-bottom: 0;">
+    <section class="section">
         <div class="container">
             <h2 class="section-title">Contact</h2>
 
@@ -330,12 +106,15 @@
 
     <footer>
         <div class="container">
-            <p>
-                <a href="/">DahVio Studios</a>
-                <a href="/just-walk">Just Walk</a>
-                <a href="/just-walk-privacy">Privacy Policy</a>
-                <a href="/just-walk-support">Support</a>
-            </p>
+            <div class="footer-inner mono">
+                <div>
+                    <a href="/">Work</a>
+                    <a href="/just-walk">Just Walk</a>
+                    <a href="/just-walk-privacy">Privacy</a>
+                    <a href="/just-walk-support">Support</a>
+                </div>
+                <div>&copy; 2026 DahVio Studios &middot; Long Beach, California</div>
+            </div>
         </div>
     </footer>
 
