@@ -1,11 +1,11 @@
 /* ============================================================
    Hydrate or Diedrate — print poster / ledger.
    This page speaks the app's own visual language instead of the
-   studio's: stark paper, ink, one red. Tokens are LIGHT_THEME and
-   FONTS from src/constants/theme.ts in hydrate-or-diedrate; the
-   rules, stamps and hard shadows follow marketing/app-store/
-   panels.html. Paper only: dark mode is a Preserved feature in
-   the app, so the default face of the product is paper.
+   studio's: stark paper, ink, one red. Tokens are LIGHT_THEME,
+   DARK_THEME and FONTS from src/constants/theme.ts in
+   hydrate-or-diedrate; the rules, stamps and hard shadows follow
+   marketing/app-store/panels.html. Light, dark, or as the device
+   has it, like the app's AUTO theme.
 
    dahvio.css still supplies the reset and the studio header and
    footer; this file re-tokens them and sets everything else.
@@ -25,7 +25,23 @@
     --sans: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
     --mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
 
-    color-scheme: light;
+    --shadow: rgba(20, 20, 18, 0.26);
+
+    color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #121210;      /* DARK_THEME paper */
+        --raise: #1A1A18;
+        --rule: #2C2B28;
+        --ink: #EDEBE3;
+        --text: #EDEBE3;
+        --dim: #A6A39A;
+        --faint: #7F7D76;
+        --accent: #E8502F;
+        --shadow: rgba(0, 0, 0, 0.55);
+    }
 }
 
 body {
@@ -177,7 +193,7 @@ h1,
 .hero-visual {
     background: var(--raise);
     border: 2px solid var(--ink);
-    box-shadow: 6px 6px 0 rgba(20, 20, 18, 0.26);
+    box-shadow: 6px 6px 0 var(--shadow);
     padding: 1.75rem 1.5rem;
 }
 
@@ -308,7 +324,7 @@ h1,
 .preserved-panel {
     background: var(--raise);
     border: 2px solid var(--ink);
-    box-shadow: 6px 6px 0 rgba(20, 20, 18, 0.26);
+    box-shadow: 6px 6px 0 var(--shadow);
     padding: 2.25rem 2.25rem 2rem;
     max-width: 46rem;
 }
@@ -393,10 +409,133 @@ h1,
     border: 1.5px solid var(--accent);
     padding: 0.2rem 0.5rem;
     margin-top: 1rem;
+    text-transform: uppercase;
+}
+
+.icon-thumb {
+    display: block;
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    border: 1px solid var(--rule);
+    margin-bottom: 1rem;
+}
+
+/* ── Hero additions ─────────────────────────────────────── */
+.hero-subtitle + .hero-subtitle {
+    margin-top: 1rem;
+}
+
+.stamp {
+    display: inline-block;
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+    padding: 0.3rem 0.6rem;
+    margin-bottom: 1.25rem;
+}
+
+/* ── Notices: the rules, and three real ones ────────────── */
+.notices {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 22rem);
+    gap: 3rem;
+    align-items: start;
+}
+
+.ledger-list {
+    list-style: none;
+    border-top: 2px solid var(--ink);
+}
+
+.ledger-list li {
+    padding: 0.9rem 0 0.9rem 1.5rem;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+}
+
+.ledger-list li::before {
+    content: '\2014';
+    position: absolute;
+    left: 0;
+    font-family: var(--mono);
+    color: var(--accent);
+}
+
+.notice-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.notice {
+    background: var(--raise);
+    border: 2px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--shadow);
+    padding: 0.9rem 1rem;
+}
+
+.notice-head {
+    display: block;
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 0.625rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 0.3rem;
+}
+
+.notice p {
+    font-size: 1.0625rem;
+    line-height: 1.35;
+}
+
+/* ── Vessels: a three-cell strip, like the app's stats ──── */
+.vessel-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 2px solid var(--ink);
+    max-width: 46rem;
+}
+
+.vessel-strip > div {
+    padding: 1.1rem 1.25rem;
+    border-right: 2px solid var(--ink);
+}
+
+.vessel-strip > div:last-child {
+    border-right: 0;
+}
+
+.vessel-strip strong {
+    display: block;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 1.1;
+}
+
+.vessel-strip span {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-top: 0.25rem;
 }
 
 /* ── Responsive ─────────────────────────────────────────── */
 @media (max-width: 800px) {
+    .notices {
+        grid-template-columns: 1fr;
+    }
+
     .hero-grid {
         grid-template-columns: 1fr;
         gap: 2.5rem;
@@ -444,5 +583,18 @@ h1,
 
     .preserved-grid {
         grid-template-columns: 1fr;
+    }
+
+    .vessel-strip {
+        grid-template-columns: 1fr;
+    }
+
+    .vessel-strip > div {
+        border-right: 0;
+        border-bottom: 2px solid var(--ink);
+    }
+
+    .vessel-strip > div:last-child {
+        border-bottom: 0;
     }
 }

@@ -7,7 +7,7 @@
     <link rel="canonical" href="https://dahvio.com/hydrate-privacy">
     <title>Hydrate or Diedrate - Privacy Policy | DahVio Studios</title>
     <link rel="icon" type="image/png" href="hydrate-icon.png">
-    <meta name="description" content="Privacy policy for Hydrate or Diedrate by DahVio Studios. Water logs, streaks, and settings are stored on-device, with no account and no analytics.">
+    <meta name="description" content="Privacy policy for Hydrate or Diedrate by DahVio Studios. Water logs, streaks, and settings stay on-device, with no account and no analytics. The optional Vessels feature sends a daily goal result and streak under an anonymous ID.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -35,8 +35,8 @@
                 <a href="/">DahVio Studios</a> &rsaquo; Hydrate or Diedrate &rsaquo; Privacy Policy
             </div>
             <h1>Privacy Policy</h1>
-            <p class="hero-subtitle">Hydrate or Diedrate is designed to keep your hydration log on your device. This policy explains what the app stores locally, what permissions it uses, and what DahVio Studios does not collect.</p>
-            <span class="effective-date">Effective: July 2, 2026</span>
+            <p class="hero-subtitle">Hydrate or Diedrate is designed to keep your hydration log on your device. This policy explains what the app stores locally, what permissions it uses, what the optional Vessels feature sends, and what DahVio Studios does not collect.</p>
+            <span class="effective-date">Effective: November 9, 2026</span>
         </div>
     </section>
 
@@ -45,7 +45,7 @@
 
             <div class="policy-section">
                 <div class="highlight-box">
-                    <p>The short version: Hydrate or Diedrate does not require an account, does not run analytics, and does not send your water log to DahVio Studios. Your entries, streak, and settings stay on your device.</p>
+                    <p>The short version: Hydrate or Diedrate does not require an account, does not run analytics, and does not send your water log to DahVio Studios. Your entries, streak, and settings stay on your device. The one exception is Vessels, an optional Preserved feature: if you join a group, the app sends a daily yes-or-no on whether you met your goal, and your streak, under an anonymous ID.</p>
                 </div>
             </div>
 
@@ -59,9 +59,9 @@
                 <p>To make the app useful across sessions, Hydrate or Diedrate stores app data locally on your device using React Native's on-device storage system (<strong>AsyncStorage</strong>).</p>
                 <p>This may include:</p>
                 <ul>
-                    <li>Your daily water goal, preferred unit (oz or mL), and theme setting</li>
+                    <li>Your daily water goal, preferred unit (oz or mL), theme, reminder times, quick-log amounts, and day reset time</li>
                     <li>Logged water entries for each day, including amount and timestamp</li>
-                    <li>Your current and best hydration streak</li>
+                    <li>Your current and best hydration streak, and your Trials and Commendations</li>
                     <li>Whether onboarding has been completed</li>
                     <li>An archive of past reminder notifications you've received (used for the in-app notification history)</li>
                     <li>Whether you have purchased Preserved &mdash; Lifetime Access, and your selected app icon</li>
@@ -69,17 +69,19 @@
                 </ul>
 
                 <div class="detail-box">
-                    <p>This data is stored locally on your device only. It is not uploaded to a DahVio server, tied to a DahVio account, or used to build a behavioral profile.</p>
+                    <p>This data is stored locally on your device. It is not uploaded to a DahVio server, tied to a DahVio account, or used to build a behavioral profile. The only data that leaves your device for a server is what Vessels sends, described in section 7.</p>
                 </div>
+
+                <p>The Apple Watch app and the home and lock screen widgets show the same record. Your iPhone shares it with them on your own devices, through a shared on-device container and Apple&rsquo;s connection between iPhone and Apple Watch, not through a DahVio server.</p>
             </div>
 
             <div class="policy-section">
                 <h2>3. Apple Health</h2>
-                <p>If you enable Health sync (a Preserved feature), Hydrate or Diedrate requests permission to <strong>write</strong> your logged water intake to Apple Health.</p>
+                <p>If you enable Health sync, Hydrate or Diedrate requests permission to <strong>write</strong> your logged water intake to Apple Health.</p>
                 <ul>
                     <li>The app requests write-only access to the Water category in Health</li>
                     <li>The app does not request or read any of your existing Health data</li>
-                    <li>Health sync is off by default and only runs for Preserved members who enable it in Settings</li>
+                    <li>Health sync is off by default and only runs if you enable it in Settings</li>
                     <li>Data written to Health is governed by Apple's Health privacy protections, not by DahVio Studios</li>
                 </ul>
             </div>
@@ -96,38 +98,55 @@
             </div>
 
             <div class="policy-section">
-                <h2>6. No Account Required. No Backend.</h2>
+                <h2>6. No Account Required</h2>
                 <p>Hydrate or Diedrate has no sign-in flow, no registration system, and no cloud account required to use the app. There is no DahVio user profile attached to your hydration log.</p>
             </div>
 
             <div class="policy-section">
-                <h2>7. No Analytics, Ads, or Tracking SDKs</h2>
-                <p>Hydrate or Diedrate does not include analytics, advertising, or behavioral tracking frameworks operated by DahVio Studios. DahVio Studios does not receive a log of when you drink water, how often you open the app, or what your streak is.</p>
+                <h2>7. Vessels (Optional)</h2>
+                <p>Vessels is an optional Preserved feature: a private group of up to six people that sees a weekly anonymous tally of who remains preserved. Nothing described in this section happens unless you open Vessels.</p>
+                <p>When you first open it, the app creates an anonymous sign-in with our backend provider, Supabase. It is a random ID for this device, with no name, email, phone number, or Apple ID attached. If you create or join a group, the backend stores:</p>
+                <ul>
+                    <li>The group&rsquo;s join code, and a group name if its creator chose one</li>
+                    <li>That your anonymous ID is a member of the group, and when it joined</li>
+                    <li>One report per day for each group you are in: the date, whether you met your daily goal, and your current streak</li>
+                </ul>
+                <p>Your water entries, amounts, goal, notices, and Health data are never sent.</p>
+                <p>Other members never see your individual reports. The group sees its member count and, once it has at least three members, how many members met their goal on their most recent report and how many did not. Groups with fewer than three members see no tally.</p>
+                <p>Like any web service, Supabase handles technical connection data, such as your IP address, to deliver these requests.</p>
+                <div class="detail-box">
+                    <p>Leaving a group deletes your membership and all of your reports for that group. If you delete the app without leaving, your reports stay on the backend under the anonymous ID, which is not linked to your name, email, or Apple ID.</p>
+                </div>
             </div>
 
             <div class="policy-section">
-                <h2>8. Deleting or Resetting Your Data</h2>
+                <h2>8. No Analytics, Ads, or Tracking SDKs</h2>
+                <p>Hydrate or Diedrate does not include analytics, advertising, or behavioral tracking frameworks operated by DahVio Studios. DahVio Studios does not receive a log of when you drink water or how often you open the app. The only usage-related data that reaches a server is the daily Vessels report described in section 7, and only if you join a group.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>9. Deleting or Resetting Your Data</h2>
                 <p>Because your Hydrate or Diedrate data is stored locally on your device, removing the app from your device removes the locally stored data associated with it.</p>
-                <p>DahVio Studios does not retain a server-side copy of your hydration log.</p>
+                <p>DahVio Studios does not retain a server-side copy of your hydration log. If you use Vessels, leave each group before deleting the app to remove your reports from the backend (see section 7).</p>
             </div>
 
             <div class="policy-section">
-                <h2>9. Children's Privacy</h2>
+                <h2>10. Children's Privacy</h2>
                 <p>Hydrate or Diedrate is a general-use hydration tracking app. It does not knowingly collect personal information from children under 13, and it does not require personal information from any user in order to function.</p>
             </div>
 
             <div class="policy-section">
-                <h2>10. Apple's Data Practices</h2>
+                <h2>11. Apple's Data Practices</h2>
                 <p>While DahVio Studios does not collect your hydration log, Apple may collect certain information as part of normal iOS, HealthKit, and App Store operations. For more information about Apple's own practices, please review <a href="https://www.apple.com/privacy/" target="_blank" rel="noopener">Apple's Privacy Policy</a>.</p>
             </div>
 
             <div class="policy-section">
-                <h2>11. Changes to This Policy</h2>
+                <h2>12. Changes to This Policy</h2>
                 <p>If the app's privacy or data handling practices ever change, this policy will be updated with a new effective date.</p>
             </div>
 
             <div class="policy-section">
-                <h2>12. Contact</h2>
+                <h2>13. Contact</h2>
                 <p>Questions about this privacy policy or the app?</p>
                 <br>
                 <a href="mailto:ray@dahvio.com?subject=Hydrate%20or%20Diedrate%20Privacy" class="contact-link">ray@dahvio.com</a>
