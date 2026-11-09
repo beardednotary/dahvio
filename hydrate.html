@@ -88,503 +88,22 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/dahvio.css">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg: #F3E9D2;
-            --bg-deep: #EAD9B8;
-            --surface: #FDFAF4;
-            --ink: #1E1E1C;
-            --ink-faint: #3D3D38;
-            --ink-ghost: #6B6B64;
-            --teal: #1A7F80;
-            --teal-deep: #145F60;
-            --teal-light: #2E9FA5;
-            --teal-faint: #D0E8E9;
-            --red: #8A3B2D;
-            --red-faint: #E8D0CB;
-            --gold: #A9822F;
-            --gold-faint: #F0E4C8;
-            --border: rgba(30, 30, 28, 0.14);
-            /* System-token aliases: this page is light by design. */
-            --text: #1E1E1C;
-            --dim: #3D3D38;
-            --faint: #6B6B64;
-            --rule: rgba(30, 30, 28, 0.14);
-            --raise: #FDFAF4;
-        }
-
-        body {
-            font-family: var(--sans);
-            background: var(--bg);
-            color: var(--ink);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .serif {
-            font-family: Georgia, "Times New Roman", serif;
-        }
-
-        .mono {
-            font-family: "Courier New", monospace;
-        }
-
-        .container {
-            max-width: 1120px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        header {
-            padding: 2rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .header-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            text-decoration: none;
-            color: var(--ink);
-        }
-
-        .logo span {
-            color: var(--teal);
-        }
-
-        .hero {
-            padding: 5.5rem 0 5rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .hero-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .eyebrow {
-            font-size: 0.78rem;
-            font-weight: 700;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: var(--teal-deep);
-            margin-bottom: 1rem;
-        }
-
-        h1 {
-            font-size: 3.6rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            line-height: 1.03;
-            margin-bottom: 0.75rem;
-            max-width: 620px;
-        }
-
-        .subtitle {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--red);
-            margin-bottom: 1.25rem;
-        }
-
-        .hero-subtitle {
-            max-width: 560px;
-            font-size: 1.05rem;
-            color: var(--ink-faint);
-            line-height: 1.75;
-            margin-bottom: 1.85rem;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 2.25rem;
-        }
-
-        .btn-primary,
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            padding: 0.95rem 1.6rem;
-            border-radius: 0.4rem;
-            font-size: 0.95rem;
-            font-weight: 700;
-            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-        }
-
-        .btn-primary {
-            background: var(--teal);
-            color: var(--surface);
-            box-shadow: 0 14px 32px rgba(26, 127, 128, 0.22);
-        }
-
-        .btn-primary:hover {
-            background: var(--teal-deep);
-            transform: translateY(-1px);
-        }
-
-        .btn-secondary {
-            color: var(--ink);
-            border: 1px solid var(--border);
-            background: var(--surface);
-        }
-
-        .btn-secondary:hover {
-            color: var(--teal-deep);
-            border-color: var(--teal);
-        }
-
-        .hero-points {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 1rem;
-            max-width: 760px;
-        }
-
-        .hero-point {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 0.6rem;
-            padding: 1rem 1.1rem;
-        }
-
-        .hero-point strong {
-            display: block;
-            color: var(--teal-deep);
-            font-size: 0.98rem;
-            margin-bottom: 0.35rem;
-        }
-
-        .hero-point span {
-            color: var(--ink-ghost);
-            font-size: 0.87rem;
-            line-height: 1.45;
-        }
-
-        .hero-visual {
-            background: var(--surface);
-            border: 1px solid var(--gold);
-            border-radius: 1.25rem;
-            min-height: 380px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            box-shadow: 0 24px 50px rgba(30, 30, 28, 0.12);
-            position: relative;
-        }
-
-        .hero-visual::before {
-            content: "";
-            position: absolute;
-            inset: 10px;
-            border: 1px solid rgba(169, 130, 47, 0.4);
-            border-radius: 1rem;
-            pointer-events: none;
-        }
-
-        .hero-icon {
-            width: min(100%, 190px);
-            display: block;
-            border-radius: 40px;
-            box-shadow: 0 20px 44px rgba(30, 30, 28, 0.22);
-            margin-bottom: 1.5rem;
-        }
-
-        .hero-visual-label {
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 0.35rem;
-        }
-
-        .hero-visual-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--ink);
-            text-align: center;
-        }
-
-        .section {
-            padding: 5rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .section-label {
-            font-size: 0.76rem;
-            font-weight: 700;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: var(--teal-deep);
-            margin-bottom: 0.75rem;
-        }
-
-        .section-title {
-            font-size: 2.05rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 0.9rem;
-        }
-
-        .section-intro {
-            max-width: 700px;
-            color: var(--ink-faint);
-            font-size: 1rem;
-            line-height: 1.75;
-            margin-bottom: 2.3rem;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1rem;
-        }
-
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 0.7rem;
-            padding: 1.35rem;
-        }
-
-        .card h3 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 0.55rem;
-            letter-spacing: -0.01em;
-        }
-
-        .card p {
-            color: var(--ink-faint);
-            font-size: 0.94rem;
-            line-height: 1.6;
-        }
-
-        /* Status ladder */
-        .ladder {
-            display: flex;
-            flex-direction: column;
-            border: 1px solid var(--border);
-            border-radius: 0.7rem;
-            overflow: hidden;
-            background: var(--surface);
-        }
-
-        .ladder-row {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.9rem 1.35rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .ladder-row:last-child {
-            border-bottom: none;
-            background: var(--gold-faint);
-        }
-
-        .ladder-pct {
-            font-family: "Courier New", monospace;
-            font-size: 0.8rem;
-            color: var(--ink-ghost);
-            width: 76px;
-            flex-shrink: 0;
-        }
-
-        .ladder-label {
-            font-weight: 700;
-            font-size: 0.98rem;
-            width: 170px;
-            flex-shrink: 0;
-        }
-
-        .ladder-row:last-child .ladder-label {
-            color: var(--gold);
-        }
-
-        .ladder-sub {
-            color: var(--ink-ghost);
-            font-size: 0.9rem;
-            font-style: italic;
-        }
-
-        /* Preserved / premium panel */
-        .preserved-panel {
-            background: var(--ink);
-            color: var(--bg);
-            border-radius: 1rem;
-            padding: 2.5rem;
-            border: 1px solid var(--gold);
-        }
-
-        .preserved-label {
-            font-family: "Courier New", monospace;
-            font-size: 0.78rem;
-            letter-spacing: 0.22em;
-            color: var(--gold);
-            font-weight: 700;
-            margin-bottom: 0.4rem;
-        }
-
-        .preserved-title {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            font-family: Georgia, serif;
-        }
-
-        .preserved-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 0.6rem 1.5rem;
-            margin-bottom: 1.75rem;
-        }
-
-        .preserved-feature {
-            display: flex;
-            align-items: baseline;
-            gap: 0.6rem;
-            font-family: "Courier New", monospace;
-            font-size: 0.88rem;
-            letter-spacing: 0.02em;
-            color: #EDE3CF;
-        }
-
-        .preserved-feature::before {
-            content: "-";
-            color: var(--teal-light);
-        }
-
-        .preserved-note {
-            color: #A8A296;
-            font-size: 0.88rem;
-            font-style: italic;
-        }
-
-        /* Icon variants */
-        .icon-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .icon-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 0.7rem;
-            padding: 1.1rem 1.25rem;
-        }
-
-        .icon-card-name {
-            font-weight: 700;
-            font-size: 0.95rem;
-            margin-bottom: 0.35rem;
-        }
-
-        .icon-card-desc {
-            color: var(--ink-ghost);
-            font-size: 0.85rem;
-            line-height: 1.5;
-        }
-
-        .icon-tag {
-            display: inline-block;
-            margin-top: 0.6rem;
-            font-family: "Courier New", monospace;
-            font-size: 0.7rem;
-            color: var(--gold);
-            letter-spacing: 0.06em;
-        }
-
-        footer {
-            padding: 3rem 0;
-            text-align: center;
-            color: var(--ink-ghost);
-            font-size: 0.875rem;
-        }
-
-        footer a {
-            color: var(--ink-ghost);
-            text-decoration: none;
-            margin: 0 0.75rem;
-        }
-
-        footer a:hover {
-            color: var(--teal-deep);
-        }
-
-        @media (max-width: 960px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-visual {
-                max-width: 380px;
-            }
-
-            .ladder-row {
-                flex-wrap: wrap;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 1.25rem;
-            }
-
-            .hero {
-                padding: 4rem 0 3rem;
-            }
-
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero-points {
-                grid-template-columns: 1fr;
-            }
-
-            .section {
-                padding: 3.5rem 0;
-            }
-
-            .preserved-panel {
-                padding: 1.75rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/hydrate.css">
 </head>
 <body>
 
     <header>
         <div class="container">
             <div class="header-inner">
-                <a href="/" class="logo">DahVio<span>.</span></a>
+                <a href="/" class="logo">DahVio<em>.</em></a>
+                <nav class="header-nav mono">
+                    <a href="/">Work</a>
+                    <a href="/hydrate-support">Support</a>
+                    <a href="https://apps.apple.com/us/app/hydrate-or-diedrate-tracker/id6772648377" target="_blank" rel="noopener">Get it</a>
+                </nav>
             </div>
         </div>
     </header>
@@ -594,7 +113,7 @@
             <div class="hero-grid">
                 <div>
                     <div class="eyebrow">DahVio Studios presents</div>
-                    <h1 class="serif">Hydrate or Diedrate</h1>
+                    <h1>Hydrate or Diedrate</h1>
                     <p class="subtitle">Drink water. Avoid doom.</p>
                     <p class="hero-subtitle">Most hydration apps send cheerful little droplets to remind you to drink water. This one sends the skull. A no-nonsense water tracker with a dark sense of humor, a vintage medical illustration aesthetic, and notifications that read like official dehydration notices.</p>
 
@@ -622,7 +141,7 @@
                 <div class="hero-visual">
                     <img src="hydrate-icon.png" alt="Hydrate or Diedrate app icon" class="hero-icon">
                     <div class="hero-visual-label">The vessel requires water</div>
-                    <div class="hero-visual-title serif">You already knew that.</div>
+                    <div class="hero-visual-title">You already knew that.</div>
                 </div>
             </div>
         </div>
@@ -631,7 +150,7 @@
     <section class="section">
         <div class="container">
             <div class="section-label">The status system</div>
-            <h2 class="section-title serif">Your hydration, tracked like a case file.</h2>
+            <h2 class="section-title">Your hydration, tracked like a case file.</h2>
             <p class="section-intro">Every percentage of your daily goal maps to a status. It climbs as you drink and recedes as the day goes on. The skull is watching either way.</p>
 
             <div class="ladder">
@@ -682,7 +201,7 @@
     <section class="section">
         <div class="container">
             <div class="section-label">What's in it</div>
-            <h2 class="section-title serif">Track water. Take it seriously. Enjoy it anyway.</h2>
+            <h2 class="section-title">Track water. Take it seriously. Enjoy it anyway.</h2>
 
             <div class="grid">
                 <div class="card">
@@ -721,7 +240,7 @@
     <section class="section">
         <div class="container">
             <div class="section-label">Upgrade</div>
-            <h2 class="section-title serif">Preserved &mdash; Lifetime Access</h2>
+            <h2 class="section-title">Preserved &mdash; Lifetime Access</h2>
             <p class="section-intro">A single, one-time purchase. No subscription, no renewal notices &mdash; just water.</p>
 
             <div class="preserved-panel">
@@ -744,7 +263,7 @@
     <section class="section">
         <div class="container">
             <div class="section-label">Preserved feature</div>
-            <h2 class="section-title serif">Six ways to wear the skull.</h2>
+            <h2 class="section-title">Six ways to wear the skull.</h2>
             <p class="section-intro">Alternate app icons unlock for Preserved members. A couple require a streak to earn.</p>
 
             <div class="icon-grid">
@@ -777,10 +296,10 @@
         </div>
     </section>
 
-    <section class="section" style="border-bottom: 0;">
+    <section class="section">
         <div class="container">
             <div class="section-label">FAQ</div>
-            <h2 class="section-title serif">A few quick answers.</h2>
+            <h2 class="section-title">A few quick answers.</h2>
 
             <div class="grid">
                 <div class="card">
@@ -800,7 +319,7 @@
 
                 <div class="card">
                     <h3>Questions or bugs?</h3>
-                    <p>Email <a href="mailto:ray@dahvio.com?subject=Hydrate%20or%20Diedrate" style="color: var(--teal-deep); text-decoration: none;">ray@dahvio.com</a>. What happened, what device, what you expected &mdash; that's enough to go on.</p>
+                    <p>Email <a href="mailto:ray@dahvio.com?subject=Hydrate%20or%20Diedrate">ray@dahvio.com</a>. What happened, what device, what you expected &mdash; that's enough to go on.</p>
                 </div>
             </div>
         </div>
@@ -808,12 +327,15 @@
 
     <footer>
         <div class="container">
-            <p>
-                <a href="/">DahVio Studios</a>
-                <a href="/hydrate-privacy">Privacy Policy</a>
-                <a href="/hydrate-support">Support</a>
-                <a href="https://apps.apple.com/us/app/hydrate-or-diedrate-tracker/id6772648377" target="_blank" rel="noopener">App Store</a>
-            </p>
+            <div class="footer-inner mono">
+                <div>
+                    <a href="/">Work</a>
+                    <a href="/hydrate-privacy">Privacy</a>
+                    <a href="/hydrate-support">Support</a>
+                    <a href="https://apps.apple.com/us/app/hydrate-or-diedrate-tracker/id6772648377" target="_blank" rel="noopener">App Store</a>
+                </div>
+                <div>&copy; 2026 DahVio Studios &middot; Long Beach, California</div>
+            </div>
         </div>
     </footer>
 

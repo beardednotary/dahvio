@@ -1,0 +1,448 @@
+/* ============================================================
+   Hydrate or Diedrate — print poster / ledger.
+   This page speaks the app's own visual language instead of the
+   studio's: stark paper, ink, one red. Tokens are LIGHT_THEME and
+   FONTS from src/constants/theme.ts in hydrate-or-diedrate; the
+   rules, stamps and hard shadows follow marketing/app-store/
+   panels.html. Paper only: dark mode is a Preserved feature in
+   the app, so the default face of the product is paper.
+
+   dahvio.css still supplies the reset and the studio header and
+   footer; this file re-tokens them and sets everything else.
+   ============================================================ */
+
+:root {
+    --bg: #F4F2ED;          /* paper */
+    --raise: #FAF9F5;       /* raised */
+    --rule: #DAD7CE;        /* line */
+    --ink: #141412;         /* lineStrong / ink */
+    --text: #141412;        /* ink */
+    --dim: #57554E;         /* inkMute */
+    --faint: #706E66;       /* inkFaint */
+    --accent: #C63B21;      /* red — the one accent */
+
+    --display: 'Anton', 'Impact', 'Arial Narrow', sans-serif;
+    --sans: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+
+    color-scheme: light;
+}
+
+body {
+    background: var(--bg);
+}
+
+/* ── Chrome ─────────────────────────────────────────────── */
+header {
+    border-bottom: 2px solid var(--ink);
+}
+
+.header-nav a {
+    color: var(--dim);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+}
+
+footer {
+    border-top: 2px solid var(--ink);
+}
+
+/* ── Type ───────────────────────────────────────────────── */
+.eyebrow,
+.section-label {
+    display: block;
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+}
+
+h1,
+.section-title,
+.hero-visual-title,
+.preserved-title,
+.icon-card-name {
+    font-family: var(--display);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 1.06;
+    color: var(--ink);
+}
+
+/* ── Hero ───────────────────────────────────────────────── */
+.hero {
+    padding: 5.5rem 0 4.5rem;
+    border-bottom: 2px solid var(--ink);
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 16rem;
+    gap: 4rem;
+    align-items: start;
+}
+
+.hero h1 {
+    font-size: clamp(3.25rem, 8vw, 5.75rem);
+    margin-bottom: 1.25rem;
+}
+
+.subtitle {
+    font-size: 1.375rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    color: var(--dim);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    max-width: 56ch;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2.25rem;
+}
+
+.btn-primary,
+.btn-secondary {
+    display: inline-block;
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 0.8125rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.9rem 1.4rem;
+    border: 2px solid var(--ink);
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-primary {
+    background: var(--ink);
+    color: var(--bg);
+}
+
+.btn-primary:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.btn-secondary {
+    color: var(--ink);
+}
+
+.btn-secondary:hover {
+    background: var(--ink);
+    color: var(--bg);
+}
+
+/* The strip: three cells in an ink frame, like the app's day strip. */
+.hero-points {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 2px solid var(--ink);
+    margin-top: 3rem;
+}
+
+.hero-point {
+    padding: 1rem 1.1rem;
+    border-right: 2px solid var(--ink);
+}
+
+.hero-point:last-child {
+    border-right: 0;
+}
+
+.hero-point strong {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+
+.hero-point span {
+    display: block;
+    color: var(--dim);
+    font-size: 0.875rem;
+    line-height: 1.45;
+}
+
+.hero-visual {
+    background: var(--raise);
+    border: 2px solid var(--ink);
+    box-shadow: 6px 6px 0 rgba(20, 20, 18, 0.26);
+    padding: 1.75rem 1.5rem;
+}
+
+.hero-icon {
+    width: 96px;
+    height: 96px;
+    border-radius: 22px;
+    margin-bottom: 1.5rem;
+}
+
+.hero-visual-label {
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid var(--ink);
+}
+
+.hero-visual-title {
+    font-size: 2rem;
+}
+
+/* ── Sections ───────────────────────────────────────────── */
+.section {
+    padding: 5rem 0;
+    border-bottom: 2px solid var(--ink);
+}
+
+.section:last-of-type {
+    border-bottom: 0;
+}
+
+.section-title {
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    margin-bottom: 1rem;
+    max-width: 18ch;
+}
+
+.section-intro {
+    color: var(--dim);
+    font-size: 1.0625rem;
+    max-width: 56ch;
+    margin-bottom: 2.75rem;
+}
+
+.section a:not([class]) {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+}
+
+/* ── The status ladder: a ledger ────────────────────────── */
+.ladder {
+    border-top: 2px solid var(--ink);
+    max-width: 46rem;
+}
+
+.ladder-row {
+    display: grid;
+    grid-template-columns: 7rem 13rem 1fr;
+    align-items: baseline;
+    gap: 1.25rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+.ladder-pct {
+    font-family: var(--display);
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.ladder-label {
+    font-weight: 600;
+}
+
+.ladder-sub {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    color: var(--faint);
+}
+
+/* Preserved is the only row that earns the stamp. */
+.ladder-row:last-child {
+    border-bottom: 2px solid var(--ink);
+}
+
+.ladder-row:last-child .ladder-label {
+    justify-self: start;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+    padding: 0.2rem 0.6rem;
+}
+
+/* ── Cards: ledger columns under an ink rule ────────────── */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 0 2.5rem;
+}
+
+.card {
+    border-top: 2px solid var(--ink);
+    padding: 1.1rem 0 2rem;
+}
+
+.card h3 {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+.card p {
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+}
+
+/* ── Preserved: the certificate ─────────────────────────── */
+.preserved-panel {
+    background: var(--raise);
+    border: 2px solid var(--ink);
+    box-shadow: 6px 6px 0 rgba(20, 20, 18, 0.26);
+    padding: 2.25rem 2.25rem 2rem;
+    max-width: 46rem;
+}
+
+.preserved-label {
+    display: inline-block;
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 0.8125rem;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+    padding: 0.35rem 0.8rem;
+    margin-bottom: 1.25rem;
+}
+
+.preserved-title {
+    font-size: 2rem;
+    padding-bottom: 1.25rem;
+    margin-bottom: 0.25rem;
+    border-bottom: 1px solid var(--ink);
+}
+
+.preserved-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0 2rem;
+}
+
+.preserved-feature {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 500;
+}
+
+.preserved-feature::before {
+    content: '+';
+    font-family: var(--mono);
+    font-weight: 600;
+    color: var(--accent);
+    margin-right: 0.6rem;
+}
+
+.preserved-note {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    color: var(--faint);
+    margin-top: 1.25rem;
+}
+
+/* ── Alternate icons ────────────────────────────────────── */
+.icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.25rem;
+}
+
+.icon-card {
+    border: 2px solid var(--ink);
+    padding: 1.25rem 1.25rem 1.4rem;
+}
+
+.icon-card-name {
+    font-size: 1.625rem;
+    margin-bottom: 0.5rem;
+}
+
+.icon-card-desc {
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+}
+
+.icon-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 0.6875rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+    padding: 0.2rem 0.5rem;
+    margin-top: 1rem;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 800px) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .hero-visual {
+        max-width: 20rem;
+    }
+
+    .ladder-row {
+        grid-template-columns: 5.5rem 1fr;
+        gap: 0.25rem 1rem;
+    }
+
+    .ladder-sub {
+        grid-column: 2;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero {
+        padding: 3.5rem 0 3rem;
+    }
+
+    .hero-points {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-point {
+        border-right: 0;
+        border-bottom: 2px solid var(--ink);
+    }
+
+    .hero-point:last-child {
+        border-bottom: 0;
+    }
+
+    .section {
+        padding: 3.5rem 0;
+    }
+
+    .preserved-panel {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .preserved-grid {
+        grid-template-columns: 1fr;
+    }
+}
