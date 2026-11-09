@@ -397,14 +397,16 @@ a.row:hover .row-arrow {
 }
 
 /* ── Data tables — scoring charts, standards, references ── */
-.data-table {
+.data-table,
+.guide table {
     width: 100%;
     border-collapse: collapse;
     font-variant-numeric: tabular-nums;
     margin: 1.5rem 0;
 }
 
-.data-table caption {
+.data-table caption,
+.guide table caption {
     text-align: left;
     color: var(--faint);
     font-family: var(--mono);
@@ -414,7 +416,8 @@ a.row:hover .row-arrow {
     padding-bottom: 0.875rem;
 }
 
-.data-table th {
+.data-table th,
+.guide table th {
     text-align: left;
     font-family: var(--mono);
     font-size: 0.75rem;
@@ -427,14 +430,16 @@ a.row:hover .row-arrow {
     white-space: nowrap;
 }
 
-.data-table td {
+.data-table td,
+.guide table td {
     padding: 0.6rem 1rem 0.6rem 0;
     border-bottom: 1px solid var(--rule);
     color: var(--dim);
     font-size: 0.9375rem;
 }
 
-.data-table td:first-child {
+.data-table td:first-child,
+.guide table td:first-child {
     color: var(--text);
     font-weight: 500;
 }
@@ -592,6 +597,762 @@ footer {
     color: var(--accent);
 }
 
+/* ── Doc pages — privacy, support, terms ──────────────────
+   <body class="doc">. Same chrome as every page; the body is
+   set like an appendix: a short hero, then numbered policy
+   sections or a Q&A list, hairlines instead of cards.
+
+     Policy:  .hero (.breadcrumb, h1, .hero-subtitle, .effective-date)
+              .container > .content > .policy-section …
+     Support: .hero, then .section > .app-strip, .section-title,
+              .faq-list > .faq-item …, and a closing .contact-card
+
+   A page overrides only --accent, plus the surface tokens if it
+   is one of the deliberately light pages. */
+.doc .hero {
+    padding: 4.5rem 0 3.5rem;
+}
+
+.doc .hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.doc .breadcrumb {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 1.5rem;
+}
+
+.doc .breadcrumb a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.doc .breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.doc .effective-date {
+    display: block;
+    margin-top: 1.75rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--faint);
+}
+
+.doc .content {
+    max-width: 44rem;
+    padding: 4.5rem 0 5rem;
+}
+
+.doc strong {
+    color: var(--text);
+    font-weight: 500;
+}
+
+.doc code {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    color: var(--text);
+}
+
+.doc .content a:not(.contact-link),
+.doc .section a:not(.contact-link) {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-line);
+    transition: border-color 0.15s ease;
+}
+
+.doc .content a:not(.contact-link):hover,
+.doc .section a:not(.contact-link):hover {
+    border-bottom-color: var(--accent);
+}
+
+.doc .policy-section {
+    margin-bottom: 3rem;
+}
+
+.doc .policy-section h2 {
+    font-size: 1.1875rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.875rem;
+}
+
+.doc .policy-section h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 1.5rem 0 0.5rem;
+}
+
+.doc .policy-section p,
+.doc .policy-section li {
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+}
+
+.doc .policy-section p {
+    margin-bottom: 0.875rem;
+}
+
+.doc .policy-section p:last-child {
+    margin-bottom: 0;
+}
+
+.doc .policy-section ul {
+    list-style: none;
+    margin-bottom: 0.875rem;
+}
+
+.doc .policy-section li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.doc .policy-section li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.85em;
+    width: 0.5rem;
+    height: 1px;
+    background: var(--accent);
+}
+
+/* The short version, crisis notes — same mark as .callout. */
+.doc .highlight-box,
+.doc .crisis-box {
+    border-left: 2px solid var(--accent);
+    background: var(--raise);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+}
+
+/* Storage details — quieter, a hairline frame. */
+.doc .detail-box,
+.doc .sensitive-box {
+    border: 1px solid var(--rule);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.doc .highlight-box p,
+.doc .detail-box p,
+.doc .sensitive-box p {
+    color: var(--text) !important;
+    margin: 0 !important;
+}
+
+.doc .crisis-box {
+    max-width: 44rem;
+    margin: 0 0 3rem;
+}
+
+.doc .crisis-box p {
+    color: var(--dim);
+    font-size: 0.9375rem;
+}
+
+.doc .section {
+    padding: 4.5rem 0;
+}
+
+.doc .section:last-of-type {
+    border-bottom: 0;
+}
+
+.doc .section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin-bottom: 1.75rem;
+}
+
+/* Which app this page is for — icon, name, platform line. */
+.doc .app-strip {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    max-width: 44rem;
+    padding-bottom: 2.5rem;
+    margin-bottom: 3.5rem;
+    border-bottom: 1px solid var(--rule);
+}
+
+.doc .app-icon {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border: 1px solid var(--rule);
+    border-radius: 13px;
+    background: var(--raise);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    object-fit: cover;
+}
+
+.doc .app-info h2 {
+    font-size: 1.0625rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+.doc .app-info p {
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    margin-top: 0.2rem;
+}
+
+.doc .app-info .tag {
+    display: block;
+    margin-top: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--faint);
+}
+
+.doc .faq-list {
+    max-width: 44rem;
+    border-top: 1px solid var(--rule);
+}
+
+.doc .faq-item {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+.doc .faq-item h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+}
+
+.doc .faq-item p,
+.doc .faq-item li {
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+}
+
+.doc .faq-item p + p,
+.doc .faq-item p + ul,
+.doc .faq-item ul + p {
+    margin-top: 0.75rem;
+}
+
+.doc .faq-item ul {
+    padding-left: 1.1rem;
+}
+
+.doc .faq-group-label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 2.75rem 0 0.875rem;
+}
+
+.doc .faq-group-label + .faq-item {
+    border-top: 1px solid var(--rule);
+}
+
+.doc .faq-group-label + .faq-list {
+    margin-top: 0;
+}
+
+.doc .contact-card {
+    max-width: 44rem;
+}
+
+.doc .contact-card p {
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+}
+
+/* ── Tool and guide pages — calculators, score charts ─────
+   <body class="tool"> for a web calculator with its app pitch;
+   <body class="guide"> for the standards, score-chart and
+   regulation explainers around it. The page keeps only its
+   accent and, on a tool, its own scoring widget (.aftc, .pfac…). */
+.tool .hero-eyebrow,
+.guide .eyebrow,
+:is(.tool, .guide) .section-label,
+:is(.tool, .guide) .example-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+}
+
+.tool .hero-eyebrow,
+.guide .eyebrow {
+    margin-bottom: 1.5rem;
+}
+
+:is(.tool, .guide) .hero h1 .highlight {
+    color: var(--accent);
+}
+
+.tool .hero h1 {
+    max-width: none;
+}
+
+:is(.tool, .guide) .hero-seo-hook {
+    color: var(--text) !important;
+    margin-bottom: 1rem;
+}
+
+:is(.tool, .guide) .hero-cta-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.875rem;
+    margin-top: 2.5rem;
+}
+
+:is(.tool, .guide) .hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 3rem;
+    margin-top: 3.5rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--rule);
+}
+
+:is(.tool, .guide) .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+:is(.tool, .guide) .stat-value {
+    font-family: var(--mono);
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+:is(.tool, .guide) .stat-label {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--faint);
+}
+
+:is(.tool, .guide) h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.75rem;
+}
+
+:is(.tool, .guide) h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+}
+
+:is(.tool, .guide) .section-title {
+    margin-bottom: 0.75rem;
+}
+
+:is(.tool, .guide) .section-intro,
+.guide p.body {
+    color: var(--dim);
+    max-width: var(--measure);
+    margin-bottom: 2.5rem;
+}
+
+.guide .hero .section-intro {
+    font-size: 1.0625rem;
+    max-width: 58ch;
+    margin-bottom: 0;
+}
+
+:is(.tool, .guide) strong {
+    color: var(--text);
+    font-weight: 500;
+}
+
+:is(.tool, .guide) .section p a:not([class]),
+:is(.tool, .guide) .section li a:not([class]) {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-line);
+}
+
+:is(.tool, .guide) .section:last-of-type {
+    border-bottom: 0;
+}
+
+/* Feature and info cards become hairline-topped columns. */
+:is(.tool, .guide) .features-grid,
+.guide .grid,
+:is(.tool, .guide) .chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0 2.5rem;
+}
+
+:is(.tool, .guide) .feature-card,
+.guide .card {
+    border-top: 1px solid var(--rule);
+    padding: 1.25rem 0 1.75rem;
+}
+
+:is(.tool, .guide) .feature-title {
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+}
+
+:is(.tool, .guide) .feature-desc,
+.guide .card p,
+.guide .card li {
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+}
+
+.guide .card ul {
+    padding-left: 1.1rem;
+    margin-top: 0.5rem;
+}
+
+:is(.tool, .guide) .stack {
+    display: grid;
+    gap: 1.5rem;
+}
+
+:is(.tool, .guide) .score {
+    font-family: var(--mono);
+    font-size: 1.75rem;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 0.35rem;
+}
+
+:is(.tool, .guide) .list-card {
+    border: 1px solid var(--rule);
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.5rem;
+    max-width: 44rem;
+}
+
+:is(.tool, .guide) .list-card ul {
+    padding-left: 1.1rem;
+}
+
+:is(.tool, .guide) .list-card li {
+    color: var(--dim);
+    font-size: 0.9375rem;
+}
+
+:is(.tool, .guide) .list-card li + li,
+.guide .section > .container > ul li + li {
+    margin-top: 0.4rem;
+}
+
+.guide .section > .container > ul {
+    padding-left: 1.1rem;
+    max-width: var(--measure);
+}
+
+.guide .section > .container > ul li {
+    color: var(--dim);
+}
+
+/* Events — the test, one column per event. */
+:is(.tool, .guide) .events-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+    gap: 0 1.75rem;
+}
+
+:is(.tool, .guide) .event-card {
+    border-top: 1px solid var(--accent);
+    padding: 1.1rem 0 1.5rem;
+}
+
+:is(.tool, .guide) .event-num {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+}
+
+:is(.tool, .guide) .event-name {
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+:is(.tool, .guide) .event-abbr,
+:is(.tool, .guide) .event-max {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin: 0.3rem 0 0.6rem;
+}
+
+:is(.tool, .guide) .event-max {
+    display: block;
+    color: var(--accent);
+    margin: 0.75rem 0 0;
+}
+
+:is(.tool, .guide) .event-options {
+    color: var(--dim);
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+:is(.tool, .guide) .advantage-list {
+    max-width: 44rem;
+    border-top: 1px solid var(--rule);
+}
+
+:is(.tool, .guide) .advantage-item {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+:is(.tool, .guide) .advantage-num {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    padding-top: 0.2rem;
+}
+
+:is(.tool, .guide) .advantage-content p {
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+}
+
+:is(.tool, .guide) .example-box {
+    border-left: 2px solid var(--accent);
+    background: var(--raise);
+    padding: 1.5rem 1.75rem;
+    max-width: 44rem;
+}
+
+:is(.tool, .guide) .example-box p {
+    font-size: 1.0625rem;
+    margin-bottom: 1rem;
+}
+
+:is(.tool, .guide) .example-box p:last-child {
+    margin-bottom: 0;
+    color: var(--dim);
+    font-size: 0.9375rem;
+}
+
+/* The app pitch — a framed plate, not a glowing banner. */
+:is(.tool, .guide) .app-cta-section,
+.guide .cta {
+    border: 1px solid var(--rule);
+    padding: 2.75rem 2.5rem;
+}
+
+:is(.tool, .guide) .app-cta-badge {
+    display: block;
+    font-family: var(--mono);
+    font-size: 2.75rem;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--accent);
+}
+
+:is(.tool, .guide) .app-cta-badge-sub {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin: 0.5rem 0 1.75rem;
+}
+
+:is(.tool, .guide) .app-cta-section p,
+.guide .cta p {
+    color: var(--dim);
+    max-width: 52ch;
+    margin: 0 0 1.75rem;
+}
+
+:is(.tool, .guide) .app-features-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 2rem;
+}
+
+:is(.tool, .guide) .app-feature-inline {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--dim);
+}
+
+:is(.tool, .guide) .app-feature-inline::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background: var(--accent);
+    vertical-align: 0.2em;
+    margin-right: 0.6rem;
+}
+
+:is(.tool, .guide) .app-store-btn svg {
+    vertical-align: -0.2em;
+    margin-right: 0.5rem;
+}
+
+:is(.tool, .guide) .faq-list {
+    border-top: 1px solid var(--rule);
+}
+
+.guide h2 + .faq-item {
+    border-top: 1px solid var(--rule);
+}
+
+:is(.tool, .guide) .faq-q {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+}
+
+:is(.tool, .guide) .faq-a,
+:is(.tool, .guide) .faq-q + p {
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    max-width: var(--measure);
+}
+
+/* Cross-links — the same hairline list as the archive. */
+:is(.tool, .guide) .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0 2.5rem;
+    border-top: 1px solid var(--rule);
+}
+
+:is(.tool, .guide) .link-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--rule);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: color 0.15s ease;
+}
+
+:is(.tool, .guide) .link-card:hover {
+    color: var(--accent);
+}
+
+:is(.tool, .guide) .link-card-arrow {
+    color: var(--faint);
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+
+:is(.tool, .guide) .link-card:hover .link-card-arrow {
+    color: var(--accent);
+    transform: translateX(3px);
+}
+
+:is(.tool, .guide) .disclaimer {
+    border: 1px solid var(--rule);
+    padding: 1.25rem 1.5rem;
+    color: var(--dim);
+    font-size: 0.875rem;
+    line-height: 1.65;
+}
+
+:is(.tool, .guide) .note,
+:is(.tool, .guide) .table-note {
+    color: var(--dim);
+    font-size: 0.875rem;
+    margin-top: 1rem;
+    max-width: var(--measure);
+}
+
+.guide .table-wrap {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+}
+
+.guide table {
+    min-width: 480px;
+}
+
+:is(.tool, .guide) .faq-item {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+:is(.tool, .guide) :is(.btn-primary, .btn-secondary, .app-store-btn) {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.8rem 1.4rem;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 2px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+:is(.tool, .guide) :is(.btn-primary, .app-store-btn):hover {
+    background: var(--accent);
+    color: var(--bg);
+}
+
+:is(.tool, .guide) .btn-secondary {
+    border-color: var(--rule);
+    color: var(--dim);
+}
+
+:is(.tool, .guide) .btn-secondary:hover {
+    border-color: var(--dim);
+    color: var(--text);
+}
+
 /* ── Responsive ─────────────────────────────────────────── */
 @media (max-width: 800px) {
     .archive {
@@ -657,6 +1418,26 @@ footer {
 
     .header-nav {
         gap: 1.1rem;
+    }
+
+    .doc .hero {
+        padding: 3.5rem 0 3rem;
+    }
+
+    .doc .hero h1 {
+        font-size: 2rem;
+    }
+
+    .doc .content {
+        padding: 3.5rem 0 4rem;
+    }
+
+    .doc .section {
+        padding: 3.5rem 0;
+    }
+
+    .doc .app-strip {
+        align-items: flex-start;
     }
 }
 
