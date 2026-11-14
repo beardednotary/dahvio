@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-title" content="Mile Marker">
 <meta name="theme-color" content="#006747">
 <meta name="robots" content="noindex, nofollow">
-<title>Mile Marker — Southwest Desert Run</title>
+<title>Mile Marker</title>
 <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;800&family=VT323&family=Caveat:wght@500;700&family=Permanent+Marker&family=Nanum+Pen+Script&family=Reenie+Beanie&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════════════════════════════════
@@ -46,6 +46,9 @@ body[data-time="night"] {
   --sign-shadow: 0 0 18px rgba(255,255,255,0.18); --fill-low: #e8542a;
 }
 body[data-time="night"][data-wear="3"] { --green: #2f7a58; --blue: #2a5a8c; }
+/* Route 4: the signs stand in snow. Day is white ground; night stays black. */
+body[data-ground="snow"] { --ground: #eef1f4; --rule: rgba(20,40,70,0.14); --muted: #4d5560; }
+body[data-ground="snow"][data-time="night"] { --ground: #05070b; --rule: rgba(255,255,255,0.12); --muted: #9a9fa8; }
 /* outside the car at night: nothing is lit */
 body[data-lit="off"] {
   --green: #10261c; --blue: #0c1a30; --yellow: #6a5600; --white: #6e6e6e;
@@ -63,7 +66,11 @@ body {
   justify-content: center;
   transition: background 0.9s ease, color 0.9s ease;
 }
-#app { width: 100%; max-width: 420px; min-height: 100vh; display: flex; flex-direction: column; padding: 10px 10px 0; }
+#app { width: 100%; max-width: 420px; min-height: 100vh; display: flex; flex-direction: column; padding: calc(10px + env(safe-area-inset-top, 0px)) calc(10px + env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px) calc(10px + env(safe-area-inset-left, 0px)); }
+/* inside the app shell (native-bridge.js sets the class) */
+html.app, html.app body { overscroll-behavior: none; }
+html.app body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
+html.app input { -webkit-user-select: text; user-select: text; }
 
 .sign { border: 3px solid var(--sign-border); border-radius: 8px; box-shadow: var(--sign-shadow); transition: background 0.9s ease, border-color 0.9s ease; }
 .cap { font-size: 10px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
@@ -177,6 +184,45 @@ body[data-lit="off"] .radio-am { visibility: hidden; }
 
 /* FOOTER — gone. The DOM stays because the engine writes to it. */
 #footer { display: none !important; }
+
+/* ROADS — a sign for each route. Green: drive it. Blue: it costs money. White with
+   the orange stripe: closed, and the sign says why. */
+#route-select { padding: 12px 0 20px; flex: 1; overflow-y: auto; }
+.rt-mast { display: flex; align-items: center; gap: 12px; padding: 2px 4px 14px; }
+.rt-post { flex: none; background: var(--green); color: #fff; border: 3px solid var(--sign-border); border-radius: 6px; box-shadow: var(--sign-shadow); padding: 5px 8px 3px; text-align: center; line-height: 1; font-weight: 800; }
+.rt-post small { display: block; font-size: 8px; letter-spacing: 0.12em; }
+.rt-post b { display: block; font-size: 22px; margin-top: 2px; }
+.rt-title { font-size: 28px; font-weight: 800; line-height: 1; letter-spacing: -0.01em; }
+.rt-tag { font-size: 11px; color: var(--muted); margin-top: 4px; }
+#rt-resume .start-btn { margin-bottom: 10px; }
+.rt-card { display: block; width: 100%; text-align: left; font-family: 'Overpass', sans-serif; background: var(--green); color: var(--sign-text); border: 3px solid var(--sign-border); border-radius: 8px; box-shadow: var(--sign-shadow); padding: 10px 12px 9px; margin-bottom: 9px; cursor: pointer; transition: transform 0.1s; }
+.rt-card:active { transform: scale(0.985); }
+.rt-top { display: flex; align-items: center; gap: 8px; }
+.rt-shield { font-size: 11px; font-weight: 800; background: var(--sq); color: var(--green); padding: 2px 6px 1px; border-radius: 3px; white-space: nowrap; }
+.rt-label { font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; }
+.rt-state { margin-left: auto; font-size: 10px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; background: rgba(255,255,255,0.18); padding: 3px 7px 2px; border-radius: 3px; white-space: nowrap; }
+.rt-name { font-size: 22px; font-weight: 800; line-height: 1.05; margin-top: 8px; }
+.rt-line { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 12px; margin-top: 3px; opacity: 0.92; }
+.rt-rec { font-size: 11px; margin-top: 7px; padding-top: 6px; border-top: 2px solid rgba(255,255,255,0.3); line-height: 1.4; opacity: 0.92; }
+.rt-card.buy { background: var(--blue); }
+.rt-card.buy .rt-shield { color: var(--blue); }
+.rt-card.locked { background: var(--white); color: #111; border-color: var(--ink-border); cursor: default; padding-left: 26px; position: relative; }
+.rt-card.locked::before { content: ""; position: absolute; left: 8px; top: 8px; bottom: 8px; width: 10px; border-radius: 2px; background: repeating-linear-gradient(135deg, var(--orange) 0 8px, #fff 8px 16px); }
+.rt-card.locked .rt-shield { background: #111; color: #fff; }
+.rt-card.locked .rt-state { background: #111; color: #fff; }
+.rt-card.locked .rt-rec { border-top-color: rgba(0,0,0,0.15); }
+.rt-card.bundle { background: var(--blue); display: flex; align-items: center; gap: 10px; }
+.rt-card.bundle b { font-size: 16px; font-weight: 800; }
+.rt-card.bundle span { margin-left: auto; font-size: 16px; font-weight: 800; }
+.rt-card.busy { opacity: 0.6; pointer-events: none; }
+.rt-glove { background: var(--brown); color: var(--sign-text); border: 3px solid var(--sign-border); border-radius: 8px; box-shadow: var(--sign-shadow); padding: 9px 12px 8px; margin: 14px 0 0; }
+.rt-glove h4 { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; margin-bottom: 5px; }
+.rt-glove li { list-style: none; font-size: 13px; font-weight: 600; line-height: 1.35; display: flex; gap: 8px; }
+.rt-glove li small { flex: none; width: 54px; font-size: 9px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.75; padding-top: 3px; }
+.rt-foot { display: flex; flex-wrap: wrap; gap: 4px 14px; justify-content: center; margin-top: 16px; font-size: 11px; color: var(--muted); }
+.rt-foot button, .rt-foot a, .cs-back { background: none; border: none; padding: 0; font-family: 'Overpass', sans-serif; font-size: 11px; color: var(--muted); text-decoration: underline; cursor: pointer; }
+.cs-back { display: block; margin: 0 4px 10px; font-weight: 600; }
+.rt-note { font-size: 11px; color: var(--muted); text-align: center; margin: 10px 4px 0; min-height: 14px; }
 
 /* CHARACTER SELECT */
 #resume-slot .start-btn { margin: 0 0 14px; background: var(--blue); }
@@ -293,6 +339,44 @@ body[data-time="night"] .rs-beam { background: #23272a; }
 .rs-toll { background: var(--yellow); color: #111; border-color: #111; font-weight: 800; font-size: 20px; letter-spacing: 0.08em; text-align: center; padding: 3px 0 1px; width: 104px; margin: 0 auto 5px; border-radius: 4px; }
 .rs-nocash { background: var(--green); color: var(--sign-text); font-weight: 800; font-size: 30px; letter-spacing: 0.02em; text-align: center; padding: 9px 0 6px; }
 
+/* Route 4 */
+.rs-green { background: var(--green); color: var(--sign-text); padding: 9px 14px 8px 12px; }
+.rs-white { background: var(--white); color: #111; border-color: var(--ink-border); padding: 10px 14px 8px; text-align: center; }
+.rs-centred { text-align: center; padding: 10px 14px 8px; }
+.rs-big { font-weight: 800; font-size: 21px; line-height: 1.12; letter-spacing: 0.01em; }
+.rs-small { font-weight: 800; font-size: 15px; line-height: 1.2; letter-spacing: 0.03em; margin-top: 3px; }
+.rs-white .rs-big + .rs-big, .rs-brown .rs-big + .rs-big { margin-top: 0; }
+/* a bank sign: the same amber board the radio uses, because it is the same kind of sign */
+.rs-led { background: var(--board); border-radius: 4px; padding: 6px 18px 5px; display: flex; gap: 22px; align-items: baseline; font-family: 'VT323', monospace; color: var(--amber); font-size: 40px; line-height: 1; letter-spacing: 0.04em; box-shadow: 0 0 0 3px #2a2a2a, 0 2px 5px rgba(0,0,0,0.35); }
+body[data-lit="off"] .rs-led { color: #7a5a10; }
+/* the gate: a striped arm above and below the sign */
+.rs-gate { width: 100%; max-width: 290px; }
+.rs-bar { height: 12px; border-radius: 2px; background: repeating-linear-gradient(90deg, #c8102e 0 26px, #f4f4f4 26px 52px); box-shadow: 0 0 0 1px rgba(0,0,0,0.3); }
+.rs-gate .rs-white { margin: 6px 0; border-radius: 4px; }
+.rs-gate .rs-big { font-size: 27px; letter-spacing: 0.03em; }
+.rs-gate .rs-small { font-size: 12px; letter-spacing: 0.08em; }
+body[data-lit="off"] .rs-bar { background: repeating-linear-gradient(90deg, #4a1019 0 26px, #6e6e6e 26px 52px); }
+
+/* Routes 1 and 2: signs somebody made themselves */
+.rs-marquee { background: #f3f0e4; border: 5px solid #2b2b2b; border-radius: 3px; max-width: 280px; width: 100%; padding: 4px 8px 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+.mq-row { height: 30px; line-height: 31px; border-bottom: 2px solid #c9c4b3; text-align: center; font-weight: 800; font-size: 19px; letter-spacing: 0.14em; color: #3a3a3a; white-space: nowrap; overflow: hidden; }
+.mq-row.small { font-size: 13px; letter-spacing: 0.22em; }
+.mq-row.new { color: #000; }
+.mq-row .far { display: inline-block; filter: blur(2.6px); opacity: 0.85; }
+.rs-paint { background: #ece3cb linear-gradient(100deg, rgba(120,100,70,0.18), rgba(255,255,255,0) 30%, rgba(120,100,70,0.08) 72%, rgba(120,100,70,0.22)); border: 2px solid #8d8168; border-radius: 2px; max-width: 290px; width: 100%; padding: 10px 12px 9px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.3); font-family: 'Permanent Marker', cursive; color: #1d1b17; }
+.rs-paint .p1 { display: block; font-size: 23px; line-height: 1.05; color: #9c2a1e; letter-spacing: 0.02em; }
+.rs-paint .p2 { display: block; font-size: 16px; line-height: 1.2; margin-top: 4px; letter-spacing: 0.05em; }
+.rs-paint .p3 { display: block; font-size: 20px; line-height: 1.1; margin-top: 4px; color: #9c2a1e; }
+.rs-paint .rs-arrow { display: block; margin: 7px auto 1px; width: 46px; height: 22px; fill: #1d1b17; }
+/* the weather only ever comes from one direction */
+.rs-paint.worn > * { -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.45) 36%, #000 68%); mask-image: linear-gradient(90deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.45) 36%, #000 68%); }
+.rs-detour { background: var(--orange); border: 3px solid #111; border-radius: 4px; max-width: 250px; width: 100%; padding: 11px 12px 8px; text-align: center; transform: rotate(-1.3deg); box-shadow: 0 2px 5px rgba(0,0,0,0.3); font-family: 'Permanent Marker', cursive; color: #111; }
+.rs-detour .d1 { display: block; font-size: 31px; line-height: 1; letter-spacing: 0.04em; }
+.rs-detour .d2 { display: block; font-size: 17px; line-height: 1.15; margin-top: 5px; }
+.rs-cardboard { background: #b8935f repeating-linear-gradient(90deg, rgba(0,0,0,0.05) 0 2px, rgba(255,255,255,0.05) 2px 5px); border-radius: 1px; max-width: 232px; width: 100%; padding: 11px 12px 9px; text-align: center; transform: rotate(1.4deg); box-shadow: 0 2px 4px rgba(0,0,0,0.3); font-family: 'Permanent Marker', cursive; color: #17140f; }
+.rs-cardboard > .hand { display: block; font-size: 19px; line-height: 1.22; letter-spacing: 0.02em; }
+.rs-plain .rs-row { justify-content: space-between; }
+
 /* handwriting: one span per letter, each with its own small turn */
 .hw { display: inline-block; white-space: nowrap; }
 .hc { display: inline-block; }
@@ -335,7 +419,9 @@ body[data-time="night"] .rs-beam { background: #23272a; }
   <div id="effects-log"></div>
 
   <div id="main-screen">
-    <div id="char-select">
+    <div id="route-select"></div>
+    <div id="char-select" style="display:none">
+      <button class="cs-back" onclick="showRoads()">&lsaquo; All roads</button>
       <div class="cs-title">Who are you?</div>
       <div class="cs-sub">Your archetype shapes how the road reads you.</div>
       <div id="resume-slot"></div>
@@ -428,6 +514,7 @@ body[data-time="night"] .rs-beam { background: #23272a; }
      registers it only if it loaded, so the HTML still plays Route 1 alone. -->
 <script src="routes/deep-south.js"></script>
 <script src="routes/pacific-coast.js"></script>
+<script src="routes/hi-line.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════
 // STATE — narrative flags + testable resource stats
@@ -511,6 +598,35 @@ if (typeof PACIFIC_COAST !== 'undefined' && PACIFIC_COAST && PACIFIC_COAST.nodes
     unfinished: true
   };
 }
+if (typeof HI_LINE !== 'undefined' && HI_LINE && HI_LINE.nodes) {
+  ROUTES[HI_LINE.id] = {
+    id: HI_LINE.id,
+    name: HI_LINE.name,
+    shield: 'I-29 NORTH',
+    from: 'Fargo, ND',
+    to: 'Nowhere',
+    destination: 'Grand Forks',
+    blurb: 'Fargo → Nowhere — no distance posted',
+    label: 'Route 4',
+    road: 'US 2 West',
+    keepsakeFor: HI_LINE.keepsakeFor,
+    start: HI_LINE.start,
+    strandFallback: HI_LINE.strandReturnDefault,
+    // This road does not say how far it is. The sign names the next town and nothing else.
+    miles: null,
+    wearMiles: HI_LINE.wearMiles,
+    tankPerMile: HI_LINE.tankPerMile,
+    radioBands: HI_LINE.radioBands,
+    radioSilent: HI_LINE.radioSilent,
+    strand: HI_LINE.strand,
+    ground: 'snow',
+    // The finale. It opens once you have arrived on any two other roads.
+    needsArrivals: 2,
+    recordNone: (runs) => runs === 1 ? 'One run. It did not reach the divide.' : runs + ' runs. None of them reached the divide yet.',
+    endings: 3,
+    keepsakes: 3
+  };
+}
 const DEFAULT_ROUTE = 'southwest';
 // The route the player is on. Everything below asks this, not a literal.
 function R() { return ROUTES[(typeof state !== 'undefined' && state.route) || DEFAULT_ROUTE] || ROUTES[DEFAULT_ROUTE]; }
@@ -581,6 +697,20 @@ const STASHED_ITEMS = [
 // ═══════════════════════════════════════════════════════
 // NODES
 // ═══════════════════════════════════════════════════════
+// Signs Route 1 draws. Hand-made ones are lettered by the engine (class 'hand'), so no
+// two letters match.
+const SW_ARROW = "<svg class='rs-arrow' viewBox='0 0 34 25' aria-hidden='true'><path d='M34 12.5 L21 0 L21 7.5 L0 7.5 L0 17.5 L21 17.5 L21 25 Z'/></svg>";
+const SW_SIGN = {
+  // A hand-painted roadside board: a name, what it sells, how far. Optionally an arrow,
+  // optionally with the paint gone from the windward side.
+  paint: (lines, opts) => "<div class='rs-wrap'><div class='rs-paint" + (opts && opts.worn ? ' worn' : '') + "'>" +
+    lines.map((l, i) => "<span class='p" + Math.min(i + 1, 3) + " hand'>" + l + "</span>").join('') +
+    (opts && opts.arrow ? SW_ARROW : '') + "</div></div>",
+  // A detour sign, the right colour and the wrong lettering.
+  detour: (head, lines) => "<div class='rs-wrap'><div class='rs-detour'><span class='d1 hand'>" + head + "</span>" +
+    lines.map(l => "<span class='d2 hand'>" + l + "</span>").join('') + "</div></div>"
+};
+
 // Cord / El Camino continuity rules:
 // 1. He is never impossible, only improbable. The player looks away, the road curves, or a plausible alternate road exists.
 // 2. Until flags.knows_cord_name is true, player-facing text must not call him Cord.
@@ -846,7 +976,8 @@ const NODES = {
     paywall: false,
     textFn: (s) => {
       const base = [
-        "The sign comes up fast. RATTLESNAKE FLATS — GAS — COLD DRINKS — LAST STOP 47 MI.",
+        "The sign comes up fast.",
+        SW_SIGN.paint(['RATTLESNAKE FLATS', 'GAS &middot; COLD DRINKS', 'LAST STOP 47 MI']),
         "You pull in.",
         "Two pumps. A cinderblock building painted the color of old bone. A hand-painted thermometer on the wall reads 107. Somebody has drawn a face on the sun at the top.",
         "You start pumping. The numbers climb slow. You watch them the way you watch things you can't control.",
@@ -1069,7 +1200,7 @@ const NODES = {
     tags: ["navigation","tension"],
     mile: 180,
     paywall: false,
-    text: ["The sign is handwritten. That's the first thing wrong with it.", "DETOUR — ROAD WORK AHEAD — TAKE EXIT 131", "Except the highway ahead looks fine. No cones. No trucks. Nothing.", "You slow down anyway.", "Exit 131 is a two-lane that goes south. The kind of road that has a name instead of a number. According to your phone — which has had one bar since Needles — it adds miles but avoids something called the Painted Flats construction zone.", "Your phone shows no construction zone.", "Behind you, nothing. Ahead, the highway runs straight and clear to the horizon.", "The exit is coming up."],
+    text: ["The sign is handwritten. That's the first thing wrong with it.", SW_SIGN.detour('DETOUR', ['ROAD WORK AHEAD', 'TAKE EXIT 131']), "Except the highway ahead looks fine. No cones. No trucks. Nothing.", "You slow down anyway.", "Exit 131 is a two-lane that goes south. The kind of road that has a name instead of a number. According to your phone — which has had one bar since Needles — it adds miles but avoids something called the Painted Flats construction zone.", "Your phone shows no construction zone.", "Behind you, nothing. Ahead, the highway runs straight and clear to the horizon.", "The exit is coming up."],
     choices: [
       { text: "Take the detour", sub: "Costs time and miles — but something about the sign feels deliberate", type: "neutral", next: "sw_006a", deltas: { gut: +1 }, flags: {"took_detour":true} },
       { text: "Stay on the highway", sub: "Safe — no construction visible. Sign might be old.", type: "safe", next: "sw_006b", deltas: { tank: -16, nerve: -1 } },
@@ -1777,9 +1908,12 @@ const NODES = {
       ];
       if (s.flags.on_donut) base.push("The donut hums at a different pitch than the other three. You've stopped hearing it and then you hear it again.");
       base.push(
-        "A sign comes up. TRADING POST — MOCCASINS — ICE — 42 MILES. Hand-painted, decades old, the arrow still confident about it.",
+        "A sign comes up.",
+        SW_SIGN.paint(['TRADING POST', 'MOCCASINS &middot; ICE', '42 MILES'], { arrow: true }),
+        "Hand-painted, decades old, the arrow still confident about it.",
         "Thirty-one miles.",
         "Twenty-two. This one has lost most of its paint on the left side, the way signs do out here when the weather only ever comes from one direction.",
+        SW_SIGN.paint(['TRADING POST', 'MOCCASINS &middot; ICE', '22 MILES'], { arrow: true, worn: true }),
         "Eleven.",
         "Then the exit, and the building.",
         "It's dark. It has been dark long enough that the pumps are gone — not closed, gone, the concrete islands still out front with nothing standing on them.",
@@ -2117,6 +2251,7 @@ const NODES = {
 // never touches mechanics.
 if (typeof DEEP_SOUTH !== 'undefined' && DEEP_SOUTH && DEEP_SOUTH.nodes) Object.assign(NODES, DEEP_SOUTH.nodes);
 if (typeof PACIFIC_COAST !== 'undefined' && PACIFIC_COAST && PACIFIC_COAST.nodes) Object.assign(NODES, PACIFIC_COAST.nodes);
+if (typeof HI_LINE !== 'undefined' && HI_LINE && HI_LINE.nodes) Object.assign(NODES, HI_LINE.nodes);
 
 // ═══════════════════════════════════════════════════════
 // ENGINE
@@ -2319,10 +2454,71 @@ function mileageCost(nextNodeId, addMiles) {
 // store; the RN build uses AsyncStorage for the same shape.
 // ═══════════════════════════════════════════════════════════════════════════
 const SAVE_KEY = 'mm_save';
+// Everything that persists goes through here. In the app, each write is also handed to
+// the native side (window.MMNative, the Capacitor bridge), and boot() reads it all back
+// before the first screen, because iOS is allowed to clear a web view's storage.
+const STORE_KEYS = ['mm_save', 'mm_record', 'mm_memory', 'mm_keepsakes', 'mm_last_car', 'mm_owned'];
+function nativeBridge() { return (typeof window !== 'undefined' && window.MMNative) || null; }
 const store = {
   get(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
-  del(k) { try { localStorage.removeItem(k); } catch (e) {} }
+  set(k, v) {
+    let json; try { json = JSON.stringify(v); } catch (e) { return; }
+    try { localStorage.setItem(k, json); } catch (e) {}
+    const n = nativeBridge(); if (n && n.persist) { try { n.persist(k, json); } catch (e) {} }
+  },
+  del(k) {
+    try { localStorage.removeItem(k); } catch (e) {}
+    const n = nativeBridge(); if (n && n.forget) { try { n.forget(k); } catch (e) {} }
+  }
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// THE SHOP
+//
+// Four routes at one price each and all four for less. Route 1 is free to Kingman.
+// No subscription, no consumables, nothing that sells a way past losing.
+// In the app, window.MMNative talks to the store. On the web there is no bridge and this
+// is the beta: Routes 2-4 are open, and Route 1's paywall lets you through.
+// ═══════════════════════════════════════════════════════════════════════════
+const PRODUCTS = {
+  southwest: 'com.dahvio.milemarker.route.southwest',
+  south:     'com.dahvio.milemarker.route.south',
+  coast:     'com.dahvio.milemarker.route.coast',
+  hiline:    'com.dahvio.milemarker.route.hiline',
+  all:       'com.dahvio.milemarker.allroutes'
+};
+const OWNED_KEY = 'mm_owned';
+const SHOP = {
+  prices: {},
+  beta() { return !nativeBridge(); },
+  owned() { return store.get(OWNED_KEY) || {}; },
+  owns(routeId) {
+    const o = this.owned();
+    if (o.all || o[routeId]) return true;
+    return this.beta() && routeId !== 'southwest';
+  },
+  ownsAll() { const o = this.owned(); return !!o.all || Object.keys(ROUTES).every(id => o[id]); },
+  grant(keys) { const o = this.owned(); keys.forEach(k => { o[k] = true; }); store.set(OWNED_KEY, o); },
+  keyFor(productId) { return Object.keys(PRODUCTS).filter(k => PRODUCTS[k] === productId)[0]; },
+  price(key) { return this.prices[key] || (key === 'all' ? '$7.99' : '$2.99'); },
+  // Ask the store what things cost here and what this person already owns.
+  async refresh() {
+    const n = nativeBridge(); if (!n) return;
+    try { const p = await n.prices(Object.values(PRODUCTS)); Object.keys(p || {}).forEach(id => { const k = this.keyFor(id); if (k) this.prices[k] = p[id]; }); } catch (e) {}
+    try { const ids = await n.owned(); this.grant((ids || []).map(id => this.keyFor(id)).filter(Boolean)); } catch (e) {}
+  },
+  async buy(key) {
+    const n = nativeBridge();
+    if (!n) { this.grant([key]); return true; }          // the beta: nothing to pay
+    let ok = false;
+    try { ok = await n.buy(PRODUCTS[key]); } catch (e) { ok = false; }
+    if (ok) this.grant([key]);
+    return ok;
+  },
+  async restore() {
+    const n = nativeBridge(); if (!n) return 0;
+    try { const ids = await n.restore(); const keys = (ids || []).map(id => this.keyFor(id)).filter(Boolean); this.grant(keys); return keys.length; } catch (e) { return -1; }
+  }
 };
 function saveGame(resumeAt) {
   if (!state.stats || !state.maxStats || !resumeAt) return;
@@ -2333,15 +2529,16 @@ function clearSave() { store.del(SAVE_KEY); }
 function loadSave() {
   const s = store.get(SAVE_KEY);
   if (!s || !s.resumeAt || !NODES[s.resumeAt] || !s.stats) return null;
-  if (s.resumeAt === 'strand_end' || (NODES[s.resumeAt] && NODES[s.resumeAt].isVictory)) return null;
+  if (s.resumeAt === 'strand_end' || (NODES[s.resumeAt] && (NODES[s.resumeAt].isVictory || NODES[s.resumeAt].runEnd))) return null;
   return s;
 }
 function offerResume() {
-  const s = loadSave(), slot = document.getElementById('resume-slot');
+  const s = loadSave(), slot = document.getElementById('rt-resume') || document.getElementById('resume-slot');
   if (!s || !slot) return;
   const arch = ARCHETYPES[s.archetype] || ARCHETYPES.drifter;
   const mile = (NODES[s.resumeAt] && NODES[s.resumeAt].mile != null) ? NODES[s.resumeAt].mile : (s.lastMile || 0);
-  slot.innerHTML = `<button class="start-btn" onclick="resumeGame()">Continue — mile ${mile}<span class="start-btn-sub">${s.playerName && s.playerName !== arch.name ? s.playerName + " · " : ""}${arch.name} · run ${s.run || 1}</span></button>`;
+  const road = (ROUTES[s.route] && ROUTES[s.route].label) || 'Route 1';
+  slot.innerHTML = `<button class="start-btn" onclick="resumeGame()">Continue — ${road}, mile ${mile + (s.extra || 0)}<span class="start-btn-sub">${s.playerName && s.playerName !== arch.name ? s.playerName + " · " : ""}${arch.name}</span></button>`;
 }
 function resumeGame() {
   const s = loadSave(); if (!s) return;
@@ -2404,8 +2601,10 @@ function recordLine() {
   const n = (x, one, many) => x === 1 ? one : x + ' ' + many;
   const parts = [];
   if (!r.wins) {
-    parts.push(r.runs === 1 ? 'One run. It did not end in Albuquerque.'
-                            : r.runs + ' runs. None of them ended in Albuquerque yet.');
+    const dest = R().destination;
+    parts.push(R().recordNone ? R().recordNone(r.runs)
+      : r.runs === 1 ? 'One run. It did not end in ' + dest + '.'
+                     : r.runs + ' runs. None of them ended in ' + dest + ' yet.');
   } else {
     parts.push(n(r.runs, 'One run', 'runs') + ', ' + n(r.wins, 'one arrival', 'arrivals') + '.');
     const e = Object.keys(r.endings).length;
@@ -2419,6 +2618,68 @@ function recordLine() {
       : 'You have brought back ' + k + ' of the ' + keepsakes + ' things there are to bring back.');
   }
   return parts.join(' ');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// MEMORY — what crosses between routes
+//
+// Each route is a self-contained run: no stats, no money and no fuel carry over. What
+// crosses is objects and recognition. On an arrival the road remembers how that route
+// ended, what you came away holding, how you behaved, how far you actually drove and
+// what happened along the way. A later run on a DIFFERENT route reads it as
+// `state.carried`: the run's flags laid flat (so `s.carried.knows_cord_name` works),
+// plus `routes[id]` for the detail and `objects` for what is in the car.
+// Callbacks are texture, not homework: every reader has a first-time fallback.
+// ═══════════════════════════════════════════════════════════════════════════
+const MEMORY_KEY = 'mm_memory';
+const KEEPSAKE_KEY = 'mm_keepsakes';
+function getMemory() {
+  const m = store.get(MEMORY_KEY) || {};
+  if (!m.routes) m.routes = {};
+  // Arrivals from before the memory existed still count for something: the record knows
+  // you got there and the old keepsake store knows what you were holding.
+  const rec = store.get(RECORD_KEY) || {}, ks = store.get(KEEPSAKE_KEY) || {};
+  Object.keys(rec).forEach(id => {
+    if (!m.routes[id] && rec[id] && rec[id].wins) m.routes[id] = { flags: {}, kept: ks[id] ? { id: ks[id] } : null, legacy: true };
+  });
+  return m;
+}
+function rememberArrival(node, kept) {
+  const m = getMemory(), id = R().id, prev = m.routes[id] || {};
+  const flags = {};
+  Object.keys(state.flags || {}).forEach(k => { if (state.flags[k] === true) flags[k] = true; });
+  m.routes[id] = {
+    ending: node.ending || null,
+    // A later arrival with empty hands does not take the object back out of the car.
+    kept: kept ? { id: kept.id, tag: kept.tag || null, label: kept.label || null } : (prev.kept || null),
+    road: state.road || 0,
+    driven: (node.mile != null ? node.mile : (state.lastMile || 0)) + (state.extra || 0),
+    strandings: state.strandings || 0,
+    archetype: state.archetype,
+    flags
+  };
+  store.set(MEMORY_KEY, m);
+  if (kept) { const ks = store.get(KEEPSAKE_KEY) || {}; ks[id] = kept.id; store.set(KEEPSAKE_KEY, ks); }
+}
+// What a run on `routeId` is carrying from the other roads.
+function carriedFor(routeId) {
+  const m = getMemory(), out = {}, routes = {}, objects = [];
+  Object.keys(m.routes).forEach(id => {
+    if (id === routeId) return;
+    const r = m.routes[id];
+    routes[id] = r;
+    Object.assign(out, r.flags || {});
+    if (r.kept) objects.push(Object.assign({ route: id }, r.kept));
+  });
+  out.routes = routes;
+  out.objects = objects;
+  out.arrived = Object.keys(routes).length;
+  return out;
+}
+// How many OTHER roads you have arrived on. The finale asks for two.
+function arrivalsElsewhere(routeId) {
+  const rec = store.get(RECORD_KEY) || {};
+  return Object.keys(rec).filter(id => id !== routeId && rec[id] && rec[id].wins > 0).length;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -2609,11 +2870,13 @@ const MAX_STRANDINGS = 2;
 function strandOut(returnNode) {
   state.strandReturn = returnNode || state.strandReturn || R().strandFallback;
   state.strandings = (state.strandings || 0) + 1;
-  if (state.strandings >= MAX_STRANDINGS) { loadNode('strand_end'); return; }
+  // Running dry in a desert and running dry at twenty below are different scenes.
+  const own = R().strand || {};
+  if (state.strandings >= MAX_STRANDINGS) { loadNode(own.end || 'strand_end'); return; }
   // Nothing left to trade — no cash, no nerve to ask with — ends it early.
   const nothingLeftToTrade = (state.stats.wallet || 0) < 25 && (state.stats.nerve || 0) <= 2;
-  if (nothingLeftToTrade) { loadNode('strand_end'); return; }
-  loadNode('strand_1');
+  if (nothingLeftToTrade) { loadNode(own.end || 'strand_end'); return; }
+  loadNode(own.one || 'strand_1');
 }
 
 function applyFlags(flags = {}) { Object.assign(state.flags, flags); }
@@ -2718,6 +2981,7 @@ function startGame() {
   state.miles = null;
   state.shield = null;
   state.extra = 0;
+  state.carried = carriedFor(state.route);
   noteRunStarted();
 
   document.getElementById('char-name').textContent = name;
@@ -2808,7 +3072,7 @@ function isNightNode(id, node) {
 function wearFor(mile) {
   if (mile == null) return document.body.dataset.wear || '0';
   const extra = (typeof state !== 'undefined' && state.extra) || 0;
-  const total = ((typeof state !== 'undefined' && (state.miles || R().miles)) || 675) + extra;
+  const total = ((typeof state !== 'undefined' && (state.miles || R().miles || R().wearMiles)) || 675) + extra;
   const f = total ? (mile + extra) / total : 0;
   return f < 0.296 ? '0' : f < 0.593 ? '1' : f < 0.815 ? '2' : '3';
 }
@@ -2816,6 +3080,7 @@ function setSignage(id, node) {
   document.body.dataset.time = isNightNode(id, node) ? 'night' : 'day';
   document.body.dataset.lit  = node.unlit ? 'off' : 'on';
   document.body.dataset.wear = wearFor(node.mile);
+  document.body.dataset.ground = R().ground || '';
 }
 
 // The station scrolls at a fixed speed in pixels per second, so a long line takes
@@ -2832,7 +3097,7 @@ function motionReduced() {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
 }
 // Bump this on every build that goes to testers, so "which one did you play?" has an answer.
-const BUILD = '2026-10-22.1';
+const BUILD = '2026-11-13.3';
 
 function startRadioTicker(block, tries) {
   if (block.dataset.started) return;
@@ -2939,7 +3204,7 @@ function loadNode(nodeId) {
   const node = NODES[nodeId];
   if (!node) { console.error('Node not found:', nodeId); return; }
 
-  if (node.paywall && !state.paid) { showPaywall(nodeId); return; }
+  if (node.paywall && !state.paid && !SHOP.owns(R().id)) { showPaywall(nodeId); return; }
 
   if (node.onLoad) node.onLoad(state);
   // A route that signs the next town instead of the destination sets it per node.
@@ -2949,7 +3214,7 @@ function loadNode(nodeId) {
   // The shield is the road you are on now, not the one the route started on.
   if (node.shield) { state.shield = node.shield; signRoute(); }
   setSignage(nodeId, node);
-  if (nodeId === 'strand_end') { recordLastCar(); clearSave(); } else saveGame(nodeId);
+  if (nodeId === 'strand_end' || node.runEnd) { recordLastCar(); clearSave(); } else saveGame(nodeId);
   // Capture the distance BEFORE the mile marker advances — the radio needs to know
   // how far you just drove, and updating lastMile first makes that always zero.
   const _drove = node.mile != null ? Math.max(0, node.mile - (state.lastMile || 0)) : 0;
@@ -3112,13 +3377,56 @@ function handleChoice(choice) {
   }
 
   const currentNode = NODES[state.currentNode];
-  if (result.outcome && currentNode && currentNode.outcomes && currentNode.outcomes[result.outcome]) {
+  const prose = result.outcome && currentNode && currentNode.outcomes && currentNode.outcomes[result.outcome];
+  const told = prose ? (typeof prose === 'function' ? prose(state) : prose) : null;
+  // A look, a fill, a word with somebody: you are still where you were.
+  if (result.next && resolveSlot(result.next) === state.currentNode) { stayHere(told); return; }
+  if (told) {
     saveGame(result.next);   // closing the app mid-outcome resumes after the choice, not before it
-    const prose = currentNode.outcomes[result.outcome];
-    showOutcomeThen(typeof prose === 'function' ? prose(state) : prose, result.next);
+    showOutcomeThen(told, result.next);
     return;
   }
   loadNode(result.next);
+}
+
+// The scene is not played again. What happened goes under what you have read, and the
+// choices that are left come back: showIf drops the one you just used.
+function stayHere(texts) {
+  const node = NODES[state.currentNode];
+  saveGame(state.currentNode);
+  const sceneText = document.getElementById('scene-text');
+  const choicesSection = document.getElementById('choices-section');
+  choicesSection.classList.remove('visible');
+  document.getElementById('choices').innerHTML = '';
+  clearTimeouts();
+  state.animating = true;
+  let wait = 320, hr = null;
+  const toRule = () => { try { if (hr) hr.scrollIntoView({ block: 'start', behavior: motionReduced() ? 'auto' : 'smooth' }); } catch (e) {} };
+  if (texts && texts.length) {
+    hr = document.createElement('div');
+    hr.style.cssText = 'border-top:2px solid rgba(128,128,128,0.35);margin:12px 0;scroll-margin-top:110px;';
+    sceneText.appendChild(hr);
+    texts.forEach((t, i) => {
+      const div = document.createElement('div');
+      div.className = 'scene-paragraph';
+      div.style.marginTop = '10px';
+      div.innerHTML = t;
+      handLetter(div);
+      sceneText.appendChild(div);
+      state.timeouts.push(setTimeout(() => div.classList.add('visible'), i * 500 + 100));
+    });
+    // Start reading at the rule, not at the top of a scene you have already read.
+    toRule();
+    document.getElementById('tap-hint').style.display = 'block';
+    wait = texts.length * 500 + 400;
+  }
+  state.timeouts.push(setTimeout(() => {
+    document.getElementById('tap-hint').style.display = 'none';
+    renderChoices(node);
+    choicesSection.classList.add('visible');
+    state.animating = false;
+    toRule();
+  }, wait));
 }
 
 
@@ -3152,6 +3460,7 @@ function showOutcomeThen(texts, nextNode) {
 }
 
 function showPaywall(nextNode) {
+  saveGame(nextNode);
   document.getElementById('game-screen').style.display = 'none';
   document.getElementById('main-screen').style.display = 'flex';
   document.getElementById('main-screen').innerHTML = `
@@ -3160,13 +3469,37 @@ function showPaywall(nextNode) {
       <div class="paywall-title">The road ahead is long.</div>
       <div class="paywall-divider"></div>
       <div class="paywall-body">You've made ${state.choices} choices.<br>The hard part is still out there.</div>
-      <div class="paywall-details">Route 1, the whole way. One time, no subscription.<br>Routes 2–4 when they ship, or all four roads for $7.99.</div>
-      <button class="paywall-btn" onclick="unlockGame('${nextNode}')">
-        Unlock Route 1 — $2.99
-        <span class="paywall-btn-sub">Prototype — nothing to pay yet. Keep driving.</span>
+      <div class="paywall-details">Route 1, the whole way. One time, no subscription.<br>Or all four roads for ${SHOP.price('all')}.</div>
+      <button class="paywall-btn" id="pw-one" onclick="buyAtPaywall('southwest', '${nextNode}')">
+        Unlock Route 1 — ${SHOP.price('southwest')}
+        <span class="paywall-btn-sub">${SHOP.beta() ? 'Beta — nothing to pay yet. Keep driving.' : 'Barstow to Albuquerque, start to finish.'}</span>
       </button>
+      ${SHOP.beta() ? '' : `<button class="paywall-btn" id="pw-all" onclick="buyAtPaywall('all', '${nextNode}')">
+        All four roads — ${SHOP.price('all')}
+        <span class="paywall-btn-sub">The desert, the Delta, the coast and the Hi-Line.</span>
+      </button>
+      <button class="paywall-skip" onclick="restoreAtPaywall('${nextNode}')">Restore purchases</button>`}
+      <button class="paywall-skip" onclick="location.reload()">Back to the roads</button>
+      <div class="rt-note" id="pw-note"></div>
     </div>
   `;
+}
+
+// Your place on the road is saved before the paywall shows, so leaving and coming back
+// (or buying later from the roads screen) picks up at this mile.
+async function buyAtPaywall(key, nextNode) {
+  const note = document.getElementById('pw-note');
+  ['pw-one', 'pw-all'].forEach(id => { const b = document.getElementById(id); if (b) b.disabled = true; });
+  const ok = await SHOP.buy(key);
+  if (ok) { unlockGame(nextNode); return; }
+  ['pw-one', 'pw-all'].forEach(id => { const b = document.getElementById(id); if (b) b.disabled = false; });
+  if (note) note.textContent = 'Nothing was charged.';
+}
+async function restoreAtPaywall(nextNode) {
+  const note = document.getElementById('pw-note');
+  const n = await SHOP.restore();
+  if (SHOP.owns('southwest')) { unlockGame(nextNode); return; }
+  if (note) note.textContent = n < 0 ? 'Could not reach the store. Try again in a minute.' : 'Nothing to restore for this road.';
 }
 
 function unlockGame(nextNode) {
@@ -3183,14 +3516,7 @@ function showVictory(node) {
   const textArr = node.textFn ? node.textFn(state) : (node.text || []);
   const kept = keepsakeFor(state);
   noteArrival(state.road || 0, kept && kept.id, node.ending);
-  if (kept) {
-    // Stub for the cross-route mechanic: one object per route, most recent win.
-    try {
-      const kstore = JSON.parse(localStorage.getItem('mm_keepsakes') || '{}');
-      kstore[R().id] = kept.id;
-      localStorage.setItem('mm_keepsakes', JSON.stringify(kstore));
-    } catch (e) {}
-  }
+  rememberArrival(node, kept);
 
   document.getElementById('main-screen').innerHTML = `
     <div id="victory-screen">
@@ -3203,8 +3529,8 @@ function showVictory(node) {
       <div class="victory-text" id="victory-text-container"></div>
       <div class="victory-actions">
         <button class="start-btn" onclick="restartFull()">
-          Drive another route
-          <span class="start-btn-sub">Three more roads, when they're built.</span>
+          Back to the roads
+          <span class="start-btn-sub">${R().id === 'hiline' ? 'Every road is still there. Drive one again, differently.' : 'There are four. This was one of them.'}</span>
         </button>
       </div>
     </div>
@@ -3256,6 +3582,7 @@ function restartSameRoute() {
     miles: null,
     shield: null,
     extra: 0,
+    carried: carriedFor(state.route || DEFAULT_ROUTE),
     debugRolls: DEBUG_ROLLS
   };
   noteRunStarted();
@@ -3278,6 +3605,8 @@ function restartSameRoute() {
 }
 
 function chooseNewTraveler() {
+  // Same road, different traveller: skip the roads screen once.
+  try { sessionStorage.setItem('mm_goto', state.route || DEFAULT_ROUTE); } catch (e) {}
   location.reload();
 }
 
@@ -3286,11 +3615,81 @@ function restartFull() {
   location.reload();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('main-screen').style.display = 'flex';
+// ═══════════════════════════════════════════════════════════════════════════
+// THE ROADS
+// ═══════════════════════════════════════════════════════════════════════════
+const ROUTE_ORDER = ['southwest', 'south', 'coast', 'hiline'];
+// ?unlock opens every road on the web, for testing. It does nothing in the app.
+const UNLOCK_ALL = typeof location !== 'undefined' && /[?&]unlock\b/.test(location.search || '') && !nativeBridge();
+const KEPT_FALLBACK = { note: 'A note on motel stationery', room_key: 'A motel room key', receipt: 'A gas receipt', photograph: 'A photograph off a wall in Natchez', map: 'A photocopied map', shell: 'An abalone shell', stone: 'A stone off a beach in Oregon', tides: 'A tide table', penny: 'A flattened penny', mitts: 'A pair of chopper mitts', ticket: 'A scale ticket', timetable: 'A train timetable' };
+
+// Seven taps on the mile post open the closed road until the app is closed. It skips the
+// two arrivals, never the price. It is there so a store reviewer can see what is being sold.
+let postTaps = 0, postOpen = false;
+function tapPost() {
+  if (postOpen || ++postTaps < 7) return;
+  postOpen = true;
+  renderRoads('The gate is up.');
+}
+function routeState(id) {
+  const r = ROUTES[id];
+  const need = r.needsArrivals || 0, have = arrivalsElsewhere(id);
+  if (need && have < need && !UNLOCK_ALL && !postOpen) {
+    const more = need - have;
+    return { kind: 'locked', text: 'Closed', why: more === 1 ? 'Opens after one more arrival on another road.' : 'Opens after you have arrived on two other roads.' };
+  }
+  if (SHOP.owns(id)) return { kind: 'open', text: 'Drive' };
+  if (id === 'southwest') return { kind: 'open', text: 'Free to mile 300' };
+  return { kind: 'buy', text: SHOP.price(id) };
+}
+// What you have done on a road, in one line. It counts; it does not grade.
+function routeTally(id) {
+  const rec = getRecord(id), r = ROUTES[id];
+  if (!rec.runs) return 'Not driven yet.';
+  if (!rec.wins) return rec.runs === 1 ? 'One run. No arrival yet.' : rec.runs + ' runs. No arrival yet.';
+  const e = Object.keys(rec.endings).length, k = Object.keys(rec.kept).length;
+  return (rec.wins === 1 ? 'One arrival' : rec.wins + ' arrivals') + ' · ' + e + ' of ' + r.endings + ' endings seen · ' + k + ' of ' + r.keepsakes + ' things brought back';
+}
+function renderRoads(note) {
+  const el = document.getElementById('route-select');
+  if (!el) return;
+  const cards = ROUTE_ORDER.filter(id => ROUTES[id]).map(id => {
+    const r = ROUTES[id], st = routeState(id);
+    return `<button class="rt-card ${st.kind === 'open' ? '' : st.kind}" id="rt-${id}" onclick="pickRoute('${id}')">
+      <div class="rt-top"><span class="rt-shield">${r.shield}</span><span class="rt-label">${r.label}</span><span class="rt-state">${st.text}</span></div>
+      <div class="rt-name">${r.name}</div>
+      <div class="rt-line"><span>${r.from} &rarr; ${r.to}</span><span>${r.miles ? r.miles + ' mi' : 'no distance posted'}</span></div>
+      <div class="rt-rec">${st.kind === 'locked' ? st.why : routeTally(id)}</div>
+    </button>`;
+  }).join('');
+  const bundle = (!SHOP.beta() && !SHOP.ownsAll())
+    ? `<button class="rt-card bundle" id="rt-all" onclick="buyRoad('all')"><b>All four roads</b><span>${SHOP.price('all')}</span></button>` : '';
+  const mem = getMemory(), kept = ROUTE_ORDER.filter(id => mem.routes[id] && mem.routes[id].kept).map(id => {
+    const k = mem.routes[id].kept;
+    return `<li><small>${ROUTES[id] ? ROUTES[id].label : id}</small><span>${k.label || KEPT_FALLBACK[k.id] || 'Something you kept'}</span></li>`;
+  }).join('');
+  el.innerHTML = `
+    <div class="rt-mast"><div class="rt-post" onclick="tapPost()"><small>MILE</small><b>0</b></div><div><div class="rt-title">Mile Marker</div><div class="rt-tag">Four roads. One tank. What you can carry.</div></div></div>
+    <div id="rt-resume"></div>
+    ${cards}${bundle}
+    ${kept ? `<div class="rt-glove"><h4>In the car</h4><ul>${kept}</ul></div>` : ''}
+    <div class="rt-note" id="rt-note">${note || ''}</div>
+    <div class="rt-foot">
+      ${SHOP.beta() ? '<span>Beta build — nothing to pay</span>' : '<button onclick="restoreRoads()">Restore purchases</button>'}
+      ${SHOP.beta() ? '' : '<a href="https://dahvio.com/mile-marker-privacy" target="_blank" rel="noopener">Privacy</a>'}
+      <span>build ${BUILD}</span>
+    </div>`;
   offerResume();
-  const urlRoute = routeFromUrl();
-  if (urlRoute) state.route = urlRoute;
+}
+function showRoads(note) {
+  document.getElementById('char-select').style.display = 'none';
+  document.getElementById('route-select').style.display = 'block';
+  renderRoads(note);
+}
+function showTravellers(id) {
+  state.route = id;
+  document.getElementById('route-select').style.display = 'none';
+  document.getElementById('char-select').style.display = 'block';
   const blurb = document.getElementById('route-blurb');
   if (blurb) blurb.textContent = R().blurb;
   const left0 = document.getElementById('odo-left');
@@ -3299,7 +3698,39 @@ document.addEventListener('DOMContentLoaded', () => {
   if (rec) rec.textContent = recordLine();
   const stamp = document.getElementById('build-stamp');
   if (stamp) stamp.textContent = (R().label || R().name) + ' · build ' + BUILD + (motionReduced() ? ' · reduce motion on' : '');
-});
+}
+function pickRoute(id) {
+  const st = routeState(id);
+  if (st.kind === 'locked') return;
+  if (st.kind === 'buy') { buyRoad(id); return; }
+  showTravellers(id);
+}
+async function buyRoad(key) {
+  const card = document.getElementById('rt-' + key);
+  if (card) card.classList.add('busy');
+  const ok = await SHOP.buy(key);
+  if (ok && key !== 'all') { showTravellers(key); return; }
+  renderRoads(ok ? 'All four roads are yours.' : 'Nothing was charged.');
+}
+async function restoreRoads() {
+  const n = await SHOP.restore();
+  renderRoads(n < 0 ? 'Could not reach the store. Try again in a minute.' : n === 0 ? 'Nothing to restore on this account.' : 'Restored.');
+}
+
+async function boot() {
+  // In the app: bring saved state back from the phone, then ask the store what is owned.
+  const n = nativeBridge();
+  if (n) {
+    try { if (n.hydrate) await n.hydrate(STORE_KEYS); } catch (e) {}
+    try { await SHOP.refresh(); } catch (e) {}
+  }
+  document.getElementById('main-screen').style.display = 'flex';
+  let goto = routeFromUrl();
+  try { const g = sessionStorage.getItem('mm_goto'); if (g) { sessionStorage.removeItem('mm_goto'); if (ROUTES[g]) goto = g; } } catch (e) {}
+  if (goto && routeState(goto).kind === 'open') showTravellers(goto); else showRoads();
+  if (n && n.ready) { try { n.ready(); } catch (e) {} }
+}
+document.addEventListener('DOMContentLoaded', () => { boot(); });
 </script>
 
 </body>

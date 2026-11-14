@@ -15,6 +15,25 @@
 // throws if the carried-state key hasn't been added yet.
 // ═══════════════════════════════════════════════════════════════════════════
 
+// Signs Route 2 draws.
+const DS_SIGN = {
+  // A church's changeable-letter board. Rows are strings, or [text, 'small' | 'small new' | 'small far'].
+  // 'far' is a line you can see is there and cannot read at this speed; it is hidden from
+  // screen readers for the same reason.
+  marquee: (rows) => "<div class='rs-wrap'><div class='rs-marquee'>" + rows.map(r => {
+    const text = Array.isArray(r) ? r[0] : r, cls = Array.isArray(r) ? ' ' + r[1] : '';
+    return "<div class='mq-row" + cls.replace(' far', '') + "'" + (/\bfar\b/.test(cls) ? " aria-hidden='true'><span class='far'>" + text + "</span>" : ">" + text) + "</div>";
+  }).join('') + "</div></div>",
+  // A piece of cardboard and a marker.
+  cardboard: (lines) => "<div class='rs-wrap'><div class='rs-cardboard'>" + lines.map(l => "<span class='hand'>" + l + "</span>").join('') + "</div></div>",
+  // A green guide sign: a route line, then a town and maybe a distance.
+  green: (head, name, num) => "<div class='rs-wrap'><div class='rs sign rs-green rs-plain'>" +
+    (head ? "<div class='rs-head'>" + head + "</div>" : '') +
+    "<div class='rs-row'><span class='rs-name'>" + name + "</span>" + (num != null ? "<span class='rs-num'>" + num + "</span>" : '') + "</div></div></div>",
+  // A white regulatory sign. Every line the same weight: it is an order.
+  white: (lines) => "<div class='rs-wrap'><div class='rs sign rs-white'>" + lines.map(l => "<div class='rs-big'>" + l + "</div>").join('') + "</div></div>"
+};
+
 const DEEP_SOUTH = {
   id: 'south',
   label: 'Route 2',
@@ -143,7 +162,7 @@ const DEEP_SOUTH = {
       "Highway 61 south of the city goes flat in a way that takes about ten miles to believe. Cotton on both sides. Kudzu on everything that isn't cotton — poles, fences, a barn it has already finished with.",
       "The heat here is wet. It doesn't come off the road at you. It's already in the car.",
       "A church comes up on the right. White, small, a sign out front with the changeable black letters.",
-      "REVIVAL THIS WEEK — ALL WELCOME — EVEN YOU"
+      DS_SIGN.marquee(['REVIVAL THIS WEEK', 'ALL WELCOME', 'EVEN YOU', ['TRAVELERS ESPECIALLY', 'small far']])
     ],
     choices: [
       { text: "Slow down and read the rest", sub: "Gut check — there's a second line. Smaller.", type: "neutral", check: { stat: "gut", difficulty: 5 },
@@ -153,7 +172,8 @@ const DEEP_SOUTH = {
     ],
     outcomes: {
       read: [
-        "Underneath, smaller: TRAVELERS ESPECIALLY.",
+        "Underneath, smaller:",
+        DS_SIGN.marquee(['REVIVAL THIS WEEK', 'ALL WELCOME', 'EVEN YOU', ['TRAVELERS ESPECIALLY', 'small new']]),
         "The letters on that line are newer than the rest. Blacker. Somebody went and bought them."
       ],
       missed: [
@@ -174,7 +194,8 @@ const DEEP_SOUTH = {
     text: [
       "Clarksdale announces the crossroads with three guitars welded to a pole, because somebody sold his soul here, allegedly, and the town has decided to be about it.",
       "It's the junction of 61 and 49. A gas station, a tire place, a lot where a building used to be.",
-      "There's a man at a folding table in the lot. Card table, two chairs, a hand-lettered sign: MAPS — DIRECTIONS — LOCAL KNOWLEDGE. A thermos. A stack of something photocopied.",
+      "There's a man at a folding table in the lot. Card table, two chairs, a thermos, a stack of something photocopied. A hand-lettered sign.",
+      DS_SIGN.cardboard(['MAPS', 'DIRECTIONS', 'LOCAL KNOWLEDGE']),
       "He's already looking at your plates when you pull in.",
       "'Mobile,' he says. Not a question. Then: 'You'll want to know about the bridge.'"
     ],
@@ -310,7 +331,8 @@ const DEEP_SOUTH = {
       const base = [
         "Forty-nine West runs straight down the Delta with the state penitentiary on the right for eleven miles.",
         "Parchman. You know the name from songs. From the road it's fields — the same cotton as everywhere else — and a fence a long way back, and men in the fields who don't look up because they've seen a car.",
-        "A sign says DO NOT PICK UP HITCHHIKERS."
+        "There is a sign.",
+        DS_SIGN.white(['DO NOT PICK UP', 'HITCHHIKERS'])
       ];
       base.push(s.carried?.hitchhiker_picked_up ? "You weren't going to. Not again." : "You weren't going to.");
       return base;
@@ -1106,8 +1128,10 @@ const DEEP_SOUTH = {
     textFn: (s) => {
       const base = [
         "Hattiesburg lets go of you at a light with nobody else at it, and a mile later the signs stop agreeing with each other.",
-        "98 EAST — MOBILE 112. That's the one you've been on since Natchez without ever deciding to be.",
-        "49 SOUTH — GULFPORT. A green sign the same size, pointing the other way down a road just as wide.",
+        DS_SIGN.green('EAST 98', 'Mobile', 112),
+        "That's the one you've been on since Natchez without ever deciding to be.",
+        DS_SIGN.green('SOUTH 49', 'Gulfport'),
+        "A green sign the same size, pointing the other way down a road just as wide.",
         "The thing about this part of the state is that all of it ends in water. Every road down here does. The map has no opinion about which one you take."
       ];
       if (s.flags.loyce_spoke || s.flags.bude_warned)
@@ -1382,7 +1406,8 @@ const DEEP_SOUTH = {
       const base = [
         "Somewhere past Hattiesburg the air changes. It was wet before. Now it's salt.",
         "The land runs out of height. The pines thin to something scrubbier and the ditches have water in them that isn't going anywhere.",
-        "Lucedale. A pump. A sign that says MOBILE 57."
+        "Lucedale. A pump. A sign.",
+        DS_SIGN.green(null, 'Mobile', 57)
       ];
       if (s.flags.loyce_spoke) base.push("Fill it here, Loyce said. There's nothing you'd want to stop at. This is here.");
       else if (s.flags.loyce_kind) base.push("He rang it at about half and didn't look at the pump. You have been doing the arithmetic on that for sixty miles and it keeps coming out the same, which is that he decided something about you and didn't say what.");
