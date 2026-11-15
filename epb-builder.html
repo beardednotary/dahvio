@@ -12,9 +12,11 @@
 
     <meta property="og:title" content="BriefBuilder — Air Force EPB Builder App">
     <meta property="og:description" content="Log what you did all year. Get EPB performance statements that fit the 350-character blocks when your close-out date arrives.">
+    <meta property="og:image" content="https://dahvio.com/epb-builder-icon.png">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://dahvio.com/epb-builder">
     <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://dahvio.com/epb-builder-icon.png">
     <meta name="twitter:title" content="BriefBuilder — Air Force EPB Builder App">
     <meta name="twitter:description" content="Log accomplishments all year. Turn them into EPB performance statements that fit the 350-character blocks.">
 
@@ -103,16 +105,17 @@
 
         :root {
             --bg: #0b0c0e;
-            --bg-card: #101318;
-            --bg-card-alt: #162030;
+            --bg-card: #0a1330;
+            --bg-card-alt: #011d58;
             --text: #e6e8ea;
-            --accent: #3d9c84;
-            --accent-muted: rgba(61, 156, 132, 0.1);
-            --accent-border: rgba(61, 156, 132, 0.28);
+            --accent: #fdbb17;
+            --on-accent: #011d58;
+            --accent-muted: rgba(253, 187, 23, 0.1);
+            --accent-border: rgba(253, 187, 23, 0.3);
             --dim: #868e99;
             --dim-light: #a6adb6;
             --border: #1c2026;
-            --border-light: #242a32;
+            --border-light: #1b2a52;
             --slate: #7ba8c8;
         }
 
@@ -158,7 +161,7 @@
             align-items: center;
             justify-content: center;
             background: var(--accent);
-            color: #fff;
+            color: var(--on-accent);
             text-decoration: none;
             padding: 0.7rem 1.2rem;
             border-radius: 0.5rem;
@@ -170,6 +173,15 @@
         .hero {
             padding: 7rem 0 5rem;
             border-bottom: 1px solid var(--border);
+        }
+
+        .hero-icon {
+            display: block;
+            width: 96px;
+            height: 96px;
+            border-radius: 22px;
+            margin-bottom: 1.75rem;
+            border: 1px solid var(--border-light);
         }
 
         .hero-eyebrow {
@@ -242,7 +254,7 @@
 
         .waitlist-form button {
             background: var(--accent);
-            color: #fff;
+            color: var(--on-accent);
             border: none;
             border-radius: 0.5rem;
             padding: 0.85rem 1.5rem;
@@ -552,6 +564,7 @@
 
     <section class="hero">
         <div class="container">
+            <img class="hero-icon" src="/epb-builder-icon.png" width="96" height="96" alt="BriefBuilder app icon: a chevron over a pencil and the letters EPB">
             <div class="hero-eyebrow">Air Force EPB Builder · Coming Soon</div>
             <h1>Build your EPB all year, not the week it's <span class="highlight">due</span>.</h1>
             <p class="hero-subtitle">BriefBuilder is an EPB builder app for enlisted Airmen. Log what you did while you still remember it, then turn each entry into a narrative performance statement that fits the 350-character blocks on your Enlisted Performance Brief.</p>
