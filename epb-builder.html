@@ -3,15 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EPB Builder — Air Force Promotion Narrative Tool</title>
+    <title>Air Force EPB Builder App — BriefBuilder by DahVio</title>
     <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
-    <meta name="description" content="EPB Builder helps Air Force Airmen translate real work accomplishments into promotion-ready EPB language. Stop staring at a blank form. Waitlist now open.">
+    <meta name="description" content="BriefBuilder is an EPB builder app for enlisted Airmen. Log accomplishments all year, then turn them into 350-character EPB performance statements. Join the waitlist.">
+    <meta name="keywords" content="EPB builder, Air Force EPB, EPB close-out dates, SCOD,EPB performance statements, EPB statement writer, enlisted performance brief, EPB examples, Major Performance Areas, Airman Leadership Qualities, AF Form 716, myEval">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://dahvio.com/epb-builder">
 
-    <meta property="og:title" content="EPB Builder — Air Force Promotion Narrative Tool">
-    <meta property="og:description" content="Turn real work into EPB-ready language. A narrative-building tool for Airmen who know what they did but struggle to say it the way promotion boards want to read it.">
+    <meta property="og:title" content="BriefBuilder — Air Force EPB Builder App">
+    <meta property="og:description" content="Log what you did all year. Get EPB performance statements that fit the 350-character blocks when your close-out date arrives.">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dahvio.com/epb-builder">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="BriefBuilder — Air Force EPB Builder App">
+    <meta name="twitter:description" content="Log accomplishments all year. Turn them into EPB performance statements that fit the 350-character blocks.">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW9L8BTBBW"></script>
     <script>
@@ -19,6 +24,73 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-RW9L8BTBBW');
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "BriefBuilder",
+          "alternateName": "EPB Builder",
+          "applicationCategory": "ProductivityApplication",
+          "operatingSystem": "iOS, Android",
+          "url": "https://dahvio.com/epb-builder",
+          "description": "EPB builder app for enlisted Airmen. Log accomplishments throughout the reporting period, tag them to the four Major Performance Areas, and turn them into narrative EPB performance statements that fit each 350-character block.",
+          "publisher": {
+            "@type": "Organization",
+            "name": "DahVio Studios",
+            "url": "https://dahvio.com/"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Is BriefBuilder an official Air Force app?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. BriefBuilder is an independent tool from DahVio Studios. It is not affiliated with, endorsed by, or connected to the U.S. Air Force, the Department of Defense, or myEval."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How long can an EPB performance statement be?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Each of the four Major Performance Area blocks on the EPB holds up to 350 characters. Most Airmen fit two statements of roughly 150 to 175 characters into each block. BriefBuilder counts characters for every statement and every block."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does BriefBuilder write old-style EPR bullets?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. The EPB replaced bullet format with narrative performance statements: plain-language sentences that pair an action with its impact, result, or outcome. BriefBuilder writes in that narrative style."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Where is my EPB content stored?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Your log entries and statements are stored on your own device. There is no account. When you ask the app to write statements for an entry, that entry's text is sent to an AI service to generate them and is not stored by DahVio Studios."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does BriefBuilder work for the Space Force?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. BriefBuilder is built for the Air Force enlisted evaluation system: Regular Air Force, Air Force Reserve, and Air National Guard. Guardians are evaluated under a separate system."
+              }
+            }
+          ]
+        }
+      ]
+    }
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,6 +139,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .logo {
@@ -79,20 +153,23 @@
 
         .logo span { color: var(--accent); }
 
+        .header-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 0.5rem;
+            font-size: 0.92rem;
+            font-weight: 700;
+        }
+
         /* Hero */
         .hero {
             padding: 7rem 0 5rem;
             border-bottom: 1px solid var(--border);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:none;
-            pointer-events: none;
         }
 
         .hero-eyebrow {
@@ -115,7 +192,7 @@
             letter-spacing: -0.03em;
             line-height: 1.05;
             margin-bottom: 1.25rem;
-            max-width: 820px;
+            max-width: 860px;
         }
 
         h1 .highlight { color: var(--accent); }
@@ -123,15 +200,13 @@
         .hero-subtitle {
             font-size: 1.15rem;
             color: var(--dim-light);
-            max-width: 620px;
+            max-width: 660px;
             margin-bottom: 3rem;
             line-height: 1.7;
         }
 
         /* Waitlist form */
-        .waitlist-form-wrap {
-            max-width: 460px;
-        }
+        .waitlist-form-wrap { max-width: 460px; }
 
         .waitlist-label {
             font-size: 0.8rem;
@@ -149,6 +224,7 @@
 
         .waitlist-form input[type="email"] {
             flex: 1;
+            min-width: 0;
             background: var(--bg-card);
             border: 1px solid var(--border-light);
             border-radius: 0.5rem;
@@ -160,13 +236,9 @@
             transition: border-color 0.2s;
         }
 
-        .waitlist-form input[type="email"]:focus {
-            border-color: var(--accent);
-        }
+        .waitlist-form input[type="email"]:focus { border-color: var(--accent); }
 
-        .waitlist-form input::placeholder {
-            color: var(--dim);
-        }
+        .waitlist-form input::placeholder { color: var(--dim); }
 
         .waitlist-form button {
             background: var(--accent);
@@ -193,7 +265,7 @@
             color: var(--dim);
         }
 
-        /* Problem section */
+        /* Sections */
         .section {
             padding: 6rem 0;
             border-bottom: 1px solid var(--border);
@@ -213,14 +285,23 @@
             font-weight: 700;
             letter-spacing: -0.02em;
             margin-bottom: 1rem;
+            max-width: 780px;
         }
 
         .section-intro {
             font-size: 1rem;
             color: var(--dim-light);
-            max-width: 680px;
+            max-width: 700px;
             line-height: 1.7;
             margin-bottom: 2.5rem;
+        }
+
+        .section-intro a,
+        .card a,
+        .faq-card a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent-border);
         }
 
         /* Before/After block */
@@ -228,7 +309,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1.25rem;
-            max-width: 780px;
+            max-width: 860px;
             margin-bottom: 2rem;
         }
 
@@ -239,9 +320,7 @@
             padding: 1.5rem;
         }
 
-        .comparison-card.after {
-            border-color: var(--accent-border);
-        }
+        .comparison-card.after { border-color: var(--accent-border); }
 
         .comparison-label {
             font-size: 0.75rem;
@@ -266,12 +345,22 @@
             font-style: normal;
         }
 
-        /* Features */
+        .comparison-meta {
+            display: block;
+            margin-top: 0.9rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--dim);
+        }
+
+        /* Numbered steps */
         .features-list {
             display: flex;
             flex-direction: column;
             gap: 1rem;
-            max-width: 680px;
+            max-width: 720px;
         }
 
         .feature-item {
@@ -305,20 +394,99 @@
             line-height: 1.6;
         }
 
+        /* Card grids */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .card,
+        .faq-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+        }
+
+        .card h3,
+        .faq-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.55rem;
+        }
+
+        .card p,
+        .faq-card p {
+            font-size: 0.9rem;
+            color: var(--dim-light);
+            line-height: 1.65;
+        }
+
+        .card .card-tag {
+            display: block;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+
+        /* Close-out date table */
+        .table-wrap {
+            max-width: 860px;
+            overflow-x: auto;
+            border: 1px solid var(--border-light);
+            border-radius: 0.75rem;
+            background: var(--bg-card);
+        }
+
+        .scod-table {
+            width: 100%;
+            min-width: 560px;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .scod-table th,
+        .scod-table td {
+            text-align: left;
+            padding: 0.85rem 1.1rem;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--dim-light);
+        }
+
+        .scod-table thead th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .scod-table tbody th {
+            font-weight: 700;
+            color: var(--text);
+            white-space: nowrap;
+        }
+
+        .scod-table tbody tr:last-child th,
+        .scod-table tbody tr:last-child td { border-bottom: 0; }
+
         /* Bottom CTA */
         .bottom-cta {
             padding: 6rem 0;
             text-align: center;
         }
 
-        .bottom-cta h2 {
-            margin-bottom: 1rem;
-        }
+        .bottom-cta h2 { margin: 0 auto 1rem; }
 
         .bottom-cta p {
             font-size: 1rem;
             color: var(--dim-light);
-            max-width: 500px;
+            max-width: 520px;
             margin: 0 auto 2.5rem;
             line-height: 1.7;
         }
@@ -351,9 +519,19 @@
 
         footer a:hover { color: var(--accent); }
 
+        .disclaimer {
+            max-width: 640px;
+            margin: 1.25rem auto 0;
+            font-size: 0.78rem;
+            line-height: 1.6;
+        }
+
         @media (max-width: 768px) {
+            .container { padding: 0 1.25rem; }
             h1 { font-size: 2.5rem; }
+            h2 { font-size: 1.7rem; }
             .hero { padding: 4.5rem 0 3.5rem; }
+            .section { padding: 4rem 0; }
             .comparison { grid-template-columns: 1fr; }
             .waitlist-form { flex-direction: column; }
         }
@@ -365,23 +543,26 @@
         <div class="container">
             <div class="header-inner">
                 <a href="/" class="logo">DahVio<span>.</span></a>
+                <a href="#waitlist" class="header-cta">Join Waitlist</a>
             </div>
         </div>
     </header>
 
+    <main>
+
     <section class="hero">
         <div class="container">
-            <div class="hero-eyebrow">Air Force EPB Tool · Coming Soon</div>
-            <h1>Stop staring at a blank EPB form.</h1>
-            <p class="hero-subtitle">EPB Builder takes what you actually did and turns it into the kind of promotion-ready language that reads like it belongs on a performance report. You describe the work. The app writes the bullet.</p>
+            <div class="hero-eyebrow">Air Force EPB Builder · Coming Soon</div>
+            <h1>Build your EPB all year, not the week it's <span class="highlight">due</span>.</h1>
+            <p class="hero-subtitle">BriefBuilder is an EPB builder app for enlisted Airmen. Log what you did while you still remember it, then turn each entry into a narrative performance statement that fits the 350-character blocks on your Enlisted Performance Brief.</p>
 
-            <div class="waitlist-form-wrap">
+            <div class="waitlist-form-wrap" id="waitlist">
                 <p class="waitlist-label">Get notified at launch</p>
                 <form class="waitlist-form" action="https://formspree.io/f/xkoyenzd" method="POST">
-                    <input type="email" name="email" placeholder="your@email.com" required>
+                    <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
                     <button type="submit">Join Waitlist</button>
                 </form>
-                <p class="form-note">No spam. One email when the app launches.</p>
+                <p class="form-note">No spam. One email when the app launches on iPhone and Android.</p>
             </div>
         </div>
     </section>
@@ -389,50 +570,186 @@
     <section class="section">
         <div class="container">
             <div class="section-label">The Problem</div>
-            <h2>You did the work. The form doesn't know it.</h2>
-            <p class="section-intro">Airmen know their accomplishments. The hard part is translating real-world work into the specific, impact-forward language that promotion boards respond to. EPB Builder closes that gap.</p>
+            <h2>You did the work. Eight months later, you can't remember it.</h2>
+            <p class="section-intro">Most EPB inputs get written under pressure at the end of the reporting period, from memory. Then comes the second problem: turning what you remember into a performance statement that pairs an action with its impact and still fits the block. BriefBuilder handles both.</p>
 
             <div class="comparison">
                 <div class="comparison-card">
-                    <div class="comparison-label before-label">What you wrote</div>
-                    <p>"Managed the squadron's supply chain and fixed several inventory problems."</p>
+                    <div class="comparison-label before-label">What you log</div>
+                    <p>"did the armory inventory with my team, 300 weapons, took 2 days, nothing missing"</p>
+                    <span class="comparison-meta">Typed in 20 seconds, the day it happened</span>
                 </div>
                 <div class="comparison-card after">
-                    <div class="comparison-label after-label">What it should say</div>
-                    <p>"Overhauled sq supply chain mgmt; identified 3 critical inventory gaps, implemented tracking protocol—zero shortfalls during 2 UCI inspections."</p>
+                    <div class="comparison-label after-label">What goes on the EPB</div>
+                    <p>"SrA Smith led 4 Airmen through a 300-weapon armory inventory in 2 days, finding zero discrepancies and giving the commander full accountability of the unit's arsenal."</p>
+                    <span class="comparison-meta">Example output · 166 characters</span>
                 </div>
             </div>
 
-            <p class="section-intro" style="margin-bottom: 0;">The difference isn't the work—it's the framing. EPB Builder is trained on promotion language so you don't have to be.</p>
+            <p class="section-intro" style="margin-bottom: 0;">The work is the same in both. The second one is written the way the Air Force asks for it: a standalone sentence, in plain language, with the numbers kept.</p>
         </div>
     </section>
 
     <section class="section">
         <div class="container">
             <div class="section-label">How It Works</div>
-            <h2>Describe your work. Get EPB language back.</h2>
+            <h2>Log it now. Write it when you need it.</h2>
 
             <div class="features-list">
                 <div class="feature-item">
                     <span class="feature-num">1</span>
                     <div>
-                        <h3>Describe what you did in plain language</h3>
-                        <p>No formatting required. Tell it what happened—the action, the impact, the scope. Write it like you'd explain it to a friend.</p>
+                        <h3>Log accomplishments as they happen</h3>
+                        <p>Dump it in plain language, or use the guided form: what you did, the result, any numbers, and the setting. Tag each entry to one of the four Major Performance Areas so it lands in the right block later.</p>
                     </div>
                 </div>
                 <div class="feature-item">
                     <span class="feature-num">2</span>
                     <div>
-                        <h3>The app translates it into EPB-ready narrative</h3>
-                        <p>Output follows Air Force promotion writing conventions: active voice, measurable impact, correct abbreviation style, and the length that fits EPB character constraints.</p>
+                        <h3>Get two statement options per entry</h3>
+                        <p>The AI writer turns an entry into two narrative performance statements, each built as action plus impact and sized to roughly 150 to 175 characters. Every option shows its character count.</p>
                     </div>
                 </div>
                 <div class="feature-item">
                     <span class="feature-num">3</span>
                     <div>
-                        <h3>Edit, adjust, and build your full package</h3>
-                        <p>Every output is a starting point. Tweak the language, swap in specific numbers, and stack multiple bullets into a complete EPB narrative section.</p>
+                        <h3>Build each 350-character block</h3>
+                        <p>Pick the statement you want and it goes into that performance area's block. A live counter keeps each block at or under 350 characters, and one tap copies the finished block so you can paste it into myEval or AF Form 716.</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">EPB Basics</div>
+            <h2>What an EPB asks you to write.</h2>
+            <p class="section-intro">The Enlisted Performance Brief replaced the old EPR and its bullet format. Instead of abbreviated bullets, you write short narrative performance statements under four Major Performance Areas. Each area has one block, and each block holds up to 350 characters.</p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <span class="card-tag">350 characters</span>
+                    <h3>Executing the Mission</h3>
+                    <p>Using knowledge, initiative, and adaptability to produce timely, high-quality results. Covers job proficiency, initiative, and adaptability.</p>
+                </div>
+                <div class="card">
+                    <span class="card-tag">350 characters</span>
+                    <h3>Leading People</h3>
+                    <p>Building cohesive teams, communicating clearly, and taking care of people. Covers inclusion and teamwork, emotional intelligence, and communication.</p>
+                </div>
+                <div class="card">
+                    <span class="card-tag">350 characters</span>
+                    <h3>Managing Resources</h3>
+                    <p>Managing time, equipment, people, and funds responsibly, and owning the results. Covers stewardship and accountability.</p>
+                </div>
+                <div class="card">
+                    <span class="card-tag">350 characters</span>
+                    <h3>Improving the Unit</h3>
+                    <p>Thinking critically and finding better ways to get the mission done. Covers decision making and innovation.</p>
+                </div>
+            </div>
+
+            <p class="section-intro" style="margin: 2.5rem 0 0;">Those ten behaviors are the Airman Leadership Qualities. BriefBuilder lets you tag an entry with the quality it shows, and the writer aims the statement at it.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">EPB Close-Out Dates</div>
+            <h2>When your EPB closes out, by rank.</h2>
+            <p class="section-intro">Every enlisted grade has a static close-out date (SCOD), the last day of the reporting period your EPB covers. These dates come from AFI 36-2406, Tables 4.4 and 4.5, and include selects for each grade.</p>
+
+            <div class="table-wrap">
+                <table class="scod-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Grade</th>
+                            <th scope="col">Close-out date</th>
+                            <th scope="col">Regular Air Force, AGR, Stat Tour</th>
+                            <th scope="col">Guard and Reserve (non-AGR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><th scope="row">SrA and below</th><td>31 March</td><td>Every year</td><td>Even years</td></tr>
+                        <tr><th scope="row">SSgt</th><td>31 January</td><td>Every year</td><td>Odd years</td></tr>
+                        <tr><th scope="row">TSgt</th><td>30 November</td><td>Every year</td><td>Even years</td></tr>
+                        <tr><th scope="row">MSgt</th><td>30 September</td><td>Every year</td><td>Odd years</td></tr>
+                        <tr><th scope="row">SMSgt</th><td>31 July</td><td>Every year</td><td>Even years</td></tr>
+                        <tr><th scope="row">CMSgt</th><td>31 May</td><td>Every year</td><td>Every year (AFR), odd years (ANG)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="section-intro" style="margin: 2rem 0 0;">BriefBuilder works out your next close-out date from your rank and component, counts down to it, and can remind you to log along the way. Policy changes, so confirm your own date with your supervisor or the current AFI.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">What Makes a Strong Statement</div>
+            <h2>The rules the writer follows.</h2>
+            <p class="section-intro">These come from the Air Force's own guidance on performance statements. They are also a useful checklist if you are writing your EPB by hand.</p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Action plus impact</h3>
+                    <p>Each statement stands alone as a complete sentence: what you did, and at least one result, impact, or outcome.</p>
+                </div>
+                <div class="card">
+                    <h3>Plain language</h3>
+                    <p>No shorthand a reader outside your career field would have to decode. Uncommon acronyms get spelled out or dropped.</p>
+                </div>
+                <div class="card">
+                    <h3>Numbers kept</h3>
+                    <p>People led, dollars saved, hours cut, percentages gained. If you logged a number, the statement uses it.</p>
+                </div>
+                <div class="card">
+                    <h3>No clichés</h3>
+                    <p>Phrases like "go-to Airman" and "consummate professional" say nothing about what happened, so the writer leaves them out.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Who It's For</div>
+            <h2>Built for enlisted Airmen, AB through CMSgt.</h2>
+            <p class="section-intro">BriefBuilder is set up around your rank, AFSC, component, and close-out date. It supports the Regular Air Force, Air Force Reserve, and Air National Guard. It is most useful if this is one of your first few EPBs, or if you supervise Airmen and want them walking in with inputs already written.</p>
+            <p class="section-intro" style="margin-bottom: 0;">Logging is free and unlimited. The AI writer includes five free uses, with an upgrade for unlimited writing. Also preparing for promotion testing or a fitness assessment? Other Air Force apps from DahVio Studios: the <a href="/waps-study-2026">WAPS study app</a> (<a href="https://apps.apple.com/us/app/waps-pdg-afh1-2027-ssgt-tsgt/id6762496327" target="_blank" rel="noopener">App Store</a>) and the <a href="/air-force-pt-calculator-2026">Air Force PT calculator</a> (<a href="https://apps.apple.com/us/app/pfra-pfa-calculator-2027/id6761141936" target="_blank" rel="noopener">App Store</a>).</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section-label">FAQ</div>
+            <h2>A few direct answers.</h2>
+
+            <div class="card-grid">
+                <div class="faq-card">
+                    <h3>Is BriefBuilder an official Air Force app?</h3>
+                    <p>No. BriefBuilder is an independent tool from DahVio Studios. It is not affiliated with, endorsed by, or connected to the U.S. Air Force, the Department of Defense, or myEval.</p>
+                </div>
+                <div class="faq-card">
+                    <h3>How long can an EPB performance statement be?</h3>
+                    <p>Each of the four Major Performance Area blocks holds up to 350 characters. Most Airmen fit two statements of roughly 150 to 175 characters into each block. BriefBuilder counts characters for every statement and every block.</p>
+                </div>
+                <div class="faq-card">
+                    <h3>Does it write old-style EPR bullets?</h3>
+                    <p>No. The EPB replaced bullet format with narrative performance statements: plain-language sentences that pair an action with its impact, result, or outcome. BriefBuilder writes in that narrative style.</p>
+                </div>
+                <div class="faq-card">
+                    <h3>Where is my EPB content stored?</h3>
+                    <p>Your log entries and statements are stored on your own device. There is no account. When you ask the app to write statements for an entry, that entry's text is sent to an AI service to generate them and is not stored by DahVio Studios. Details are in the <a href="/epb-builder-privacy">privacy policy</a>.</p>
+                </div>
+                <div class="faq-card">
+                    <h3>Should I put sensitive details in an entry?</h3>
+                    <p>No. Never enter classified information, controlled unclassified information, or other people's personal details. Write entries the way the finished EPB will read: unclassified and releasable.</p>
+                </div>
+                <div class="faq-card">
+                    <h3>Does it work for the Space Force?</h3>
+                    <p>No. BriefBuilder is built for the Air Force enlisted evaluation system: Regular Air Force, Air Force Reserve, and Air National Guard. Guardians are evaluated under a separate system.</p>
                 </div>
             </div>
         </div>
@@ -440,26 +757,30 @@
 
     <div class="bottom-cta">
         <div class="container">
-            <h2>Get notified when EPB Builder launches.</h2>
-            <p>Built by a Marine Corps veteran who knows what it takes to write for a promotion board—and how much harder it is to do it alone.</p>
+            <h2>Get notified when BriefBuilder launches.</h2>
+            <p>Built by a Marine Corps veteran who knows what it takes to write for a promotion board, and how much harder it is to do it from memory.</p>
             <div class="bottom-form-wrap">
                 <form class="waitlist-form" action="https://formspree.io/f/xkoyenzd" method="POST">
-                    <input type="email" name="email" placeholder="your@email.com" required>
+                    <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
                     <button type="submit">Join Waitlist</button>
                 </form>
             </div>
         </div>
     </div>
 
+    </main>
+
     <footer>
         <div class="container">
             <p>
                 <a href="/">DahVio Studios</a>
                 <a href="/about">About Ray</a>
-                <a href="/waps-study-2026">WAPS Study</a>
+                <a href="/epb-builder-support">Support</a>
+                <a href="/epb-builder-privacy">Privacy Policy</a>
                 <a href="mailto:ray@dahvio.com">Contact</a>
             </p>
             <p style="margin-top: 0.75rem;">&copy; 2026 DahVio Studios. Long Beach, California.</p>
+            <p class="disclaimer">BriefBuilder is an independent tool and is not affiliated with or endorsed by the U.S. Air Force or the Department of Defense. You are responsible for the accuracy of everything you submit on your EPB.</p>
         </div>
     </footer>
 
