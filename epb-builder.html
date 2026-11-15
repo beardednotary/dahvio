@@ -6,7 +6,7 @@
     <title>Air Force EPB Builder App — BriefBuilder by DahVio</title>
     <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
     <meta name="description" content="BriefBuilder is an EPB builder app for enlisted Airmen. Log accomplishments all year, then turn them into 350-character EPB performance statements. Join the waitlist.">
-    <meta name="keywords" content="EPB builder, Air Force EPB, EPB performance statements, EPB statement writer, enlisted performance brief, EPB examples, Major Performance Areas, Airman Leadership Qualities, AF Form 716, myEval">
+    <meta name="keywords" content="EPB builder, Air Force EPB, EPB close-out dates, SCOD,EPB performance statements, EPB statement writer, enlisted performance brief, EPB examples, Major Performance Areas, Airman Leadership Qualities, AF Form 716, myEval">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://dahvio.com/epb-builder">
 
@@ -433,6 +433,48 @@
             margin-bottom: 0.6rem;
         }
 
+        /* Close-out date table */
+        .table-wrap {
+            max-width: 860px;
+            overflow-x: auto;
+            border: 1px solid var(--border-light);
+            border-radius: 0.75rem;
+            background: var(--bg-card);
+        }
+
+        .scod-table {
+            width: 100%;
+            min-width: 560px;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .scod-table th,
+        .scod-table td {
+            text-align: left;
+            padding: 0.85rem 1.1rem;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--dim-light);
+        }
+
+        .scod-table thead th {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .scod-table tbody th {
+            font-weight: 700;
+            color: var(--text);
+            white-space: nowrap;
+        }
+
+        .scod-table tbody tr:last-child th,
+        .scod-table tbody tr:last-child td { border-bottom: 0; }
+
         /* Bottom CTA */
         .bottom-cta {
             padding: 6rem 0;
@@ -614,6 +656,37 @@
 
     <section class="section">
         <div class="container">
+            <div class="section-label">EPB Close-Out Dates</div>
+            <h2>When your EPB closes out, by rank.</h2>
+            <p class="section-intro">Every enlisted grade has a static close-out date (SCOD), the last day of the reporting period your EPB covers. These dates come from AFI 36-2406, Tables 4.4 and 4.5, and include selects for each grade.</p>
+
+            <div class="table-wrap">
+                <table class="scod-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Grade</th>
+                            <th scope="col">Close-out date</th>
+                            <th scope="col">Regular Air Force, AGR, Stat Tour</th>
+                            <th scope="col">Guard and Reserve (non-AGR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><th scope="row">SrA and below</th><td>31 March</td><td>Every year</td><td>Even years</td></tr>
+                        <tr><th scope="row">SSgt</th><td>31 January</td><td>Every year</td><td>Odd years</td></tr>
+                        <tr><th scope="row">TSgt</th><td>30 November</td><td>Every year</td><td>Even years</td></tr>
+                        <tr><th scope="row">MSgt</th><td>30 September</td><td>Every year</td><td>Odd years</td></tr>
+                        <tr><th scope="row">SMSgt</th><td>31 July</td><td>Every year</td><td>Even years</td></tr>
+                        <tr><th scope="row">CMSgt</th><td>31 May</td><td>Every year</td><td>Every year (AFR), odd years (ANG)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="section-intro" style="margin: 2rem 0 0;">BriefBuilder works out your next close-out date from your rank and component, counts down to it, and can remind you to log along the way. Policy changes, so confirm your own date with your supervisor or the current AFI.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
             <div class="section-label">What Makes a Strong Statement</div>
             <h2>The rules the writer follows.</h2>
             <p class="section-intro">These come from the Air Force's own guidance on performance statements. They are also a useful checklist if you are writing your EPB by hand.</p>
@@ -644,7 +717,7 @@
             <div class="section-label">Who It's For</div>
             <h2>Built for enlisted Airmen, AB through CMSgt.</h2>
             <p class="section-intro">BriefBuilder is set up around your rank, AFSC, component, and close-out date. It supports the Regular Air Force, Air Force Reserve, and Air National Guard. It is most useful if this is one of your first few EPBs, or if you supervise Airmen and want them walking in with inputs already written.</p>
-            <p class="section-intro" style="margin-bottom: 0;">Logging is free and unlimited. The AI writer includes five free uses, with an upgrade for unlimited writing. Also preparing for promotion testing or a fitness assessment? See the <a href="/waps-study-2026">WAPS study app</a> and the <a href="/air-force-pt-calculator-2026">Air Force PT calculator</a>.</p>
+            <p class="section-intro" style="margin-bottom: 0;">Logging is free and unlimited. The AI writer includes five free uses, with an upgrade for unlimited writing. Also preparing for promotion testing or a fitness assessment? Other Air Force apps from DahVio Studios: the <a href="/waps-study-2026">WAPS study app</a> (<a href="https://apps.apple.com/us/app/waps-pdg-afh1-2027-ssgt-tsgt/id6762496327" target="_blank" rel="noopener">App Store</a>) and the <a href="/air-force-pt-calculator-2026">Air Force PT calculator</a> (<a href="https://apps.apple.com/us/app/pfra-pfa-calculator-2027/id6761141936" target="_blank" rel="noopener">App Store</a>).</p>
         </div>
     </section>
 
