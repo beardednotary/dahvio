@@ -35,8 +35,8 @@
                 <a href="/">DahVio Studios</a> &rsaquo; <a href="/epb-builder">BriefBuilder</a> &rsaquo; Privacy Policy
             </div>
             <h1>Privacy Policy</h1>
-            <p class="hero-subtitle">BriefBuilder keeps your accomplishment log and EPB statements on your device. This policy explains what stays there, what is sent off the device when you use the AI writer, and who processes it.</p>
-            <span class="effective-date">Effective: November 14, 2026</span>
+            <p class="hero-subtitle">BriefBuilder keeps your accomplishment log and EPB statements on your device. This policy explains what stays there, what is sent off the device when you use the AI writer, what the referral program records, and who processes it.</p>
+            <span class="effective-date">Effective: November 17, 2026</span>
         </div>
     </section>
 
@@ -45,7 +45,7 @@
 
             <div class="policy-section">
                 <div class="highlight-box">
-                    <p>The short version: BriefBuilder has no account and no analytics. Your log and statements are stored only on your device. When you tap Write on an entry, that one entry and your rank, AFSC and component are sent to an AI service to generate statements. DahVio Studios does not store them.</p>
+                    <p>The short version: BriefBuilder has no account and no analytics. Your log and statements are stored only on your device. When you tap Write on an entry, that one entry and your rank, AFSC and component are sent to an AI service to generate statements. DahVio Studios does not store them. The only thing DahVio Studios keeps is a small referral record tied to an anonymous ID: your referral code and who joined with it.</p>
                 </div>
             </div>
 
@@ -64,6 +64,7 @@
                     <li>Statements the AI writer generated and the ones you selected</li>
                     <li>The contents of your four EPB blocks</li>
                     <li>A count of how many free AI writes you have used, and whether onboarding is complete</li>
+                    <li>Your reminder settings, whether you have agreed to entries being sent to the AI service, and whether you have shared or used a referral code</li>
                 </ul>
 
                 <div class="detail-box">
@@ -73,17 +74,19 @@
 
             <div class="policy-section">
                 <h2>3. What Is Sent When You Use the AI Writer</h2>
-                <p>Writing statements requires sending text off your device. This happens only when you tap the button to write or regenerate statements for an entry. Each time, the app sends:</p>
+                <p>Writing statements requires sending text off your device. Before the first time, the app asks for your permission. After that, text is sent only when you tap the button to write or regenerate statements for an entry. Each time, the app sends:</p>
                 <ul>
                     <li>The text of that one entry (your freeform text, or the action, outcome, metrics, and context fields)</li>
                     <li>The performance area, leadership quality, and proficiency level tagged on that entry</li>
                     <li>Your rank, AFSC, AFSC title, and component</li>
+                    <li>The anonymous app user ID described in section 5</li>
                 </ul>
                 <p>The app does not send your name, your other log entries, your EPB blocks, or any device or advertising identifier.</p>
-                <p>The request goes to a small relay service operated by DahVio Studios and hosted on Cloudflare. The relay forwards the request to Anthropic, the company that provides the Claude AI model, and returns the generated statements to your device.</p>
+                <p>The request goes to a small relay service operated by DahVio Studios and hosted on Cloudflare. The relay forwards the entry and profile details to Anthropic, the company that provides the Claude AI model, and returns the generated statements to your device. The anonymous app user ID is not sent to Anthropic.</p>
 
                 <h3>What the relay keeps</h3>
-                <p>The relay does not store the content of your entries or the generated statements, and DahVio Studios keeps no database of them. To prevent abuse, the relay limits how many requests an IP address can make per minute; your IP address is processed for that purpose and for routine network operation by Cloudflare.</p>
+                <p>The relay does not store the content of your entries or the generated statements, and DahVio Studios keeps no database of them. The relay uses the anonymous app user ID only to check whether you joined with a friend's referral code; the first time you write a statement after joining that way, it notes that in the referral record so your friend earns their reward (see section 5). It keeps no other record of your writes.</p>
+                <p>To prevent abuse, the relay limits how many requests an IP address can make per minute; your IP address is processed for that purpose and for routine network operation by Cloudflare.</p>
 
                 <h3>What Anthropic does with it</h3>
                 <p>Anthropic processes the request to generate the statements, under its commercial terms and privacy policy. Under those terms Anthropic does not use content sent through its API to train its models, and it may retain requests for a limited period for safety and abuse monitoring. See <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">Anthropic's Privacy Policy</a> for details.</p>
@@ -98,51 +101,73 @@
             </div>
 
             <div class="policy-section">
-                <h2>5. No Account. No Analytics. No Ads.</h2>
+                <h2>5. Referrals</h2>
+                <p>Every install of BriefBuilder has a six-character referral code, shown on the <strong>Profile</strong> tab. A friend who enters your code gets a free month of Pro, and you earn a month when that friend writes their first statement.</p>
+                <p>Because there are no accounts, the referral program identifies each install by an anonymous app user ID. RevenueCat (see section 8) generates this ID at random when the app is first opened. It is not your name, email, phone number, Apple ID, or a device or advertising identifier.</p>
+
+                <h3>What the referral record contains</h3>
+                <p>DahVio Studios keeps a referral database on Cloudflare. A record is created the first time the <strong>Profile</strong> tab shows your code, or when you enter a friend's code. It stores:</p>
+                <ul>
+                    <li>The anonymous app user ID and the referral code assigned to it, with the date it was created</li>
+                    <li>If you entered a friend's code: a record linking your anonymous ID to theirs, the date you entered it, and whether and when you went on to write your first statement</li>
+                    <li>How many months of Pro you have earned through referrals, and how many have been applied</li>
+                </ul>
+                <p>It does not contain your name, email address, contacts, log entries, or statements, and DahVio Studios cannot tell from it who you are.</p>
+
+                <h3>Sharing your code</h3>
+                <p>When you share your code, the app opens your device's standard share sheet with a short message containing the code and a link to the app. You choose who receives it. DahVio Studios does not see who you send it to.</p>
+
+                <h3>How rewards are applied</h3>
+                <p>Reward months are applied as promotional access through RevenueCat. To do that, the relay sends RevenueCat your anonymous app user ID and the date the reward should end, and asks RevenueCat whether you already have an active subscription. If you do, earned months are held in the referral record and applied after your subscription ends.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>6. No Account. No Analytics. No Ads.</h2>
                 <p>BriefBuilder has no sign-in and no user accounts. The app does not include:</p>
                 <ul>
                     <li>Analytics frameworks</li>
                     <li>Advertising SDKs or ad identifiers</li>
                     <li>Behavioral tracking tools</li>
                 </ul>
-                <p>DahVio Studios does not receive a record of how often you open the app, what you log, or which statements you choose.</p>
+                <p>DahVio Studios does not receive a record of how often you open the app, what you log, or which statements you choose. The referral record in section 5 is the only data about you that DahVio Studios keeps.</p>
             </div>
 
             <div class="policy-section">
-                <h2>6. Reminders and Review Prompts</h2>
+                <h2>7. Reminders and Review Prompts</h2>
                 <p>If you turn on reminders, BriefBuilder schedules them on your device as local notifications. They are not sent from a server, and the app does not request or store a push notification token. The reminder settings are stored on your device with the rest of your data. You can turn reminders off in the <strong>Profile</strong> tab or in your device's notification settings.</p>
                 <p>The app may occasionally ask Apple or Google to show the standard in-app rating prompt. Whether it appears, and anything you submit through it, is handled by Apple or Google.</p>
             </div>
 
             <div class="policy-section">
-                <h2>7. Purchases</h2>
+                <h2>8. Purchases</h2>
                 <p>If you buy an upgrade, the payment is handled by Apple or Google through your App Store or Google Play account. DahVio Studios never sees your payment card details.</p>
-                <p>BriefBuilder uses RevenueCat to confirm whether a purchase is active and to restore purchases. RevenueCat receives an anonymous app user ID and your purchase history for this app. It does not receive your log entries or statements. See <a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener">RevenueCat's Privacy Policy</a>.</p>
+                <p>BriefBuilder uses RevenueCat to confirm whether a purchase or referral reward is active, to restore purchases, and to apply referral rewards. RevenueCat receives the anonymous app user ID, your purchase history for this app, and any promotional access granted through referrals. It does not receive your log entries or statements. See <a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener">RevenueCat's Privacy Policy</a>.</p>
             </div>
 
             <div class="policy-section">
-                <h2>8. Resetting or Deleting Your Data</h2>
-                <p>You can delete an individual log entry from the Log tab. To erase everything at once, open the <strong>Profile</strong> tab and use <strong>Reset App Data</strong>. Deleting the app from your device also removes all locally stored data.</p>
-                <p>Because DahVio Studios keeps no server-side copy of your log or statements, there is nothing further for us to delete.</p>
+                <h2>9. Resetting or Deleting Your Data</h2>
+                <p>You can delete an individual log entry from the Log tab. To erase everything stored on your device at once, open the <strong>Profile</strong> tab and use <strong>Reset App Data</strong>. Deleting the app from your device also removes all locally stored data.</p>
+                <p>DahVio Studios keeps no server-side copy of your log or statements, so there is nothing further to delete for those. Resetting the app does not remove your referral record. To have it deleted, email <a href="mailto:ray@dahvio.com?subject=BriefBuilder%20referral%20record%20deletion">ray@dahvio.com</a> with the referral code shown on your <strong>Profile</strong> tab. Deleting the record cancels any reward months that have not been applied yet; Pro time already applied stays in place until it ends.</p>
+                <p>Purchase records are kept by Apple or Google and by RevenueCat under their own policies. If you would like your RevenueCat record deleted, include that in your email and DahVio Studios will request it.</p>
             </div>
 
             <div class="policy-section">
-                <h2>9. Children&#39;s Privacy</h2>
+                <h2>10. Children&#39;s Privacy</h2>
                 <p>BriefBuilder is intended for enlisted members of the U.S. Air Force. It is not directed to children under 13, and DahVio Studios does not knowingly collect personal information from children.</p>
             </div>
 
             <div class="policy-section">
-                <h2>10. Apple&#39;s and Google&#39;s Data Practices</h2>
+                <h2>11. Apple&#39;s and Google&#39;s Data Practices</h2>
                 <p>Apple and Google may collect certain information as part of normal device, App Store, and Google Play operations. For details, see <a href="https://www.apple.com/privacy/" target="_blank" rel="noopener">Apple's Privacy Policy</a> and <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
             </div>
 
             <div class="policy-section">
-                <h2>11. Changes to This Policy</h2>
+                <h2>12. Changes to This Policy</h2>
                 <p>If the app's data practices change, this policy will be updated with a new effective date. Material changes will also be noted in the app's release notes.</p>
             </div>
 
             <div class="policy-section">
-                <h2>12. Contact</h2>
+                <h2>13. Contact</h2>
                 <p>Questions about this privacy policy or the app?</p>
                 <br>
                 <a href="mailto:ray@dahvio.com?subject=BriefBuilder%20Privacy" class="contact-link">ray@dahvio.com</a>
