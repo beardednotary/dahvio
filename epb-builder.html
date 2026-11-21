@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EPB Builder — Air Force Promotion Narrative Tool</title>
+    <title>EPB Brief Builder — Air Force Promotion Narrative App</title>
     <link rel="icon" type="image/jpeg" href="dahvio-logo.jpg">
-    <meta name="description" content="EPB Builder helps Air Force Airmen translate real work accomplishments into promotion-ready EPB language. Stop staring at a blank form. Waitlist now open.">
+    <meta name="description" content="EPB Brief Builder helps Air Force Airmen translate real work accomplishments into promotion-ready EPB language. Free to start with 5 AI rewrites. Now on the App Store.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://dahvio.com/epb-builder">
 
-    <meta property="og:title" content="EPB Builder — Air Force Promotion Narrative Tool">
+    <meta property="og:title" content="EPB Brief Builder — Air Force Promotion Narrative App">
     <meta property="og:description" content="Turn real work into EPB-ready language. A narrative-building tool for Airmen who know what they did but struggle to say it the way promotion boards want to read it.">
     <meta property="og:type" content="website">
 
@@ -19,6 +19,30 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-RW9L8BTBBW');
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Air Force EPB Brief Builder",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "iOS",
+        "url": "https://dahvio.com/epb-builder",
+        "downloadUrl": "https://apps.apple.com/us/app/air-force-epb-brief-builder/id6835032478",
+        "description": "Turns plain-language work accomplishments into promotion-ready Air Force EPB narrative.",
+        "offers": [
+            { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD", "description": "Free to download, includes 5 AI rewrites" },
+            { "@type": "Offer", "name": "Monthly", "price": "3.99", "priceCurrency": "USD", "description": "Unlimited rewrites, billed monthly" },
+            { "@type": "Offer", "name": "Yearly", "price": "14.99", "priceCurrency": "USD", "description": "Unlimited rewrites, billed yearly" },
+            { "@type": "Offer", "name": "Lifetime", "price": "24.99", "priceCurrency": "USD", "description": "Unlimited rewrites, one-time purchase" }
+        ],
+        "publisher": {
+            "@type": "Organization",
+            "name": "DahVio Studios",
+            "url": "https://dahvio.com/"
+        }
+    }
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -128,69 +152,22 @@
             line-height: 1.7;
         }
 
-        /* Waitlist form */
-        .waitlist-form-wrap {
-            max-width: 460px;
-        }
-
-        .waitlist-label {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--dim);
-            margin-bottom: 0.75rem;
-        }
-
-        .waitlist-form {
-            display: flex;
-            gap: 0.75rem;
-        }
-
-        .waitlist-form input[type="email"] {
-            flex: 1;
-            background: var(--bg-card);
-            border: 1px solid var(--border-light);
-            border-radius: 0.5rem;
-            padding: 0.85rem 1.1rem;
-            font-size: 0.95rem;
-            color: var(--text);
-            font-family: inherit;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .waitlist-form input[type="email"]:focus {
-            border-color: var(--accent);
-        }
-
-        .waitlist-form input::placeholder {
-            color: var(--dim);
-        }
-
-        .waitlist-form button {
+        /* App Store button */
+        .app-store-btn {
+            display: inline-block;
             background: var(--accent);
             color: #fff;
-            border: none;
+            text-decoration: none;
             border-radius: 0.5rem;
-            padding: 0.85rem 1.5rem;
-            font-size: 0.9rem;
+            padding: 0.95rem 1.75rem;
+            font-size: 0.95rem;
             font-weight: 700;
-            cursor: pointer;
-            font-family: inherit;
             transition: opacity 0.2s, transform 0.2s;
-            white-space: nowrap;
         }
 
-        .waitlist-form button:hover {
+        .app-store-btn:hover {
             opacity: 0.85;
             transform: translateY(-1px);
-        }
-
-        .form-note {
-            margin-top: 0.6rem;
-            font-size: 0.8rem;
-            color: var(--dim);
         }
 
         /* Problem section */
@@ -266,6 +243,62 @@
             font-style: normal;
         }
 
+        .cta-note {
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            color: var(--dim);
+        }
+
+        /* Pricing */
+        .pricing {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            max-width: 900px;
+        }
+
+        .price-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+        }
+
+        .price-card.featured {
+            border-color: var(--accent-border);
+        }
+
+        .price-name {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--dim);
+            margin-bottom: 0.75rem;
+        }
+
+        .price-card.featured .price-name { color: var(--accent); }
+
+        .price-amount {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text);
+        }
+
+        .price-amount span {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--dim);
+        }
+
+        .price-card p {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--dim-light);
+            line-height: 1.55;
+        }
+
         /* Features */
         .features-list {
             display: flex;
@@ -323,16 +356,6 @@
             line-height: 1.7;
         }
 
-        .bottom-form-wrap {
-            display: flex;
-            justify-content: center;
-        }
-
-        .bottom-form-wrap .waitlist-form {
-            max-width: 460px;
-            width: 100%;
-        }
-
         /* Footer */
         footer {
             padding: 3rem 0;
@@ -355,7 +378,7 @@
             h1 { font-size: 2.5rem; }
             .hero { padding: 4.5rem 0 3.5rem; }
             .comparison { grid-template-columns: 1fr; }
-            .waitlist-form { flex-direction: column; }
+            .pricing { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
@@ -371,18 +394,12 @@
 
     <section class="hero">
         <div class="container">
-            <div class="hero-eyebrow">Air Force EPB Tool · Coming Soon</div>
+            <div class="hero-eyebrow">Air Force EPB Tool · Now on iOS</div>
             <h1>Stop staring at a blank EPB form.</h1>
-            <p class="hero-subtitle">EPB Builder takes what you actually did and turns it into the kind of promotion-ready language that reads like it belongs on a performance report. You describe the work. The app writes the bullet.</p>
+            <p class="hero-subtitle">EPB Brief Builder takes what you actually did and turns it into the kind of promotion-ready language that reads like it belongs on a performance report. You describe the work. The app writes the bullet.</p>
 
-            <div class="waitlist-form-wrap">
-                <p class="waitlist-label">Get notified at launch</p>
-                <form class="waitlist-form" action="https://formspree.io/f/xkoyenzd" method="POST">
-                    <input type="email" name="email" placeholder="your@email.com" required>
-                    <button type="submit">Join Waitlist</button>
-                </form>
-                <p class="form-note">No spam. One email when the app launches.</p>
-            </div>
+            <a href="https://apps.apple.com/us/app/air-force-epb-brief-builder/id6835032478" target="_blank" rel="noopener" class="app-store-btn">Download on the App Store</a>
+            <p class="cta-note">Free to start &middot; 5 AI rewrites included</p>
         </div>
     </section>
 
@@ -390,7 +407,7 @@
         <div class="container">
             <div class="section-label">The Problem</div>
             <h2>You did the work. The form doesn't know it.</h2>
-            <p class="section-intro">Airmen know their accomplishments. The hard part is translating real-world work into the specific, impact-forward language that promotion boards respond to. EPB Builder closes that gap.</p>
+            <p class="section-intro">Airmen know their accomplishments. The hard part is translating real-world work into the specific, impact-forward language that promotion boards respond to. EPB Brief Builder closes that gap.</p>
 
             <div class="comparison">
                 <div class="comparison-card">
@@ -403,7 +420,7 @@
                 </div>
             </div>
 
-            <p class="section-intro" style="margin-bottom: 0;">The difference isn't the work—it's the framing. EPB Builder is trained on promotion language so you don't have to be.</p>
+            <p class="section-intro" style="margin-bottom: 0;">The difference isn't the work—it's the framing. EPB Brief Builder is trained on promotion language so you don't have to be.</p>
         </div>
     </section>
 
@@ -438,16 +455,43 @@
         </div>
     </section>
 
+    <section class="section">
+        <div class="container">
+            <div class="section-label">Pricing</div>
+            <h2>Free to start. Unlimited when you need it.</h2>
+            <p class="section-intro">Download free and get 5 AI rewrites to try it on your own bullets. Every paid plan unlocks unlimited rewrites.</p>
+
+            <div class="pricing">
+                <div class="price-card">
+                    <div class="price-name">Free</div>
+                    <div class="price-amount">$0</div>
+                    <p>5 AI rewrites to get started.</p>
+                </div>
+                <div class="price-card">
+                    <div class="price-name">Monthly</div>
+                    <div class="price-amount">$3.99<span>/mo</span></div>
+                    <p>Unlimited rewrites.</p>
+                </div>
+                <div class="price-card featured">
+                    <div class="price-name">Yearly</div>
+                    <div class="price-amount">$14.99<span>/yr</span></div>
+                    <p>Unlimited rewrites.</p>
+                </div>
+                <div class="price-card">
+                    <div class="price-name">Lifetime</div>
+                    <div class="price-amount">$24.99</div>
+                    <p>Unlimited rewrites, one-time purchase.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <div class="bottom-cta">
         <div class="container">
-            <h2>Get notified when EPB Builder launches.</h2>
+            <h2>EPB Brief Builder is on the App Store.</h2>
             <p>Built by a Marine Corps veteran who knows what it takes to write for a promotion board—and how much harder it is to do it alone.</p>
-            <div class="bottom-form-wrap">
-                <form class="waitlist-form" action="https://formspree.io/f/xkoyenzd" method="POST">
-                    <input type="email" name="email" placeholder="your@email.com" required>
-                    <button type="submit">Join Waitlist</button>
-                </form>
-            </div>
+            <a href="https://apps.apple.com/us/app/air-force-epb-brief-builder/id6835032478" target="_blank" rel="noopener" class="app-store-btn">Download on the App Store</a>
+            <p class="cta-note">Free to start &middot; 5 AI rewrites included</p>
         </div>
     </div>
 
@@ -457,6 +501,7 @@
                 <a href="/">DahVio Studios</a>
                 <a href="/about">About Ray</a>
                 <a href="/waps-study-2026">WAPS Study</a>
+                <a href="https://apps.apple.com/us/app/air-force-epb-brief-builder/id6835032478" target="_blank" rel="noopener">App Store</a>
                 <a href="mailto:ray@dahvio.com">Contact</a>
             </p>
             <p style="margin-top: 0.75rem;">&copy; 2026 DahVio Studios. Long Beach, California.</p>
