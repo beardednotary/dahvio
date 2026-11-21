@@ -1302,6 +1302,89 @@ footer {
     line-height: 1.65;
 }
 
+/* Sources & accuracy — what a tool is scored on, when it was last
+   checked, and who built it. A hairline list like the disclaimer. */
+:is(.tool, .guide) .sources {
+    border-top: 1px solid var(--rule);
+    max-width: var(--measure);
+}
+
+:is(.tool, .guide) .sources li {
+    list-style: none;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+}
+
+:is(.tool, .guide) .sources a {
+    color: var(--text);
+    text-decoration-color: var(--accent-line);
+    text-underline-offset: 0.2em;
+}
+
+:is(.tool, .guide) .sources a:hover {
+    color: var(--accent);
+}
+
+:is(.tool, .guide) .byline {
+    margin-top: 1.25rem;
+    color: var(--dim);
+    font-size: 0.9375rem;
+    max-width: var(--measure);
+}
+
+:is(.tool, .guide) .byline strong {
+    color: var(--text);
+    font-weight: 500;
+}
+
+/* The training tip under a calculator result. */
+.calc-tip {
+    margin-top: 0.75rem;
+    color: var(--dim);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+}
+
+.calc-tip strong {
+    color: var(--text);
+    font-weight: 500;
+}
+
+/* Generated score charts (tools/score_tables.py): keep age and height labels on one line. */
+.score-table td:first-child {
+    white-space: nowrap;
+}
+
+/* Full point-by-point charts: one collapsed table per age group. */
+details.chart-full {
+    border-bottom: 1px solid var(--rule);
+}
+
+details.chart-full:first-of-type {
+    border-top: 1px solid var(--rule);
+}
+
+details.chart-full > summary {
+    cursor: pointer;
+    padding: 0.9rem 0;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text);
+}
+
+details.chart-full > summary:hover {
+    color: var(--accent);
+}
+
+details.chart-full .table-scroll {
+    margin-top: 0;
+}
+
 :is(.tool, .guide) .note,
 :is(.tool, .guide) .table-note {
     color: var(--dim);
