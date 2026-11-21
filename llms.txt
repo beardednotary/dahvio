@@ -13,7 +13,7 @@ DahVio Studios is an independent software studio founded by Ray Ro. The studio p
 
 ## Military Career Apps
 
-- [BriefBuilder](https://dahvio.com/epb-builder): Air Force EPB builder app for enlisted Airmen (in development, waitlist open). Log accomplishments throughout the reporting period, tag them to the four Major Performance Areas, and turn them into narrative EPB performance statements that fit each 350-character block.
+- [BriefBuilder](https://dahvio.com/epb-builder): Air Force EPB builder app for enlisted Airmen, on the App Store (https://apps.apple.com/us/app/air-force-epb-brief-builder/id6835032478). Free to start with 5 AI rewrites; unlimited rewrites at $3.99/month, $14.99/year, or $24.99 lifetime. Log accomplishments throughout the reporting period, tag them to the four Major Performance Areas, and turn them into narrative EPB performance statements that fit each 350-character block.
 
 ## Other Apps
 
